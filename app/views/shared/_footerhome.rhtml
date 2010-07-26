@@ -1,0 +1,260 @@
+<% if !private_mw? %>
+<div id="footer_new">
+    <table width="992" border="0" cellspacing="0" cellpadding="0">
+<!--       <tr>
+       <td colspan="9">
+
+    		<div class="appfooter">
+
+                <div class="appbg">
+                	<div style="width:219px; float:left;"><p class="iphoneappfooter">Download <span class="app">the application</span></p></div>
+                    <div style="width:131px; float:left;">
+                    	<ul class="appfootphone">
+                        	<li><a href="/mobile" target="_blank"><img src="/images/phone/iphone-apple.png" border="0" width="18" height="32" /></a></li>
+                            <li><p class="apptext"><a target="_blank" class="apptext" style="text-decoration:none;" href="/mobile">Apple iPhone</a></p></li>
+                        </ul>
+                    </div>
+                    <div style="width:120px; float:left;"><ul class="appfootphone">
+                        	<li><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/android.png" border="0" width="26" height="31" /></a></li>
+                            <li ><p class="apftimg"><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/android-text.png" border="0" width="55" height="7" /></a></p></li>
+                        </ul></div>
+                    <div style="width:120px; float:left;"><ul class="appfootphone">
+                        	<li><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/blackberry.png" border="0" width="32" height="31" /></a></li>
+                            <li ><p class="apftimg"><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/blackberry-text.png" border="0" width="53" height="10" /></a></p></li>
+                        </ul></div>
+                </div>
+           </div>
+        </td>
+        </tr>
+-->    
+  <tr>
+    <td colspan="9" height="19"></td>
+    </tr>
+  <tr>
+    <td width="156">
+    <ul id="navbarwave">
+	<li id="navbarwave-wave"><%= link_to("", aboutus_url) %><span>meetingwave</span></li>
+    </ul>   </td>
+    <td width="30">&nbsp;</td>
+    <td width="135"><ul id="navbarhow">
+	<li id="navbarhow-how"><%= link_to("", howitworks_url) %><span>How IT Works</span></li>
+    </ul></td>
+    <td  width="30">&nbsp;</td>
+    <td width="124"><ul id="navbarmeet">
+	<li id="navbarmeet-meet"><%#= link_to("", 'browse') %><a href="/browse"><span>Meet locally</span></a></li>
+    </ul></td>
+     <td width="40">&nbsp;</td>
+    <td width="112">
+		<div class="mapfooterlink"><a href="/browse/map" target="_blank" class="maplink">Map</a></div>
+    </ul></td>
+    <td width="30">&nbsp;</td>
+    <td width="335">    
+        <ul id="navbarnetwork1">
+            <li id="navbarnetwork1-network"><span>Meetingwave Networks</span></li>
+        </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="9" height="3"></td>
+    </tr>
+  <tr>
+    <td valign="top">
+    <ul>
+    <li class="country"><%= link_to("About Us", aboutus_url) %></li>
+    <li class="country"><%= link_to("In the News", in_news_home_url) %></li>
+    <li class="country"><%= link_to("FAQ", help_url) %></li>
+    <li class="country"><%= link_to("Contact Us", contact_static_url) %></li>
+    <li class="country"><%= link_to("Terms & Conditions", tos_url) %></li>
+    <li class="country"><%= link_to("Privacy", pp_url) %></li>
+    </ul>    
+	</td>
+    <td>&nbsp;</td>
+	
+    <td valign="top" >
+    <ul>
+    <li class="country"><%= link_to("MW Blog", news_home_url) %></li>
+    <li class="country"><%= link_to("Features", features_url) %></li>
+    <li class="country"><%= link_to("Your Safety", safety_url) %></li>
+    <li class="country"><%= link_to("Business Networking", land_biz_networking_url ) %></li>
+    <li class="country"><%= link_to("Meet People", land_meet_people_url ) %></li>
+    <li class="country"><%= link_to("Meeting People", land_meeting_people_url ) %></li>
+    <% if params[:action] == "index" %><li class="country"><a href="http://www.intelegencia.meetingwave.com/member/" target="_blank">---</a></li><% end %>
+    </ul>
+	</td>
+     <td>&nbsp;</td>
+    <td valign="top"> 
+	<%= metro_area_list_home([metro_area_names1, country_names1].flatten) %>
+	</td>
+    <td>&nbsp;</td>
+	<td valign="top"> 
+	<%= metro_area_list_home2([metro_area_names_home2, country_names_home2].flatten) %>
+	<ul>
+    <li class="country"><%= link_to("See all", seeall_url) %></li>
+	</ul>
+    
+	</td>
+	<td>&nbsp;</td>
+	<td valign="top"> 
+    <ul class="mapfooterlink"><li><a href="/alumninetworking" target="_blank" class="maplinktext">Network with Fellow Alumni</a></li></ul>
+    <ul class="mapfooterlink"><li><a href="/corporationsnetworking" target="_blank" class="maplinktext">Private MeetingWaves For Corporations/Associations</a></li></ul>
+	<%#= metro_area_list_home3([metro_area_names_home3, country_names_home3].flatten) %>
+<!--	<ul>
+    <li class="country"><%#= link_to("See all", seeall_url) %></li>
+	</ul>
+-->	</td>
+	
+  </tr>
+  
+  <tr>
+    <td colspan="9">
+	
+	<% if @viewer and @viewer.administrator? %>
+			 <%= link_to("Admin", admin_url)%>
+		<% end %>
+		<% if session[:user_selected_classic] %>
+		  <%= link_to('Return to Mobile Version', url_for(:controller => 'invitations', :action => 'set_mobile'), :style => "color: red; font-weight: bold;") %>
+		<% end %>
+		
+		</td>
+    </tr>
+  
+  
+  
+  
+  
+  <tr>
+    <td colspan="9"><p class="copyright">Copyright &copy; 2007-2010 TTB Technologies, LLC</p></td>
+    </tr>
+</table>
+
+
+
+
+
+
+  
+  
+  
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1965013-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</div> 
+
+<% else %>
+<div id="footer_new">
+    <table width="874" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+   	 	<td colspan="9" height="19"><div class="disclaimerfooterlink"><a href="#" onclick="document.getElementById('disc').style.display='block';document.getElementById('fade_disc').style.display='block'" class="maplink" href="javascript:void(0)">Trademark Disclaimer</a></div></td>
+    </tr>
+    
+    <tr>
+    <% univ = University.find_by_url(private_mw) %>
+    <td width="371">
+        <ul id="navbarwave1">
+            <li id=""><a href="<%= univ.footer_url %>" target="_blank"><%= univ.footer_heading %></a><%#= link_to("THE"+' '+univ.name.upcase+' '+"ALUMNI MEETINGWAVE:", aboutus_url) %></li>
+        </ul>
+    </td>   
+    
+  
+    <td width="292">
+        <ul id="navbarwave">
+       	 	<li id="navbarwave-wave"><%= link_to("", aboutus_url) %><span>meetingwave</span></li>
+        </ul>  
+    </td>
+    
+    
+    <td width="212">
+        <ul id="navbarhow">
+            <li id="navbarhow-how"><%= link_to("", howitworks_url) %><span>How IT Works</span></li>
+        </ul>
+    </td>
+
+   
+  </tr>
+  <tr>
+    <td colspan="9" height="3"></td>
+    </tr>
+  <tr>
+    
+    <td valign="top">
+    <ul>
+    <% if !univ.home_heading.nil? && !univ.home_heading.blank? && !univ.home.nil? && !univ.home.blank? %><li class="country"><a href="<%= univ.home %>" target="_blank"><%= univ.home_heading %></a></li><% end %>
+    <% if !univ.alumni_heading.nil? && !univ.alumni_heading.blank? && !univ.alumni.nil? && !univ.alumni.blank? %><li class="country"><a href="<%= univ.alumni %>" target="_blank"><%= univ.alumni_heading %></a></li><% end %>
+    <% if !univ.event_heading.nil? && !univ.event_heading.blank? && !univ.event.nil? && !univ.event.blank? %><li class="country"><a href="<%= univ.event %>" target="_blank"><%= univ.event_heading %></a></li><% end %>
+    <% if !univ.contact_heading.nil? && !univ.contact_heading.blank? && !univ.contact.nil? && !univ.contact.blank? %><li class="country"><a href="<%= univ.contact %>" target="_blank"><%= univ.contact_heading %></a></li><% end %>
+    <% if !univ.terms_heading.nil? && !univ.terms_heading.blank? && !univ.terms.nil? && !univ.terms.blank? %><li class="country"><a href="<%= univ.terms %>" target="_blank"><%= univ.terms_heading %></a></li><% end %>
+    <% if !univ.privacy_heading.nil? && !univ.privacy_heading.blank? && !univ.privacy.nil? && !univ.privacy.blank? %><li class="country"><a href="<%= univ.privacy %>" target="_blank"><%= univ.privacy_heading %></a></li><% end %>
+    <% if univ.data_type == "university" %><% if !univ.giving_heading.nil? && !univ.giving_heading.blank? && !univ.giving.nil? && !univ.giving.blank? %><li class="country"><a href="<%= univ.giving %>" target="_blank"><p style="font-size: 17px; font-weight:bold; font-family:verdana;">Giving to <%= univ.giving_heading %></p></a></li><% end %><% end %>
+    </ul>    
+	</td>
+
+ 
+  
+    <td valign="top">
+    <ul>
+    <li class="country"><%= link_to("About Us", aboutus_url) %></li>
+    <li class="country"><%= link_to("In the News", in_news_home_url) %></li>
+    <li class="country"><%= link_to("FAQ", help_url) %></li>
+    <li class="country"><%= link_to("Contact Us", contact_static_url) %></li>
+    <li class="country"><%= link_to("Terms & Conditions", tos_url) %></li>
+    <li class="country"><%= link_to("Privacy", pp_url) %></li>
+    </ul>    
+	</td>
+	
+    <td valign="top">
+    <ul>
+    <li class="country"><%= link_to("MW Blog", news_home_url) %></li>
+    <li class="country"><%= link_to("Features", features_url) %></li>
+    <li class="country"><%= link_to("Your Safety", safety_url) %></li>
+    <li class="country"><%= link_to("Business Networking", land_biz_networking_url ) %></li>
+    <li class="country"><%= link_to("Meet People", land_meet_people_url ) %></li>
+    <li class="country"><%= link_to("Meeting People", land_meeting_people_url ) %></li>
+    </ul>
+	</td>
+     
+  </tr>
+  
+  <tr>
+    <td colspan="9">&nbsp;
+	
+
+		
+		</td>
+    </tr>
+  
+  
+  
+  
+  
+  <tr>
+    <td colspan="9"><p class="copyright">Copyright &copy; 2007-2010 TTB Technologies, LLC</p></td>
+    </tr>
+</table>
+
+
+
+
+
+
+  
+  
+  
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1965013-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</div>
+<%= render :partial => "shared/disclaimer" %>
+<% end %> 
+

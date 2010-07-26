@@ -1,0 +1,1 @@
+page.replace("simple_message_form_#{@person.id}", :partial => '/guest_response/you_said')

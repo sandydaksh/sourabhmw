@@ -1,0 +1,146 @@
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+
+<div id="inner_content">
+
+<h1>
+  Contacts from your <%= @import_type %> account 
+
+</h1> 
+
+<p class="align_space">The following contacts were imported from your <%= @import_type %> account
+(using email address: <em><%= params[:email_address] %></em>). Check the boxes
+of those contacts you'd like to invite to MeetingWave.com and import into
+your MeetingWave.com contact list.  If you would prefer these contacts do
+not receive invitations to join MeetingWave, check the box at right.
+</p>
+
+
+
+
+      <%= content_tag(:p, flash[:error], :class => "error") if(flash[:error]) %>
+      <%= content_tag(:p, flash[:notice], :class => "notice") if(flash[:notice]) %>
+
+	<div id="import_contacts_form_wrapper" >
+
+<div id="contact_list_wrap">
+		<h5 class="import_subhead">Available Contacts</h5>
+		<div id="contact_list" >
+			<div id="select_box">
+			    <div style="float:right; text-align: right;"> 
+					<b><%= @contacts.values.flatten.length %> Contacts </b>
+					<br/>
+					<%= image_tag("ttb/blueguy.tan.gif", :style => "vertical-align:middle; height: 15px; width: 15px;") %> <span style="font-size: 10px;">Currently a Member  </span>
+				</div>
+				<%= check_box_tag("select_all", "true", false , :id => "select_all_check_box" ) %> <b>Select All</b>
+			</div>
+
+			<div id="current_slider">
+
+				<ol id="contacts">
+				<%i = 0 %>
+				<% form_tag("#", :id => "do_import_form", :class => 'compact_accessible') do -%>
+					<% ("a".."z").each do |letter| -%>
+						<% next unless(contacts = @contacts[letter]) -%>
+						<li class="letter_header">
+							<%= content_tag(:h2, letter.upcase, :id => "#{letter}_header") %>
+							<ul >
+							  <% @contacts[letter].each do |contact| -%>
+								  <li class="contact <%= "member" if(contact.member) %>">
+									<%= check_box_tag("import_email[#{(i += 1)}]", [contact.email,contact.name].join("::"), false) %> 
+									<span class="contact_name"> <%= contact.name  %> </span> 
+									<span class="contact_email" id="addr_<%= i %>"> <%= contact.email  %> </span> 
+								  </li>
+							  <% end %>  
+							</ul>      
+						</li>
+					<% end %>
+				<% end %>
+				</ol>
+			</div>
+	    </div>
+	  </div>
+
+			<% form_tag(url_for(:action => "run_import"), :id => "do_import_form", :class => 'compact_accessible') do -%>
+				<div id="current_selection">    
+					<h5 class="import_subhead">Selected Contacts</h5>
+					<%= content_tag(:ul, "", :id => "checked_emails" , :style => "background-color: #f7f7f7; border: solid 1px #e1eae4;")%> 
+
+					<div id="dont_send_email_wrap">
+						<%= check_box_tag("dont_send_email","true", false, :onclick => "dontEmailClicked();")%> 
+						<span class="dont_send_check"> Don't send an invitation to these users--I only want to import their contact info. </span>   
+					</div>
+					<div id="include_note"> 
+						<%= check_box_tag("include_note","true", true, :onclick => "$('note').toggle()")%> <span class="dont_send_check"> Include a personal note. </span>
+						<br/>
+						<%= text_area_tag("email[note]", "I thought you'd be interested in learning about MeetingWave.com since you enjoy meeting new people and making new contacts.  \n\nMeetingWave makes it easy for you to expand your network offline - anytime, anyplace.  And it's free! ", :id => "note")%>
+					</div>
+			  </div>
+
+			  <div id="import_button_box_wrap" style="clear: both;">
+				  <div id="import_button_box" style="clear: both;">
+					  <%= image_submit_tag("/images/meetingwave/buttons/invite.gif",:border => 0,:style=>"padding-top:5px;",:id => "notify_button",:onmouseover=>"this.src= '/images/meetingwave/buttons/invite_over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/invite.gif';") %>
+                      <%= image_submit_tag("/images/meetingwave/buttons/import.gif",:border => 0,:style=>"padding-top:5px; display:none;",:id => "just_add_button",:onmouseover=>"this.src= '/images/meetingwave/buttons/import_over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/import.gif';") %>
+					  <!--input name='submit' value='notify' type='image' src='<%#= button_path("invite") %>' id='notify_button' />
+					  <input name='submit' value='just_add' type='image' src='<%#= button_path("import") %>' id='just_add_button' style="display:none;" /-->
+					  <br/> <br/>
+				  </div>
+				&nbsp;
+			  </div>
+		 <% end %>
+
+    </div>
+
+</div>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+
+    <script type="text/javascript">
+
+     $('select_all_check_box').observe('click', function(event){
+		   if( $('select_all_check_box').getValue() == 'true') 
+			   $$('li input').each( function(checkbox){ if(checkbox.checked == false) checkbox.click() }); 
+		   else
+			  $$('li input').each( function(checkbox){ if(checkbox.checked == true) checkbox.click() });    
+		 });
+
+     formUpdated = function(){
+        values = '';
+        $$('li input').each( function(checkbox){ 
+			if(checkbox.checked == true){
+				checkbox.nextSiblings().each ( function(element){
+					if(element.hasClassName('contact_email') && element.innerHTML.length > 1) values += '<li> ' + element.innerHTML + '</li>' + '<input type=hidden name="email[addr]['+element.id+']" value="' + checkbox.value + '"/>' ;
+				} );
+				values += "\n";
+			}          
+        }); 
+
+        if(values.length == 0 ) {
+          values = 'Click on checkboxes to the left to add contacts and send them an introduction to MeetingWave.com email.';
+          $('import_button_box').fade();
+        } else {
+          $('import_button_box').appear();
+        }
+        $('checked_emails').innerHTML = values;
+      }
+
+    formUpdated();
+
+	function dontEmailClicked() {
+		$('include_note').toggle();
+		$('just_add_button').toggle(); 
+		$('notify_button').toggle();
+    }
+	</script>
+
+    <%= observe_form('do_import_form', :function => "formUpdated()", :frequency => 1) %>

@@ -1,0 +1,3 @@
+class NewsArticle < Article
+ 
+end

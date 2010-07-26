@@ -1,0 +1,9 @@
+page.replace_html('flash', content_tag('p', flash[:notice]))
+page.call('highlight_flash')
+page.replace('watch_button', watch_button(@meeting, @viewer))
+if @invitation.recurring?
+  page.call('ConfirmationUtils.defineNewConfirmation', @confirmation.id, @confirmation.status.simple_name, js_date(@meeting.start_time_local), @meeting.id, true)  
+  page.call('Field.clear','respond_with_comment_form')
+else
+  page.remove('respond_with_comment_form')
+end

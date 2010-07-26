@@ -1,0 +1,46 @@
+<h1><%= link_to("Admin", admin_url) %> > Problem Users </h1>
+
+<div class="flash" id="flash" style="color: red; font-weight: bold;">
+  <%= flash[:notice] %>
+</div>
+
+<div id="step1" class="locationsform">
+  <h2>Step 1: Find the member you want to delete</h2>
+  <p>Enter their username or email below.</p>
+  <%= form_remote_tag(:url => { :controller => "admin/user_admin", :action => "find_problem_user"}) %>
+  <div class="onelineform clearfix">
+    <label>Username or Email</label>
+    <%= text_field_tag('user_name', '') %> 
+    <%= ibutton('search', :class => 'btn') %>
+  </div>
+  </form>
+</div>
+
+<div id="step2" class="locationsform" style="display: none;">
+  <h2>Step 2: Review the member</h2>
+  <div id="search_results">
+    <p> We found the following member: </p>
+    <div id="user_result">
+
+    </div>
+
+  </div>
+
+  <h2>Step 3: Delete the member</h2>
+  <%= form_tag(delete_problem_user_url) %>
+  <%= hidden_field_tag("user_id", "") %>
+  <p id="delete_member">To delete this button, click the DELETE button below.  
+  <span style="font-weight: bold; color: red;">You cannot undo this operation,
+    so be sure you want to delete this user before proceeding!</span>
+  <br/>
+  <%= submit_tag("DELETE MEMBER PERMANENTLY", { :confirm => "Are you absolutely sure?"}) %>
+
+  </form>
+
+</div>
+
+  <script type="text/javascript">
+    function setSelectedUser(id) {
+      $('user_id').value = id;
+    }
+  </script>

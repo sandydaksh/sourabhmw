@@ -1,0 +1,74 @@
+
+
+  
+
+<div id="footer">
+  <div class="footer_a">
+	<ul>
+		<li class="help"><%= link_to("FAQ", help_url) %></li>
+        
+		<li><%= link_to("Privacy Policy", pp_url) %>  </li>
+		<li><%= link_to("Terms of Use", tos_url) %>   </li>
+		<li><%= link_to("Safety Tips", safety_url) %> </li>
+		<li><%= link_to("Contact", contact_static_url) %> </li>
+		<li class="feedback"><%= link_to("Beta Feedback", contact_us_url) %> </li>
+		<li > <%= link_to("MW Blog", news_home_url) %> </li>
+
+		<% if @viewer %>
+			<li><%= link_to("Tell a Friend", add_contact_url) %> </li>
+		<% end %>
+
+
+		<% if @viewer and @viewer.administrator? %>
+			<li class="admin"> <%= link_to("Admin", admin_url)%>   </li>
+		<% end %>
+		<% if session[:user_selected_classic] %>
+		  <li ><%= link_to('Return to Mobile Version', url_for(:controller => 'invitations', :action => 'set_mobile'), :style => "color: red; font-weight: bold;") %> </li>
+		<% end %>
+	</ul>
+  </div>
+     <div class="footer_a">
+	<ul class="landing">
+
+    <li><%= link_to("Meet People", land_meet_people_url ) %>  </li>
+    <li><%= link_to("Meeting People", land_meeting_people_url ) %>  </li>
+    <li><%= link_to("Business Networking", land_biz_networking_url ) %>  </li>
+
+  </ul>
+	</div>
+	
+	<div class="footer_b">
+		US 6963900. Other Patents Pending.
+		<br/>
+		&copy; 2007 TTB Technologies, LLC. All Rights Reserved.
+	</div>
+	
+</div>
+
+	   <%= render :partial => "/shared/urchin_hitail" %>	
+
+  
+   
+   <style>
+ 
+  </style>
+  <% cache('metro_footer') do %>
+  <div id="metro_footer" class="clearfix">
+    <span class="title"> Meetings in Major Metropolitan Areas </span>
+    <div id="metro_center_container">
+      <%= metro_area_list([metro_area_names, country_names].flatten) %>
+    </div>
+  </div>
+  <% end %>
+
+
+<style type='text/css'>@import url('http://s3.amazonaws.com/getsatisfaction.com/feedback/feedback.css');</style>
+<script src='http://s3.amazonaws.com/getsatisfaction.com/feedback/feedback.js' type='text/javascript'></script>
+<script type="text/javascript" charset="utf-8">
+  var tab_options = {}
+  tab_options.placement = "left";  // left, right, bottom, hidden
+  tab_options.color = "#5f9605"; // hex (#FF0000) or color (red)
+  GSFN.feedback('http://getsatisfaction.com/meetingwave/feedback/topics/new?display=overlay&style=idea', tab_options);
+</script>
+
+ 

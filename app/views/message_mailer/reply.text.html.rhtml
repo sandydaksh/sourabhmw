@@ -1,0 +1,23 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Important Message Re: #{@invitation_name}") %>
+
+<%= open_body %>
+	<%= open_highlight %>
+  		From: <%= @author %><br/>
+			To: <%= recipients(@recipient, @broadcast) %>
+	<%= close_highlight %>
+
+
+  <%= message(@author, @message) %>
+	<br/>
+	<br/>
+
+<%= close_body %>
+
+<%= invitation_button(@url_invite) %>
+	
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

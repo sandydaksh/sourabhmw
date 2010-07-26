@@ -1,0 +1,5 @@
+<div id="score_inline" >
+  <%= link_to_remote("Turn #{@score_inline ? "Off" : "On" } Inline Scoring", 
+                     { :url => { :action => "set_score_inline", :score_inline => !@score_inline }}, 
+                     { :class => "quality-lnk"} ) %>
+</div>

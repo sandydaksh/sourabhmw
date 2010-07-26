@@ -1,0 +1,43 @@
+<br class="cl"/>
+<%= link_to_function("Flag This Invite", 'Element.show("flag-box");', :class => 'flag-link', :id => 'flag-link') %>
+<div id="flag-box" style="display: none;z-index:200;">
+  <div id="flag-form">
+    <h2>Flag This Invite</h2>
+    <p> Please let us know why you're flagging this Invite
+    by selecting one of the following options.
+    </p>
+    <p>This Invite: </p>
+
+    <%= form_remote_tag(
+            {:url => flag_invite_url(:id => @invitation.id),  
+            :before => "Element.hide('flag_button');Element.show('flag_spinner')",
+            :complete => "Element.hide('flag_spinner')"}   
+    ) %>
+      <% @flagging = Flagging.new(:member => current_member, :invitation => @invitation) %>
+      <%= hidden_field('flagging', 'invitation_id') %>
+      <%= hidden_field('flagging', 'member_id') %>
+      <ul>
+        <li><%=  radio_button 'flagging', 'flag_reason', 'spam' %> is <strong>Spam</strong>.</li>
+        <li><%=  radio_button 'flagging', 'flag_reason', 'offensive' %> is <strong>Offensive/Inappropriate</strong>.</li>
+        <li><%=  radio_button 'flagging', 'flag_reason', 'terms' %> <strong>violates the <%= link_to('Terms of Service', tos_url, :target => 'tos') %> </strong>.</li>
+        <li><%=  radio_button 'flagging', 'flag_reason', 'test' %> is of <strong>Low Quality</strong>.</li>
+      </ul>
+      <div class="flag-buttons">
+        <%= ibutton('flag', :id => "flag_button") %>
+        <%=  image_tag('/images/meetingwave/indicators/spinner.flag.gif', :style => 'display:none;', :id => "flag_spinner") %>
+        <%= link_to_function("CANCEL", "Element.hide('flag-box');", :class => "cancel-flag-link") %>
+      </div>
+      <br/>
+    </form>
+  </div>
+  <div id="flag-thanks" style="display: none;">
+    <h2>Thank You</h2>
+    <p> Thank you for helping us to maintain the high quality
+    of our Invites.  And administrator will review the
+    Invite you have just flagged and remove it, if
+    necessary.  </p>
+    <div class="flag-buttons">
+      <%= link_to_function("CLOSE THIS BOX", "Element.hide('flag-box');", :class => "cancel-flag-link") %>
+    </div>
+  </div>
+</div>

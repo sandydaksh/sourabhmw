@@ -1,0 +1,29 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Your invite has been posted:") %>
+
+<%= open_body %>
+ <%= render :partial => '/invitation_notify/five_ws' %>
+              
+  
+ <%= message(@inviter_name, @message) %>
+
+<%= close_body %>
+
+<%= invitation_button(@url) %>
+
+
+
+<%= open_body %>
+
+<%= render :partial => '/invitation_notify/invite_explanation' %>
+
+<%= close_body %>
+
+
+
+
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

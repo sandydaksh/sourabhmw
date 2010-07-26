@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>MeetingWave.com: Getting Started</title> 
+    <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+    <link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+    <!-- Stylesheets  -->
+    <%= stylesheet_link_tag 'meetingwave/base.css' %>
+    <%= stylesheet_link_tag 'meetingwave/pages/get_started.css' %>
+    <%= stylesheet_link_tag 'ttb/accessible.css' %>
+    
+    <!-- Javascript Includes -->
+        <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+    <%= javascript_include_tag 'accessible' %>
+    <%= javascript_include_tag 'validation'%>
+    <%= calendar_date_select_includes :style => "plain", :format => :american %>
+    <%= stylesheet_link_tag 'meetingwave/pages/facebook_get_started.css' if(context?(:social_network) ) %>
+    <meta name="keywords" content="MeetingWave.com, social networking, business networking, network with colleagues, event, invites, invitations, meet new people, make new friends, make new contacts, meet offline, meet in-person, meet face-to-face, F2F meeting, socializing" />
+  </head>
+  <body>
+	<div id="gs-box" class="contentgetstarted clearfix">
+		<div class="getstarted">
+
+          <div class="gs-head"> 
+            <%= image_tag("/images/meetingwave/logos/mw_get_started_logo.gif", :id => "gs-logo") %>
+            <%= image_tag("/images/meetingwave/logos/mw_get_started_tagline.gif", :id => "gs-tagline") %>
+          </div>
+
+            <%= yield %>
+        </div>
+    </div>
+    
+             <%= render :partial => "/shared/urchin_hitail" %>
+
+    
+  </body>
+</html>

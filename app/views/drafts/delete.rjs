@@ -1,0 +1,2 @@
+page.remove("draft_#{@draft.id}")
+page.call("update_table_highlights", 'drafts_table')

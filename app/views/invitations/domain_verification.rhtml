@@ -1,0 +1,121 @@
+<script type="text/javascript">
+function echeck(str) {
+		var at="@"
+		var dot="."
+		var lat=str.indexOf(at)
+		var lstr=str.length
+		var ldot=str.indexOf(dot)
+		if (str.indexOf(at)==-1){
+		   alert("Invalid E-mail ID")
+		   return false
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   alert("Invalid E-mail ID")
+		   return false
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    alert("Invalid E-mail ID")
+		    return false
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+		
+		 if (str.indexOf(" ")!=-1){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+
+ 		 return true					
+	}
+
+function ValidateForm(){
+	var emailID=document.getElementById('account_email_email');
+	
+	if ((emailID.value==null)||(emailID.value=="")){
+		alert("Please Enter your University Email ID")
+		emailID.focus()
+		return false
+	}
+	if (echeck(emailID.value)==false){
+		emailID.value=""
+		emailID.focus()
+		return false
+	}
+	return true
+ }
+</script>
+
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 945px; clear: both; padding-left: 35px;">
+
+<% form_for @account, :url => { :controller => "invitations",:action => "domain_verification" } do |f| -%>
+<div>
+
+<p style="font-family: Verdana,Arial,Helvetica,sans-serif; color:#5b5b5b; font-size: 14px;">
+    <% dt = University.find_by_url(private_mw).data_type %>
+    <% if dt == "university" %>
+    Hi <%= current_member.user_name.capitalize %>, as mentioned, since this is a Private Label version of MeetingWave, you will also need to verify you are affiliated with <%= University.find_by_url(private_mw).name %>. Currently, verification is achieved by providing an .edu email address approved by <%= University.find_by_url(private_mw).name %>. We plan to have alternative verification methods in the future. <br /><br />If you have a .edu email address, please enter it here:
+    <% elsif dt == "company" %>
+    Hi <%= current_member.user_name.capitalize %>, as mentioned, since this is a Private Label version of MeetingWave, you will also need to verify you are affiliated with <%= University.find_by_url(private_mw).name %>. Currently, verification is achieved by providing a company email address approved by <%= University.find_by_url(private_mw).name %>. We plan to have alternative verification methods in the future. <br /><br />If you have a company email address, please enter it here:    
+    <% end %>
+</p>
+<% if !@err.nil? %>
+	<br />
+	<% @err.each do |err| %>
+	    <p style="font-family: Verdana,Arial,Helvetica,sans-serif; color:red; font-weight:bold; font-size: 14px;">
+        	<%= err %>
+        </p><br />
+    <% end %>
+<% end %>
+
+<!--<%# if flash[:notice] %><p style="font-family: Verdana,Arial,Helvetica,sans-serif; color:red; font-weight:bold; font-size: 14px;"><%#= flash[:notice] %></p><%# end %>
+-->
+
+<p style="padding-top:30px; font-family: Verdana,Arial,Helvetica,sans-serif; font-size: 18px;">Email:&nbsp;<%= f.text_field :email,:size => 40 %> <% if flash[:mailsent] %><span style="font-size:12px;"><img src="/images/checkmark.png" /> Email has been sent</span><% end %></p>
+<p style="padding:10px 0 0 62px;"><input type="submit" name="alumni_email" id="alumni_email" onclick="return ValidateForm();" value="  Send your Verification Email  " /></p>
+<input type="hidden" name="account_email[university_name]" value="<%= private_mw %>" />
+</div>
+<% end -%>
+<br /><br />
+<% dt = University.find_by_url(private_mw).data_type %>
+<% if dt == "university" %>
+<p style="font-family: Verdana,Arial,Helvetica,sans-serif; color:#5b5b5b; font-size: 14px;">
+    Look out for MeetingWave's verification email being sent to your .edu email address and remember to click through to verify your registration to the private label. Then you can search invites posted by other alumni or post your own invites to meet fellow alumni near you.
+</p><br />
+
+<p style="font-family: Verdana,Arial,Helvetica,sans-serif; color:#5b5b5b; font-size: 14px;">
+	If you do not have a .edu email address, please contact your alumni association (<a href="#">Alumni' contact</a>).
+</p>
+<% elsif dt == "company" %>
+<p style="font-family: Verdana,Arial,Helvetica,sans-serif; color:#5b5b5b; font-size: 14px;">
+    Look out for MeetingWave's verification email being sent to your company email address and remember to click through to verify your registration to the private label. Then you can search invites posted by other member or post your own invites to meet fellow member near you.
+</p><br />
+
+<p style="font-family: Verdana,Arial,Helvetica,sans-serif; color:#5b5b5b; font-size: 14px;">
+	If you do not have a company email address, please contact your member association (<a href="#">Company' contact</a>).
+</p>
+<% end %>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+</div>

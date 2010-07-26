@@ -1,0 +1,24 @@
+<h1>Listing military_branches</h1>
+
+<table>
+  <tr>
+  <% for column in MilitaryBranch.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for military_branch in @military_branches %>
+  <tr>
+  <% for column in MilitaryBranch.content_columns %>
+    <td><%=h military_branch.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => military_branch %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => military_branch %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => military_branch }, :confirm => 'Are you sure?', :method => 'post' %></td>
+  </tr>
+<% end %>
+</table>
+<%= will_paginate @military_branches %>
+<br />
+
+<%= link_to 'New military_branch', :action => 'new' %>

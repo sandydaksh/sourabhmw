@@ -1,0 +1,70 @@
+ <div class="outer" id="whenbox">
+		<h2 id="whentab">&nbsp;</h2>
+		<div class="inner1">	
+			<div class="formwrap">
+				<%= error_messages_for('invitation', :header => '', :attributes_order => [:start_time, :end_time, :time_zone, :recurrence_frequency]) %>
+				
+				<div class="when_left">
+					
+			        			      
+	      <div class="formbit_small">
+	        <h3>START TIME*</h3>   
+			<%= date_selector('invitation[start_time_local]', 
+										@invitation.start_time_local, 
+										:disabled =>  (@invitation.posted? and @invitation.recurring?), 
+										:class => 'edit_time_fields',
+										:error => @invitation.date_errors? )%>      	
+		  </div>
+
+	      <div class="formbit_small">
+	        <h3>END TIME*</h3>
+			<%= date_selector('invitation[end_time_local]', 
+										@invitation.end_time_local, 
+										:disabled =>  (@invitation.posted? and @invitation.recurring?), 
+										:class => 'edit_time_fields',
+										:error => @invitation.date_errors?)%>      		
+	      </div>
+		</div>
+		 <div class="formbit_small recurrence">
+	        <h3>RECURRENCE*</h3>
+
+	        <p> I want this invite to  repeat: 
+				<br/>
+	        <%= select("invitation", "recurrence_frequency", Invitation::RECURRENCE_OPTS,  { }, :disabled => (@invitation.posted? and @invitation.recurring?)) %>
+
+
+	        <%= tool_tip('Repeating Invites', %q{ If you post a recurring invite, MeetingWave.com will give users the option of accepting 
+										  the invite for any one or more recurring day(s) and time(s) you specify.  
+									  	  You do not need to commit to holding a meeting on any given recurring date.   
+										  By posting a Recurring Invite, you are simply indicating that you are generally available to meet 
+										  on those specific dates.  Like any other Invite, only people you have approved may attend your meeting.  
+										  <p>For example, if 
+										  you post an invite that is to recur every Tuesday at 7 PM on a weekly basis, users can 
+										  accept the invite for the first Tuesday at 7 PM, and/or the second Tuesday at 7 PM and so 
+										  forth.  The way this would work on MeetingWave.com is as follows:  once a user accepts 
+										  your invite, the user will be given the option of selecting a Tuesday to meet. You will 
+										  then be notified that your invite has been accepted for the particular Tuesday selected by 
+										  the user and be given the option to approve or decline that acceptance. </p> <p> Please note the 
+										  recurring meeting dates will continue after the first confirmed meeting unless you delete 
+										  the posted invite.  In addition, with recurring invites, we recommend not using a minimum 
+										  invitee requirement or using one no greater then one (1) so a single acceptance is sufficient 
+										  to confirm the proposed meeting.</p>}, 
+	                            :id => 'ri_tt', 
+	                            :image => '/images/ttb/questionmark.tiny.postwiz.gif') %>
+	        </p>
+			<% if (@invitation.posted? and @invitation.recurring?) %>
+				<p class="note"><b>NOTE:</b> This invite's schedule has been locked.   
+					<%= tool_tip('Schedule Locked', locked_schedule_tt_html, :id => 'schedule_locked_tt', :image => '/images/ttb/questionmark.tiny.postwiz.gif') %>
+				</p> 
+			<% end %>
+	      </div>
+		
+	      <div class="formbit_small cl">
+				<h3>TIME ZONE FOR MEETING LOCATION*</h3>
+		  	 	<%= time_zone_select 'invitation', 'time_zone', TimeZone.mw_us_zones, {}, :disabled => (@invitation.posted? and @invitation.recurring?) %>
+		  </div>
+
+		</div>
+	</div>
+	</div>
+	                               

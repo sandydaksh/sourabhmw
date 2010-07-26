@@ -1,0 +1,117 @@
+<style>
+  ol, ul {
+list-style-image:none;
+list-style-position:outside;
+list-style-type:disc;
+}
+
+  li{
+    margin-top:2px;
+    
+  }
+  
+  
+p.error, p.notice{
+	width:800px;
+	font-size: 14px;
+	display:block;
+	margin: auto;
+	overflow:auto;
+	margin-top: 8px;
+	margin-bottom: 4px;
+
+	padding: 10px;
+	background: #cee7f3;
+	font-weight: bold;
+	text-align: center;
+
+}
+
+
+p.notice{
+	width:100%;
+	font-size: 14px;
+	display:block;
+	margin: auto;
+	overflow:auto;
+	margin-top: 8px;
+	margin-bottom: 4px;
+
+	padding: 10px 10px 10px 0px;
+	background: #FFFFFF;
+	font-weight: bold;
+	text-align: left;
+
+}  
+</style>
+
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>  
+<div style="padding:0 20px 0 36px;">
+
+<div class="signup_successful_container">
+            <%= content_tag(:p, flash[:error], :class => "error") if(flash[:error]) %>
+    <%= content_tag(:p, flash[:notice], :class => "notice") if(flash[:notice]) %>
+	<div class="welcome_email_container">
+		<br/>
+		<h2 class="welcome_email">Please enter your email address...</h2>	
+		<p style="color:#5E5F5E;">MeetingWave needs your email address to confirm invites you've posted, to send notifications about your meetings (e.g., acceptances, reminders, meeting changes, and meeting alerts) and to communicate with you about your MeetingWave account. MeetingWave will not publish or disclose your email address to others.
+		</p>
+    <br/>
+      <div class="createaccount">
+        <% form_tag facebook_email_post_url do -%>		
+		<div class="formbit">
+			<h3>EMAIL</h3>		
+       <%= text_field 'member', 'email', :class => 'txt' %>
+			<%= tool_tip('Email Privacy', email_tt_html, :id => 'email_tt', :image => '/images/ttb/questionmark.postwiz.gif') %>
+		</div>
+    <br/>
+		<input name="Submit" value="Join" type="image" src="<%= button_path("join") %> " />
+		<% end %>
+	</div>
+
+  <br/>
+  
+		<p style="color:#5E5F5E;">You will need to verify your email address <b>before</b> you can login here.</p>
+		
+		<br/>
+	
+		<h2 class="welcome_email">
+		   	EMAIL TIPS
+		   </h2>
+			<p style="color:#5E5F5E;">To ensure you receive the emails you want or need to receive, not only 
+				from <a href="http://meetingwave.com">MeetingWave.com</a> but 
+      from other legitimate email senders, we recommend you do the following: </p>
+             <div style="margin-left:20px; color:#5E5F5E;">
+
+				<ul>
+					
+					<li style="color: rgb(94, 95, 94);">If possible, adjust the settings on your spam filter to (a) save (rather than destroy) 
+						filtered email for at least two weeks to allow you to review and correct any false positives; 
+						(b) move any emails that are not spam to your inbox; and (c) automatically add such email 
+          addresses to your email address book to prevent being filtered in the future.</li>
+					<li style="color: rgb(94, 95, 94);">Check your Bulk or Junk or spam folders periodically for false positives (i.e., legitimate 
+						emails improperly flagged as spam) and designate any legitimate emails found in those  folders as "not spam".
+            <li style="color: rgb(94, 95, 94);">Move any legitimate emails to your inbox.</li>
+            <li style="color: rgb(94, 95, 94);">Save the sender's email address in your email address book.</li>
+				</ul>
+			<p style="color: rgb(94, 95, 94);">Taking the above steps should help you receive the emails you wish to receive, including the email 
+				notifications from <a href="http://meetingwave.com">MeetingWave.com</a>, while continuing to filter out unwanted spam.
+			</p>
+      
+    </div>
+    
+			<br/>
+			<br/>
+	
+	
+	</div>
+</div>
+
+<br style="clear:both;" />
+</div>        
+   	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>

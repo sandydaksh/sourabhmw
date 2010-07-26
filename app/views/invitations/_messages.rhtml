@@ -1,0 +1,37 @@
+<div id="messages_sidebar" >
+	<%#= messages_header(meeting) %>
+	<div id="columntable" class="messages">
+		<% if meeting.messages_for_viewer(member).blank? %>
+			<div id="new_message"><p> No messages yet. </p></div>
+		<% else %>
+			<% meeting.messages_for_viewer(member).each do |m| %>
+					<p class="<%= author_class(m.author, member) %>"> 
+						<span class="title"> <%= m.created_at.strftime("%m/%d") %> 
+						<%= author_name(m.author, member) %> said:</span>   
+						<span class="message">  <%= m.body %></span>
+					</p>
+
+			<% end %>
+			<div id="new_message" style="display: none;">  </div>
+	    <% end%>
+		
+		<p class="savetext"><%= link_to_function("&raquo; Send a Message To #{meeting.invitation.inviter.user_name.capitalize_each_word}", "Messages.compose();", :id => 'send_a_message')%></p>
+
+		<div id="message_form" style="display: none;">
+			     <form id="compose_form">
+					<%= hidden_field_tag('message[meeting_id]', meeting.id) %>
+					<h4>MESSAGE:</h4>
+					<%= text_area_tag('message[body]',  nil, :id => 'message_box') %>
+					<div class="buttons_bar">
+		   	 	   		<%= link_to_function(button_image_save('send', :class => 'send_button'), 'Messages.send();') %>
+		   	 	   		<%= link_to_function(button_image_cancel('cancel', :class => 'cancel_button'), "Messages.cancel();") %>
+					</div>
+					<br class="yoyooyo" />
+			     </form>
+		</div>
+
+		<div id="message_spinner" style="display: none;"> <%= image_tag("/images/ttb/spinner.gif")%> </div>
+
+	</div>
+	  
+</div>

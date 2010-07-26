@@ -1,0 +1,79 @@
+
+  
+  <div id="gs-meeting-interests">
+    <h1>Step 1 of 3: Your meeting interests?</h1>
+  </div>
+
+    <div class="instructions">
+      <p class="blue">
+        MeetingWave helps you network offline for business, professional or social
+        purposes. Simply propose a meeting describing who you would like to meet or
+        browse invites posted by others. Either way, it's easy to meet new people and
+        make new contacts, wherever you are.  
+      </p>
+      <p>
+
+        Describe what you want to meet about or who you want to meet. You might
+        be looking for new contacts in your industry or new clients, or even
+        new friends.  For instance, if you're a web entrepreneur working on a
+        start-up, you could enter the following meeting interests: "business
+        networking, cloud computing, Flash developers, patent attorney, venture
+        funding, kayaking, movies."
+
+      </p>
+    </div>
+
+    <%= form_tag(url_for({:controller => 'get_started', :action => 'step1'}), :class => 'get_started') %>
+      <label for="what" >WHAT</label>
+      <%= text_area_tag 'what' %>
+      <br/>
+      <%= ibutton('next_step', :class => 'btn') %> 
+    </form>
+	  <%= link_to('[ Skip this Step ]', { :controller => 'get_started', :action => 'step2' }, {:id => 'skip-step'}) %>
+	  <br/>
+	<div style="text-align: left; background-color: #aee057;  font-size: 18px; width: 95px; border-top: 1px solid #5b5b5b; border-right: 1px solid #5b5b5b; padding: 6px; color: #FFFFFF; font-weight: bold">
+	  Step 1 of 3
+	  </div>
+
+
+<style type="text/css">
+a.close {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(/images/meetingwavenew/signup/close.jpg) repeat scroll 0 0;
+display:block;
+height:16px;
+margin:3px 0 0 282px;
+padding:0;
+width:16px;
+}
+a.close:hover {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(/images/meetingwavenew/signup/close.jpg) no-repeat scroll 0 -16px;
+}
+.close span {
+display:none;
+}
+</style>
+<% if !params[:eventid] %>
+  <% val = 'style="display:none; position: absolute;top: 25%;left: 35%;padding:8px;border:10px solid;background-color: #fbfcf9;z-index:1002;overflow: auto;"' %>
+  <% val1 = 'style="display:none; position: absolute;top: 0%;left: 0%;width:1000px;height:900px;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);"' %>
+<% else %>
+  <% val = 'style="position: absolute;top: 25%;left: 35%;padding:8px;border:10px solid;background-color: #fbfcf9;z-index:1002;overflow: auto;"' %>
+  <% val1 = 'style="position: absolute;top: 0%;left: 0%;width:1000px;height:900px;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);"' %>
+<% end %>
+  
+<div id="light_how" <%= val %>> <a href = "javascript:void(0)" onclick = "document.getElementById('light_how').style.display='none';document.getElementById('fade_how').style.display='none'" class="close"><span>Close</span></a>
+        
+  		<p>
+        <div style="width:300px;">
+          <p style="padding: 0pt 0pt 0pt 2px; font-family: Helvetica,sans-serif; font-size: 18px; color: rgb(94, 95, 94); font-weight: bold;">
+          Your registration is complete and your interest in the upcoming meeting "<%= params[:eventid] %>" has been forwarded to the organizer. Once approved, you will receive an email confirming the time and place of the meeting.</p>
+
+          </div>
+          </p>
+        </div>
+<div id="fade_how" <%= val1 %>></div>

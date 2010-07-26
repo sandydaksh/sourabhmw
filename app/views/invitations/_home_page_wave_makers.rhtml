@@ -1,0 +1,6 @@
+<h2 class="greybar-small">MeetingWave-Makers</h2>
+	<div id="networkers" class="clearfix">
+	<% wave_makers.each do |networker| %>
+		<%=  render :partial => 'networker', :object => networker  %>
+	<% end %>
+	</div>

@@ -1,0 +1,260 @@
+	<script type="text/javascript">
+	    function handleSpace(event) {
+	        var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+
+	        if (keyCode == 32) {
+	            alert('Space is not allowed in the URL name.');
+	            return false;
+	        }
+
+	    } 
+        
+        function limitText(limitField, limitCount, limitNum) {
+            var varun = document.getElementById(limitField).value;
+            if (varun.length > limitNum) {
+            	document.getElementById(limitField).value = document.getElementById(limitField).value.substring(0, limitNum);
+            } else {
+                limitCount.value = limitNum - varun.length;
+            }
+        }
+	</script>
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 945px; clear: both; padding-left: 35px;">
+<h1>Create New Company/Association Private Label</h1>
+
+<% form_for(@company, :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+  
+  <table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="95">Company Name:</td>
+    <td width="10">&nbsp;</td>
+    <td width="695"><%= f.text_field 'name' %>&nbsp;&nbsp;
+	<%= check_box('company', 'pulic_display')%> Check the box to show this company on Network with Fellow Members page.</td>
+  </tr>
+  <input type="hidden" name="company[data_type]" value="company" />
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td width="95">Type:</td>
+    <td width="10">&nbsp;</td>
+    <td width="695"><%= f.text_field 'alumni_type' %> <br /><p style="color:#5b5b5b; font-size: 10px;">(e.g., Insert Members,....or leave blank)</p></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+ 
+  <tr>
+    <td width="95">Company URL:</td>
+    <td width="10">&nbsp;</td>
+    <td width="695"><%= f.text_field 'url',:onkeypress=>"return handleSpace(event);" %> <br /><p style="color:#5b5b5b; font-size: 10px;">(Please don't provide space between url name.)</p></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td width="95">Company Logo:</td>
+    <td width="10">&nbsp;</td>
+    <td width="695"><%= f.file_field 'logo' %> &nbsp;&nbsp;
+	<%= check_box('company', 'logo_display')%> UnCheck the box to hide the logo.<br /><p style="color:#5b5b5b; font-size: 10px;">(Only .JPG,.GIF, and JPEG ext can be uploaded and <br>We suggest using a logo with a maximum height of 50 pixels and maximum width of 23 pixels)</p></td>
+  </tr>
+  
+  <tr>
+    <td width="95" style="padding-top:15px;">Email Domains:</td>
+    <td width="10" style="padding-top:15px;">&nbsp;</td>
+    <td width="695" style="padding-top:15px;">
+    	<input type="text" name="domain[]" value="" />&nbsp;&nbsp;<a href="#" onclick="new Ajax.Updater('domain', '/addbox', {asynchronous:true, evalScripts:true, insertion:Insertion.Bottom}); return false;" class="outside">Add another</a>
+    </td>
+  </tr>
+  
+  <tr>
+	  <td colspan="3" width="800" id="domain"></td>
+  </tr>	
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+	  <td colspan="3" width="800">
+        <table width="800" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695"><strong>Footer Section-</strong></td>
+          </tr>
+          
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695">Heading:&nbsp;&nbsp;&nbsp; <%= f.text_field 'footer_heading' %>&nbsp;URL: <%= f.text_field 'footer_url' %></td>
+          </tr>
+          
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695">Footer Links:</td>
+          </tr>  
+          
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+                  
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695">Heading 1: <%= f.text_field 'home_heading' %>&nbsp;URL: <%= f.text_field 'home' %></td>
+          </tr>
+          
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695" height="30">Heading 2: <%= f.text_field 'alumni_heading' %>&nbsp;URL: <%= f.text_field 'alumni' %></td>
+          </tr>          
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695" height="30">Heading 3: <%= f.text_field 'event_heading' %>&nbsp;URL: <%= f.text_field 'event' %></td>
+          </tr>          
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695" height="30">Heading 4: <%= f.text_field 'contact_heading' %>&nbsp;URL: <%= f.text_field 'contact' %></td>
+          </tr>     
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695" height="30">Heading 5: <%= f.text_field 'terms_heading' %>&nbsp;URL: <%= f.text_field 'terms' %></td>
+          </tr>          
+          <tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695" height="30">Heading 6: <%= f.text_field 'privacy_heading' %>&nbsp;URL: <%= f.text_field 'privacy' %></td>
+          </tr>      
+          <!--tr>
+            <td width="95"></td>
+            <td width="10"></td>
+            <td width="695" height="30">Heading 7: <%#= f.text_field 'giving_heading' %>&nbsp;URL: <%#= f.text_field 'giving' %></td>
+          </tr-->          
+        </table>
+     </td>
+  </tr>	
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td width="95" style="padding-top:15px;">Landing Page Content Header:</td>
+    <td width="10" style="padding-top:15px;">&nbsp;</td>
+    <td width="695" style="padding-top:15px;"><p><%= f.text_area 'text_header',:rows => 3,:onKeyDown=>"limitText(this.id,this.form.countdown,170);",:onKeyUp=>"limitText(this.id,countdown,170);" %></p> <p><input readonly type="text" id="countdown" style="font-size:10px;" name="countdown" size="3" value="170"></p> </td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td width="95" style="padding-top:15px;">Landing Page Content:</td>
+    <td width="10" style="padding-top:15px;">&nbsp;</td>
+    <td width="695" style="padding-top:15px;"><p><%= f.text_area 'welcome_text',:rows => 7,:onKeyDown=>"limitText(this.id,this.form.countdown1,480);",:onKeyUp=>"limitText(this.id,countdown1,480);" %></p> <p><input readonly type="text" id="countdown1" style="font-size:10px;" name="countdown1" size="3" value="480"></p></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td width="95" style="padding-top:15px;">Signup Page Content:</td>
+    <td width="10" style="padding-top:15px;">&nbsp;</td>
+    <td width="695" style="padding-top:15px;"><p><%= f.text_area 'signup_text',:rows => 7,:onKeyDown=>"limitText(this.id,this.form.countdown2,1024);",:onKeyUp=>"limitText(this.id,countdown2,1024);" %></p> <p><input readonly type="text" id="countdown2" style="font-size:10px;" name="countdown1" size="3" value="1024"></p></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td width="95" style="padding-top:15px;">Member Network Site URL:</td>
+    <td width="10" style="padding-top:15px;">&nbsp;</td>
+    <td width="695" style="padding-top:15px;">
+    	<input type="text" name="alumni_url[]" value="" />&nbsp;&nbsp;<a href="#" onclick="new Ajax.Updater('almn_url', '/addurlbox', {asynchronous:true, evalScripts:true, insertion:Insertion.Bottom}); return false;" class="outside">Add another</a>
+    </td>
+  </tr>
+  
+  <tr>
+	  <td colspan="3" width="800" id="almn_url"></td>
+  </tr>	
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  
+  <!--tr>
+    <td width="95" style="padding-top:15px;">Alumni Network Site URL:</td>
+    <td width="10" style="padding-top:15px;">&nbsp;</td>
+    <td width="695" style="padding-top:15px;"><p><%#= f.text_field 'alumni_url' %></td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr-->
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><%= ibutton_change_location("sign-in") %> <%= link_to 'Cancel', companies_path,:class => "savetext" %></td>
+  </tr>
+</table>
+
+<% end %>
+
+
+</div>
+<div id="sub-bottom-mw">&nbsp;</div>
+<div id="bottom-mw">&nbsp;</div>      
+</div>
+</div>

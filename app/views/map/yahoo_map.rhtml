@@ -1,0 +1,18 @@
+<% setup_mapstraction_markers(@invites) %>
+ <style>
+     div.ttb_marker span{
+	display:block;
+	margin:5px; 
+	
+}   
+   div.ttb_marker {
+	 width:200px;
+}
+</style>
+
+<%= Mapstraction.header(:yahoo) %>
+      <%= @map.to_html %>
+      <%= @map.div(:width => 600, :height => 400) %>     
+
+<%= link_to_remote("update", :url =>{ :action => :update}) %>
+

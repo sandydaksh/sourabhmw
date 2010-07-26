@@ -1,0 +1,44 @@
+
+<%= inline_stylesheet("meetingwave/pages/facebook.css") %>
+<% inline_stylesheet('meetingwave/base.css') %>
+<%= inline_stylesheet('meetingwave/modular/invites.css') %>
+<div id="header_outer">
+<div id="header_inner">
+</div>
+</div>
+
+<div id="tabs_container">
+<fb:tabs>           
+ 	
+ 	<fb:tab-item href="<%= canvas_url('map') %>" title='Map' align="right" <%= tab_selected?(:map) %>/>  
+    <fb:tab-item href='<%= canvas_url('upcoming') %>' title='Meetings Near You' align="right" <%= tab_selected?(:upcoming) %>/>  
+    <%= friends_invite_tab %>
+    <%= meetingwave_tab %>
+</fb:tabs> 
+</div>
+
+<% if( @message) %>
+<fb:success message="<%= @message %>" />
+<% end %>  
+
+<% if(@error_message) %>
+<fb:error message="<%= @error_message %>" />
+<% end %>   
+
+<% if(@notice_message) %>
+	 <fb:explanation>  
+	 	<fb:message> <%= @notice_message %> </fb:message>
+	 </fb:explanation>
+<% end %>
+
+  <div style="width:645px; margin-left:auto; margin-right:auto;padding:10px;">
+    <%=yield%>
+  </div>
+
+
+
+
+ 
+
+
+

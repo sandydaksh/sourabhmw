@@ -1,0 +1,79 @@
+<% @user = @fb_user %>
+<h1 style="margin:15px;">Profile Settings</h1>
+<% unless(@fb_user.merged_account?) %> 
+       <fb:explanation>  <fb:message>Link with MeetingWave.com</fb:message>  If you link your Facebook and MeetingWave accounts then you will be able to display "My Invitations" on your Facebook Profile. Just click on 'Link with MeetingWave' at the top of this page.  </fb:explanation>
+   <% end %>
+<fb:editor action="?save_location=true" labelwidth="175">
+    <fb:editor-text label="City" name="user[city]" value="<%= @fb_user.city %>"/>
+    <fb:editor-text label="State" name="user[state]" value="<%= @fb_user.state %>"/> 
+    <fb:editor-text label="Country" name="user[country]" value="<%= @fb_user.country %>"/> 
+    <fb:editor-text label="Zip" name="user[zip]" value="<%= @fb_user.zip %>"/>       
+    <fb:editor-divider/>
+	 <fb:editor-custom label="Number of meetings to show">   
+              <%= text_field(:user, :number_on_profile, {:style => "width:20px;"}) %>
+     </fb:editor-custom>
+    <% if(@fb_user.merged_account?) %>
+         <fb:editor-custom label="Include My Meetings">   
+                  <%= check_box(:user, :include_my_invitations, {:style => "width:15px;"}, "true", "false" ) %>
+         </fb:editor-custom>   
+         <fb:editor-custom label="Include Upcoming Meetings">   
+                  <%= check_box(:user, :include_upcoming_invitations, {:style => "width:15px;"}, "true", "false" ) %>
+         </fb:editor-custom>  
+   
+    <% end %>
+   <fb:editor-custom>
+     <fb:prompt-permission perms="email">Click here to allow MeetingWave to send you emails?</fb:prompt-permission>
+     <fb:prompt-permission perms="offline_access">Click here to allow MeetingWave update your profile box when new invites are posted?</fb:prompt-permission>
+
+   </fb:editor-custom>
+    <fb:editor-buttonset> 
+ 			<fb:editor-button value="Save"/>  
+	 </fb:editor-buttonset> 
+	<fb:editor-divider/>                                          
+	
+	
+</fb:editor>     
+
+
+
+<h1 style="margin:15px;">MeetingWave Account Settings</h1>
+<% @member = @fb_user.member || Member.new %>     
+<fb:editor action="<%= my_account_url() %>" labelwidth="175">
+    <fb:editor-text label="First Name" name="member[first_name]" value="<%= @member.first_name %>"/>
+    <fb:editor-text label="Last Name" name="member[last_name]" value="<%= @member.last_name %>"/> 
+    <fb:editor-text label="User Name" name="member[user_name]" value="<%= @member.user_name %>"/>  
+
+    <fb:editor-custom label="Password">   
+               <%= password_field 'member', 'password', :class => 'fatinput' %>
+		  </fb:editor-custom>   
+	         <fb:editor-custom label="Password Confirmation">    
+               <%= password_confirmation_field %>
+		  </fb:editor-custom>   
+       <%= hidden_field_tag('member[form]', 'edit')%>
+   
+    <fb:editor-buttonset> 
+ 			<fb:editor-button value="Save"/>  
+	 </fb:editor-buttonset>
+</fb:editor> 
+
+<h1 style="margin:15px;">Link with Different MeetingWave account</h1>
+
+  <fb:editor action="<%= canvas_url("link") %>" labelwidth="175" >   
+
+	<fb:editor-text label="MeetingWave Email" name="member[email]" value="<%= @login %>"/>               
+
+	<fb:editor-custom label="MeetingWave Password">               
+	<%= password_field_tag 'member[password]', nil %>
+</fb:editor-custom>
+
+
+<fb:editor-buttonset> 
+<fb:editor-button value="Link"/>  
+</fb:editor-buttonset>    
+
+</fb:editor>    
+
+
+
+
+

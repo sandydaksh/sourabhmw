@@ -1,0 +1,25 @@
+<% widget_id = "personal_interests_#{profile_widget.id}" %>
+<div class="pwidget personal_interests" id="<%= widget_id %>">
+	<div class="header">
+		<h3>PERSONAL</h3>
+	</div>
+	
+	<% if member_profile.personal_attributes_blank? %>
+			<p class="noneyet">No personal info listed yet. </p> 
+	<% end %>
+	
+	<!-- VIEW -->
+	<div class="view">
+		<% MemberProfile::ATTRS_BY_TYPE[:personal].each do |personal_attribute| %>
+			<% unless (formatted_attribute = format_interest(@member_profile, personal_attribute)).blank? %>
+				<h4 class="subheader"> <%= personal_attribute.to_s.humanize.upcase %> </h4>
+				<h5 class="entry"> <%= formatted_attribute %></h5>
+			<% end %>
+		<% end %>
+		<% unless (member_profile.political_party_name.blank?) %>
+			<h4 class="subheader">POLITICAL PARTY</h4>
+			<h5 class="entry"> <%= member_profile.political_party_name %> </h5>
+		<% end %>
+	</div>
+
+</div>

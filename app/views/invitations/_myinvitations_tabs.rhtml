@@ -1,0 +1,214 @@
+<div id="tabs">
+  <ul id="myinvitations-tabs" class="subsection_tabs">
+    <li><a href="#upcoming_near_me" id="upcoming-tab">Upcoming Near Me</a></li>
+    <li><a href="#my_invites">My Invites</a></li>
+    <li><a href="#watching_invites">Invites I'm Watching</a></li>
+    <li><a href="#archives">Invite Archives</a></li>
+  </ul>
+</div>
+
+<%= render :partial => 'notice' %>
+
+<% cache(CachingObserver.upcoming_near_user_key(current_member), CachingObserver.upcoming_near_ttl) do %>
+  <% setup_invites_for_upcoming() %>
+  <div id="upcoming_near_me">
+    <%= render :partial => 'upcoming_near_me' %> 
+  </div>
+<% end %>
+
+<div id="my_invites">
+  <div id="my_invites-filters">
+    <form id="mi-filter-form">
+      <h4 class="left">Show:</h4>
+      <ul>
+        <li> <%= radio_button_tag("mi-filter", "all", true, :onclick => "setFilter(this);") %> All </li>
+        <li> <%= radio_button_tag("mi-filter", "posted", false, :onclick => "setFilter(this);") %> Posted </li>
+        <li> <%= radio_button_tag("mi-filter", "received", false, :onclick => "setFilter(this);") %> Received </li>
+        <li> <%= radio_button_tag("mi-filter", "accepted", false, :onclick => "setFilter(this);") %> Accepted </li>
+        <li> <%= radio_button_tag("mi-filter", "confirmed", false, :onclick => "setFilter(this);") %> Confirmed </li>
+      </ul>
+    </form>
+  </div>
+  <%# cache(CachingObserver.my_invitations_key(current_member,params), CachingObserver.my_invitations_ttl) do %>
+    <% setup_my_invites %>
+    <% if @my_invitations.blank? %>
+      <p id="no-invites">You don't have any Invites yet.  You can <%= link_to('post your own Invites', postinvite_url) %> 
+      or <%= link_to('find a public Invite to accept', ssearch_url) %>.
+      </p>
+
+    <% end  %>
+
+
+    <% @my_invitations.each do |obj| %>
+
+      <% if obj.is_a?(Meeting)   %>
+        <% inv = obj.invitation %>
+        <% meeting = obj %>
+      <% else %>
+        <% inv = obj %>
+        <% meeting = obj.upcoming_meeting %>
+      <% end %>
+
+      <% begin  %>
+        <div class="wide-inv my-inv <%= @buckets[meeting] %> ">
+          <div class="inv-date"><h4><%= meeting.start_time_local.strftime("%b<br/>%d") %></h4></div>
+          <div class="inv-header">
+            <%= confs_accepted_note(inv) if @viewer == inv.inviter %>
+            <%= link_to(inv.name, show_invite_url(inv)) %><br/>
+            <%= meeting.start_time_local.strftime("%I:%M %p") %>,
+            <%= location_format_short(inv) %>
+          </div>
+
+          <div class="inv-indicators">
+            <a href="<%= show_invite_url(:id => inv.id, :meeting_id => meeting.id) %>" title="Confirmed">
+              <%= meeting.confirmed_invitees.count %> 
+              <%= image_tag("/images/meetingwave/indicators/green_guy.gif") %>
+            </a>
+            <a href="<%= show_invite_url(:id => inv.id, :meeting_id => meeting.id) %>" title="Declined">
+              <%= meeting.declined_invitees.count %> 
+              <%= image_tag("/images/meetingwave/indicators/red_guy.gif") %>
+            </a>
+            <a href="<%= show_invite_url(:id => inv.id, :meeting_id => meeting.id) %>" title="Messages">
+              <%= meeting.messages.count %> 
+              <%= image_tag("/images/meetingwave/indicators/mail.gif") %>
+            </a>
+          </div>
+
+          <div class="inv-desc">
+            <%= inv.description %>
+          </div>
+
+          <div class="inv-poster">
+            <div class="inv-poster-image">
+              <% if(inv.inviter.member_profile.picture rescue false) %>
+                <%= image_tag(mini_thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+              <% end %>
+            </div>
+            <div class="inv-poster-details">
+              Posted by: <% if inv.inviter %>
+                          <% if !current_member %>
+                            <% if !inv.hidden_user_name.nil? %>
+                              <%= truncate(inv.hidden_user_name.private_name, 20) %>
+							<% else %>
+                              <%= link_to(truncate(inv.inviter.user_name, 20), member_profile_url(:id => inv.inviter.id)) %>
+                            <% end %>
+                          <% else %>
+                          	<% if inv.inviter.id == current_member.id %>
+                              <%= link_to(truncate(inv.inviter.user_name, 20), member_profile_url(:id => inv.inviter.id)) %>
+                            <% else %>
+                              <% if current_member.was_approved(inv.upcoming_meeting) %>
+                                <%= link_to(truncate(inv.inviter.user_name, 20), member_profile_url(:id => inv.inviter.id)) %>
+                              <% else %>
+								<% if !inv.hidden_user_name.nil? %>
+                                  <%= truncate(inv.hidden_user_name.private_name, 20) %>
+                                <% else %>
+                                  <%= link_to(truncate(inv.inviter.user_name, 20), member_profile_url(:id => inv.inviter.id)) %>
+                                <% end %>                              
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                          
+                        <% end %>   
+							<%#= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id)) %>
+              <br/>
+              On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+            </div>
+            <div class="inv-buttons">
+
+            </div>
+          </div>
+        </div>
+      <% rescue %>
+      <% end  %>
+    <% end %>
+
+
+  <%# end %>
+</div>
+
+<div id="watching_invites">
+  <%= render :partial => 'watching_widget' %> 
+</div>
+
+  <%= render :partial => 'archive' %>   
+
+
+
+<div class="reminder" id="reminder_dialog" style="display: none;">
+  <div>Send a reminder   
+    <select name="notify_before" >
+      <option value="300">5 minutes</option>
+      <option value="600" selected="selected">10 minutes</option>
+      <option value="900">15 minutes</option>
+      <option value="1200">20 minutes</option>
+      <option value="1500">25 minutes</option>
+      <option value="1800">30 minutes</option>
+      <option value="2700">45 minutes</option>
+      <option value="3600">1 hour</option>
+      <option value="7200">2 hours</option>
+      <option value="10800">3 hours</option>
+      <option value="86400">1 day</option>
+      <option value="172800">2 days</option>
+      <option value="604800">1 week</option>
+    </select>
+    before
+  </div>  
+
+  <input name="notify_id" type="hidden" value="" />
+
+  <div id="reminder_buttons">      
+    <a href="#" class="close" onclick="return false;">
+      <%= button_image('ok') %>
+    </a> 
+  </div>
+</div>
+
+
+</div>
+
+
+<script type="text/javascript">
+
+initOverLabels(); 
+
+<% if @my_invitations.nil? && @my_invitations.blank? %>
+  new Control.Tabs('myinvitations-tabs');
+<% else %>
+  new Control.Tabs('myinvitations-tabs', { defaultTab : 'my_invites' } );
+<% end %>
+
+function setFilter(element) {
+  var filterType = element.value;
+  var allInvites = ".my-inv";
+  if(filterType == "all") {
+    $$(allInvites).each( function(value, index){ Element.show(value); });
+    return;
+  } else {
+    $$(allInvites).each( function(value, index){ Element.hide(value); });
+    var selector = "." + filterType;
+    $$(selector).each( function(value, index){ Element.show(value); }); 
+  }
+  window.location.hash = "#my_invites-" + filterType;
+}
+
+function showHomebase() {
+  Element.show('new-homebase'); 
+  Element.hide('search-where'); 
+  Element.hide('change-homebase');
+}
+function hideHomebase() {
+  Element.show('change-homebase'); 
+  Element.show('search-where'); 
+  Element.hide('new-homebase');
+}
+
+var subHeadingRegexp = new RegExp ("#my_invites-(.*)");
+var subHeadingMatch = subHeadingRegexp.exec(window.location.hash);
+if(subHeadingMatch) {
+  var radioButton =  $("mi-filter_" + subHeadingMatch[1]) ;
+  radioButton.checked = true;
+  setFilter( radioButton );
+}
+
+
+</script>

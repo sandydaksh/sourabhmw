@@ -1,0 +1,22 @@
+<h3 class="profilesection">EDUCATION</h3>
+	
+	<!-- VIEW -->
+	<% if member_profile.educations.blank? %>
+			<em>You have no schools listed yet. </em> 
+	<% end %>
+	
+	<div class="profileview">
+		<% Education::SCHOOL_TYPES.each do | school_type | %>
+			<% attribute_name = school_type.gsub(" ", "_").downcase.pluralize.to_sym %>
+			<% unless @member_profile.send(attribute_name).blank? %>
+			<h4><%= school_type.upcase %></h4>
+				<% @member_profile.send(attribute_name).each do |education| %>
+					<h5 class="entry">&nbsp;&nbsp; <%= "#{format_timeframe(education)}<br/>" unless format_timeframe(education).blank? %> </h5>
+					<h5 class="entry">&nbsp;&nbsp; <%= "#{education.school_name}<br/>" unless education.school_name.blank? %> </h5>
+					<h5 class="entry">&nbsp;&nbsp; <%= education.location unless (education.location.blank?) %> </h5>
+				<% end %>
+
+			<% end %>
+		<% end %>
+	</div>
+	

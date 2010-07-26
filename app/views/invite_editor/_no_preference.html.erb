@@ -1,0 +1,52 @@
+          <table width="758" border="0" cellspacing="0" cellpadding="0">  
+            <tr>
+              <td width="158" valign="top"><p class="label-create">Meeting Time</p></td>
+              <td width="24" valign="top"><p>
+                 <input type="radio" name="nopref" onclick="Toggle('Div1');" id="time" checked/>
+                </p></td>
+              <td><p class="label-location">No Preference</p><p><div id="Div1"></div></p></td>
+              <td width="18">&nbsp;</td>
+              <td width="95">&nbsp;</td>
+            </tr>				
+			<tr>
+              <td colspan="5" height="16">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top"><p>
+                  <input type="radio" name="nopref" onclick="new Ajax.Request('/post_invite/change_date_picker?change=1',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;" id="time"/>
+                  </p>              </td>
+                  <input type="hidden" name="invitation[start_time]" value="<%= Time.now.strftime("%m/%d/%Y %H:%M %p") %>" />
+                  <input type="hidden" name="invitation[end_time]" value="<%= Time.now.strftime("%m/%d/%Y %H:%M %p") %>" />                  
+                  <input type="hidden" name="invitation[recurrence_frequency]" value="daily" />                                    
+                  
+              <td>
+                  <p class="label-time-select">
+                    Preferred Day & Time Flexible...                  </p>
+                  <p>                  </p>              </td>
+              <td><p>&nbsp;</p></td>
+              <td><p>&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td colspan="5" height="16">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top"><p>
+                  <input type="radio" name="nopref" onclick="new Ajax.Request('/post_invite/change_date_picker?change=2',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;" id="time"/>
+                </p></td>
+              <td>
+<p class="label-time-select">
+                	Exact Date & Time ...
+                </p>
+                </td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            
+            <input type="hidden" value="1" id="no_pref" name="invitation[no_pref]">
+            
+            <tr>
+              <td valign="top" colspan="5" height="20">&nbsp;</td>
+            </tr>
+			</table>

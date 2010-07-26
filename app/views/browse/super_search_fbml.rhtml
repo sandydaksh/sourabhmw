@@ -1,0 +1,138 @@
+
+<%= form_tag('', :id => 'search_filter', :onsubmit => "postTZoffset(this); window.location.href = '/ssearch?context=social_network&' + Form.serialize(this); return false;") %>
+
+<div class="threecolumn clearfix" id="search_form" style="<%= @searched ? 'display:none;':'' %>">
+
+  <div class="threecolumn_a">
+    <h2 >What</h2>
+
+    <div class="formbit">
+      <h3 >KEYWORDS</h3>		
+      <%= keywords %>
+      <%= tool_tip('Keywords', %q{The Keywords field can be used for finding invitations
+                                with matching terms in an invite's name, description, location or city
+                                fields. The other search criteria can be used to search for invitations by
+                                purpose, activity type, location, time, or any combination of the foregoing.
+                                Of course, using both keywords and one or more of the other search 
+                                criteria will enable you to narrow down your results quickly.}, 
+                                :id => 'st_tt', 
+                                :image => '/images/ttb/questionmark.tiny.white.gif')  %>
+<br/>
+    </div>
+    <div class="formbit">
+      <h3 >PURPOSE</h3>		
+        <%= purpose %>
+	      <%= tool_tip('Purpose', 
+						purposes_tt_html, 
+            :id => 'purpose_tt',
+            :image => '/images/ttb/questionmark.tiny.white.gif') %>
+    </div>
+   <h2 >When</h2>
+    <div class="formbit">
+      <h3 >ON OR AFTER</h3>	
+    <%= date_selector("search_filter[start_date]", @search_filter.start_date, 'txt ssearch_date')%>
+	 
+      <div style="clear:both;"> </div>
+    </div>
+    <div class="formbit">
+      <h3 >BEFORE</h3>	
+      <%= date_selector("search_filter[end_date]", @search_filter.end_date, 'txt ssearch_date')%>	
+      <div style="clear:both;"> </div>
+    </div>
+
+    <h2 >Who</h2>
+    <div class="formbit">
+      <h3 >PERSON KEYWORDS</h3>	
+      <%= person_keywords %>
+      <div style="clear:both;"> </div>
+    </div>
+
+
+    <div class="coolrule"></div>
+    <%= hidden_field 'search_filter', 'client_tz_offset', :value => ''  %>
+    <%= image_submit_tag(button_path("search")) %>
+
+  </div>
+
+  <div class="threecolumn_b">
+    <h2 >Where</h2>
+
+    <div class="formbit">
+      <h3 >SPECIFIC LOCATION</h3>		
+        <%= location %>	
+        <%= tool_tip("Location Search", %q{You can find events near you by entering in either your <b>city and state</b> 
+                                                           or your <b>zip code</b> and selecting a <b>radius</b> within which to search.}, 
+                                                           :id => 'ls_tt', 
+                                                           :image => '/images/ttb/questionmark.tiny.white.gif') %>
+                                                           <div style="clear:both;"> </div>
+    </div>
+
+    <div class="formbit">
+      <h3 >ZIP</h3>		
+      <%= zip %>
+    </div>
+
+    <div class="formbit">
+      <h3 >CITY</h3>		
+      <%= city %>
+    </div>
+    <div class="formbit">
+      <h3 >STATE</h3>		
+      <%= state %>
+    </div>
+
+    <div class="formbit">
+      <h3 >COUNTRY</h3>		
+      <%= country %>
+    </div>
+
+    <div class="formbit">
+      <h3 >WITHIN</h3>		
+      <%= radius %>
+    </div>
+
+    <div class="formbit">
+      <h3 >US AIRPORT</h3>		
+      <%= airport %> 
+    </div>
+  </div>
+ 
+</div>
+</form>
+
+<% if @searched %>
+  <div class="search_results">
+		<div>
+			<div class="left">
+				<h2  id="search_results_header" >Search Results</h2>
+				<h5 class="refine" id="refine"><%= link_to_function('REFINE MY SEARCH', "Element.show('search_form');Element.hide('refine')") %></h5>
+			</div>
+			<div class="feed_stuff right">
+				<%= link_to(image_tag('/images/ttb/feed.gif'), ssearch_url(@feed_params)) %> 
+				<%= link_to('&laquo; What\'s this?', feeds_url) %>
+			</div>
+			<br class="cl"/>
+		</div>
+
+    
+    <% if @invitations.blank? and @searched %>
+	  <p class="none_found">
+		  We could not find any matching invitations.  Please broaden your search criteria and try again or post an Invite below. 
+	  </p>
+	  <%= render(:partial => '/post_invite/get_started_form', :locals => {:context => 'search'}) %>
+    <% else %>
+		We found <%= @invitations.total_entries %> matching invitations.<br/> <br/>
+    <div class="paginate_container">
+       <%= will_paginate(@invitations, :params => (@search_filter.to_params rescue {} )) unless @invitations.total_entries.zero? %> 
+   </div>
+   <br style="clear:both;" />
+
+      <%= render :partial  => 'browse_invites' %>
+
+    <div class="paginate_container">
+       <%= will_paginate(@invitations, :params => (@search_filter.to_params rescue {} )) unless @invitations.total_entries.zero? %> 
+    </div>
+    <% end %>
+  </div>
+<% end %>
+

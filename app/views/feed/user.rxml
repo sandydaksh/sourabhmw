@@ -1,0 +1,33 @@
+xml.instruct!
+xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
+  xml.channel do
+    xml.title "MeetingWave.com invites Posted by #{@member.user_name}"
+    xml.link url_for(:only_path => false, 
+                     :controller => 'member_profiles', 
+                     :action => 'show',
+                     :id => @member.user_name)
+                     xml.pubDate CGI.rfc1123_date((@invites.first.updated_at rescue Time.now))
+    xml.description h("Next 15 upcoming invites for #{@member.user_name}.")
+    @invites.each do |invite|
+      xml.item do
+        xml.title "#{invite.name} on #{sh_date invite.upcoming_meeting.start_time_local}"
+        xml.link url_for(:only_path => false, 
+                         :controller => 'invitations', 
+                         :action => 'show',
+                         :id => invite.id)
+                        
+        xml.description h(invite.description)
+        
+        xml.pubDate CGI.rfc1123_date(invite.updated_at)
+        
+        xml.guid url_for(:only_path => false, 
+                         :controller => 'invitations',
+                         :action => 'show',
+                         :id => invite.id)
+        
+        xml.author h(@member.user_name)
+      
+      end
+    end
+  end
+end

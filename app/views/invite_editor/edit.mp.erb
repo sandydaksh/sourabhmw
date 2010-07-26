@@ -1,0 +1,150 @@
+<% if openwave? %>
+	<h5>Sorry, you cannot edit invites on this mobile platform at this time.  Please login via a different mobile device or use a browser like Firefox or Internet Explorer. </h5>
+	<%= link_to("<< Back to invite", show_invite_url(:id => @invitation.id)) %>
+<% else %>
+	<%= form_tag({:controller => 'invite_editor', :action => 'save'}) %>
+		<%= hidden_field_tag('id', @invitation.id) %>
+		<h3 class="profilesection">WHAT</h3>  
+			 <%= error_messages_for('invitation', :header => '', :attributes_order => [:name, :activity, :minimum_invitees, :maximum_invitees]) %>
+			 <table class="editform">
+			   <tr> 
+					<td class="flabel">NAME:</td>         
+					<td><%= text_field 'invitation', 'name', :size => '25' %></td> 
+			   </tr>
+			   <tr> <td class="flabel">ACTIVITY:</td> <td><%= select 'invitation', 'activity_id', Activity::ACTIVITY_OPTS, :prompt => true %></td> </tr>
+			 </table>
+			 <table class="editform">
+			   <tr> <td class="flabel" colspan="2">DESCRIPTION:</td> </tr>
+			   <tr> <td colspan="2"><%= text_area 'invitation', 'description', :cols => 34, :rows => 2 %></td></tr>
+			 </table>
+
+		<h3 class="profilesection">WHO</h3>  
+		<table class="editform">
+			<tr> 
+				<td class="flabel">This invite is:</td> 
+				<td> <%= select_tag('invitation[is_public]', options_for_select([['PUBLIC.', 1], ['PRIVATE.', 0]], @invitation.is_public)) %></td> 
+			</tr>
+		  </table>
+
+		<% unless @invitation.eligible_invitees.blank? %>
+	<table class="editform"> <tr> <td>YOUR CONTACTS: </td>  </tr> </table>
+			<table class="editform">
+				<% @invitation.eligible_invitees.each_slice(2) do |eligible_invitees_row | %>
+					<tr>
+					<% eligible_invitees_row.each do | eligible_invitee| %>
+						<td>
+							<%= check_box_tag("member_ids[#{eligible_invitee.id}]", "invited", @member_ids.include?(eligible_invitee.id.to_s))%>
+							<%= eligible_invitee.user_name %><br/>
+						 </td>
+					<% end %>
+				  </tr>
+				<% end %>
+		  </table>
+		<% end %>
+								
+		<table class="editform">
+		  <tr><td>ENTER EMAIL ADDRESSES: </td></tr>
+		  <tr>
+			<td><%= text_area_tag 'email_addresses', (@email_addresses.join(",\n") rescue nil), :size => "40x2" %></td>
+		  </tr>
+		</table>
+
+
+		<h3 class="profilesection">WHEN</h3>  
+		<% if @invitation.recurring? %> 
+		  <em>You cannot edit the time/date on a recurring invite at this time.</em>
+		<% else %>
+			<%= error_messages_for('invitation', :header => '', :attributes_order => [:start_time, :end_time, :time_zone, :recurrence_frequency]) %>
+				<% (date_part, time_part) = datetime_select('invitation', 'start_time_local', :order => [:month, :day, :year]).split('&mdash;') %> <br/>
+				<table class="editform">
+				  <tr><td class="flabel" style="text-align: right;">STARTING:</td><td>
+						<%= date_select('invitation', 'start_time_local', :order => [:month, :day, :year]) %>
+				  </td></tr>
+				  <tr><td class="flabel" style="text-align: right;">AT:</td><td><%= mobile_time_select('invitation[start_time_local]', @invitation.start_time_local) %></td></tr>
+				<% (date_part, time_part) = datetime_select('invitation', 'end_time_local', :order => [:month, :day, :year]).split('&mdash;') %> <br/>
+				  <tr><td class="flabel" style="text-align: right;">ENDING:</td>
+					  <td>
+						<%= date_select('invitation', 'end_time_local', :order => [:month, :day, :year]) %>
+					  </td>
+				  </tr>
+				  <tr><td class="flabel" style="text-align: right;">AT:</td><td> <%= mobile_time_select('invitation[end_time_local]', @invitation.end_time_local) %> </td></tr>
+				</table>
+				<table class="editform">
+				  <tr><td class="flabel">TIME ZONE:  </td></tr>
+				  <tr><td><%= time_zone_select 'invitation', 'time_zone', TimeZone.mw_us_zones, {}, :disabled => (@invitation.posted? and @invitation.recurring?) %> </td></tr>
+				</table>
+		<% end %>
+
+		<h3 class="profilesection">WHERE</h3>  
+				<% if @invitation.address.kind == 'airport' %>
+				 <!-- AIRPORT --> 
+					<%= error_messages_for('address', :header => '', :attributes_order => [:base, :airport_id, :airport_non_us, :terminal_gate, :country], :user_facing_names => Address::USER_FACING_NAMES) %>
+					<tr>
+						<td>AIRPORT IS:</td>
+						<td> <%= select('address', 'airport_type', Address::AIRPORT_TYPES, {:selected => (@address.airport_type.to_sym rescue :airport_us) }, :onChange => "showAirportType(this.value);" )%></td>
+					</tr>
+					<tr>
+					  <td>AIRPORT:</td>
+					  <td><%=select('address', 'airport_id', Airport::AIRPORT_OPTIONS, { :include_blank => true })%></td>
+					</tr>
+					<tr>
+					  <td>TERMINAL/GATE:</td> 
+					  <td><%= text_field('address', 'terminal_gate', :class => 'fatinput')  %></td>
+					</tr>
+				<% elsif @invitation.address.kind == 'regular' %>
+				 <!-- REGULAR --> 
+
+					<%= error_messages_for('address', :header => '', :attributes_order => [:base, :name, :address, :address2, :city, :state, :zip, :country], :user_facing_names => Address::USER_FACING_NAMES) %>
+					<table class="editform">
+					 <tr> <td class="flabel">LOCATION:</td> <td> <%= text_field('address', 'name', :size => '25') %> </td> </tr>
+				   </table>
+				<% elsif @invitation.address.kind ==  'conference' %>
+				 <!-- CONFERENCE --> 
+					<%= error_messages_for('address', :header => '', :attributes_order => [:conference, :address, :address2, :city, :state, :zip, :country], :user_facing_names => Address::USER_FACING_NAMES) %>
+					<tr>
+						<td>CONFERENCE/TRADE SHOW</td>
+						<td><%= text_field('address', 'conference')  %></td>
+					</tr>
+				<% end %>
+				
+				<% unless @invitation.address.kind == 'airport' %>
+					<table class="editform">
+					  <tr><td class="flabel" style="text-align: right;">ADDRESS: </td> <td> <%= text_field('address', 'address', :size => '25')  %></td> </tr>
+					  <tr><td class="flabel" style="text-align: right;">CITY:</td><td> <%= text_field('address', 'city', :size => '25')  %></td></tr>
+					  <tr><td class="flabel" style="text-align: right;">STATE:</td><td><%= us_state_select('address', 'state', {:include_blank => true}, {:style => "width: 10pt;"}) %></td></tr>
+					  <tr><td class="flabel" style="text-align: right;">ZIP:</td><td> <%= text_field( 'address', 'zip', :size => '25') %></td></tr>
+					</table>
+					<table class="editform">
+					  <tr><td class="flabel">COUNTRY:</td><td><%= mw_country_select( 'address', 'country', ["United States", "Canada"], {:include_blank => true}, {:style => "width: 10px;"}) %></td></tr>
+					</table>
+				<% end %>
+
+
+
+
+
+
+		<h3 class="profilesection">WHY</h3>  
+
+			<%= error_messages_for('invitation', :header => '', :attributes_order => [:purpose_id, :payment_id], :user_facing_names => {:payment_id => 'Costs'}) %>
+	<table class="editform">
+		<tr>
+			<td class="flabel" style="text-align: right;">PURPOSE: </td>      
+			<td><%= mobile_purpose_field(@invitation)%></td>
+		</tr>
+	   </table>
+	<table class="editform">
+		<tr>
+			<td class="flabel" style="text-align: right;">COSTS: </td>
+			<td><%= select 'invitation', 'payment_id', Payment::PAYMENT_OPTS, :prompt => true, :class => 'fatinput' %></td>
+		 </tr>
+	   </table>
+
+	<hr/>
+	  <div style="text-align: center;"> 
+			<%= ibutton('save') %> <br/>
+			<strong><%= link_to("CANCEL", show_invite_url(:id => @invitation.id)) %> </strong>
+	  </div>
+
+	  </form>
+  <% end %>

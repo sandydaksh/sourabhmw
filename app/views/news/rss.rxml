@@ -1,0 +1,26 @@
+xml.instruct!
+xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
+  xml.channel do
+    xml.title rss_title
+    xml.link  rss_home_link                  
+
+    xml.pubDate CGI.rfc1123_date(Time.now)
+    xml.description h(rss_description)
+    @articles.each do |article|
+	   
+      xml.item do
+        xml.title article.title
+        xml.link(link = "http://" + request.host_with_port + article.full_permalink)
+                        
+        xml.description truncate(article.body,500,link_to("  ...Read More", link))
+        
+        xml.pubDate CGI.rfc1123_date(article.published_at)
+        
+        xml.guid link
+        
+        xml.author article.author.username
+      
+      end
+    end
+  end
+end

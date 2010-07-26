@@ -1,0 +1,220 @@
+
+
+
+	<!--[if gte IE 5]>
+		<style type="text/css" >
+			.getstarted form .formbit img {
+			    padding-bottom: 6px;
+			}
+			#who_auto_complete {
+				margin-left: 0px;
+			}
+		</style>
+	<![endif]-->
+
+	<!--[if lte IE 6]>
+		<style type="text/css" >
+		#line_two {
+		margin-top: 5px;
+		}
+		#st_cont, #et_cont {
+			padding: 5px;
+		}
+		div#city_div {
+			margin-left: 15px;
+		}
+
+		</style>
+
+	<![endif]-->
+
+	<!--[if IE 7]>
+		<style>
+
+          #where_section {
+            margin-top: 20px; 
+          }
+
+		</style>
+	<![endif]-->
+
+
+	<!-- CONTENT -->
+	<div id="get_started_box" class="contentgetstarted clearfix">
+		<div class="getstarted">
+			<% form_tag(get_started_post_url, :id => "get_started_form", :class => 'compact_accessible') do -%>
+				<input type="hidden" name="client_tz_offset" id="client_tz_offset" value="" /> 
+
+				<script type="text/javascript"> 
+					//<![CDATA[ 
+						$('client_tz_offset').value = timeZoneOffset();			
+					//]]> 	 
+				</script>
+
+				<div class="get_started_header"> <h4> Get Started: Post an Invite Today!  </h4> </div>
+				<br/>
+
+				<%= error_messages_for 'invitation', :header => 'Please correct the following errors before we post this invite: ' %>
+
+				<div class="get_started_text">
+
+				  <% if context == 'search' %>
+
+					  <p>
+
+						Don't see any invites that
+						interest you in your area?  Why
+						not take the first step and try
+						posting a public invite?
+
+					  </p>
+
+				  <% else %>
+					  <p>
+						 <span class="orange">Here's how it works:</span>
+
+						 Create a public invite for
+						 coffee, lunch, dinner or
+						 drinks describing why you want
+						 to meet and where.  You decide
+						 who you meet with and whether
+						 the meeting happens.
+
+					  </p>
+
+					  <p> It's easy.  Try it today and fatten that Rolodex!  </p>
+
+
+				<% end %>
+
+
+				</div>
+
+				<div class="formbit clearfix">
+					<h3 class="nomargin">WHAT</h3>	
+					<%=   indicator_image('greendot', :id => 'what_status', :class => 'valid_indicator') %>
+					<%= quick_input 'what', "e.g. Social Networking Coffee", 'Please enter the name of your invite.', :class => 'qi_input required what_input ' %> 
+				</div>
+
+				<div class="whyformbit clearfix">
+					<h3 class="nomargin">WHY</h3>
+					<%=  indicator_image('greendot', :id => 'why_status', :class => 'valid_indicator') %>	
+					<%= quick_input 'why', "e.g., Let's meet to talk about...", 'Please enter a description for this meeting.', :class => 'qi_input required why_input ' %>    
+					<br/>
+					<div class="romanceformbit" style="clear: left;"> <%= check_box_tag("romance", 1, false) %> <p id="romancenote"> This invite is for romance.</p> </div>
+				</div>
+
+
+				<div class="formbit clearfix" id="where_section">
+					<h3 class="nomargin">WHERE</h3>	
+					<%=  indicator_image('greendot', :id => 'where_status', :class => 'valid_indicator') %>
+
+					<div class="compact_accessible_wrap address_field">
+					  <label class="overlabel" for="location">Location Name</label><input class="qi_input required" id="location" name="location" type="text" />
+					 <%= content_tag('div', 'Location name is required.', :id => "advice-required-location", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+
+					<div class="compact_accessible_wrap address_field">
+					  <label class="overlabel" for="address">Address</label><input class="qi_input required" id="address" name="address" type="text" />
+					 <%= content_tag('div', 'Address is required.', :id => "advice-required-address", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+
+					<div class="compact_accessible_wrap" id="city_div">
+					  <label class="overlabel" for="city">City</label>
+					  <%= text_field_tag('city', (@invitation.address.city rescue ''), :id => 'city', :class => 'qi_input required') %>
+					  <%= content_tag('div', 'City is required.', :id => "advice-required-city", :class => "validation-advice", :style => "display: none;") %>
+					 </div>
+					<div class="compact_accessible_wrap">
+					  <label class="overlabel" for="state">State</label>
+					  <%= text_field_tag('state', (@invitation.address.state rescue ''), :id => 'state', :class => 'qi_input required') %>
+					 <%= content_tag('div', 'State is required.', :id => "advice-required-state", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+					<div class="compact_accessible_wrap">
+					  <label class="overlabel" for="country">Country</label>
+					  <%= text_field_tag('country', (@invitation.address.country rescue ''), :id => 'country', :class => 'qi_input required') %>
+					 <%= content_tag('div', 'Country is required.', :id => "advice-required-country", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+				</div>
+
+
+				<div class="formbit clearfix" id="after_where">
+					<h3 class="nomargin">WHEN</h3>		
+					<%=  indicator_image('greendot', :id => 'quick_invite[start_time_local]_status', :class => 'valid_indicator') %>
+
+					<div   >
+					  I'm generally available <%= select("invitation", "recurrence_frequency", Invitation::RECURRENCE_OPTS[1..-1]) %> starting on  
+					  <%= calendar_date_select_tag('date', Time.now.strftime("%m/%d/%Y"), {:time => false, :class => 'date_only', :popup => :force, :valid_date_check => "date >= (new Date()).stripTime()"})  %>
+                      <br/>
+						 from <%= simple_time_select('start_time') %> to <%= simple_time_select('end_time', Time.now + 1.hour) %> .
+
+					</div>
+				</div>
+
+			
+            <br/>
+
+			<div class="button_box" id="postinvite-button">
+              <input name='Submit' value='PostInvite' type='image' src='<%= button_path("postinvite") %>'  />
+			</div>
+
+            <div class="button_box" id="posting-indicator" style="display: none;">
+                <%= indicator_image("spinner.offwhite") %>
+                Posting...
+            </div>
+
+			<br/>
+			<br/>
+		<% end %>
+
+			<script type="text/javascript"> 
+		  	  //<![CDATA[
+		
+		  	  function quickInviteElementValidate(result, element){
+		  	  	var status_element_id = element.id + "_status";
+				if(element.id == "address" || element.id == "city" || element.id == "state" || element.id == "country") {
+					status_element_id = "where_status";
+				}
+
+				if($(status_element_id) == null) {
+					return true;
+				}
+
+		  	  	if(result) {
+		  	  		$(status_element_id).src = "<%= indicator_path('greencheck') %>";
+		  	  	} else {
+		  	  		$(status_element_id).src = "<%= indicator_path('greenx') %>";	
+		  	  	}
+          	
+		  	  }
+		  	  
+		  	  function quickInviteFormValidate(result, form) {
+		  	  	if(!result) {
+		  	  		alert("Please correct the errors in the form first.")
+                } else {
+                    Element.hide('postinvite-button'); 
+                    Element.show('posting-indicator'); 
+                }
+		  	  }
+		
+			  //Event.observe(window, 'load', function() { 
+                document.observe('dom:loaded', function() {
+                  
+				 new Validation('get_started_form', {immediate:true, onElementValidate:quickInviteElementValidate, onFormValidate:quickInviteFormValidate});
+				 Validation.add('dateselector', 
+								 'Please select a valid future date.', 
+								function(value) {
+									var d = stringToDate(value);
+									var now = new Date();
+									return d > now;
+								});
+				 /*Validation.add('where_input_pattern', 'Enter a place and address separated by commas.', { pattern : /^.*\w+.*,.*\w+.*,.*\w+.*$/, isNot:'' });	*/
+		         initOverLabels();
+			 }); 
+
+			
+				//]]> 
+			</script> 
+
+		</div>
+
+	</div>

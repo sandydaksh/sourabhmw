@@ -1,0 +1,17 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<div class="clearfix">
+<h1 class="news_head"><%= header_title %>  <%=  link_to(image_tag("ttb/feed.gif"), rss_link )  %> </h1>
+<%= render :partial => "blog_article" , :locals => {:article => @article} %>
+
+<%= render :partial => "blog_archives" %>
+</div>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>

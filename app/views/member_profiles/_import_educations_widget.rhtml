@@ -1,0 +1,73 @@
+<% widget_id = "educations_#{profile_widget.id}" %>
+<div class="pwidget" id="<%= widget_id %>">
+     <div class="header edit_mode">
+  <h3 class="movable">EDUCATION</h3>
+</div>
+
+<!-- VIEW -->
+         
+         <% if @educations.blank? %>
+  <p class="noneyet">You have no schools listed  or you already imported them.  
+  </p> 
+<% else %>
+
+<!-- EDIT -->
+<div class="edit"  >		
+  <!-- DATA WITH EDIT LINK -->
+<% Education::SCHOOL_TYPES.each do | school_type | %>
+   <% educations = @educations.select{|education| education.school_type == school_type } %>
+     <% unless educations.blank? %>
+      <h4 class="subheader" > <%= school_type.upcase %> </h4>
+      <% educations.each do |education| %>    
+        <!-- EDIT VIEW -->
+      <% subsection_id = "education_#{education.id}" %>
+      <div id="<%= subsection_id%>">
+        <%= render :partial => "education_view_subsection" , :locals => {:education => education} %>
+  
+        <!-- EDIT FORM -->
+        <div id="edit_subsection_education_<%= education.id %>" class="edit_subsection" >
+      <% form_remote_tag(:url => {:action => 'import_education'}, :loading => loading_script(subsection_id), :complete => "Element.hide('#{subsection_id}_spinner')") do -%>
+        <%= hidden_field_tag('education[id]', education.id) %>
+        <p>
+            <label>SCHOOL:</label>
+            <%= text_field_tag("education[school_name]", education.school_name, :class => 'txt') %>
+            </p>
+    
+            <p class="singlerow">
+              <label>YEARS:</label> 
+              <%= text_field_tag("education[start_year]", education.start_year, :class => 'txt') %>
+              <label class="middle">TO:</label>
+              <%= text_field_tag("education[end_year]", education.end_year, :class => 'txt') %>	
+            </p>
+    
+            <p>
+              <label>TYPE:</label>
+              <%= select_tag("education[school_type]", options_for_select(Education::SCHOOL_TYPES, education.school_type), :class => 'txt') %>
+            </p>
+    
+            <p>
+              <label>LOCATION:</label>
+              <%= text_field_tag("education[location]", education.location, :class => 'txt')%>
+            </p>
+    
+           
+             <%=  widget_buttons("new Effect.Fade('#{subsection_id}');") %>
+
+          </div>
+          <% end %>
+          
+           <%= profile_spinner(subsection_id) %>
+           
+        </div>
+    
+    <% end %>
+  <% end %>
+<% end %>
+
+
+
+ 
+  
+</div>
+<% end %>
+</div>

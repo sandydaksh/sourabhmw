@@ -1,0 +1,277 @@
+<!--[if IE 6]>
+	<style>
+		#color_chooser {
+			margin-right: 10px;
+		}
+		div.current_color_box {
+			height: 10px;
+			width: 15px;
+			border: solid 1px #000000;
+			margin: 0;
+			padding: 0;
+			margin-left: 4px;
+			margin-top: 5px;
+			margin-bottom: 3px;
+		}
+		div.color_selector_wrapper {
+		  padding-bottom: 2px;
+		}
+		
+		.yui-picker-controls{
+			top: 177px;
+		    left:38px;
+		}
+	</style>
+<![endif]-->
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+
+
+
+<div id="widget_config_main" >  
+
+
+	<div class="widget_column">
+		
+			<div class="profile_summary_header">
+				<h1 class="widget_step">1. Customize Your Widget </h1> 	
+				<p class="widget_instructions">
+					Use the controls below to customize the widget at right.   When you like the way it looks, 
+					copy the HTML in the orange box and paste it into your site.  The widget should appear as you see it here.
+				</p>	
+			</div>
+
+		<div class="widget_config" >  
+
+			<div id="color_section" class="selection_set">
+				<h3>Colors</h3>   
+				<div id="color_chooser" >
+					<div class="yui-skin-sam" > 
+						<div id="container">  
+						</div> 
+					</div>  
+				</div>
+					<div id="color_selection_list" class="selection_set" > 
+						<%= color_widget_selector(:even_color, "Even Row") %>
+						<%= color_widget_selector(:odd_color, "Odd Row") %>
+						<%= color_widget_selector(:background, "Background") %>  
+						<%= color_widget_selector(:font_color, "Title") %>
+						<%= color_widget_selector(:description_color, "Description") %>
+						<%= color_widget_selector(:date_color, "Date") %>
+
+						<%= color_widget_selector(:link_color, "Link") %>
+						<%= color_widget_selector(:hover_color, "Hover") %>    
+                        
+	        			<%= image_submit_tag("/images/meetingwave/buttons/reset_colors.gif",:border => 0,:height => 25,:id => "reset",:onmouseover=>"this.src= '/images/meetingwave/buttons/reset_colors-over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/reset_colors.gif';") %>
+						<!--input id="reset" type="image" src="<%#= button_path("reset_colors")%>" name="Reset Color" alt="Reset Color" /-->
+					</div>
+				
+
+					<div class="clear"> &nbsp; </div>
+			</div>  
+
+
+
+			<div id="size_section" class="selection_set">
+				<h3>Size</h3>   
+				<div class="inner_selection_set"> 
+					
+					<%= size_selector(:small,"9") %>
+					
+					<%= size_selector(:medium,"10") %>
+					
+					<%= size_selector(:large,"12") %>
+					
+					<!-- I have no idea why this is necessary, but there's a stray 'e' showing up down here at the bottom of the list.  This div hides it. -->
+					<!--[if IE 6]>
+						<div style="border: solid 0px red; height: 20px; width: 100px; margin-top: -14px; background-color: #F0F0E5;" > &nbsp; </div>
+					<![endif]-->
+						
+				</div>
+			</div> 
+
+			<div id="number_section" class="selection_set">
+				<h3>Number Invites</h3>   
+				<div class="inner_selection_set"> 
+					<p>
+						Display <%= select_tag("llimit_selection", options_for_select((1..20).map(&:to_s), @settings[:limit]), :id => 'llimit_selection') %> Invites
+					</p>
+				</div>
+
+			</div> 
+
+			<div id="name_section" class="selection_set">
+				<h3>Name</h3>   
+				<div class="inner_selection_set"> 
+					<%= text_field_tag("name_selection", @settings[:name], :id => 'name_selection') %>  <br /><br />
+					<%= link_to_function(button_image_update("update"), "current_params.set('name', $F('name_selection')); update_frame();") %>
+					<%= observe_field("llimit_selection", :function => "current_params.set('limit',value);update_frame();", :frequency => 5) %>     
+				</div>
+			</div>
+
+		</div>  	
+
+		<div id='widget_source'>  
+			<h1 class="widget_step">2. Copy This</h1>
+			<p class="widget_instructions">Copy and paste the text in the orange box below into your website.</p>
+			<%= text_area_tag("iframe_source", '',  :rows => 4 , 
+				# :wrap => 'virtual', 
+				:id => "iframe_source", 
+				:style =>"background-color:#f58d36;width:520px;", 
+				:onclick => "this.select();", :cols => 40) %>
+		</div>
+		
+
+	</div>    
+
+
+	<div id="frame_wrapper" >
+		
+		<h3>PREVIEW</h3>
+		<iframe id="ttb_widget" name="ttb_widget" scrolling="no" title="Widget Preview">  
+
+		</iframe>                                  
+	</div>
+
+
+
+</div>  
+
+
+</div>
+   
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+
+
+<script type="text/javascript">  
+
+var current_params = $H(<%= @settings.to_json %>); 
+var original_params = $H(<%= @settings.to_json %>);  
+var size_name_to_image_size = $H(<%= @sizes_to_logos.to_json %>);
+var TTB_WIDGET_ID = 'ttb_widget';
+
+function toggle_chooser_for(which_style) {
+	current_choice =  which_style; 
+	picker.set(picker.OPT.HEX, current_params.get(current_choice), false);
+	$$('.color_selector').each(function(element){
+		Element.removeClassName(element, "color_selected");
+	} );
+	$$('.color_selector_wrapper').each(function(element){
+		Element.removeClassName(element, "color_selected");
+	} );
+
+	Element.addClassName($(current_choice + "_link"), "color_selected"  ); 
+	Element.addClassName($("wrapper_for_" + current_choice ), "color_selected"  ); 
+
+}  
+
+function size_selected(name, size){
+	current_params.set('size', size);
+	current_params.set('size_name', name)
+	update_frame();   
+
+	$$('.size_selector').each(function(element){
+		Element.removeClassName(element, "size_selected");
+	} );
+
+	Element.addClassName($(name + "_link"), "size_selected"  );
+}
+
+function color_chosen(hex) { 
+
+	current_params.set(current_choice, hex)  
+	$('current_color_box_' + current_choice).setStyle({backgroundColor: ('#' + hex)});
+	update_frame();
+}    
+
+function get_url(){
+	url = '<%= url_for(:action => 'widget',:iframe => true, :only_path => false)  %>';
+	current_params.each(function(pair) {   
+
+		url += ('&' + (pair.key +  '=' + escape(pair.value) ));
+	});  
+
+	return url;
+}
+
+
+function update_frame(){
+	frames[TTB_WIDGET_ID].location.href = get_url(); 
+	resetIframe();
+}    
+
+function resetIframe(){  
+	$('iframe_source').value = '<iframe id="' + TTB_WIDGET_ID + '" name="ttb_widget" scrolling="no" style="border:none;display:block;margin:auto;width:100%;height:'+ currentWidgetHeight() +'px;" src="' + get_url() + '"></iframe>'          
+}  
+
+function currentWidgetHeight(){
+	var font_size = current_params.get('size');
+	var size_of_invite_box = font_size * 7 ; 
+	var image_height = size_name_to_image_size.get(current_params.get('size_name'))['height'];
+	var total_height = (size_of_invite_box * current_params.get('limit') + image_height + ( font_size * 12) ); 
+	return total_height   
+}
+
+function getFrameHeight(){ 
+	return  (getFrameBody().getHeight()) + "px";
+}   
+
+function getFrameWidth(){
+	return (getFrameBody().scrollWidth) + "px";
+}   
+
+function getFrameBody(){
+	return $( (this.contentBody ? $(TTB_WIDGET_ID).contentBody : $(TTB_WIDGET_ID).contentWindow.document.body) );
+}
+
+
+
+update_frame();
+
+
+var picker;
+
+function setupColorPicker() {
+	YAHOO.log("Creating Color Picker.", "info", "example");
+	picker = new YAHOO.widget.ColorPicker("container", { 
+		showrgbcontrols: false,
+		showhexcontrols: true,
+		showhexsummary:false,
+		showwebsafe:false,  
+		images: {
+			PICKER_THUMB: "/yahoo_ui/build/assets/picker_thumb.png",
+			HUE_THUMB: "/yahoo_ui/build/assets/hue_thumb.png"
+		}
+	});
+	YAHOO.log("Finished creating Color Picker.", "info", "example");
+	$(picker.ID.CONTROLS_LABEL).innerHTML = '';
+	//a listener for logging RGB color changes;
+	//this will only be visible if logger is enabled:
+	var onRgbChange = function(o) {
+		color_chosen(picker.get("hex"));
+		YAHOO.log("The new color value is " + o.newValue, "info", "example");
+	}
+	//subscribe to the rgbChange event;
+	picker.on("rgbChange", onRgbChange);
+	//use setValue to reset the value to white:
+	YAHOO.util.Event.on("reset", "click", function(e) {        
+		color_chosen(original_params.get(current_choice)); 
+		picker.set(picker.OPT.HEX, current_params.get(current_choice), false);
+	});
+};
+
+
+Event.observe(window,'load',function(){ setTimeout('setupColorPicker();', 100) }, false);
+
+</script>
+
+
+

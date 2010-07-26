@@ -1,0 +1,73 @@
+<% self.extend(ApplicationHelper) %>
+<% self.extend(FacebookHelper) %>
+
+<%= inline_stylesheet('meetingwave/base.css') %>
+<%= inline_stylesheet('meetingwave/modular/invites.css') %>
+<% self.extend(TTB::FacbookInviteUrlOveride) %>
+<style>
+    h2, h3{
+	display:block;
+	clear:both;
+	font-size:20px;
+	padding:3px;  
+	margin:0;
+}   
+  
+  h3{
+	font-size:10px;  
+  }
+  
+  .inv-header, .inv-desc{
+      width: 310px;
+   }
+
+   .inv-header a{
+       font-size:12pt;
+   }
+</style>    
+
+<% @my_invitations = my_invitations if(my_invitations rescue false) %>
+<% @upcoming_invites = upcoming_invites if(upcoming_invites rescue false) %>
+<% @geoip_loc = geoip_loc if(geoip_loc rescue false)%>
+<% @upcoming_invites = upcoming_invites if(upcoming_invites rescue false) %>
+<fb:profile-action url="<%= canvas_url("map") %>">
+	    Meeting Map
+</fb:profile-action>
+<fb:subtitle seeallurl="<%= canvas_url("map")%>">
+		<fb:action href="<%= canvas_url("settings") %>">
+			Change Location / Refresh
+		</fb:action>   
+		Showing (<%= number_shown_on_profile() %>) Upcoming Meetings
+</fb:subtitle>  
+
+<div style=""> 
+
+	<% if(@my_invitations) %>
+          	<h2>MY INVITES</h2>   
+             <div class="invite_list" >
+				<%= render :partial => 'invite_list', :locals => {:invites => @my_invitations, :no_invites_message => "No upcoming invites"} %>
+			</div>
+     <% end %>
+   
+	
+	
+   <% if(@upcoming_invites) %>
+    	<% if(@geoip_loc) %>
+		<h3>UPCOMING MEETINGS NEAR</h3> <%= content_tag("h2"," #{@geoip_loc.city } #{[ @geoip_loc.state, @geoip_loc.zip].reject(&:blank?).join(" , ")}") %>   
+		<% else %>  
+		<h2>UPCOMING MEETINGS</h2>   
+
+		 <% end %>
+	<div class="invite_list" >
+		<%= render :partial => 'invite_list', :locals => {:invites => @upcoming_invites, :no_invites_message => "No upcoming invites"} %>
+	</div>  
+	<% end %>
+	
+ 
+    <div >
+		
+	<%= logo_image("fb_profile_logo") %>
+	</div>
+</div>   
+
+

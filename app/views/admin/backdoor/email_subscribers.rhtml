@@ -1,0 +1,7 @@
+<h1><%= link_to('Admin', admin_url) %> &raquo; Email Subscribers and Non-Subscribers</h1>
+<h2>Non-Subscribers</h2>
+<p>The following is a list of users who have opted out of our news updates.  </p>  
+<%= text_area_tag('nonsubscribers', @non_subscribers.collect { |m| "\"#{m.fullname}\", #{m.email}" }.join("\n"), :size => "55x30") %>
+<h2>Subscribers</h2>
+<p> The following users have not opted out and should still receive news updates.</p>
+<%= text_area_tag('subscribers', @subscribers.collect { |m| "\"#{m.fullname}\", #{m.email}" }.join("\n"), :size => "55x30") %>

@@ -1,0 +1,10 @@
+<div class="subnav">
+      <div class="subnav_myinvites">
+              <ul>
+								<%= content_tag('li', link_to('Dashboard', dashboard_url), :class => my_invites_selected_class?(:dashboard)) %>
+								<%= content_tag('li', link_to( 'Archive', archives_url), :class => my_invites_selected_class?(:archive)) %>
+								<%= content_tag('li', link_to( 'Calendar', calendar_url), :class => my_invites_selected_class?(:calendar), :id => 'calendar_sub_nav_link') unless( context?(:social_network)) %>
+              </ul>				
+      </div>
+
+</div>

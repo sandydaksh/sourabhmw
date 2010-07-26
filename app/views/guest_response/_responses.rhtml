@@ -1,0 +1,111 @@
+
+<div id="responses">           
+	
+   
+   <% if(@invitation.recurring? and (@invitation.confs_accepted.size > 0)) %>
+		<%= full_list_of_acceptances_awaiting_response(@invitation, @meeting) %>
+   <% end %>  
+
+
+	<%= hidden_field_tag('meeting_id', @meeting.id)%>
+	<%= hidden_field_tag('invite_id', @invitation.id) %>
+	<%= hidden_field_tag('recurrence_freq', @invitation.recurrence_frequency) %>
+	
+	<%= render :partial => 'people_requesting', :locals => { :viewer => viewer } %> 
+	<%= render :partial => 'people_attending', :locals => { :viewer => viewer } %> 
+	<%= render :partial => 'people_invited', :locals => { :viewer => viewer } %> 
+	<%= render :partial => 'people_declined', :locals => { :viewer => viewer } %> 
+
+	<br/>
+	<div class="widgetinvites guest_responses">
+	           <h3>SEND A GROUP EMAIL </h3>
+			    <table summary="guest_responses">
+	                 <tbody>
+                           <tr class="odd" id="broadcast_row">
+								<% if(@members_who_want_to_attend.blank? and @all_invited_members.blank?) %>
+									<td id="broadcast_instructions" colspan="2">
+										You can't send an email using this form until you invite someone or a member responds to your open invite.
+									</td>
+								<% else %>
+									<td>
+										<div id="broadcast_instructions_closed"><%= link_to_function('Click here', "GuestResponse.openBroadcastEmail();") %> to send a group email to member guests listed on this page who've responded for this meeting date.</div>
+										<div id="broadcast_instructions_open" style="display:none;">Use the form below to send a group email to the member guests you see listed on this page.</div>
+									</td>
+										<td class="close">
+												 <%= link_to_function(image_tag("/images/ttb/button_close_small.odd.gif"), 
+																			"GuestResponse.closeBroadcastEmail();", 
+																			:style => "display: none;", 
+																			:id => "close_bcast_btn") %>
+												<%= link_to_function(image_tag("/images/ttb/button_details.odd.gif"), 
+																	"GuestResponse.openBroadcastEmail();", 
+																	:id => "open_bcast_btn") %>
+										</td>
+								<% end %>
+								
+								
+							
+							</tr>
+                            <tr class="details_row" id="broadcast_form" style="display: none;" >
+	                               
+									<td colspan="2" id="broadcast_form_td" >
+									   	<div id="send_broadcast">
+										<%= form_remote_tag(:url => send_broadcast_message_url, 
+															:loading => "Element.hide('bcast_form_fields'); Element.show('bcast_spinner');") %>
+											<%= hidden_field_tag('broadcast_message[invitation_id]', @invitation.id) %>
+											<%= hidden_field_tag('meeting_id', @meeting.id) %>
+										    <% attending_members = @meeting.attending_members; not_attending_members = @meeting.not_attending_members %>
+											<div class="details_left">
+												<h4> SEND TO: </h4>
+												<div class="bcast_recipients">
+											   		<div class="choice"><%= radio_button_tag('broadcast_recipients', 'all', true) %> 
+															<p class="choice_text">All guests listed on this page.</p>
+													</div>
+											   		<div class="choice"><%= radio_button_tag('broadcast_recipients', 'approved', false, :disabled =>  attending_members.blank?) %> 
+														<div class="choice_text">
+															<% if @meeting.expired? %>
+																Only guests who attended.
+															<% else %>
+																Only attending guests. 
+															<% end %>
+														</div>
+													</div>
+											   		<div class="choice"><%= radio_button_tag('broadcast_recipients', 'unapproved', false, :disabled => not_attending_members.blank?) %> 
+														<div class="choice_text">
+															<% if @meeting.expired? %>
+																Only guests I declined or did not approve.
+															<% else %>
+																Only guests who I have declined or not approved yet.
+															<% end %>
+														</div>
+													</div>
+												</div>
+											</div>
+										
+											<div class="details_right" id="bcast_form_fields">
+											   <h4>MESSAGE</h4>
+												<%= text_area_tag('broadcast_message[body]',  nil, :id => 'broadcast_box') %>
+												<div class="details_buttons_bar">
+								   	 	   		 		<%= send_submit() %>
+								   	 	   		 	<%= link_to_function(button_image('cancel', :class => 'cancel_button'), "GuestResponse.closeBroadcastEmail();") %>
+								   	 	   		 </div>
+											</div>
+
+											<div class="details_right" id="bcast_spinner" style="display: none;">
+												<%= image_tag('/images/ttb/spinner.guest_response.gif', :style => 'margin-left: 100px; margin-top: 20px;') %>
+											</div>
+									     </form>
+							   	     	</div>
+										<div id="broadcast_results" style="display:none;">  </div>
+									</td>
+                             </tr>
+                   </tbody>		
+	           </table>
+	</div>
+	
+	<div id="invite_details">
+		  <%= link_to '&laquo; Back to invite details',
+			:controller => 'invitations',
+			:action => 'show',
+			:id => @invitation %>
+	</div>
+</div>

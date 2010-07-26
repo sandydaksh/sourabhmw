@@ -1,0 +1,54 @@
+<div class="pwidget" id="new_profile_widget" style="display: none;">
+	
+	<div class="header">
+		<h3>NEW PROFILE BOX</h3>
+		<h5><%= link_to_function('CANCEL', 'cancelNewProfileWidget();', :class => 'pcancel') %></h5>
+	</div>
+	<div class="edit title">
+		<p class="new_widget_instructions">Choose a name for your profile box.  For example, <b>MY FAVORITE MOVIES</b> or <b>PLACES I'VE BEEN</b>.</p>
+		<% form_remote_tag(:url => {:action => 'add_new_profile_widget'}) do -%>
+			<p id="box_name">
+				<label>BOX NAME:</label>
+				<%= text_field_tag("new_profile_widget[title]", '', :class => 'txt title', :maxlength => "18") %>
+			</p>
+
+                   <%=  widget_buttons_new("cancelNewProfileWidget();") %>
+
+		<% end %>
+	</div>
+</div>
+
+<div class="pwidget" id="new_html_widget" style="display: none;">
+	
+	<div class="header">
+		<h3>NEW HTML BOX</h3>
+		<h5><%= link_to_function('CANCEL', 'cancelNewHTMLWidget();', :class => 'pcancel') %></h5>
+	</div>
+	<div class="edit title">
+		<p class="new_widget_instructions">With an HTML box, you can enter content from other sites.  
+			For example, you can paste an iframe with your latest Flickr pictures, or an RSS feed of your latest blog posts.  
+			Just enter some HTML in the box below and click save. <b>Note:</b> Unsafe code will be stripped.  
+			For a list of allowed tags, <%= link_to('click here.', '#', :target => 'allowed_tags')%>
+			
+		<% form_tag(:action => 'add_new_profile_widget_html', :class => 'compact_accessible') do -%>
+			<p id="box_name">
+				<label>BOX NAME:</label>
+				<%= text_field_tag("new_profile_widget[title]", '', :class => 'txt title', :maxlength => "18") %>
+			</p>
+			<div class="compact_accessible_wrap">
+			  <p id="html_content">
+			    <label for="new_profile_widget[html]" class="overlabel">Paste your HTML code here...</label>
+			 	<%= text_area_tag("new_profile_widget[html]", '', :class => 'txt title', :id => "new_profile_widget[html]") %>
+			  </p>
+			</div>
+
+			<div class="buttons">
+			  <%= button_image_save('save_small') %>
+				<%= link_to_function(button_image_cancel('cancel_small'), "cancelNewHTMLWidget();") %>
+			</div>
+		<% end %>
+	</div>
+</div>
+<script type="text/javascript"> 
+     setTimeout(initOverLabels, 50);
+</script>

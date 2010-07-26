@@ -1,0 +1,10 @@
+Re: Your changes '<%= @invitation.name %>'
+
+<%= "#{@invitee_name.capitalize_each_word} #{invited_as(@confirmation)}" %> has accepted the updates to this invitation<%= @occurrence %>. 
+
+<%= message_txt(@invitee_name, @message) %>
+
+You can view the details of your invitation by following this link:
+  <%= @url %>
+
+<%= brought_to_you_by_txt %>

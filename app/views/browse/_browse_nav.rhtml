@@ -1,0 +1,12 @@
+<div class="subnav">
+  <div class="subnav_myinvites">
+    <ul>
+      <%= content_tag('li', link_to('Upcoming Invites',   upcoming_url), :class =>  browse_class(:upcoming)) %>
+      <%= content_tag('li', link_to('Advanced Search',    ssearch_url),  :class =>  browse_class(:search)) %>  
+      <%= content_tag('li', link_to('Map',    map_url),  :class =>  browse_class(:map)) %>      
+    
+    </ul>				
+  </div>
+</div>
+
+

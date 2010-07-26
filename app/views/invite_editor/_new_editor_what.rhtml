@@ -1,0 +1,76 @@
+      <tr>
+        <td colspan="2">
+        	<div style="width:940px; float:left;">
+            		<div style="width:300px; float:left;"><p class="form-meet"><img src="/images/newdesign/create-form-meet.jpg" width="268" height="29" /></p></div>
+                    <div style="width:640px; float:left;"><p style="padding-left:450px;"><a href="javascript:void(0);" class="howitworksnew" onclick="document.getElementById('how').style.display='block';document.getElementById('fade_how').style.display='block'" >How MeetingWave Works &raquo;</a></p></div>
+            </div>
+        </td>
+      
+      </tr>   
+      <tr>
+        <td width="247" valign="top"><p class="label-create">&nbsp;</p></td>
+        <td width="693"><p><%= content_tag('div', flash[:notice], :id => 'flash') unless flash[:notice].blank? %></p></td>
+      </tr>
+
+      <tr>
+        <td width="247" valign="top"><p class="label-create">&nbsp;</p></td>
+        <td width="693"><p><%= error_messages_for('invitation', :header => '', :attributes_order => [:name, :description, :activity_id, :minimum_invitees, :maximum_invitees]) %>
+          </p></td>
+      </tr>
+      
+      <tr>
+        <td width="247" valign="top"><p class="label-create">Meeting Type</p></td>
+        <td width="693"><p>
+        				<% if @invitation %>
+                                                <% cache("editor/activity/#{@invitation.activity_id || "none"}" )do %>
+						   <%= select 'invitation', 'activity_id', Activity::ACTIVITY_OPTS, :prompt => true, :class => 'select' %>
+                                                <% end %>
+                        <% end %>
+          </p></td>
+      </tr>
+      <tr>
+        <td colspan="2" height="20">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top"><p class="label-create">Meeting Name</p></td>
+        <td><p>
+            <%= text_field 'invitation', 'name',:maxlength => "50", :class => 'meeting-box'  %>
+            <span class="charnum">37 / 50 max</span></p></td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="top" height="20">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top"><p class="label-create">Description</p></td>
+        <td><p>
+            <%= text_area 'invitation', 'description', :value =>'Interested in meeting with those having similar Meeting Interests (see my profile).
+Please create a MeetingWave profile with one or more verified email domains (e.g. , @ibm.com or @yale.edu) before accepting this invite. Time/location flexible.',:cols => 55, :rows => 5, :class => 'desbox',:style =>'color:#AAAAAA',:onClick =>"return remove_defalt_description()",:onBlur=>"return fill_defalt_description()" %>
+          </p></td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="top" height="20">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top"><p class="label-create">Invitees</p></td>
+        <td><table width="400" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td>
+              <p>
+                <div style="float:left;">&nbsp;<span class="charnum">Min</span>
+                    <%= text_field 'invitation', 'minimum_invitees',:size => "10",:class => "small-meeting-box"  %> 
+                </div>       
+                
+                <div style="float:left;"><span class="charnum">Max</span>
+                	<%= text_field 'invitation', 'maximum_invitees',:size => "10",:class => "small-meeting-box"  %> 
+                </div>
+              </p>
+              </td>
+              <td width="18">&nbsp;</td>
+              <td width="95">&nbsp;</td>
+            </tr>
+          </table></td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="top" height="20">&nbsp;</td>
+      </tr>
+<%= render :partial => 'shared/how_it_works' %>

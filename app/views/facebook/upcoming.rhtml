@@ -1,0 +1,23 @@
+<%= inline_stylesheet('facebook/invite_list.css') %>     
+<style>
+   h3.upcoming {
+	margin:5px;
+	font-size:12px;
+}    
+ h2.upcoming {
+	margin:10px;
+	font-size:15px;
+}
+</style>
+
+
+<% if(@geoip_loc) %>
+	<h3 class="upcoming">UPCOMING INVITES NEAR</h3> <%= content_tag("h2"," #{[@geoip_loc.city,@geoip_loc.state,@geoip_loc.country].reject(&:blank?).join(",") }", :class => 'upcoming') %>   
+	<% else %>  
+	<h2 class="upcoming">UPCOMING INVITES</h2>   
+	
+	 <% end %>
+<div class="invite_list" style="margin:10px;">
+	<%= render :partial => 'invite_list' %>
+</div>
+

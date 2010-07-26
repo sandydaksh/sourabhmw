@@ -1,0 +1,13 @@
+<h1><%= link_to("Admin", admin_url) %> > Location Names/Aliases </h1>
+
+<div id="step1" class="locationsform">
+  <h2>Almost Done: Now it's time to re-index related Invites</h2>
+  <p>You have successufly added the alias <%= @alias %> for <%= @zip_code.city %>, <%= @zip_code.state %>. 
+  There are <strong><%= @invitations.size %> Invites</strong> that will need to be re-indexed.  This might take a few minutes.
+  Click the OK button to start re-indexing...
+  <%= form_tag( :controller => "admin/locations", :action => "alias_added") %>
+  <%= hidden_field_tag('alias', @alias) %>
+  <%= hidden_field_tag('id', @zip_code.id) %>
+    <div class="onelineform clearfix"> <%= ibutton('ok', :class => 'btn') %> </div>
+  </form>
+</div>

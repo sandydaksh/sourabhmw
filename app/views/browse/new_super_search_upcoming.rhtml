@@ -1,0 +1,406 @@
+
+
+<script type="text/javascript">
+function facetoface()
+{
+if(document.getElementById("faf").checked==true)
+{
+if(document.getElementById("facetoface").style.display=="none")
+{
+document.getElementById("facetoface").style.display="inline";
+document.getElementById('checked_locat').value='1';
+}
+else
+{
+
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+}
+else
+{
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+
+}
+
+function vcheckuncheck()
+{
+ if(document.getElementById('vcheck').checked)
+ {
+    document.getElementById("virtual_f").value='v_flag';
+    document.getElementById("vcheck").value='on';
+ }
+ else
+ {
+    document.getElementById("virtual_f").value='0'; 
+ }      
+}
+
+function romancecheck()
+{
+ if(document.getElementById('rom').checked)
+ {
+    document.getElementById("romance").value='19';
+ }
+ else
+ {
+    document.getElementById("romance").value='0'; 
+ }      
+}
+
+
+function npcheckuncheck()
+{
+ if(document.getElementById('npcheck').checked)
+ {
+    document.getElementById("preference_flag").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag").value=''; 
+ }      
+}
+
+
+function npcheckuncheck1()
+{
+ if(document.getElementById('preference').checked)
+ {
+    document.getElementById("preference_flag1").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag1").value=''; 
+ }      
+}
+
+</script>
+
+      
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+    <div id="top-bg-new">&nbsp;</div>  
+    <div>
+    <table width="995" border="0" cellspacing="0" cellpadding="0" align="center">
+      <td width="685" valign="top"><!-- Left panel start-->
+          <table width="685" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top" colspan="2"><div style="width:635px; margin:0 0 0 50px;">
+              <h4 id="my_location" class="location" ><%= formatted_geoip_loc %></h4>
+              <h5 class="change"><a href="#" style="color: #155E8D;" id="change_location" >Change</a>(Please enter country name with state zip)</h5>
+			  <%= javascript_tag('new Ajax.InPlaceEditor("my_location", "/browse/set_location", { externalControl:"change_location", htmlResponse:false, savingText:"Finding Invites..."  });') %></div></td>
+            </tr>
+            <tr>
+              <td valign="top" width="522">
+              <div class="feed_stuff right" style="position:relative;">
+                  <div id="search_config" style="display: none;"> </div> 
+              </div>
+              <!--<p class="searh-heading">Why not create a <span><a href="#" class="search-meeting">Business Networking</a></span> meeting in <span class="search-code">80211</span>?</p>-->
+              <div style="width:522px; float:left;">
+              <div style="width:182px; float:left;">  
+             <% if logged_in? %>
+         	 <%= link_to_remote(image_tag('meetingwave/buttons/meeting_alerts.gif',:style=>"margin:35px 0 0 48px;",:width=>"90",:height=>"35"), 
+                             {:url => {:controller => :saved_searches, :action =>  :email_widget}.merge( @search_filter.to_params),  
+                               :update => "search_config", 
+                               :complete => "$('search_config').appear();"}, 
+                               :id => "meeting_alerts_button" ) %>
+			 <% else %>
+           	  &nbsp;
+             <% end %></div>
+            
+             <div style="width:340px; float:left;"><% con = "?" if !params[:what].blank? && params[:where].blank? %>
+                <% if !params[:where].blank? && params[:what].blank? %>
+                <% loc = "near "%>
+                <% elsif !params[:where].blank? && !params[:what].blank? %>
+                <% loc = "near "%>
+                <% end %>
+				<% if params[:where].blank? && params[:what].blank?%>
+					<% var = "?" %>
+                <% end %>                 
+                <p class="searh-heading">Why not create a meeting <span><a href="#" class="search-meeting"><%='"'+ params[:what] + '"' + "#{con}" if !params[:what].blank? %></a></span> <%= loc %><span class="search-code"><%= params[:where]+'"'+"?" if !params[:where].blank? %></span><%= var %></p>
+                </div>
+             </div>                             
+             </td>
+                              
+             <td width="163"><p><a href="/post_invite/new_create" onmouseover="document.but.src='/images/newdesign/search_images/search-create-over.jpg'" onmouseout="document.but.src='/images/newdesign/search_images/search-create.jpg'" ><img src="/images/newdesign/search_images/search-create.jpg" name="but" width="134" height="35" style="margin:36px 0 0 0;" border="0"/></a></p>              </td>           
+               </tr>
+            
+            <tr>
+              <td colspan="2">
+                <div style="padding:0pt 0pt 0pt 490px;">
+                 <a href="javascript:void(0);" class="howitworksnew" onclick="document.getElementById('how').style.display='block';document.getElementById('fade_how').style.display='block'" >How MeetingWave Works &raquo;</a>                  </div>                </td>
+            </tr>
+            
+            
+            <tr>
+              <td colspan="2"></td>
+            </tr>
+            <tr>
+              <td colspan="2"><!--start-pagination-->
+                <div class="pagination-pannel">
+                  <div  class="pageleft">
+                    <p><img src="/images/newdesign/search_images/result-heading.jpg" border="0" width="108" height="15" /></p>
+                  </div>
+                  <!--div class="pagebar">
+                    <p style="text-align:center;">|</p>
+                  </div-->
+                  <% if !@invitations.nil? && !@invitations.blank? %>
+                  <div class="pagemiddle" style="width: 105px; padding-left:5px;">
+                    <p class="searchresultcount" style="font-size:11px;">(<%= @invitations.total_entries %> <% if !@invitations.nil? && @invitations.length > 1 %>results<% else %>result<% end %> found.)</p>
+                  </div>
+                  <% end %>
+                  <!--div class="pagearrow">
+                    <p><img src="/images/newdesign/search_images/arrow-down.jpg" border="0" width="10" height="8" /></p>
+                  </div-->
+                  <div class="pagenumber">
+				       <%= will_paginate(@invitations, :params => (@search_filter.to_params rescue {} )) if !@invitations.nil? && @invitations.length > 0 %>				    </div>
+                  </div>
+                <div style="border-bottom:1px dotted #989898; margin:4px 0 10px 50px;">&nbsp;</div>
+                <!--end  pagingation-->                </td>
+            </tr>
+            <tr>
+              <td colspan="2" ><table width="618" border="0" cellspacing="0" cellpadding="0" style="margin:0 0 0 50px;" >
+                  <% if !@invitations.nil? && !@invitations.blank? %>
+                  <% @invitations.each do | meeting |  %>
+                  <% if !meeting.nil? %>
+                  <tr>
+                    <td colspan="3"><div class="head-left">
+                    <%=flash.now[:notice]%></p>
+                        <p class="searheadtext"><%= link_to(truncate(meeting.invitation.name, 50), show_invite_url(:id => meeting.invitation), :alt => meeting.invitation.name, :title => meeting.invitation.name, :class => "searheadtext") %></p>
+                      </div>
+                      <!-- <div class="head-right">
+                        <p><a href="#" class="hidetext">Hide</a> <span class="cross">x</span></p>
+                      </div>-->                      
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <!--left-pannel start-->
+                      <%= render :partial => "browse/hidden_profile",:locals => {:meeting => meeting} %>
+                      <!--left-pannel End-->
+                    </td>
+
+                    <td valign="top">
+                        <!--Middle-pannel start-->
+						<%= render :partial => "browse/search_middle",:locals => {:meeting => meeting} %>                          
+                        <!--Middle-pannel end-->                    
+                    </td>
+                    
+                    <td valign="top">
+                      <!--right-pannel start-->
+                      	<%= render :partial => "browse/search_right",:locals => {:meeting => meeting} %>                          	  
+                      <!--right-pannel End-->                    
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3" ><div class="seprator">&nbsp;</div></td>
+                  </tr>
+                  <% end %>
+                  <% end %>
+                  <% else %>
+                  <tr class="even">
+            <td colspan="3">
+              <span style="padding:15px 15px 21px 155px; color:#155E8D; font-size:12px;">There is no result found matched with the searched parameter.</span>            </td>
+          </tr>  
+                  <% end %>
+                </table></td>
+            </tr>
+            
+            <tr>
+              <td colspan="2" ><div class="bottompagpannel">
+                  <!--<div class="resetpannel">
+                    <p class="resettext">Reset: <span class="showhiddenm"><a href="#">Show ALL Hidden Meetings</a></span></p>
+                  </div>-->
+                  <div class="pagebottomright">
+                  <p>
+                  <div class="pagination-pannel1">
+                    <div style="padding-left: 200px;">
+				       <%= will_paginate(@invitations, :params => (@search_filter.to_params rescue {} )) if !@invitations.nil? && @invitations.length > 0 %> 
+				    </div>
+                  </div>
+                  </p>
+                  </div>
+                </div></td>
+            </tr>
+          </table>
+          <!-- End panel start-->
+        </td>
+        <td width="310" valign="top"><!-- search right form start-->
+          <div class="rightform">
+            <div><img src="/images/newdesign/search_images/top-search-right.jpg" border="0" width="299" height="9" style="margin:0 0 -4px 0; >margin:0 0 0 0;"/></div>
+            <div class="rightformbg">
+              <p>
+              <%= form_tag('', :id => 'search_filter', :onsubmit => "postTZoffset(this); window.location.href = '/ssearch?' + Form.serialize(this); return false;") %>
+              <div style="width:280px; background-color:#d3e1ea; margin:0 0 0 19px;">
+                <table width="268" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td colspan="3"><p><img src="/images/newdesign/search_images/search-r-ight-head.jpg" border="0" width="102" height="14" style="margin:0 0 0 3px;" /></p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Meeting Type<br />
+                        <%= activity_new %>
+                      </p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Keyword<br />
+                        <%= keywords %>
+                      </p>
+                      <p class="seasmatext">e.g. iPhone, agile development, green</p></td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Location-limit search by</p></td>
+                  </tr>
+                  <tr>
+                    <td width="16"><p>
+						<input type="checkbox" name="vcheck" id="vcheck" value="" onclick="vcheckuncheck();" style="margin-left:4px; >margin-left:0px;"/>                       
+                        <input type="hidden" value="<% if params[:search_filter].nil? %>v_flag<% else %><%= params[:search_filter][:virtual_f] %><% end %>" id="virtual_f" name="search_filter[virtual_f]">
+                      </p></td>
+                    <td width="162"><p class="firstlabeltext">Virtual Meetings</p></td>
+                    <td width="90">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" height="6"></td>
+                  </tr>
+                 
+                  <tr>
+                    <td><input type="checkbox" id="faf"  onclick="facetoface();" <% if !params[:checked_locat].nil? && params[:checked_locat] == "1" %>checked<% elsif params[:checked_locat].nil? %>checked<% end %> <%= "checked" if !params[:checked_locat].nil? && params[:checked_locat] == "1" %> style="margin-left:4px; >margin-left:0px;"/>
+                    </td>
+                    <td><p class="firstlabeltext">Face-to-Face Meetings...</p></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <input type="hidden" value="<% if params[:checked_locat].nil? %>1<% else %><%= params[:checked_locat] %><% end %>" id="checked_locat" name="checked_locat">
+                  <tr>
+                    <td colspan="3">
+                    <div id="facetoface" <% if params[:checked_locat] == "1" || params[:checked_locat].nil? %>style="display:block;"<% else %>style="display:none;"<% end %>>
+                       <table width="280" border="0">
+                         <tr>
+                          <td>&nbsp;</td>
+                            <td colspan="2"><p class="firstlabeltext">Within<br />
+                                <%= radius %>
+                              </p></td>
+                          </tr>
+                          
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td><p class="firstlabeltext">Zip<br />
+                                <%= zip %>
+                              </p></td>
+                          </tr>
+                          
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td><p class="firstlabeltext">Country<br />
+                                <%= country %>
+                              </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td><p class="firstlabeltext">Specific Location<br />
+                                <%= location %>
+                              </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td><p class="firstlabeltext">State<br />
+                                <%= state %>
+                              </p></td>
+                          </tr>
+                          
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td><p class="firstlabeltext">City<br />
+                                <%= city %>
+                              </p></td>
+                          </tr>
+        
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td><p class="firstlabeltext">Us Airport<br />
+                                <%= airport %>
+                              </p></td>
+                          </tr>
+                        </table>
+
+                    </div>
+                    </td>
+                  </tr>
+                 
+                  <tr>
+                    <td colspan="3"><div style="border-bottom:1px dotted #989898; margin:6px 0 0 0;">&nbsp;</div></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" height="6">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td><p>
+                        <input type="checkbox" name="rom" id="rom" <% if !params[:search_filter].nil? && params[:search_filter][:romance] == "19" %>checked<% elsif params[:search_filter].nil? %>checked<% end %> onclick="romancecheck();" style="margin-left:4px; >margin-left:0px;"/>
+                        <input type="hidden" value="<% if params[:search_filter].nil? %>19<% else %><%= params[:search_filter][:romance] %><% end %>" id="romance" name="search_filter[romance]">
+                        <%= hidden_field 'search_filter', 'client_tz_offset', :value => ''  %>
+                      </p></td>
+                    <td><p class="firstlabeltext">Exclude Romance</p></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  
+                  <%= render :partial => "browse/advanced_opt" %>
+                                    
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="2"><p>
+                         <input type="image" src="/images/newdesign/search_images/search-fm-button.jpg" border="0" width="157" height="42" style="margin:17px 0 0 70px;" onmouseover="this.src= '/images/newdesign/search_images/search-find-meet-btn-over.jpg';" onmouseout="this.src = '/images/newdesign/search_images/search-find-meet-btn.jpg';"/>
+                      </p></td>
+                  </tr>
+                  
+                </table>
+              </div>
+              </form>
+              </p>
+            </div>
+            <div style="float:left; clear:both;"><img src="/images/newdesign/search_images/bottom-search-right.jpg" border="0" width="299" height="10" style=">margin:0 0 0 0; margin:0 0 6px 0;"/></div>
+          </div>
+          <!-- search right form End-->
+        </td>
+      </tr>
+    </table>
+</div>        
+<div id="sub-bottom-mw">&nbsp;</div>
+<div id="bottom-mw">&nbsp;</div>      
+</div>
+</div>
+</div>
+<!-- new create form END-->
+<!-- End-inner-container-->
+</div>
+<!-- End-main-container-->
+
+<%= render :partial => 'shared/signin' %>
+
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<%#= render :partial => 'shared/nospam' %>
+<!--  Advanced Search Popup Code. -->
+<%#= render :partial => 'browse/advanced_search' %>

@@ -1,0 +1,162 @@
+<!--[if IE ]>
+<style type="text/css">
+  #password_field label.overlabel-apply {
+    padding-top: 6px;
+  }
+  input#member_password_header {
+    margin-top: 4px;
+  }
+  #login-button {
+    margin-top:8px;
+  }
+  p#you-decide {
+    margin-top: 50px;
+  }
+  ul#browse-post {
+    margin-top: 20px;
+  }
+  #sub-nav-wrap {
+    margin-top: 6px;
+  }
+  #main-nav-wrap {
+    margin-top: 8px;
+  }
+  #logo-box {
+	  margin-top: 0;
+	  padding-top: 0;
+  }
+  #logo {
+	  margin-top: 5px;
+  }
+</style>
+<![endif]-->
+
+<!--[if lte IE 6 ]>
+<style type="text/css">
+
+  #login-button {
+    margin-top: 6px;
+    float:right;
+  }
+
+  #logo {
+    width: 320px;
+  }
+
+  #browse-sub-nav-wrap {
+    width: 290px;
+  }
+
+  
+
+</style>
+<![endif]-->
+
+
+<!--[if IE 7 ]>
+<style type="text/css">
+
+  input#member_password_header {
+    margin-top: 0px;
+  }
+
+  #password_field label.overlabel-apply {
+    padding-top: 2px;
+  }
+
+.formbit {
+	width: 265px;
+}
+
+.formbit.rightside {
+	margin-left: 0px;
+	padding-left: 15px;
+}
+
+</style>
+<![endif]-->
+
+
+<!--[if gte IE 8 ]>
+<style type="text/css">
+  #password_field label.overlabel-apply {
+    padding-top: 2px;
+  }
+  input#member_password_header {
+    margin-top: 0px;
+  }
+  #login-button {
+    margin-top:8px;
+  }
+  p#you-decide {
+    margin-top: 50px;
+  }
+  ul#browse-post {
+    margin-top: 20px;
+  }
+  #sub-nav-wrap {
+    margin-top: 6px;
+  }
+  #main-nav-wrap {
+    margin-top: 8px;
+  }
+  #logo-box {
+	  margin-top: 0;
+	  padding-top: 0;
+  }
+  #logo {
+	  margin-top: 20px;
+  }
+
+</style>
+<![endif]-->
+<style type="text/css">
+	a#login_using_google_nav {
+		clear: none;
+	}
+</style>
+
+<div id="masthead" class="shortmasthead clearfix">
+  <ul id="administrivia">
+    <li> <%= link_to("About Us", about_url) %>  /</li>  
+    <li> <%= link_to("In the News", in_news_home_url) %>  /</li>  
+    <li> <%= link_to("Features", features_url) %>  /</li> 
+    <li> <%= link_to("Tell a Friend", add_contact_url) %>  /</li>  
+    <li> <%= link_to("MW Blog", news_home_url) %>   /</li>
+    <li> <%= link_to("Safety Tips", safety_url) %>  /</li>  
+    <li> <%= link_to("FAQ", help_url) %>  </li>
+  </ul>
+
+  <div id="logo-box" class="clearfix">
+	  <%= link_to(content_tag('h1', content_tag('span', 'MeetingWave.com'), :id => 'logo'), home_url) %>
+		<div id="login-nav">
+		  <%= form_tag login_url %>
+		    <div id="login-nav-fields">
+				<div class="compact_accessible_wrap" id="email_field" >
+				  <label for="member_email_header" class="overlabel" style="display: none;">email</label>
+				  <%= text_field_tag('member[email]', '', :id => "member_email_header") %>
+				</div>
+				<div class="compact_accessible_wrap" id="password_field" >
+				  <label for="member_password_header" class="overlabel" style="display: none;">password</label>
+				  <%= password_field_tag('member[password]', '', :id => "member_password_header") %>
+				</div>
+			</div>
+			<%= ibutton("login", :id => 'login-button') %>
+		  </form>
+		  <div id="signup-links">
+			  <%= link_to(button_image('forgot_password'), forgot_password_url, :id => 'forgot_password_nav') %>
+			  <%= link_to(button_image('login_using_google_gr'), google_signup_url, :id => "login_using_google_nav") %>
+			  <%= facebook_connect_on_nav  %>
+		  </div>
+		</div>
+  </div>
+
+
+
+    <script type="text/javascript">
+    Event.observe(window, 'load', function() { initOverLabels(); });
+    </script>
+
+
+
+</div>

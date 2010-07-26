@@ -1,0 +1,46 @@
+<%= javascript_include_tag 'confirmation.js' %>
+<% confs = member.confirmations_for(meeting.invitation) %>
+<script type="text/javascript">
+  var INVITE_ID = <%= meeting.invitation.id %>;
+  var CONFIRMATIONS = new Object();
+  var CONFIRMATIONS_BY_DATE = new Object();
+  var INVITED = <%= member.invited_to(meeting.invitation).to_s %>;
+  var NEXT_ROW_CLASS = "<%= confs.size % 2 == 0 ? 'odd' : 'even' %>";
+  var c;
+  <% confs.each do |conf| %>
+	ConfirmationUtils.defineNewConfirmation( '<%= conf.id %>', '<%= conf.status.simple_name %>', <%= js_date(conf.meeting.start_time_local) %>, <%= conf.meeting_id %>, false );
+  <% end %>
+  var BUTTONS = new Object();                               
+  BUTTONS['accept']    = '<%= esc(accept_on())         %>';
+  BUTTONS['decline']   = '<%= esc(decline_on())        %>';
+  BUTTONS['watch']     = '<%= esc(watch_on(nil, member))  %>';
+  BUTTONS['request']   = '<%= esc(attend_on())         %>';
+  BUTTONS['accepted']  = '<%= esc(accept_off)                    %>';
+  BUTTONS['declined']  = '<%= esc(decline_off)                   %>';
+  BUTTONS['watching']  = '<%= esc(watch_off)                     %>';
+  BUTTONS['requested'] = '<%= esc(attend_off)                    %>';
+  
+                            
+</script>
+
+	<div id="recurring_confirmed"  style="display: <%= confs.blank? ? 'none' : 'block' %> ;">
+	<!--h3>DATES YOU RESPONDED TO</h3-->
+	<table cellpadding="0" cellspacing="0" width="245" id="recurring_confirmed_table">
+		<thead> <tr> <th>Date</th> <th>Your Status</th> </tr> </thead>
+		<tbody>
+			<% confs.each do |conf| %>
+				<tr id="<%= js_conf_id(conf) %>"  class="<%= cycle('odd', 'even') %>"  >
+					<td>
+						<p class="savetext"><%= link_to(sh_date_yr(conf.meeting.start_time_local), show_invite_url(:id => conf.invitation_id, :meeting_id => conf.meeting_id))  %></p>
+					</td>
+					
+					<td>
+						<p class="savetext"><%= link_to(conf.status.simple_name, show_invite_url(:id => conf.invitation_id, :meeting_id => conf.meeting_id)) %></p>
+					</td>
+				
+				</tr>
+			<% end %>
+			<tr id='blankrow'> <td> </td> <td> </td></tr>
+		 </tbody>
+		</table>
+</div>

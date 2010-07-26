@@ -1,0 +1,47 @@
+<div id="entire_pic">
+  <div id="pic">
+    <%= image_tag(pic_url(picture), :width => picture.full_width, :height => picture.full_height, :id => "profile_image") %>
+  </div>
+  <div id="spinner" style="display: none; width: <%= picture.full_width %>px; height: <%= picture.full_height %>px;">
+    <%= image_tag('/images/ttb/spinner-white.gif', :style => "margin-left: #{picture.full_width/2}px; margin-top: #{picture.full_height/2}px;")%>
+  </div>
+  <div class="button_bar" style=" width: <%= @picture.full_width %>px;" >
+    <h3 class="nomargin rotate_left">
+      <%= link_to_remote("ROTATE LEFT", 
+                                :url => rotate_url(:dir => 'left'), 
+                                :loading => '$("pic").hide(); $("spinner").show();') %> 
+    </h3>
+    <h3 class="nomargin rotate_right">
+      <%= link_to_remote("ROTATE RIGHT", 
+                                :url => rotate_url(:dir => 'right'), 
+                                :loading => '$("pic").hide(); $("spinner").show();') %> 
+    </h3>
+    <br style="clear: both;" />
+    <%= form_tag(save_crop_url) %>
+      <input type="hidden" id="x1" name="geometry[left]" value="XXX"/> 
+      <input type="hidden" id="y1" name="geometry[top]" value="XXX"/> 
+      <input type="hidden" id="width" name="geometry[width]" value="XXX"/> 
+      <input type="hidden" id="height" name="geometry[height]" value="XXX"/> 
+      <%= image_submit_tag("/images/meetingwave/buttons/crop_new.gif",:border => 0,:style=>"padding-top:5px;",:onmouseover=>"this.src= '/images/meetingwave/buttons/crop_new-over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/crop_new.gif';") %>
+      <%#= ibutton("crop", :class => "crop_button") %> 
+    </form>
+  </div>
+</div>	
+<script type="text/javascript" language="javascript">
+  function onEndCrop( coords, dimensions ) {
+    $( 'x1' ).value = coords.x1;
+    $( 'y1' ).value = coords.y1;
+    $( 'width' ).value = dimensions.width;
+    $( 'height' ).value = dimensions.height;
+  }
+  new Cropper.Img( 'profile_image', {   ratioDim: { x: 155, y: 155 }, displayOnInit: true, onEndCrop: onEndCrop });
+
+</script>
+
+
+
+
+
+
+
+

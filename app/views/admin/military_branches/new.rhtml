@@ -1,0 +1,8 @@
+<h1>New military_branch</h1>
+
+<%= form_tag :action => 'create' %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag("Create", { :class => "submit-button" }) %>
+</form>
+
+<%= link_to 'Back', :action => 'list' %>

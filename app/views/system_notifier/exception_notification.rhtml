@@ -1,0 +1,36 @@
+<% require 'pp' -%> 
+A <%= @exception.class %> occurred in 
+<%= @controller.controller_name %>#<%= @controller.action_name %>: 
+<%= @exception.message %> <%= @backtrace.first %> 
+------------------------------- 
+Request information: 
+------------------------------- 
+* URL: <%= @request.protocol %><%= @host %><%= @request.request_uri %> 
+* Parameters: <%= @request.parameters.inspect %> 
+* Rails root: <%= @rails_root %> 
+------------------------------- 
+
+Short execution backtrace: 
+------------------------------- 
+<%= @backtrace.reject{|line| line.match(/gems|newrelic/) }[0..25].join "\n " %> 
+
+
+Environment: 
+------------------------------- 
+<% for key, value in @request.env -%> 
+* <%= key %>: <%= value.to_s.strip %> 
+<% end -%> 
+------------------------------- 
+
+Session dump: 
+------------------------------- 
+<% for variable in @request.session.instance_variables -%> 
+<% next if variable =~ /^@db/ -%> 
+* <%= variable %>: 
+<%= @request.session.instance_variable_get(variable).to_s.gsub(/\n/, "\n ").strip %> 
+<% end -%> 
+------------------------------- 
+
+Full execution backtrace: 
+------------------------------- 
+<%= @backtrace.join "\n " %> 

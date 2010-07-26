@@ -1,0 +1,20 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Reminder for: #{@invitation.name}") %>
+
+<%= open_body %>
+
+  <%= open_highlight %>
+      This is a friendly reminder that <%= @invitation.name %> will take place on <span style="color: #d47d20; text-decoration: underline;">
+		<%= @invitation.upcoming_meeting.start_time_local.strftime("%A, %B %d at %I:%M %p") %></span>.
+  <%= close_highlight %>
+
+  <p> You can view the details for this meeting using the button below.  </p>
+
+<%= close_body %>
+
+<%= invitation_button(@url) %>
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

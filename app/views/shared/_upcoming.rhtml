@@ -1,0 +1,14 @@
+
+
+<h3>UPCOMING INVITES NEAR...</h3>
+<div class="clearfix">
+  <h4 id="my_location" class="location"><%= formatted_geoip_loc %></h4>
+	<div class="feed_stuff">
+	<%= link_to(image_tag('/images/ttb/feed.gif', :class => 'feed_icon'), ssearch_url(feed_params()), :id => 'my_location_feed') %>
+		<%= link_to('&laquo; What\'s this?', feeds_url) %>
+	</div>
+</div>
+<h5><a href="#" id="change_location">Change</a></h5>
+<%= javascript_tag('new Ajax.InPlaceEditor("my_location", "/set_location", { externalControl:"change_location", htmlResponse:false, savingText:"Finding Invites..." });') %>
+
+<%= render :partial => 'shared/upcoming_invitations' %>

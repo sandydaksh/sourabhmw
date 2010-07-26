@@ -1,0 +1,36 @@
+<link rel="stylesheet" type="text/css" href="/stylesheets/meetinwavenew/signup/loginpopup.css" />
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<%# cache(CachingObserver.map_page_key(params), CachingObserver.map_page_ttl) do %>
+<% map_page_map(:map_lat => 40, :map_lon => -104, :map_level => 2) %>
+ 
+    <%= GMap.header(:host => request.host) %>  
+    <%= javascript_include_tag(:defaults, :cache => "cached/defaults") %>   
+    <%= map_javascripts %>
+      <%= @map.to_html %>
+      <div style="position:relative;top:0px;left:36px;">     
+      <%= @map.div(:width => "923", :height => @height, :inner_html => marker_control) %>     
+      
+     <%= marker_control %>    
+     </div>
+
+  <%#end%>
+  
+<div class="white-logo">
+	<%= link_to(image_tag("/images/meetingwave/candy/how_for_who.gif"), home_url, :id => "bottom-logo") %>
+</div>
+  
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+<% if !current_member %>
+	<%= render :partial => 'shared/signin' %>
+    <%= render :partial => 'shared/how_it_works' %>
+    <%= render :partial => 'shared/about' %>
+<% end %>

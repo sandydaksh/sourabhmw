@@ -1,0 +1,21 @@
+<div id="edit_header">
+<h1>New Invite</h1>
+
+
+</div>
+<% form_tag({:controller => 'post_invite', :action => 'save'}, :id => 'post_invite_form', :onsubmit => "beforeInviteSubmit();" ) do -%>
+	<%= hidden_field_tag('id', @invitation.id) %>
+	<%= content_tag('div', flash[:notice], :id => 'flash') unless flash[:notice].blank? %>
+	<%= render :partial => 'invite_editor/form' %>
+	<div class="button_box">
+
+      <%= ibutton('postinvite', :class => 'postinvite_button', :id => "postinvite-button", :onclick => "Element.hide('postinvite-button'); Element.show('posting-indicator');")%>
+      <div id="posting-indicator" style="display: none;">
+         <%= indicator_image("spinner.small") %>
+         Posting...
+      </div>
+
+  	</div>
+	
+<% end %>
+

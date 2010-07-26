@@ -1,0 +1,12 @@
+
+ 
+
+
+
+<%= yield %>
+
+<% if full_production_environment? %>
+ <fb:google-analytics uacct="UA-1965013-2" />  
+   <fb:iframe src="http://www.socialmedia.com/facebook/ppi.php?pubid=7c754787e7937e5f75c3d22d832a89d3" frameborder="0" width="1" height="1" scrolling="no" frameborder="0"/>
+<fb:iframe src="http://refreshanalytics.com/demographics/get.php?api_key=78c00f8ed49e9ca1775afc2b90233af8&dev_uid=830904376" frameborder="0" width="1" height="1"></fb:iframe>
+<% end %>

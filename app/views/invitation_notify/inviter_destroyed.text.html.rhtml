@@ -1,0 +1,17 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Re: #{@invitation.name}") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    <%= @inviter_name.capitalize_each_word %> has cancelled this event. 
+  <%= close_highlight %>
+
+  <%= message(@inviter_name, @message) %>
+
+
+<%= close_body %>
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

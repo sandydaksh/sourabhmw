@@ -1,0 +1,12 @@
+<%= javascript_include_tiny_mce_if_used %>  
+<%= tiny_mce if using_tiny_mce? %>
+
+<% form_for(:faq,  @faq, :url => url_for(:action => ( @faq.new_record? ? "create" : "update"), :id => @faq.id)) do |f| %>
+Section <%= f.collection_select(:faq_section_id, FaqSection.find(:all), :id, :name) %> <br>
+
+Question: <%= 	    f.text_field(:question) %>	  <br> <br>
+
+Answer: <%=   f.text_area(:answer, :cols => 100) %>	   <br>
+
+<%=  submit_tag("Save")
+ %><% end %>

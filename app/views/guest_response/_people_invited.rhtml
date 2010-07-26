@@ -1,0 +1,68 @@
+<div id="people_invited" class="widgetinvites guest_responses"<%= ' style="display:none"' if @meeting.invited_not_attending.size.zero? %>>
+	<h3 class="sectionhead">PEOPLE YOU'VE INVITED</h3>
+	<table summary="guest_responses">
+		<thead>
+			<tr>
+				<th scope="col" id="guest_responses_1">Invitee</th>
+				<th scope="col" id="guest_responses_2">Response</th>
+				<th scope="col" id="guest_responses_3">Comments</th>
+				<th scope="col" id="guest_responses_4"> </th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @meeting.invited_not_attending.each_with_index do |person, idx| %>
+				<% row_class = ((idx % 2 == 0) ? "odd" : "even") %>
+
+				<% if person.is_a?(Member) %>
+					<!-- MEMBER -->
+					<% conf = person.confirmation_for(@meeting) %>
+
+					<tr class="<%= row_class %>" id="conf_<%= person.id %>">
+						<td class="username" style="<%= bg_for_row(person, row_class) %>">
+							<%= toggle_row(person.user_name, person.id) %> 
+                            <p class="member_stats"> <%= truncate(person.fullname.capitalize_each_word) %> </p>
+						</td>
+
+						<td class="status"> 
+							<%= response_for(conf) %> 
+						</td>
+
+						<td class="comment">      					  
+							<%= most_recent_msg_txt(@meeting, viewer, person) %>
+						</td>
+						<td class="close">
+							<%= open_button(person.id, row_class) %>
+							<%= close_button(person.id, row_class) %>
+						</td>
+					</tr>
+
+					<tr id="details_<%= person.id %>" class="details_row" style="display: none; ">
+						<td colspan="4"> 
+
+							<div class="details_left">
+							<%= render :partial => 'profile_snippet', :locals => { :member => person } %>
+							</div>
+
+							<div class="details_right">
+							<%= render :partial => 'message_thread', :locals => { :past_messages => @meeting.messages_for_conversation(@meeting.invitation.inviter, person), :inviter => @meeting.invitation.inviter } %>
+							<br/>
+							<%= render :partial => 'simple_message', :locals => { :member => person } %>
+							</div>
+
+						</td>
+					</tr>
+				<% else %>
+					<!-- NON-MEMBER -->
+					<tr class="<%= row_class %>">
+						<td class="nonmember" style="<%= bg_for_row(person, row_class) %>">
+							<%= person.email %> 
+						</td>
+						<td class="status" colspan="3"> 
+							Invited <span style="font-style: italic;">(not a member yet)</span>
+						</td>
+					</tr>
+				<% end %>
+			<% end %>
+		</tbody>		
+	</table>	
+</div>

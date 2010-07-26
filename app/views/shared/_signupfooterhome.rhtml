@@ -1,0 +1,109 @@
+<!--<div id="footer_new"  style="background-color:#E8F2DA; display:inline-block; margin:0 0 0 195px;">-->
+<div id="footer_new">
+    <table width="874" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="9" height="19"></td>
+    </tr>
+  <tr>
+    <td width="156"><ul id="navbarwave">
+	<li id="navbarwave-wave"><%= link_to("", aboutus_url) %><span>meetingwave</span></li>
+    </ul>   </td>
+    <td width="65">&nbsp;</td>
+    <td width="135"><ul id="navbarhow">
+	<li id="navbarhow-how"><%= link_to("", howitwork_url) %><span>How IT Works</span></li>
+    </ul></td>
+    <td  width="65">&nbsp;</td>
+    <td width="124"><ul id="navbarmeet">
+	<li id="navbarmeet-meet"><%= link_to("", 'browse') %><span>Meet locally</span></li>
+    </ul></td>
+     <td width="65">&nbsp;</td>
+    <td width="112">&nbsp;</td>
+    <td width="59">&nbsp;</td>
+    <td width="93">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="9" height="3"></td>
+    </tr>
+  <tr>
+    <td valign="top">
+    <ul>
+    <li class="country"><%= link_to("About Us", aboutus_url) %></li>
+    <li class="country"><%= link_to("In the News", in_news_home_url) %></li>
+    <li class="country"><%= link_to("FAQ", help_url) %></li>
+    <li class="country"><%= link_to("Contact Us", contact_static_url) %></li>
+    <li class="country"><%= link_to("Terms & Conditions", tos_url) %></li>
+    <li class="country"><%= link_to("Privacy", pp_url) %></li>
+    </ul>    
+	</td>
+    <td>&nbsp;</td>
+	
+    <td valign="top" >
+    <ul>
+    <li class="country"><%= link_to("MW Blog", news_home_url) %></li>
+    <li class="country"><%= link_to("Features", features_url) %></li>
+    <li class="country"><%= link_to("Your Safety", safety_url) %></li>
+    <li class="country"><%= link_to("Business Networking", land_biz_networking_url ) %></li>
+    <li class="country"><%= link_to("Meet People", land_meet_people_url ) %></li>
+    <li class="country"><%= link_to("Meeting People", land_meeting_people_url ) %></li>
+    </ul>
+	</td>
+     <td>&nbsp;</td>
+    <td valign="top"> 
+	<%= metro_area_list_home([metro_area_names1, country_names1].flatten) %>
+	</td>
+    <td>&nbsp;</td>
+	<td valign="top"> 
+	<%= metro_area_list_home2([metro_area_names_home2, country_names_home2].flatten) %>
+	</td>
+	<td>&nbsp;</td>
+	<td valign="top"> 
+	<%= metro_area_list_home3([metro_area_names_home3, country_names_home3].flatten) %>
+	<ul>
+    <li class="country"><%= link_to("See all", seeall_url) %></li>
+	</ul>
+	</td>
+	
+  </tr>
+  
+  <tr>
+    <td colspan="9">
+	
+	<% if @viewer and @viewer.administrator? %>
+			 <%= link_to("Admin", admin_url)%>
+		<% end %>
+		<% if session[:user_selected_classic] %>
+		  <%= link_to('Return to Mobile Version', url_for(:controller => 'invitations', :action => 'set_mobile'), :style => "color: red; font-weight: bold;") %>
+		<% end %>
+		
+		</td>
+    </tr>
+  
+  
+  
+  
+  
+  <tr>
+    <td colspan="9"><p class="copyright">Copyright &copy; 2007-2009 TTB Technologies, LLC</p></td>
+    </tr>
+</table>
+
+
+
+
+
+
+  
+  
+  
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1965013-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</div>  
+
+

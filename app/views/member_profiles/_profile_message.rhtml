@@ -1,0 +1,19 @@
+
+			<% if params[:just] == 'posted' %>
+				<div class="fillprofile">
+					<p><span class="orange">Great!  You've just posted an invite.</span>  
+					Now you should complete your profile so that members looking at your
+					invite will be able to know a little bit more about you before accepting. </p>
+			    </div>
+			<% elsif params[:just] == 'accepted' %>
+				<div class="fillprofile">
+					<p><span class="orange">Great!  You've just accepted a public invite.</span>  
+					Now you should complete your profile so that the inviter will be able to know 
+				  a little bit more about you meet. </p>
+				</div>
+			<% else %>
+				<div id="flash_profile" class="flashtip">  
+				<p>&nbsp;</p>
+				</div>
+			<% end %>
+

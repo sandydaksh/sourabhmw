@@ -1,0 +1,23 @@
+<h3>CATEGORIES</h3>
+<ul class="browsecolumn">
+  <%= browse_menu_button('category', 'all', 'All', @browse_state) %>
+  <%= browse_menu_button('category', 'business', 'Business', @browse_state) %>
+  <%= browse_menu_button('category', 'career', 'Career', @browse_state) %>
+  <%= browse_menu_button('category', 'social', 'Social', @browse_state) %>
+  <%= browse_menu_button('category', 'other',  'Other', @browse_state) %>
+</ul>
+
+<h3>DATES</h3>
+<ul class="browsecolumn">
+  <%= browse_menu_button('timeframe', 'anytime', 'Anytime', @browse_state) %>
+  <%= browse_menu_button('timeframe', 'today',   'Today', @browse_state) %>
+  <%= browse_menu_button('timeframe', 'week',    'This Week', @browse_state) %>
+  <%= browse_menu_button('timeframe', 'month',   'This Month', @browse_state) %>
+  <%= browse_menu_button('timeframe', 'year',    'This Year', @browse_state) %>
+</ul>
+
+<% if @invitations and @invitations.size > 5 %>
+	<div id="ad_square_browse_page" class="ad_square">
+	<%= render :partial => 'adsense/square' %>
+	</div>
+<% end %>

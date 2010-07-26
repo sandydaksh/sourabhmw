@@ -1,0 +1,16 @@
+This invite is being forwarded to you by <%=  @forwarder %>
+
+ Who:   <%=  @inviter_name.capitalize_each_word %>  
+ What:  <%=  @invitation.name %>   
+ When:  <%=  start_time(@invitation) %>   
+ Where: <%=  where_text(@invitation)  %> 
+ Why:   <%=  why(@invitation) %>  
+
+<%= message_txt(@forwarder, @message) %>
+
+You can respond to this invitation on MeetingWave.com by following this link: 
+  <%= @url %>
+
+<%= word_wrap("This Invite was published on MeetingWave.com. If you are interested in attending this proposed meeting, please click Attend and we'll notify the member who posted this Invite, #{@inviter_name.capitalize_each_word}, of your interest. We recommend creating a Profile with background information before accepting the Invite. Although any member can accept this Invite, UserName must approve each acceptance in order for each member to be notified they may attend the proposed meeting. Meetings are only confirmed when there is at least one request to attend that is approved.") %>
+
+<%= brought_to_you_by_txt %>

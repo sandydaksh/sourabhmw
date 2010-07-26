@@ -1,0 +1,49 @@
+<div class="search-middle">
+                        <div class="search-people">
+                          <p> <img src="/images/newdesign/search_images/people.jpg" border="0" width="14" height="14" style="float:right;"/></p>
+                        </div>
+                        <div class="search-people-right">
+                          <p class="peopletext"><strong><%= meeting.confirmations.size %>
+                          People</strong> confirmed</p>
+                        </div>
+                        <div class="search-people">
+                          <% 
+						  	if meeting.no_pref == 1 or !meeting.recurring
+								img_path = "/images/newdesign/showinvite/time.gif"
+							else
+								img_path = "/images/newdesign/search_images/time-search.jpg"
+							end
+						  %>
+                          <p style="padding:8px 0 0 0;"><img src="<%= img_path %>" border="0" width="13" height="14" style="float:right;"/></p>
+                        </div>
+                        <div class="search-people-right">
+                          <p class="calendartext">
+                          <% if meeting.no_pref != 1 %>
+							<% if meeting.recurring? %>
+                                <%=  meeting.recurrence_period %>
+                                <% @meeting = meeting.upcoming_meeting %>
+                                <%= recurring_whence(meeting, @meeting) %>
+                            <% else %>
+                                <%= whence(meeting) %>
+                            <% end %>
+                          <% else %>
+                          	No Preference  
+                          <% end %>  
+                          </p>
+                        </div>
+                        <div class="search-people">&nbsp;
+                          </p>
+                        </div>
+                        <div class="search-people-right">
+                          <p class="statetext">
+                          <% if !meeting.address.nil? && meeting.address.city != "NA" %>
+						  	<%= address_detail_new(meeting) %>
+                          <% else %>
+                          Open
+                          <% end %>
+                          </p>
+							<% if !meeting.virtual_type.nil? %>
+                              <p class="peopletext">Virtual Location:</p> <p class="statetext"><%= meeting.virtual_type %></p>
+                            <% end %>
+                        </div>
+                      </div>

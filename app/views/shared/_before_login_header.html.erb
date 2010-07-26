@@ -1,0 +1,68 @@
+<% if !private_mw? %>
+<div class="header_new">
+  <div class="topleft">
+  <ul id="navbarlogo">
+    <li id="navbarlogo-logo">
+    <% if params[:action] == "index" %>
+    <a href="/" onmouseover="Tip(&#39;<strong>What\&#39;s MeetingWave\&#39;s value to you?</strong> <br/> <p style=&quot;padding-left:5px;&quot;><ul style=&quot;margin:0;padding:0;&quot;><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Think of it as creating opportunities for you to be contacted by a potential employer or client to have lunch\-without you ever having to disclose your contact information or identity.</li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;>You can ignore or decline, without ever revealing who you are.</li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;>MeetingWave provides control, privacy &amp; flexibility.</li></ul></p>&#39;, BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><span>Meetingwave</span><span>Meetingwave</span></a>
+    <% else %>
+    	<a href="/"><span>Meetingwave</span><span>Meetingwave</span></a>
+    <% end %>
+    </li>
+  </ul>  </div>
+  <div class="nav"><table width="337" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="right"><ul id="topnavbar">
+        <li id="topnavbar-aboutus"><a href = "javascript:void(0)" onclick = 
+			"document.getElementById('about').style.display='block';document.getElementById('fade_about').style.display='block'"><span>Clients</span></a></li>
+        <li id="topnavbar-howitworks"><a href = "javascript:void(0)" onclick = 
+			"document.getElementById('how').style.display='block';document.getElementById('fade_how').style.display='block'"><span>Contacts</span></a></li>
+        <li id="topnavbar-signin">
+          <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"><span>cases</span></a>
+        </li>
+      </ul></td>
+    </tr>
+  </table>
+  </div>
+</div>
+<% else %>
+<% @current_university = University.find(:first,:conditions => ["url = ?",private_mw]) %>
+<div class="header_new">
+  <div class="topleft-create">
+  <ul id="navbarlogo_private">
+    <li id="navbarlogo_private-logo">
+    	<% if @current_university.logo_display == true %><a href="/"><%= image_tag("/invitations/code_image/#{@current_university.id}", :alt => "#{@current_university.name}",:style=>"padding-left:5px; border:none;") %><!--<img  src="/picture/thumb/<%#= @current_university.logo %>" alt="<%#= private_mw %>" name="<%#= private_mw %>" border="0" style="padding-left:5px;"/>--></a><% end %>
+    </li>
+  </ul> 
+    <p class="alumni-text" style="padding-left:5px; padding-top:15px;"><%= University.find_by_url(private_mw).name %><%= " "+@current_university.alumni_type+" " if !@current_university.alumni_type.nil? %> MeetingWave</p>
+  </div>
+  <div class="nav-create">
+  <table width="337" border="0" cellspacing="0" cellpadding="0" align="right">
+    <tr>
+      <td align="right"><ul id="topnavbar">
+        <li id="topnavbar-aboutus"><a href = "javascript:void(0)" onclick = 
+			"document.getElementById('about').style.display='block';document.getElementById('fade_about').style.display='block'"><span>Clients</span></a></li>
+        <li id="topnavbar-howitworks"><a href = "javascript:void(0)" onclick = 
+			"document.getElementById('how').style.display='block';document.getElementById('fade_how').style.display='block'"><span>Contacts</span></a></li>
+        <li id="topnavbar-signin">
+          <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'"><span>cases</span></a>
+        </li>
+      </ul></td>
+    </tr>
+  </table>
+  
+  <div style="clear:both;">
+  <table width="513" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+      <td align="right" style="padding: 40px 5px 0 0;">
+          <!--ul style="margin-left: 2px;">
+              <li><input type="text" value="Meet People" class="private-search" style="height: 22px;">          
+              <select class="private-menu"><option value="">You are in the <%#= private_mw.capitalize %> MeetingWave</option></select></li>
+          </ul-->
+      </td>
+    </tr>
+  </table>
+  </div>
+  </div>
+</div>
+<% end %>

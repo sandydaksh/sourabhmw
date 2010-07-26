@@ -1,0 +1,5 @@
+<h1 class="invitename"><%= @invitation.name %></h1>
+<h3 class="wsection">MESSAGE SENT</h3>  
+<p> Your message has been sent to <%= @invitation.inviter.username %>.<br/> 
+  <strong><%= link_to("&laquo; Return to #{@invitation.name}", show_invite_url(:id => @invitation.id, :meeting_id => @meeting.id)) %></strong>
+</p>

@@ -1,0 +1,15 @@
+	<h3 class="profilesection" >MEETING INTERESTS</h3>
+	
+	<!-- NONE EXIST YET -->
+	<% if member_profile.meeting_interests.blank? %>
+		  <em>No meeting interests listed.  </em>
+	<% end %>
+	
+	<!-- VIEW -->
+	<div class="profileview">
+		<% member_profile.meeting_interests.each do |meeting_interest| %>
+			<h4> <%= meeting_interest.interest %> </h4>
+			<h5 class="entry">&nbsp;&nbsp;Available <strong><%= meeting_interest.time %></strong> in <strong><%= meeting_interest.location %></strong></h5>
+		<% end %>
+	</div>
+	

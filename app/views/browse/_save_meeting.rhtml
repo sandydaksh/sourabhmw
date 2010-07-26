@@ -1,0 +1,14 @@
+ <p class="savetext">
+<% if current_member %> 
+<% if current_member and current_member.is_watching(@meeting) %>
+  <%="Saved"%>
+<% else %>
+ <% if @meeting %>
+  <a href="#" onclick="new Ajax.Request('/rsvp/watch_save?id=<%= @meeting.id %>&updateid=<%= meeting.id%>',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;" rel="nofollow">Save Meeting</a>
+ <% end %>  
+<% end %>
+<% else %>
+ <a href="/member" rel="nofollow">Save Meeting</a>
+<% end %>
+ </p>
+

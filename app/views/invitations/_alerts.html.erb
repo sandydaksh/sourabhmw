@@ -1,0 +1,29 @@
+<div id="meeting-alerts">
+  <% if searches.size > 0 %>
+    <ul id="alerts">
+      <% searches.each do |search| %>
+        <li id="alert-<%= search.id %>" class="alert" >
+          <%= link_to(search.name, run_email_alert_url(:search_filter => search.data)) %>
+
+          <br/>
+            <% if search.email? %>
+              <%= link_to_remote('Email: On', :url => toggle_email_alert_url(:id => search.id), :html => {
+                                              :id => "alert-email-#{search.id}", 
+                                              :class => 'email-on'}) %>
+            <% else %> 
+              <%= link_to_remote('Email: Off', :url => toggle_email_alert_url(:id => search.id),  :html => {
+                                               :id => "alert-email-#{search.id}", 
+                                               :class => 'email-off'}) %>
+            <% end %>
+            <%= link_to('Test Search', run_email_alert_url(:search_filter => search.data), :class => "alert-search") %>
+            <%= link_to_remote('Delete', :url => delete_email_alert_url(:id => search.id), 
+                                         :html => { :class => "alert-delete" })  %>
+
+          </li>
+        <% end %>
+      </ul>
+
+    <% else %>
+      <p>You don't have any meeting alerts configured yet.</p>
+    <% end %>
+</div>

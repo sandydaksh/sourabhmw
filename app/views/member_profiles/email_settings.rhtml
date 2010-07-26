@@ -1,0 +1,142 @@
+   <!--[if IE 6]>
+	<style>
+
+		.grad_year {
+			padding-bottom:10px;;
+			margin-bottom:14px;
+			font-size: 1.5em;
+		}
+
+		.first_field_in_float {
+			margin-left: -10px;
+		}
+
+		h3.margin_hack {
+			margin-left: 10px;
+			padding-bottom: 0;
+		}
+		.profile_main {
+			padding: 0;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
+		.pwidget {
+			margin-left: 0;
+		}
+		.edit p.singlerow {
+		   height: 20px;
+		}
+		.edit p input.txt {
+			width: 170px;
+		}
+		.edit p.singlerow input {
+			width: 60px;
+		}
+		
+		
+	</style>
+
+	<![endif]-->
+  
+        <script type="text/javascript">
+        function blankvalue(vl)
+        {
+        //alert(document.getElementById('txtvalue').value);
+        if(document.getElementById('txtvalue').value=='')
+        {
+        alert('Please provide at least a single email.');
+        document.getElementById('txtvalue').focus(); 
+        return false;
+        }
+        else
+        {
+        return true;
+        }
+        }
+        </script>    
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<h1 style="padding-left:36px;">Email Address Settings</h1>   
+    <div style="padding-left:36px;">
+        <p class="addemail">Add email addresses:</p>
+        <p class="verifyemail">Verifying multiple email addresses allows you to connect your account with multiple addresses and the option to display your verified email domains on your MeetingWave Profile (e.g., @alumni.nyu.edu, @zappos.com). We recommend adding work, alumni and personal email addresses.</p>
+    </div>
+    <div id="emailcontainer" style="padding-left:36px;">
+        <div id="address_form">
+        <%= form_remote_tag(:url => { :controller => "member_profiles", :action => "add_email" },:complete => "document.getElementById('txtvalue').value='';",:position => "top" ) %>
+			<div id="errdisplay" align="left" style="color:#CA5108; font-size:14px; padding:10px 0 0 10px;">
+				
+            </div>
+            
+       	  	<ul id="emailboxsetting">
+			  <li><textarea cols="40"class="textboxnew" name="txtvalue" id="txtvalue"></textarea><br><p style="padding:0 0 0 10px; font-size:14px;">(e.g. Separate multiple email addresses with a comma)<br /><br />
+              <%= ibutton_verify('verify-email-add', :id => "postinvite-button",:value => "verify",:name => "verify", :border=>"0", :width=>"149", :height=>"25",:clas => "",:style=>"padding-top:5px;") %></p>
+              </li>
+            </ul>
+            <div class="dividermail"></div>
+            
+        </form>      
+        </div>
+        
+        
+        <div>
+            <p class="currentemail">Current Email Addresses:</p>
+            <p class="primaryemail">Choose a primary email address for your MeetingWave notifications (e.g., acceptances or confirmations relating to networking meetings).</p>
+            <div class="dividersecond"></div>
+        </div>
+        
+        <script type="text/javascript">
+        function rvalue(vlu)
+        {
+        document.getElementById('radioselect').value=vlu;
+        }
+        function imgvalue(vlu)
+        {
+        document.getElementById('imagevalue').value=vlu;
+        }
+        </script>    
+            
+      <%= form_remote_tag(:url => { :controller => "member_profiles", :action => "make_primary" },:position => "top" ) %> 
+  
+        <div id="email_display">
+			<%= render :partial => "email_display" %>
+       </div>
+       
+       <div class="dividerbottom"></div>
+       
+       <div>
+          <ul id="emailbuttons">
+          	<li>
+            	<%= ibutton_member('make-primary', :id => "make-primary",:value => "make-primary",:name1 => "make", :border=>"0", :width=>"109", :height=>"25",:clas => "") %>
+            </li>
+            
+          	<li>
+            	<%= ibutton_member('remove', :id => "remove",:value => "remove",:name1 => "remove", :border=>"0", :width=>"75", :height=>"25",:clas => "") %>
+            </li>
+
+          	<li>
+            	<%= ibutton_member('send-conf-message', :id => "send-conf",:value => "send-conf",:name1 => "conf", :border=>"0", :width=>"200", :height=>"25",:clas => "") %>
+            </li>
+            <li>or <span class="cancelbottom"><a href="javascript:history.go(-1)" class="savetext">Cancel</a></span></li>
+          </ul>
+       </div>
+       
+      </form> 
+       
+     </div>
+     
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<%= render :partial => "shared/displaydomain" %>
+
+
+

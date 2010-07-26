@@ -1,0 +1,143 @@
+				<% if !@archived_meetings.nil? && !@archived_meetings.blank? %>
+                   <% @archived_meetings.each do |invite| %>
+                   <% if !invite.nil? %>
+                   <% invite = invite.invitation %>
+                    <div class="common">
+                      <div id="headingleft">
+                        <p class="mymeetingheading">
+							<%= link_to(invite.name, show_invite_url(:id => invite.id), :alt => invite.name, :title => invite.name,:class=>"mymeetingheading") %>
+						</p>
+                      </div>
+                      <div id="headingmiddle">
+					  <% if current_member %>
+                        <% if invite.member_id == current_member.id %>
+                        <div class="topleftmy">
+                          <p><img src="/images/newdesign/left-bg-message.jpg" border="0" width="8" height="25" /></p>
+                        </div>
+                        <div class="newheadtextbg">
+                          <p class="newheadtext">
+                            	<%=  link_to("Edit", edit_url(:id => invite.id),:class => "newheadtext") %>
+                          </p>
+                        </div>
+                        <div class="topleftmy">
+                          <p><img src="/images/newdesign/right-bg-message.jpg" border="0" width="11" height="25" /></p>
+                        </div> 
+                        <span style="padding-left:20px;">
+                        <% if !invite.upcoming_meeting.nil? %>
+						<%= confs_accepted_note(invite) if @viewer == invite.inviter %>&nbsp;&nbsp;
+                        <a class="cls" href="<%= show_invite_url(:id => invite.id, :meeting_id => invite.upcoming_meeting.id) %>" title="Confirmed">
+                          <%= invite.upcoming_meeting.confirmed_invitees.count %> 
+                          <%= image_tag("/images/meetingwave/indicators/green_guy.gif",:border => 0) %>
+                        </a>
+                        <a class="cls" href="<%= show_invite_url(:id => invite.id, :meeting_id => invite.upcoming_meeting.id) %>" title="Declined">
+                          <%= invite.upcoming_meeting.declined_invitees.count %> 
+                          <%= image_tag("/images/meetingwave/indicators/red_guy.gif",:border => 0) %>
+                        </a>
+                        <a class="cls" href="<%= show_invite_url(:id => invite.id, :meeting_id => invite.upcoming_meeting.id) %>" title="Messages">
+                          <%= invite.upcoming_meeting.messages.count %> 
+                          <%= image_tag("/images/meetingwave/indicators/mail.gif",:border => 0) %>
+                        </a>
+                        <% end %>
+                        </span>
+                      	<% end %>
+                      <% end %>
+                      </div>
+
+                      <div id="headingbottom">
+                      <% if invite.no_pref != 1 %>
+                        <p class="todayimg">
+							<% if invite.recurring? %>
+                                <% @meeting = invite.upcoming_meeting %>
+                                <% chk = recurring_whence_for_today_check(invite, @meeting) %>
+                            <% else %>
+                                <% chk = whence_for(invite) %>
+                            <% end %>
+                            <% if chk == 1 %>
+	                        	<img src="/images/newdesign/today.jpg" width="41" height="29" />                            
+                            <% end %>
+                        </p>
+                      <% else %>  
+                      	&nbsp;
+                      <% end %>
+                      </div>
+                    </div>
+                    <div class="common">
+                      <p>
+						<% if invite.inviter %>
+                          <% if !current_member %>
+                            <% if !invite.hidden_user_name.nil? %>
+                              <%= mini_icon_search_new(invite.inviter) %>
+                            <% else %>
+                              <%= link_to(mini_icon_search(invite.inviter),  member_profile_url(:id => invite.inviter.id), :alt => invite.inviter.user_name, :width=>"43",:height=>"42",:class=>"smllimgleft", :border => "0", :title => invite.inviter.user_name) %>
+                            <% end %>
+                          <% else %>
+                            <% if invite.inviter.id == current_member.id %>
+                              <%= link_to(mini_icon_search(invite.inviter),  member_profile_url(:id => invite.inviter.id), :alt => invite.inviter.user_name, :width=>"43",:height=>"42",:class=>"smllimgleft", :border => "0", :title => invite.inviter.user_name) %>
+                            <% else %>
+                              <% if current_member.was_approved(invite.upcoming_meeting) %>
+                                <%= link_to(mini_icon_search(invite.inviter),  member_profile_url(:id => invite.inviter.id), :alt => invite.inviter.user_name, :width=>"43",:height=>"42",:class=>"smllimgleft", :border => "0", :title => invite.inviter.user_name) %>
+                              <% else %>
+                                <% if !invite.hidden_user_name.nil? %>
+                                  <%= mini_icon_search_new(invite.inviter) %>
+                                <% else %>
+                                  <%= link_to(mini_icon_search(invite.inviter),  member_profile_url(:id => invite.inviter.id), :alt => invite.inviter.user_name, :width=>"43",:height=>"42",:class=>"smllimgleft", :border => "0", :title => invite.inviter.user_name) %>
+                                <% end %>                              
+                              <% end %>
+                            <% end %>
+                          <% end %>                            
+                        <% end %>                        
+                      <span class="smallimgtext"><img src="/images/newdesign/quote-left.jpg" border="0" width="18" height="15" /><%= truncate(invite.description,148) %><img src="/images/newdesign/quote-right.jpg" border="0" width="17" height="15" /></span>
+                     </p>
+                    </div>
+                    <div class="common">
+                      <ul id="datesheet">
+                      <% if invite.no_pref != 1 %>
+                        <li>
+                        <img src="/images/newdesign/calendar-icon.jpg" border="0" width="13" height="13" />&nbsp;
+							<% if invite.recurring? %>
+                                <% @meeting = invite.upcoming_meeting %>
+                                <%= recurring_whence_for(invite, @meeting) %>
+                            <% else %>
+                                <%= whence_for(invite) %>
+                            <% end %>
+                        </li>
+                        <li><img src="/images/newdesign/watch-icon.jpg" border="0" width="14" height="13" />&nbsp;
+							<% if invite.recurring? %>
+                                <% @meeting = invite.upcoming_meeting %>
+                                <%= recurring_whence_for_time(invite, @meeting) %>
+                            <% else %>
+                                <%= whence_for_time(invite) %>
+                            <% end %>
+                        </li>
+                        <% else %>
+                            <li><img src="/images/newdesign/calendar-icon.jpg" border="0" width="14" height="13" />&nbsp;
+								No Preference
+                            </li>
+                        <% end %>
+                        
+                        <li><img src="/images/newdesign/tele-icon.jpg" border="0" width="13" height="12" />&nbsp;
+							<% if invite.virtual_f == "v_flag" %>
+                                Virtual
+                            <% else %> 
+                                <% if invite.address && !invite.address.zip.blank? && !invite.address.zip.nil? %>
+                                    <%= invite.address.zip %>
+                                <% else %>
+                                    Open                    
+                                <% end %>
+                            <% end %>	                        
+                        </li>
+                        <li><img src="/images/newdesign/people-icon.jpg" border="0" width="14" height="13" />&nbsp;<%= invite.confirmations.size %> people confirmed</li>
+                        <% if !private_mw? %>
+                        	<li><a href="#" onclick="document.getElementById('light_forward<%= invite.id %>').style.display='block';document.getElementById('fade_forward<%= invite.id %>').style.display='block'"><img src="/images/newdesign/fwd-icon.jpg" border="0" width="11" height="12" />&nbsp;Forward</a></li>
+                        <% end %>    
+                      </ul>
+                    </div>
+                    <div class="barmeetingwavebot">&nbsp;</div>
+                    <%= render :partial => "forward",:locals => {:invite => invite,:meeting => invite.upcoming_meeting} %>
+                    <% end %>
+                    <% end %>
+                <% else %>
+                	Currently, there is no result in this list.
+				<% end %>	                   
+				   
+

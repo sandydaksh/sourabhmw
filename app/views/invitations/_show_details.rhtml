@@ -1,0 +1,182 @@
+   <h1><%= @invitation.name %> <%= private_indicator(@invitation) %></h1> 
+				<div id="button_box">
+                  <form action="" id="rsvp_form" method="post">
+				   <% if !@meeting.start_time.nil? && !@meeting.end_time.nil? && @meeting.expired? %>
+						<%= content_tag('div', 'EXPIRED', :class => 'expired show_expired') %>
+						<%= copy_button(@invitation) if(@member and @member.owner(@invitation)) %>
+						<%= delete_button(@invitation) if(@member and @member.owner(@invitation)) %>
+				   <% elsif @member.nil? %>
+						<%= attend_button(@meeting, @member)  %>
+						<%= watch_button(@meeting, @member) %>
+						<%= tool_tip('Invitation Status', "Click the ATTEND button to let the inviter know you'd like to attend.  Click the WATCH button to add this invite to your MyInvites page for accepting at a later time.", :id => 'is_tt') %>
+				   <% elsif @member.owner(@invitation) %>
+						<%= edit_button(@invitation)  %>
+						<%= copy_button(@invitation)  %>
+						<%= delete_button(@invitation) %>
+						<%= tool_tip('Updating Your Invite', "Use the <b>EDIT</b> button to make changes, including adding new invitees.  Click the <b>COPY</b> button to create a new Invite, using this one as a starting template.  Use the <b>DELETE</b> button to destroy this invite.  Emails will be sent to your invitees notifying them that the future meeting(s) will not take place.", :id => 'is_tt') %>
+				   <% elsif @member.invited_to(@invitation) or @member.was_approved(@meeting) %>
+						<%= accept_button(@meeting, @member)  %>
+						<%= decline_button(@meeting, @member) %>
+						<%= forward_button(@meeting) if( @invitation.is_public? )%>
+					<% else %>
+						<%= attend_button(@meeting, @member)  %>
+						<%= watch_button(@meeting, @member) %>
+						<%= forward_button(@meeting) %>
+						<%= tool_tip('Invitation Status', "Click the ATTEND button to let the inviter know you'd like to attend.  Click the WATCH button to add this invite to your MyInvites page for accepting at a later time.", :id => 'is_tt') %>
+
+                        <script type="text/javascript">
+                          var attendDialog = null;
+                          function attend() {
+                            attendDialog = new Window({className: "meetingwave_modal", 
+                                width:350, 
+                                height:210, 
+                                zIndex: 100, 
+                                resizable: false, 
+                                title: "<%= truncate(@meeting.invitation.name, 45).gsub('"', "'") %>", 
+                                draggable:false, 
+                                maximizable: false,
+                                minimizable: false,
+                                wiredDrag: false}, true);
+                            attendDialog.setContent('attend-dialog');
+                            attendDialog.showCenter(true);
+                          }
+                        </script>
+
+                        <div id="attend-dialog" style="display: none;">
+                          <div class="attend-dialog-container">
+                            <div id="attend-form">
+                                <p>When you click <%= candy_image('attend-small')%>, a note will be sent to the inviter letting him 
+                                know you’d like to attend this meeting.  You can include your own note by typing 
+                                a message into the text box below.</p>
+                                <form id="attend_note_form">
+                                    <h4>MESSAGE</h4>
+                                    <%= text_area_tag("message[body]") %>
+                                    <div id="button-box">
+                                        <%= link_to_remote(button_image('attend'), 
+                                                           { :url => attend_url(:id => (@meeting.id rescue nil)), 
+                                                             :submit => 'attend-form',
+                                                             :before => "Element.hide('attend-form'); Element.show('attend-processing');", 
+                                                             :complete => "attendDialog.close();" } ) %>
+                                        <%= link_to_function(button_image('cancel-light'), "attendDialog.close();") %>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="attend-processing" style="display: none;">
+                                Please wait while we notify <b><%= @invitation.inviter.user_name %></b>.
+                                <br/> <br/>
+                                <%= indicator_image('spinner.dark_on_light.green') %>
+                            </div>
+                          </div>
+                        </div>
+					<% end %>
+				    <%= check_render_rating(@invitation) %>
+				    <%= check_render_romance(@invitation) %>
+                  </form>
+
+                    <% unless current_member.nil? or current_member.owner(@invitation) or current_member.flagged_invites.include?(@invitation) %>
+                      <%= render :partial => 'flag_box' %>
+                    <% end %>
+  
+<div style="float:right;width:255px;height:255px;margin-top:5px;padding:1px;">
+         <% unless RAILS_ENV == "development"  %>
+<script type="text/javascript"><!--
+google_ad_client = "pub-6131741780602982";
+/* 250x250, created 6/21/09 */
+google_ad_slot = "0002623671";
+google_ad_width = 250;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<% end %>
+</div>
+
+
+				 </div>
+         
+       
+
+
+				<div id="flash" style="display: <%= flash[:notice].blank? ? 'none' : 'block' %>;"> <%= flash[:notice] %> </div>
+
+				<h3 class="five_w">WHO</h3>
+				<div class="w_section" >
+					<h4 >HOST</h4>
+					<%= host_new(@invitation) %>
+					<% unless @invitation.invitee_profile.blank? %>
+						<h4>INVITEES</h4>
+						<%= @invitation.invitee_profile %>
+					<% end %>
+				</div>
+		
+				<h3 class="five_w">WHAT</h3>
+				<div class="w_section">
+					<% unless @invitation.description.blank? %>
+						<p> <%= description(@invitation) %> </p>
+					<% end %>
+                    
+                    <% if @invitation.activity
+						val = @invitation.activity.name
+					else
+						val = "No activity specified"
+					end %>
+                    
+					<h3 class="oneliner"><em>ACTIVITY:</em> <%= val  %>  </h3>
+					<h3 class="oneliner"><em>COSTS:</em>  <%= costs(@invitation) %> </h3>
+					<% unless @invitation.minimum_invitees.blank? and @invitation.maximum_invitees.blank? %>
+						  <h3 class="oneliner"><em>No. OF INVITEES:</em> <%= size(@invitation) %>  </h3>
+					<% end %>
+				</div>
+				
+                <h3 class="five_w">WHERE</h3>
+				<% if !@invitation.address.nil? && !@invitation.address.blank? %>
+				
+				<div class="w_section clearfix">
+					<% unless @invitation.address.yelp_photo_url.blank? %>
+						<div class="where_pic">
+							<%= image_tag(@invitation.address.yelp_photo_url)%>
+						</div>
+					<% end %>
+					<div class="where_txt">
+					  <%= where(@invitation) %>
+					</div>
+					<% unless @invitation.address.yelp_url.blank? %>
+						<%= link_to("Read more about this venue on Yelp!", @invitation.address.yelp_url, :target => "_blank", :class => "yelp-link") %>
+					<% end %>
+
+				</div>
+                <%# else %>
+                
+				<!--div style="padding-left:20px;">
+					<div class="where_txt">
+					  Open
+					</div>
+				</div-->
+                
+                                
+                <% end %>
+                
+                <% if !@invitation.virtual_type.nil? %>
+                    <div style="padding-left:20px;">
+                        <div class="where_txt">
+                          <h3 class="oneliner"><em>Virtual Location:</em>  <%= @invitation.virtual_type %>  </h3>
+                        </div>
+                    </div>
+                <% end %>
+                
+				<h3 class="five_w">WHEN</h3>
+				<div class="w_section ">
+					<% if @invitation.recurring? %>
+						<%= render :partial => 'recurring_whence', :locals => {:invitation => @invitation} %>
+					<% else %>
+						<%= whence(@invitation) %>
+					<% end %>
+				</div>
+
+				<h3 class="five_w">WHY</h3>
+				<div class="w_section">
+				  <%= why(@invitation) %>
+				</div>
+ 	

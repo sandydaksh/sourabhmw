@@ -1,0 +1,367 @@
+
+<style type="text/css">
+a {
+color:#155E8D;
+text-decoration:none;
+}
+</style>
+<!-- start-main-container-->
+<script type="text/javascript">
+function remove_defalt_find_meeting()
+  {
+     document.getElementById('find_meeting').value="";
+     document.getElementById('find_meeting').className="black";
+  }
+  function fill_defalt_find_meeting()
+  {
+     if(document.getElementById('find_meeting').value=='')
+     {
+     document.getElementById('find_meeting').value="e.g. Business Networking";
+     document.getElementById('find_meeting').className="gray";
+     }
+  }
+</script>
+
+<div class="maincontainer" style="xposition:relative;z-index:1">
+<!-- start-inner-container-->
+<div class="<% if private_mw? %>inner<% else %>inner<% end %>">
+<div class="maincontent">
+<table width="996" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="748" valign="top">
+
+<table width="748" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="54">&nbsp;</td>
+    <td width="662">
+    <% if private_mw? %>
+    <% un = University.find_by_url(private_mw) %>
+        <table width="662" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <td colspan="3">
+              <p class="private_connect_here_heading"><%= un.text_header %></p>
+            </td>
+          </tr>
+    
+          <tr>
+            <td colspan="3">
+            <p class="private_connect_here">
+			<% desc = un.welcome_text.gsub("\r\n","<br />") %>
+			  <% unless un.welcome_text.blank? %>
+    	            <%= auto_link(desc) %>
+        	  <% end %>
+            </p></td>
+          </tr>
+         </table>
+     <% else %>
+        <table width="662" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <td colspan="3"><a href="#" onmouseover="Tip(&#39;<strong>Who\&#39;s using MeetingWave?</strong> <br/> <p style=&quot;padding-left:5px;&quot;><ul style=&quot;margin:0;padding:0;&quot;><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;>Entrepreneurs</li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;>Freelancers </li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;>Consultants</li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Attorneys </li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Realtors </li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Recruiters </li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Job Seekers </li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Financial Planners </li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Business Owners and </li><li style=&quot;list-style-position:outside;list-style-type:disc; margin-left:1.5em;&quot;> Others are using to meet new clients or customers or make new business or social contacts over coffee, lunch, dinner or other meeting activity. Try it today. </li></ul></p>&#39;, BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();">
+    
+            <%= image_tag("/images/meetingwavenew/meet.jpg", :border=>"0", :width=>"360", :height=>"25", :style=>"padding:63px 0 12px 0;") %></a></td>
+          </tr>
+    
+          <tr>
+            <td width="276"><p class="connect_here">Go to meetings in person</p>    </td>
+            <td width="48"></td>
+            <td width="338"><p class="connect_here">Protect your identity</p> </td>
+          </tr>
+          <tr>
+            <td>    <p class="connect_here">Meet new clients, leads, partners</p></td>
+            <td>&nbsp;</td>
+            <td><p class="connect_here">Control who you meet</p> </td>
+          </tr>
+        </table>     
+	<% end %>
+    </td>
+    <td width="32" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="2"  valign="top" style="border-bottom:2px dotted #d3d3d3; padding:<% if private_mw? %>12<% else %>32<% end %>px 0 0 0;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td valign="top">
+      <table width="662" border="0" cellspacing="0" cellpadding="0" align="center" >
+        <tr>
+          <td colspan="3" height="<% if private_mw? %>20<% else %>44<% end %>"></td>
+        </tr>
+        <tr>
+          <td colspan="3" class="fbg">
+           <form action="/simple_search" method="get">
+              <div style="position:relative; z-index:1;">
+               <table width="640" border="0" cellspacing="0" cellpadding="0" align="center">
+                  <tr>
+                    <td colspan="9"><p style="padding:12px 0 6px 8px;"><%= image_tag("/images/meetingwavenew/free.jpg",:border=>"0", :width=>"309", :height=>"28") %></p></td>
+                  </tr>
+                  <tr>
+                    <td class="label" width="110">Meeting Type:</td>
+                    <td width="6">&nbsp;</td>
+                    <td width="157">
+                    <%= text_field_with_auto_complete :find, :meeting, :autocomplete => "off",:value=>"e.g. Business Networking",:maxlength=>"50", :style=>"width:130px;",:onblur=>"return fill_defalt_find_meeting()",:onclick=>"return remove_defalt_find_meeting()", :class=>"gray"%>
+                    </td>
+                    <td width="5">&nbsp;</td>
+                    <td class="label" width="77">ZIP Code:</td>
+                    <td width="6">&nbsp;</td>
+                    <td width="108"><%= text_field_tag("where", '', :maxlength=>"50", :style=>"width:100px;font-size:11px;") %></td>
+                    <td width="5">&nbsp;</td>
+                    <td width="159">
+                      <ul id="navbarfind">
+                        <li id="navbarfind-find">
+                          <% if !private_mw %><%= ibuttonhomemeeting('find-meeting') %><% else %><%= ibuttonhomemeeting_tag('find-meeting') %><% end %>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="label">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td class="label">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td colspan="3" valign="top">
+                        <div id="outside1"><p class="outside"><a href="javascript:Effect.toggle('count1');" onclick="Element.hide('outside1');">Outside of US</a><span style="font-family: Helvetica; font-size:17px; color:#155e8d;">&raquo;</span></p></div>
+                        <div id="count1" style="display: none;"><%= country_home %></div>
+                    </td>
+                  </tr>
+                </table>
+                </div>
+		    </form>
+		  </td>
+        </tr>
+      </table>
+      </td>
+    <td width="32" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td   valign="top"><table width="660" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td colspan="2" height="31">&nbsp; </td>
+      </tr>
+      <tr>
+        <td width="490"><p class="opportunity"><% if private_mw %>Got the next great Opportunity?<% else %>Have an idea for a meeting? Set one up for free!<% end %></p></td>
+        <td width="170"><ul id="navbarcreate">
+          <li id="navbarcreate-create"><%=link_to('',{:action=>'member'})%><span>Create Meeting</span></li>
+        </ul> </td>
+      </tr>
+    </table></td>
+    <td width="32" >&nbsp;</td>
+  </tr>
+</table>
+
+</td>
+<td width="248" valign="top"><table width="248" border="0" cellspacing="0" cellpadding="0">
+<% if !private_mw? %>
+  <tr>
+    <td colspan="2" style="padding:60px 0 30px 0;" valign="top">
+<table>
+    <tr>
+    <td width="248" style="background:url(/images/shar-bg.png) no-repeat; width:160px; height:23px;">
+    <div class="addthis_toolbox addthis_default_style" style="padding:0 0 0 4px; margin:2px 0 0 0;">
+    <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c1f684442c3c4d2" class="addthis_button_compact">Share</a>
+    <span class="addthis_separator">|</span>
+    <a class="addthis_button_facebook"></a>
+    <a class="addthis_button_myspace"></a>
+    <a class="addthis_button_google"></a>
+    <a class="addthis_button_twitter"></a>
+    </div>
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c1f684442c3c4d2"></script>
+    </td>
+    </tr>
+</table>    
+    </td>
+
+  </tr>
+<% else %>  
+    <tr>
+    <td colspan="2" height="65" valign="top">&nbsp;</td>
+
+  </tr>
+<% end %>  
+  
+  
+  <tr>
+    <td width="1" style="border-left:2px dotted #d3d3d3;" height="410">&nbsp;</td>
+    <td valign="top">
+      <table width="247" border="0" cellspacing="0" cellpadding="0" id="right">
+        <tr>
+          <td>  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <%# if !private_mw? %>
+<!--            <tr>
+               
+                <td colspan="2">
+                    <div style="width:246px;">
+                        <p class="iphoneapp">Download <span class="app">the application</span></p>
+                        <div class="appleft"><a href="/mobile" target="_blank"><img src="/images/phone/iphone-apple.png" border="0" width="18" height="32" class="phoneimg"/></a></div>
+                        <div class="appmiddle"><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/android.png" border="0" width="26" height="31" class="androidimg" /></a></div>
+                        <div class="appright"><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/blackberry.png" border="0" width="32" height="31" class="blackberryimg" /></a></div>
+                        <div style="clear:both;">
+                         <div class="appleft"><p class="iphtext"><a href="/mobile" target="_blank">Apple iPhone</a></p></div>
+                        <div class="appmiddle"><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/android-text.png" border="0" width="55" height="7" class="comspace" /></a></div>
+                        <div class="appright"><a href="#" onmouseover="Tip('This application will be coming soon', BALLOON, true, ABOVE, true, OFFSETX, -17);" onmouseout="UnTip();"><img src="/images/phone/blackberry-text.png" border="0" width="53" height="10" class="comspace" /></a></div>
+                        </div>
+            
+                    </div>
+                </td>
+              </tr>   -->
+            <%# end %>  
+            
+			<%# if !private_mw? %>
+<!--             <tr>
+                <td colspan="2">
+                    <div style="width:246px;">
+                        <a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c1b6ef9388014ba"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c1b6ef9388014ba"></script>
+                    </div>
+                </td>
+              </tr> 
+-->            <%# end %>
+             
+<!--            <tr>
+            <td width="3%">&nbsp;</td>
+            <td width="97%" style="background:url(/images/shar-bg.png) no-repeat; width:160px; height:23px;">
+            <div class="addthis_toolbox addthis_default_style" style="padding:0 0 0 4px; margin:2px 0 0 0;">
+            <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c1f684442c3c4d2" class="addthis_button_compact">Share</a>
+            <span class="addthis_separator">|</span>
+            <a class="addthis_button_facebook"></a>
+            <a class="addthis_button_myspace"></a>
+            <a class="addthis_button_google"></a>
+            <a class="addthis_button_twitter"></a>
+            </div>
+            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c1f684442c3c4d2"></script>
+            </td>
+            </tr>
+-->                                 
+            <tr>
+              <td width="3%">&nbsp;</td>
+              <td width="97%">
+                <ul id="navbartoday">
+                  <li id="navbartoday-today">
+                  <% if !private_mw? %>
+                  <a href="/invitations/meeting_today_or_tomorrow?day=1"><span>Today</span></a>
+                  <% else %>
+                  <a href="/signup"><span>Today</span></a>
+                  <% end %>
+                  </li>
+                </ul>    </td>
+            </tr>
+          </table> </td>
+        </tr>
+
+        <tr>
+          <td>
+            <ul>
+              <% @todays_invites.each do |invite| -%>
+                <li class="right">
+                <% if !private_mw? %>
+                  <%= home_page_link(invite) -%>
+                <% else %>
+                  <%= home_page_link_private(invite,private_mw) -%>
+                <% end %>
+                </li>
+              <% end -%>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td height="7"></td>
+        </tr>
+        <tr>
+          <td valign="top" >
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="3%">&nbsp;</td>
+                <td width="97%">
+                  <ul id="navbar">
+                    <li id="navbar-tomorrow">
+					  <% if !private_mw? %>
+                        <a href="/invitations/meeting_today_or_tomorrow?day=2" ><span>Tomorrow</span></a>
+                      <% else %>
+                      <a href="/signup"><span>Tomorrow</span></a>
+                      <% end %>
+                    </li>
+                  </ul>    </td>
+              </tr>
+            </table></td>
+        </tr>
+
+        <tr>
+          <td>
+            <ul>
+            <% if @tomorrows_invites %>
+              <% @tomorrows_invites.each do |invite| -%>
+             
+                <li class="right">
+                <% if !private_mw? %>
+                  <%= home_page_link(invite) -%>
+                <% else %>
+                  <%= home_page_link_private(invite,private_mw) -%>
+                <% end %>
+                </li>
+              <% end -%>
+             <% end %> 
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td height="7"></td>
+        </tr>
+        <tr>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="3%">&nbsp;</td>
+              <td width="97%">
+                <ul id="navbarpress">
+                  <li id="navbarpress-press"><%= link_to("", in_news_home_url,:target => "_blank") %><span>Press</span></li>
+                </ul>    </td>
+            </tr>
+          </table></td>
+        </tr>
+        <tr>
+          <td>
+            <div id="company">
+              <div class="sponsleft">
+                <p><ul id="navbarabout">
+                <li id="navbarabout-about"><a href="http://jobsearch.about.com/b/2009/03/28/meetingwave.htm" target="_blank"><span>About</span></a></li>
+              </ul></p>
+                <p class="compimg"><ul id="navbarnetwork">
+                <li id="navbarnetwork-network"><a href="http://www.centernetworks.com/meetingwave-offline-meetings" target="_blank"><span>network</span></a></li>
+              </ul></p>
+                <p class="compimg"><ul id="navbaradvocate">
+                <li id="navbaradvocate-advocate"><a href="http://www.meetingwave.com/in_news/2009/4/29/site-dedicated-to-face-to-face-connections" target="_blank"><span>Mashable</span></a></li>
+              </ul></p>
+              </div>
+              <div class="sponsright"><p><ul id="navbarfast">
+                <li id="navbarfast-fast"><a href="http://www.fastcompany.com/blog/rachel-king/geek-style/how-schedule-meetings-and-network-anywhere" target="_blank"><span>Fast Company</span></a></li>
+              </ul></p>
+                <p class="compimg"><ul id="navbarmashable">
+                <li id="navbarmashable-mashable"><a href="http://mashable.com/2009/01/09/setup-your-own-job-interview-with-meetingwave/" target="_blank"><span>Mashable</span></a></li>
+              </ul></p>
+                <p class="compimg"><ul id="navbarhead">
+                <li id="navbarhead-head"><a href="http://www.cheezhead.com/2009/03/30/ved-meetingwave/" target="_blank"><span>Mashable</span></a></li>
+              </ul></p></div>
+            </div>    </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</td>
+</tr>
+</table>
+</div>
+</div>
+<!-- End-inner-container-->
+<div id="footer_new">
+
+</div>
+
+</div>
+
+<!-- End-main-container-->
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>

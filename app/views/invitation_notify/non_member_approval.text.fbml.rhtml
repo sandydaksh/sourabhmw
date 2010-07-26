@@ -1,0 +1,15 @@
+                 
+You've been invited!
+ Who:   <%=  @inviter_name.capitalize_each_word %>  
+ What:  <%=  @invitation.name %>   
+ When:  <%=  start_time(@invitation) %>   
+ Where: <%=  where_text(@invitation)  %> 
+ Why:   <%=  why(@invitation) %>  
+
+<%= message_txt(@inviter_name, @message) %>
+
+Re: <a href='<%= @url %>'> Click to RSVP </a>
+
+
+
+

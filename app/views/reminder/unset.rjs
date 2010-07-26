@@ -1,0 +1,5 @@
+if @invite_show_page
+  page.replace_html("flash", unset_message_for(@invitation))
+else
+  page.replace_html("notice", unset_message_for(@invitation))
+end

@@ -1,0 +1,29 @@
+
+
+ <% if searches.size > 0 %>
+  <% searches.each do |search| %>
+  <div class="sanpad">
+    <h2 class="san"><%= link_to(truncate(search.name,20), run_email_alert_url(:search_filter => search.data),:class => "sana") %></h2>
+  </div>
+  <div style=" clear:both; padding:0 0 0 0;">
+    <ul id="alerts">
+      <li class="email">
+			<% if search.email? %>
+              <%= link_to_remote('Email: On', :url => toggle_email_alert_url(:id => search.id), :html => {
+                                              :id => "alert-email-#{search.id}", 
+                                              :class => 'email-on'}) %>
+            <% else %> 
+              <%= link_to_remote('Email: Off', :url => toggle_email_alert_url(:id => search.id),  :html => {
+                                               :id => "alert-email-#{search.id}", 
+                                               :class => 'email-off'}) %>
+            <% end %>      
+      </li>
+      <li class="search"><%= link_to('Test Search', run_email_alert_url(:search_filter => search.data), :class => "alert-search") %></li>
+                                         
+      <li class="delete"><%= link_to_remote('Delete', :url => delete_email_alert_new_url(:id => search.id), 
+                                         :html => { :class => "alert-delete" })  %></li>
+    </ul>
+  </div>
+
+  <% end %>
+<% end %>

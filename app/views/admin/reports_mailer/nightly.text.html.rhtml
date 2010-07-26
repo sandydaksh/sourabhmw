@@ -1,0 +1,191 @@
+<html>
+   <center>
+      <table width="640" cellpadding="0" cellspacing="0" style="font: 0.8em arial; color: #42412d; border:0px solid #a6a67a; border-width:0px 0px 1px 0px; border-collapse: collapse; ">
+         <tr>
+            <td><a href="http://meetingwave.com" target="ttb">
+                  <img src="http://meetingwave.com/images/ttb/header.gif" width="640" height="46" alt="MeetingWave.com" border="0">
+               </a>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <table width="640" cellpadding="0" cellspacing="0" style="border:0px solid #a6a67a; border-width:0 1px 0px 1px; border-collapse: collapse;"> 
+					<tr>
+						<td style="font: 1.5em arial; font-weight: bold; color: #4977b8; width:100%; padding:10px 25px 5px 25px;">
+							Nightly Report <%= @time.strftime("%m/%d/%y") %>
+						</td>
+					</tr>
+					<tr>
+			  			<table width="640" cellpadding="0" cellspacing="0" style=" border:0px solid #a6a67a; border-width:0 0px 0px 0px; border-collapse: collapse;"> 
+							<tr>
+								<td colspan="2" style="padding-left: 20px;">  
+									<h2 style="font-size: 14px; padding-bottom: 0; margin-bottom: 0;">Summary</h2>
+			    				</td>
+							</tr>
+							<tr>
+		      					<td style="padding-bottom: 20px; padding-left: 20px;"> 
+							  		<table width="180" cellpadding="2" cellspacing="0" style="font-size: 12px; border:1px solid #a6a67a; border-width:0 1px 1px 1px; border-collapse: collapse;"> 
+										<tr> <td colspan="2" style="color: #FFF; background-color:#a6a67a; font-weight:bold;">Members</td></tr>
+									
+										<tr> 
+											 <td style="font-weight: bold; border:1px solid #a6a67a;"> New Verified </td>  
+											 <td style="border:1px solid #a6a67a;"> <%= @verified_members.size %> </td> 
+										</tr>
+										<tr> 
+											<td style="font-weight: bold; border:1px solid #a6a67a;"> New Unverified </td> 
+											<td style="border:1px solid #a6a67a;"> <%= @unverified_members.size %> </td> 
+										</tr>
+							  		</table>
+		        				</td>
+			    			
+		   	 					<td style="padding-bottom: 20px;"> 
+		   	 						<table width="180" cellpadding="2" cellspacing="0" style="font-size: 12px; border:1px solid #a6a67a; border-width:1px 1px 1px 1px; border-collapse: collapse;"> 
+		   	 							<tr> <td colspan="2" style="color: #FFF; background-color:#a6a67a; font-weight:bold;">Invites</td></tr>
+		   	 							<tr> 
+		   	 								 <td style="font-weight: bold; border:1px solid #a6a67a;"> Posted </td>  
+		   	 								 <td style="border:1px solid #a6a67a;"> <%= @posted_invites.size %> </td> 
+		   	 							</tr>
+		   	 							<tr> 
+		   	 								<td style="font-weight:bold;  border:1px solid #a6a67a;"> Drafts </td> 
+		   	 								<td style="border:1px solid #a6a67a;"> <%= @unfinished_invites.size %> </td> 
+		   	 							</tr>
+		   	 						</table>
+		   	 					</td>
+							</tr>
+						</table>
+					</tr>
+		
+		<tr>
+			<td width="640" style=" padding-left: 20px; padding-bottom: 20px; border:0px solid #a6a67a; border-width:0 1px 0px 1px;"> 
+			      <h2 style="font-size: 14px; padding-bottom: 0; margin-bottom: 0;">Verified Members With Profiles and/or Invites </h2>
+				<table width="600" cellpadding="2" cellspacing="0" style="font-size: 12px; padding-left: 20px; padding-right: 20px; border:1px solid #a6a67a; border-width:1px 1px 1px 1px; border-collapse: collapse;"> 
+					<thead style="text-align: left;">                     
+						<th style="color: #FFF; background-color:#a6a67a; "> Full Name </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Email </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Created </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Profile </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Invites Posted </th> 
+					</thead>
+					<tbody>
+						<% if @verified_members.size.zero? %>
+							<tr style="background-color: #eee;">
+					   			<td colspan="3" style="border:1px solid #a6a67a;"> There were no verified members today. </td> 
+							</tr>
+						<% else %>
+							<% @verified_members.each_with_index do |m, idx| %>
+								<% next if(m.member_profile.pretty_empty? or m.invitations.blank?) %>
+								<tr style="background-color: <%= ((idx % 2) == 0 ? '#eee' : '#ddd') %>;">
+									<td style="border:1px solid #a6a67a;"> <%= m.fullname %> </td> 
+									<td style="border:1px solid #a6a67a;"> 
+										<% if m.source == "facebook" %>
+										  Facebook
+										<% else %>
+											<%= m.email %>
+										<% end %> 
+									</td> 
+									<td style="border:1px solid #a6a67a;"> <%= ((distance_of_time_in_words_to_now(m.created_at) + " ago") rescue "--") %> </td> 
+									<td style="border:1px solid #a6a67a; text-align: center;"> 
+											<%= link_to('Profile', "http://meetingwave.com/p/#{m.user_name}") %>
+									</td> 
+									<td style="border:1px solid #a6a67a; text-align: center;"> 
+										<%= m.invitations.collect { |inv| link_to(inv.name, "http://meetingwave.com/invitations/show/#{inv.id}") }.join(", ") rescue "" %>
+									</td> 
+								</tr>
+							<% end %>
+				  		<% end %>
+					</tbody>
+				</table>
+		     </td>
+			
+		</tr>
+		
+		<tr>
+			<td width="640" style=" padding-left: 20px; padding-bottom: 20px; border:0px solid #a6a67a; border-width:0 1px 0px 1px;"> 
+			      <h2 style="font-size: 14px; padding-bottom: 0; margin-bottom: 0;">Unverified Members Detail</h2>
+				<table width="600" cellpadding="2" cellspacing="0" style="font-size: 12px; padding-left: 20px; padding-right: 20px; border:1px solid #a6a67a; border-width:1px 1px 1px 1px; border-collapse: collapse;"> 
+					<thead style="text-align: left;">                     
+						<th style="color: #FFF; background-color:#a6a67a; "> Full Name </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Email </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Created </th> 
+					</thead>
+					<tbody>
+						<% if @unverified_members.size.zero? %>
+							<tr style="background-color: #eee;">
+				   				<td colspan="3" style="border:1px solid #a6a67a;"> There were no unverified members today. </td> 
+							</tr>
+						<% else %>
+					   		<% @unverified_members.each_with_index do |m, idx| %>
+					   			<tr style="background-color: <%= ((idx % 2) == 0 ? '#eee' : '#ddd') %>;">
+					   				<td style="border:1px solid #a6a67a;"> <%= m.fullname %> </td> 
+					   				<td style="border:1px solid #a6a67a;"> <%= m.email %> </td> 
+					   				<td style="border:1px solid #a6a67a;"> <%= (distance_of_time_in_words_to_now(m.created_at) rescue "--") %> </td> 
+					   			</tr>
+					   		<% end %>
+				  		<% end %>
+					</tbody>
+				</table>
+		     </td>
+			
+		</tr>
+		
+		<tr>
+			<td width="640" style=" padding-left: 20px; padding-bottom: 20px; border:0px solid #a6a67a; border-width:0 1px 0px 1px;"> 
+			    <h2 style="font-size: 14px; padding-bottom: 0; margin-bottom: 0;">Posted Invites Detail</h2>
+				<table width="600" cellpadding="2" cellspacing="0" style="font-size: 12px; padding-left: 20px; padding-right: 20px; border:1px solid #a6a67a; border-width:1px 1px 1px 1px; border-collapse: collapse;"> 
+					<thead style="text-align: left;">                     
+						<th style="color: #FFF; background-color:#a6a67a; "> Name </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Location </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> User </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> # Confs </th> 
+						<th style="color: #FFF; background-color:#a6a67a; "> Created </th> 
+						
+					</thead>
+					<tbody>
+						<% if @posted_invites.size.zero? %>
+								<tr style="background-color: #eee;">
+						   			<td colspan="4" style="border:1px solid #a6a67a;"> There were no new invites today. </td> 
+								</tr>
+						<% else %>
+								<% @posted_invites.each_with_index do |i, idx| %>
+								<tr style="background-color: <%= ((idx % 2) == 0 ? '#eee' : '#ddd') %>;">
+										<td style="border:1px solid #a6a67a;"> <%= link_to(i.name, "http://www.meetingwave.com/invitations/show/#{i.id}") %> </td> 
+										<td style="border:1px solid #a6a67a;"> <%= location_format_short(i) %> </td> 
+										<td style="border:1px solid #a6a67a;"> <%= link_to(i.inviter.user_name, "http://www.meetingwave.com/member_profiles/show/#{i.inviter.id}") %> </td> 
+										<td style="border:1px solid #a6a67a; text-align: center;"> <%= i.confirmations.size %> </td>
+										<td style="border:1px solid #a6a67a;"> <%= ((distance_of_time_in_words_to_now(i.created_at) + " ago") rescue "--") %> </td> 
+								</tr>
+								<% end %>
+						<% end %>
+				  	</tbody>
+				</table>
+		     </td>
+		</tr>    
+		
+			<tr> 
+				<% if @unverified_members.size.zero? %>
+					<td width="640" style=" padding-left: 20px; padding-bottom: 20px; border:0px solid #a6a67a; border-width:0 1px 1px 1px;"> 
+						&nbsp;
+					</td>
+				<% else %>
+					<td width="640" style=" padding-left: 20px; padding-bottom: 20px; border:0px solid #a6a67a; border-width:0 1px 1px 1px;"> 
+				    	<h2 style="font-size: 14px; padding-bottom: 5px; margin-bottom: 0;">Unverified Member Emails (for cutting and pasting into emails)</h2>
+			   			<span style="font-size: 12px; "><%=	@unverified_members.collect { |m| "\"#{m.fullname}\" &lt;#{m.email}&gt;" }.join(", ") %> </span>
+					</td>
+				<% end %>
+				
+			</tr>
+			
+
+		<tr>
+        <td style="font: 1.0em arial; color: #42412d; padding: 25px;">
+          <p style="margin-top: 10px; font-size: 0.6em;">This message was brought to you by <a href="<%= @url %>" style="color: #4977b8;">MeetingWave.com</a>, a site where you can connect with people like you, anytime, anyplace. You're receiving this email because you or a friend are members of <a href="<%= @url %>" style="color: #4977b8;">MeetingWave.com</a>. 
+          </p>
+        </td>
+      </tr> 
+
+      </table>
+     </td>
+    </tr>
+   </table>
+  </center>
+</html>

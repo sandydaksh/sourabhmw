@@ -1,0 +1,39 @@
+<h1 class="invitename">Delete Invite</h1>
+<h2 class="profilesection">Are you sure?</h2>
+	<% form_tag(confirm_delete_url(:id => @invitation.id)) do -%>
+		Are you sure you want to delete the invite titled <strong><%= @invitation.name %></strong>?  
+
+
+	<% unless @invitees.blank? %>
+		If you continue, this invite will be permanently deleted and notifications
+		will be sent to the Invitees you select from the list below.
+
+		<p>Select the Invitees you'd like to notify:</p>
+
+		<ul>
+		  <% @invitees.each do | invitee | %>
+			<% if invitee.is_a?(Member) %>
+			  <li>
+				  <%= check_box_tag("members[]", invitee.id, true) %>
+				  <%= invitee.user_name %>
+				  <%= "(#{invitee.fullname})" unless invitee.fullname.blank? %>
+			  </li>
+			<% elsif invitee.is_a?(NonMember)  %>
+			  <li>
+				  <%= check_box_tag("non_members[]", invitee.id, true) %>
+				  <%= invitee.email %>
+			  </li>
+			<% end %>
+		  <% end %>
+		</ul>
+		<% end %>
+
+		<div style="text-align: center;">
+			<%= ibutton('delete') %>
+		</div>
+	<% end %>
+<div style="text-align: center;">
+  <%= link_to('CANCEL', show_invite_url(:id => @invitation.id)) %>
+</div>
+
+

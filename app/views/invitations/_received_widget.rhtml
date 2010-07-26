@@ -1,0 +1,40 @@
+<% if @posted.blank? %>
+  <p id="none"> 
+  You have not received any invitations.  Maybe you'd like to <%= link_to('invite your friends', add_contact_url) %> to MeetingWave!</p>
+<% else %>
+<% @received.each do |inv| %>
+<% meeting = inv.upcoming_meeting %>
+<% begin  %>
+      <div class="wide-inv">
+        <div class="inv-date"><h4><%= inv.upcoming_meeting.start_time_local.strftime("%b<br/>%d") %></h4></div>
+        <div class="inv-header">
+          <%= confs_accepted_note(inv) %>
+          <%= short_link(inv, meeting) %><br/>
+          <%= inv.upcoming_meeting.start_time_local.strftime("%I:%M %p") %>,
+          <%= location_format_short(inv) %>
+        </div>
+        <div class="inv-indicators">
+          <%= content_tag('span', status_for(@viewer.confirmation_for(meeting)), :class => 'status') %>
+        </div>
+        <div class="inv-desc">
+          <%= inv.description %>
+        </div>
+        <div class="inv-poster">
+          <div class="inv-poster-image">
+            <% if(inv.inviter.member_profile.picture rescue false) %>
+                      <%= image_tag(thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+            <% end %>
+          </div>
+          <div class="inv-poster-details">
+            Posted by: <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id)) %>
+            <br/>
+            On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+          </div>
+          <div class="inv-buttons">
+          </div>
+        </div>
+      </div>
+    <% rescue %>
+    <% end  %>
+  <% end %>
+<% end %>

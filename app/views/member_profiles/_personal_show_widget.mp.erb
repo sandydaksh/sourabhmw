@@ -1,0 +1,21 @@
+<h3 class="profilesection">PERSONAL</h3>
+	
+	<% if member_profile.personal_attributes_blank? %>
+			<em>No personal info listed yet. </em> 
+	<% end %>
+	
+	<!-- VIEW -->
+	<div class="profileview">
+		<% MemberProfile::ATTRS_BY_TYPE[:personal].each do |personal_attribute| %>
+			<% unless (formatted_attribute = format_interest(@member_profile, personal_attribute)).blank? %>
+				<h4><%= personal_attribute.to_s.humanize.upcase %> </h4>
+				<h5 class="entry">&nbsp;&nbsp;<%= formatted_attribute %></h5>
+			<% end %>
+		<% end %>
+		<% unless (member_profile.political_party_name.blank?) %>
+			<h4>POLITICAL PARTY</h4>
+			<h5 class="entry">&nbsp;&nbsp;<%= member_profile.political_party_name %> </h5> 
+		<% end %>
+	</div>
+
+</div>

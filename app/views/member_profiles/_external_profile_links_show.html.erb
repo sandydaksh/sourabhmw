@@ -1,0 +1,10 @@
+<div id="external_profile_links_container">
+	<div id="external_profile_links">
+		<% member.member_profile.external_profiles.each do |external_profile| %>
+	  	  <% unless external_profile.link.blank? %>
+ 			<%= link_to(external_profile.icon, external_profile.link, :target => "_blank", :alt => "#{external_profile.base_site} Profile", :title => "#{external_profile.base_site} Profile	")%>
+		  <% end %>
+		<% end %>
+		<br/>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<h1><%= link_to('Admin', admin_url) %> &raquo; MeetingWave News</h1>
+<ul>
+<li><%= link_to("Compose New Article", new_article_url) %> </li>
+</ul>
+
+<% @articles.each do |article| %>
+	<h3> 
+		<%= article.title %> 
+		<%= content_tag('span', 'DRAFT', :style => 'color: #e4dd6f;')  if article.draft? %>
+	</h3>
+	 <%= link_to(image_tag('/images/ttb/edit.png'), edit_article_url(:id => article.id)) %>
+	 <%= link_to(image_tag('/images/ttb/delete.png'), delete_article_url(:id => article.id), :confirm => "Are you sure you want to delete this article?") %>
+	<p> <%= truncate(strip_tags(article.body), 400) %> </p>
+<% end %>

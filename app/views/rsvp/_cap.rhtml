@@ -1,0 +1,17 @@
+<div id="capture">
+<div id="topcapture"></div>
+<div id="middlecapture">
+       <div id="contcapture">
+          <input type="hidden" name="img_txt" value="<%= @cimg.image_text %>" />  
+          <p class="capim"><img src="/images/captchaimages/<%= @cimg.image_name %>" border="0" width="302" height="60" /></p>
+            <div id="formbg">
+                <p class="typwords">Type the above words in the box:</p>
+                <p><input name="cap_words" type="text" class="captxtbox" /></p>
+             </div>
+            <div id="ref"><p class="refim">
+            <a href="#" onclick="new Ajax.Request('/rsvp/capload/<%= @mid %>', {asynchronous:true, evalScripts:true}); return false;"><img src="/images/ref-button.jpg" border="0" width="39" height="48" /></a></p> </div>
+
+       </div>
+</div>
+<div id="bottomcapture"></div>
+</div>

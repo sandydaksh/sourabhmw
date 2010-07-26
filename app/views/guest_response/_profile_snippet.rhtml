@@ -1,0 +1,26 @@
+<div id="member_preview"> 
+	
+	<div id="profile_pic_container">
+	 	   <% if member.member_profile.picture %>
+	 	     <%= image_tag(thumb_url(:id => member.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :class => "profile_pic") %>
+	 	   <% else %>
+	  	 	 <%= image_tag('/images/ttb/default_pic.jpg', :class => "profile_pic") %>
+		   <% end %>	 
+	 </div>
+	
+	 <div id="account_details">
+			  <%= render :partial => '/member_profiles/external_profile_links_show', :locals => { :member => member, :member_profile => member.member_profile } %>
+		
+			  <h3 >MEMBER SINCE</h3>
+			  <p> <%= time_ago_in_words(member.created_at) %> ago </p>
+	
+			  <h3 >NAME</h3>
+			  <p> <%= truncate(member.fullname) %> </p>
+	
+			  <h3 >INVITES</h3>
+			  <p> <%= member.invitations.count(:conditions => ["draft_status = 'posted'"]) %> posted, <%= member.confirmations.count %> received 
+			  <br/>
+	</div>
+	<h5 id="complete_profile_link"><%= link_to("&raquo; SEE #{member.user_name.upcase}'s COMPLETE PROFILE", member_profile_short_url(:username => member.username)) %></h5>
+
+</div>

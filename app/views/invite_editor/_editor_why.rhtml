@@ -1,0 +1,25 @@
+   <div class="outer" id="whybox">
+		<h2 id="whytab">&nbsp;</h2>
+		<div class="inner1">	
+			<div class="formwrap">
+				<%= error_messages_for('invitation', :header => '', :attributes_order => [:purpose_id, :payment_id], :user_facing_names => {:payment_id => 'Costs'}) %>
+				
+			<div class="formbit_small">
+            	<h3>PURPOSE*</h3>      
+                <% cache "editor/purpose/#{@invitation.purpose_id}" do %>
+				<%= purpose_field(@invitation)%>   
+                <% end %>
+            
+
+           </div>
+
+          <div class="formbit_small">
+            <h3>COSTS*</h3>
+            <% cache "editor/payment/#{@invitation.payment_id}" do %>
+            <%= select 'invitation', 'payment_id', Payment::PAYMENT_OPTS, :prompt => true, :class => 'txt' %>
+            <% end %>
+          </div>
+          </div>
+		</div>
+
+	</div>                

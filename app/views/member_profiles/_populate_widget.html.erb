@@ -1,0 +1,30 @@
+<div class="pwidget" id="new_profile_widget" >
+	
+	<div class="header">
+		<h3><%= @new_profile_widget.title %></h3>
+	</div>
+	<div class="edit title">
+		<p class="new_widget_instructions">Now, add some items to <b><%= @new_profile_widget.title %></b>: </p>
+		<% form_remote_tag(:url => {:action => 'populate_new_profile_widget'}, :method => :post, :id => 'new_widget_form') do -%>		
+			<%= hidden_field_tag('profile_widget[id]', @new_profile_widget.id) %>
+			<p class="section">
+				<label>CATEGORY:</label>
+				<%= text_field_tag("new_profile_section[name]", '', :class => 'txt section_heading') %>
+			</p>
+			<p class="detail">
+				<label>Item:</label>
+				<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+			</p>
+			<p class="detail">
+				<label>Item:</label>
+				<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+			</p>
+			<p class="detail">
+				<label>Item:</label>
+				<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+			</p>
+			<div id="new_details"><%= link_to_function('ADD ITEM', 'addDetailRow();', :class => 'more_details' ) %>
+       <%=  widget_buttons("cancelNewProfileWidget();") %>
+		<% end %>
+	</div>
+</div>

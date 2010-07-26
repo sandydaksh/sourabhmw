@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MeetingWave</title>
+      <%= javascript_include_tag 'prototype' %>
+      <%= javascript_include_tag 'scriptaculous' %>
+	  <%= stylesheet_link_tag("meetinwavenew/style.css") %>
+      <%= stylesheet_link_tag("meetinwavenew/signup/loginpopup.css") %>
+
+</head>
+<body style="overflow-x:hidden;">
+<div class="maincontainer">
+	<% if !current_member %>
+    <%= render :partial => 'shared/before_login_header' %>
+    <% else %>
+    <%= render :partial => 'shared/new_header' %>
+    <% end %>
+
+<div class="maincontent-create">
+
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+    <h1 style="padding-left: 36px;"> Sorry, that invitation could not be found!  </h1>
+
+
+        <p style="padding-left: 36px;"> The invitation you requested could not be found.  It may have been
+        removed by the original poster, or you may have followed an incorrect
+        link.  Please check the link the try again, or 
+        <%= link_to("browse more invitations here", browse_url) %>.</p>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+<%= render :partial => '/shared/footerhome' %>
+</div>
+</body>
+</html>
+<% if !current_member %>
+	<%= render :partial => 'shared/signin' %>
+    <%= render :partial => 'shared/how_it_works' %>
+    <%= render :partial => 'shared/about' %>
+<% end %>

@@ -1,0 +1,81 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 690px; clear: both; padding-left: 165px;">
+
+<script type="text/javascript">
+function getcheckvalue()
+{
+	var check_id = new Array();
+	var n = document.getElementsByName('emailverify1[]').length;
+	var i;
+	var flag = 'false';
+	for(i=0;i< n; i++)
+		{
+				check_id.push(document.getElementsByName('emailverify')[i].checked);
+		}
+        document.getElementById('txtvalue').value=check_id;
+}       
+
+function check_all()
+{
+	var n = document.getElementsByName('emailverify1[]').length;
+	var i;
+	for(i=0;i< n; i++)
+		{
+				document.getElementsByName('emailverify')[i].checked=true;
+		}
+}       
+
+function uncheck_all()
+{
+	var n = document.getElementsByName('emailverify1[]').length;
+	var i;
+	for(i=0;i< n; i++)
+		{
+				document.getElementsByName('emailverify')[i].checked=false;
+		}
+}       
+</script>
+
+
+<h3>Waive user who submits company email, but hasn't clicked through</h3>
+
+<p><%= flash.now[:domain_verified] if flash.now[:domain_verified] %></p>
+
+<p class="savetext"><a href="#" onclick="check_all();">Check All</a> / <a href="#" onclick="uncheck_all();">Uncheck All</a></p>
+
+<form method="post" action="/verify_company">
+<table width="690" border="0" cellspacing="3" cellpadding="0" align="center">
+  <tr>
+    <th>Select</th>
+    <th>Email</th>
+    <th>Company Name</th>
+    <th>User Name</th>
+  </tr>
+<% if !@emailaccount.nil? %>
+<% @emailaccount.each do |account| %>
+<% if account.member %>
+  <tr>
+    <td width="40" class="univ-alumni"><input type="checkbox" id="emailverify" name="emailverify"></td>
+    <input type="hidden" id="emailverify1" name="emailverify1[]">
+    <input type="hidden" id="email_member" name="email_member[]" value="<%= account.member_id %>">
+    <td width="300" class="univ-alumni"><%= account.email %><input type="hidden" value="<%= account.email %>" id="email_value" name="email_value[]"/></td>
+    <td width="200" class="univ-alumni"><%= account.university_name %><input type="hidden" value="<%= account.university_name %>" id="univ_name" name="univ_name[]"/></td>
+    <td width="150" class="univ-alumni"><%= account.member.username %></td>
+  </tr>
+<% end %>
+<% end %>
+<% else %>
+<p>There is no unverified email left in the table.</p>
+<% end %>
+</table>
+
+<input type="hidden" value="" id="txtvalue" name="txtvalue"/>
+<input type="submit" value="Verify" onclick="getcheckvalue();">&nbsp;<a href="/companies" class="savetext">Cancel</a>
+</form>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+</div>

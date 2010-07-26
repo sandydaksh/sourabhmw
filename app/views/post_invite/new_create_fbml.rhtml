@@ -1,0 +1,25 @@
+<% self.extend(TTB::FacebookUrlOveride) %>
+
+<%= javascript_include_tag('autocomplete_profile_fields') %>
+
+<% form_tag({:controller => 'post_invite', :action => 'save' }, :id => 'post_invite_form', :onsubmit => "beforeInviteSubmit();") do -%>
+	<%= hidden_field_tag('id', @invitation.id) %>
+	<%= content_tag('div', flash[:notice], :id => 'flash') unless flash[:notice].blank? %>
+	<div class="left_column">
+		  <%= render :partial => 'invite_editor/editor_who' %>
+		<%= render :partial => 'invite_editor/editor_what' %>
+	   	
+	   <%= render :partial => 'invite_editor/editor_when' %>
+	 <%= render :partial => 'invite_editor/editor_where_map' %>
+	
+	 <%= render :partial => 'invite_editor/editor_why' %>
+
+         <div class="button_box" style="clear:both;margin-left:300px;">
+		<%= image_submit_tag(button_path('postinvite'), :class => 'postinvite_button')%>
+  	</div>
+
+	</div>
+
+ 
+
+<% end %>

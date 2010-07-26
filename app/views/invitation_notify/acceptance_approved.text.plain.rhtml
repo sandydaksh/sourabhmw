@@ -1,0 +1,10 @@
+Re: <%= @invitation.name %>
+
+<%= @inviter_name.capitalize_each_word %> has confirmed a spot for you<%= @occurrence %>. 
+
+<%= message_txt(@inviter_name, @message) %>
+
+You can view the details of the invitation by following this link:
+       <%= @url %>
+
+<%= brought_to_you_by_txt %>

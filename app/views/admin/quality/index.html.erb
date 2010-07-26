@@ -1,0 +1,104 @@
+<%=   javascript_include_tag(:defaults, :cache => "cached/defaults") %>
+<%=  javascript_include_tag('slider')  %>
+<style>
+    /* put the left rounded edge on the track */
+    #track1-left, #track2-left {
+    position: absolute;
+    width: 5px;
+    height: 9px;
+    background: transparent url(images/slider-images-track-left.png) no-repeat top left;
+    }
+
+    /* put the track and the right rounded edge on the track */
+    #track1, #track2 {
+    background: transparent url(images/slider-images-track-right.png) no-repeat top right;
+    }
+    #message{
+    margin:0px 5px 0px 10px;
+    float:left;
+    }
+</style>
+<%=  stylesheet_link_tag('ttb/ratings.css') %>
+
+<div id='quality_control'>
+  <h1 id='qc-header'>
+    <%=  link_to("Admin", admin_url)  %>
+    > Quality Control > Invites
+    </h1>
+      
+      
+      <p> This is the Invite Quality Control page.  Here you can control whether an Invite will show up in a prominent public place (like the map page, or the landing page).  You can rate the quality of an Invite by clicking on the star icons next to each invite.  Five stars is the highest quality invite, while one star is the lowest.  Invites that have not yet been rated have no stars.  Use the Legend at right to understand what a specific rating means. </p>
+  <div id='quality-buttons' class='clearfix'>
+    <%=  render :partial => "/admin/quality/score_inline" %>
+     <%=  @show_all ? link_to("Show Only Unrated Invites", {:action => "index", :show_all => "false", :min_value => @min_value, :max_value => @max_value}, :class => "quality-lnk" ) : link_to("Show All Invites", {:action => "index", :show_all  => true, :min_value => @min_value, :max_value => @max_value}, :class => "quality-lnk" ) %>
+  </div>
+  <h3> Description-Text Filtering </h3>
+  <p> Use the sliders below to control which Invites that are displayed.  In general, Invites with more text are higher quality, though there tend to be fewer of them. </p>
+  <div id='message' style="float:left;">
+    Minimum length of text:
+  <div id="track1" style="width:200px; height:9px;float:left;"> 
+  <div id="track1-left" style="width:200px; height:9px;"></div>
+    <div id="handle1" style="width:19px;height:20px;">
+      <img src="images/slider-images-handle.png" style="float:left;">
+    </div>
+  </div>
+  
+  <div id="min_length" style="float:left;">
+    <%=  @min_value %>
+  
+  <br/>
+  <br/>
+  
+  <div id='message' style='float:left;'>
+    Maximum length of text:
+  </div>
+  <div id='track2' style='width:200px; height:9px;float:left;'>
+    <div id='track2-left' style='width:200px; height:9px;'></div>
+    <div id='handle2' style='width:19px;height:20px;'>
+      <img src='images/slider-images-handle.png' style='float:left;' />
+
+    </div>
+  </div>
+
+  <div id='max_length' style='float:left;'>
+    <%= @max_value %>
+  </div>
+
+ <br/>
+  <br/>
+  
+  <%=  render :partial => "/admin/quality/legend" %>
+
+<%=   will_paginate(@invitations) %>
+
+<% @invitations.each do |inv| %>
+	<% if !inv.start_time.nil? %>
+      <%=   render :partial => "/admin/quality/invitation", :locals => {:inv => inv} %>
+    <% end %>
+<% end  %>
+
+<%=  will_paginate @invitations  %>
+
+
+
+<script>
+  new Control.Slider('handle1', 'track1', { 
+  onSlide: function(v) { $('min_length').innerHTML =  v }, 
+  <%="onChange: function(v) { document.location = '/quality?show_all=#{@show_all}&max_value=#{@max_value}&min_value=' + v },"%>
+  <%="sliderValue: #{@min_value},"%>
+  <%="values: [#{(0..1250).step(25).join(",")}] ,"%>
+  range: $R(0,1250) 
+  });
+  new Control.Slider('handle2', 'track2', { 
+  onSlide: function(v) { $('max_length').innerHTML =  v }, 
+  <%=  "onChange: function(v) { document.location = '/quality?show_all=#{@show_all}&min_value=#{@min_value}&max_value=' + v }," %>
+  <%=  "sliderValue: #{@max_value}," %>
+  <%=  "values: [#{(0..1250).step(25).join(",")}] ," %>
+  range: $R(0,1250) 
+  }); 
+  
+  </script>
+
+
+
+	

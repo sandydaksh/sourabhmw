@@ -1,0 +1,29 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<div class="clearfix">
+
+<h1 class="news_head"><%= header_title %> - <%= params[:month] %> <%=  link_to(image_tag("ttb/feed.gif"), rss_link )  %> </h1>
+<div id="monthly_articles" style="float:left;">
+<% for article in @articles  %>
+<%= render :partial => "blog_article" , :locals => {:article => article} %>
+<% end  %>
+</div>
+
+<%= render :partial => "blog_archives" %>
+
+</div>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<% end %>

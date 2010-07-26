@@ -1,0 +1,335 @@
+<style>
+    div.features_postinvite {
+	margin: 0px;
+	padding: 0px;
+	background: #666;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	letter-spacing: 0px;	
+}
+
+#hero {
+	color: #fff;
+	
+	margin: 0px;
+	padding: 0px;
+	width: 650px;
+	background: #fff;
+	background: #42412d;
+}
+
+#heroFlash {
+	margin: 0px;
+	padding: 0px;
+	height: 320px;
+	overflow: hidden;
+	background: url("http://meetingwave.com/images/hero_bg.gif") left top repeat-x;
+}
+
+#heroFlash a {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	display: block;
+	height: 320px;
+	width: 50%;
+	overflow: hidden;
+}
+
+#heroFlash a.left {
+	background: url("http://meetingwave.com/images/hero.gif") left top no-repeat;
+}
+
+#heroFlash a.right {
+	background: url("http://meetingwave.com/images/hero.gif") right top no-repeat;
+}
+
+#heroFlash a span {
+	display: none;
+}
+
+
+#hero h1 {
+	display: block;
+	margin: 0px;
+	padding: 20px 20px 0px 20px;
+	background: #fff;
+	color: #4977b8;
+	font-size: 17px;
+	font-weight: bold;
+	letter-spacing: -0.15px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+#hero h2 {
+	display: block;
+	margin: 0px;
+	padding: 0px 20px 20px 20px;
+	background: #fff;
+	color: #4977b8;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: -0.15px;	
+	text-transform: uppercase;	
+	text-align: center;
+}
+
+#heroDetails {
+	margin: 0px;
+	padding: 20px;
+	background: #42412d;
+	overflow: hidden;
+	clear: both;
+}
+
+#heroDetails p {
+	margin: 0px 0px 15px 0px;
+	clear: both;
+}
+
+/*
+#heroDetails a, #heroDetails a:link, #heroDetails a:active, #heroDetails a:visited {
+	font-size: 16px;
+	font-weight: bold;
+	padding: 4px 6px 5px 6px;
+	_padding: 0px 6px 5px 6px;
+	margin: 0px 0px;
+	background: url(http://meetingwave.com/images/button_left.gif) no-repeat 0px 0px;
+	text-decoration: none;
+	color: #fff;
+	clear: both;
+}
+#heroDetails a span {
+	margin: 0px;
+	padding: 4px 6px 5px 0px;
+	background: urlhttp://meetingwave.com/images/button_right.gif) no-repeat 100% 0px;
+}
+*/
+
+#heroDetails a, #heroDetails a:link, #heroDetails a:active, #heroDetails a:visited {
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	background: url("http://meetingwave.com/images/button_left.gif") left top no-repeat;
+	text-decoration: none;	
+	padding: 4px 0px 5px 6px;
+}
+#heroDetails a span {
+	background: url("http://meetingwave.com/images/button_right.gif") right top no-repeat; 
+	padding: 4px 6px 5px 0px;
+}
+
+
+
+<%if( request.user_agent.include?("IE") )  %>
+#heroDetails a, #heroDetails a:link,  #heroDetails a:active, #heroDetails a:visited {
+    padding: 0px 0px 5px 6px;
+}	
+<% end %> 
+
+
+#heroDetails a:hover {
+	color: #42412d;
+}
+
+#columnLeft {
+	overflow: hidden;
+	float: left;
+	width: 295px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#columnRight p {
+	font-size: 12px;
+	font-weight: normal;
+	text-align: justify;
+}
+
+#columnRight {
+	float: right;
+	width: 295px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+
+#columnLeft h3,  #columnRight h3{
+	margin-top: 0px;
+	font-size: 15px;
+	font-weight: bold;
+	color: #FFF;                                              
+}
+
+#columnLeft ul,  #columnRight ul {
+	width: 100%;
+	padding: 0px 0px 0px 30px;
+	margin: 0px 0px 20px 0px;
+	clear: both;
+}
+
+#columnLeft li,  #columnRight li {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.clear {
+	clear: both;
+}       
+
+
+</style>
+<div class="features_postinvite">
+
+
+	<div id="hero">
+		<div id="heroFlash">
+		    	<a href="<%= canvas_url('join') %>" class="left"  ><span>Send a private invite to friends or post an open invite to meet new people. Either way, you decide who attends.</span></a>
+		        <a href="<%= canvas_url('upcoming') %>" class="right" ><span>Learn about meetings happening nearby, wherever you may be.</span></a>
+		    </div>
+			<h1>Connect online with people you want to meet offline</h1>
+		    <h2 style="padding-bottom:0px">Arrange meetings for any purpose, anytime, anyplace </h2>
+            		    <h2 >Public meetings and you control who attends </h2>
+
+		    <div id="heroDetails">
+		  
+
+		        <div id="columnLeft">
+
+		        <h3>Use MeetingWave to:</h3>
+		        <ul>
+		           	<li>Network with other professionals</li>
+					<li>Make new friends</li>
+		           	<li>Meet with potential customers</li>
+		           	<li>Learn about topics that interest you</li>
+
+		           	<li>Gather with fellow alumni</li>
+		           	<li>Rally with other sports fans</li>
+		           	<li>Investigate job opportunities</li>
+		
+		        </ul>
+		        <p><a href="<%= canvas_url('join') %>" ><span>Get Started - It's Free!</span></a></p>
+		        </div>   
+		
+		
+				  	<div id="columnRight">   
+					
+					   	  <h3>MeetingWave Features:</h3>
+					        <ul>
+					           	<li>Create meetings for any purpose</li>  
+					           	<li>Create meetings anywhere</li>
+					
+								<li>Invite friends for coffee or drinks</li>
+					           	<li>Create OpenInvites</li>
+					           	<li>Keep meeting location private</li> 
+					        
+
+					           	<li>Communications are private</li>
+					           	<li>Be notified of new meetings via RSS</li>
+
+					        </ul>
+					
+					
+					
+				    
+
+				        <p><a href="<%= help_url %>"  target='ttb' ><span>Learn More</span></a></p>
+				        </div>
+		    </div>
+
+	</div>
+
+
+</div>      
+
+
+
+<div class="features_postinvite">
+
+
+	<div id="hero">
+		<div id="heroFlash">
+		    	<a href="<%= signup_url %>" class="left"><span>Send a private invite to friends or post an open invite to meet new people. Either way, you decide who attends.</span></a>
+		        <a href="<%= upcoming_url %>" class="right"><span>Learn about meetings happening nearby, wherever you may be.</span></a>
+		    </div>
+			<h1>Connect online with people you want to meet offline</h1>
+
+		    <h2>Arrange meetings for any purpose, anytime, anyplace<br/>
+				- whether traveling or near home!
+			</h2>
+
+		    <div id="heroDetails">
+				<div id="columnLeft">
+		    	<h1 class="howitworks">How it works:</h1>
+					<div class="numbered_li">	
+						<div class="numbered_li_img">
+							<%= image_tag('/images/ttb/number1.gif') %> 
+						</div>
+						<div class="numbered_li_txt">
+							Post a public Invite describing who you'd like to meet.
+						</div>
+					 	<div class="clear"/> &nbsp; </div>
+					</div>
+					
+					<div class="numbered_li">	
+						<div class="numbered_li_img">
+							<%= image_tag('/images/ttb/number2.gif') %> 
+						</div>
+						<div class="numbered_li_txt">
+							You'll be notified by email when someone accepts your Invite.
+						</div>
+						<div class="clear"/> &nbsp; </div>
+					</div>
+					
+					<div class="numbered_li">	
+						<div class="numbered_li_img">
+							<%= image_tag('/images/ttb/number3.gif') %> 
+						</div>
+						<div class="numbered_li_txt">
+							Approve the acceptance and your meeting is on!
+						</div>
+						<div class="clear"/> &nbsp; </div>
+					</div>
+					<a href="http://apps.facebook.com/meetingwave" class="nostyle">
+												<%= image_tag('/images/ttb/new.gif') %> Check out our Facebook App &raquo;
+											</a> 
+				</div>
+			
+			<div id="columnRight">
+				<h1 class="howitworks">USE IT TO:</h1> 
+		        <ul>
+		           	<li>Network with other professionals</li>
+					<li>Make new friends</li>
+		           	<li>Meet with potential customers</li>
+		           	<li>Learn about topics that interest you</li>
+
+		           	<li>Gather with fellow alumni</li>
+		           	<li>Rally with other sports fans</li>
+		           	<li>Investigate job opportunities</li>
+		
+		        </ul>
+		        <p>
+			    	<a href="<%= signup_url %>"><span>Get Started &raquo;</span></a>
+				</p>
+			
+				
+	    	</div>
+
+			
+		    
+		  </div>
+
+	</div>
+
+
+	<script type="text/javascript">
+	   var so = new SWFObject("/hero.swf?v=3", "hero", "675", "320", "8", "#ffffff");
+	   so.addParam("quality", "best");
+	   so.addParam("base", "flash");
+	   //so.addParam("wMode", "transparent");
+	   so.write("heroFlash");
+	</script>
+
+</div>

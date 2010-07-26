@@ -1,0 +1,11 @@
+This invite is being forwarded to you by <%=  @forwarder %>
+ Who:   <%=  @inviter_name.capitalize_each_word %>  
+ What:  <%=  @invitation.name %>   
+ When:  <%=  start_time(@invitation) %>   
+ Where: <%=  where_text(@invitation)  %> 
+ Why:   <%=  why(@invitation) %>  
+
+<%= message_txt(@forwarder, @message) %>
+
+ <a href='<%= @url %>'> Click to RSVP </a>
+

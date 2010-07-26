@@ -1,0 +1,25 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Goodbye!") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    <%= @name %>,  
+  <%= close_highlight %>
+
+  <p> We at MeetingWave are writing to let you know that your account has
+  been permanently deleted.  If you're leaving because there's something we
+  could do better, please <%= link_to("let us know", 'http://meetingwave.com/contact', :style => 'color: #4977b8;') %>.  Come back soon!
+  </p>
+  <p>
+  Sincerely,
+  <br/>
+  <br/>
+  - <%= link_to('MeetingWave.com', 'http://meetingwave.com', :style => 'color: #4977b8;') %>
+  </p>
+
+  <%= close_body %>
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

@@ -1,0 +1,8 @@
+<h2 class="greybar"><%= link_to("The MeetingWave Map", map_url, :id => "map-link") %></h2>
+    <% home_page_map() %>
+
+    <div id="map_container" style="margin-left: 0;padding-left:0;">     
+      <%= @map.div(:width => 673, :height => 345) %>
+    </div>
+  
+           <%= @map.to_html %>

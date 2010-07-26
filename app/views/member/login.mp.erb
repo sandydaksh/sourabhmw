@@ -1,0 +1,20 @@
+<%= form_tag login_url %>
+<h1 class="invitename">Sign In</h1>
+	<% if flash[:notice] %>
+	  <div class="errorExplanation"><%= flash[:notice] %></div>
+	<% else %>
+	  <div class="signup">Please enter your email address and password and click the SIGN IN button.</div>
+	<% end %>
+<br/>
+      <h3 class="profilesection">EMAIL</h3>		
+      <%= text_field 'member', 'email',  :size => '50' %>
+	  <br/>
+      <h3 class="profilesection">PASSWORD</h3>		
+      <%= password_field 'member', 'password', :size => '50'  %>
+	  <br/>
+	  <div style="text-align: center;">
+	  <input name="Submit" value="SIGN IN" type="image" src="<%= button_path("signin") %>" />
+	  </div>
+	  <br/>
+	  <br/>
+</form> 

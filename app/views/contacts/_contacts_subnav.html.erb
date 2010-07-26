@@ -1,0 +1,7 @@
+ <div class="subnav subnav_myinvites">
+        <ul id="contact_nav">
+          <li class="<%= nav_selected?(:index)%>"> <%= link_to("Current Contacts" , :controller => 'contacts', :action => "index" ) %> </li>
+          <li class="<%= nav_selected?(:add)%>"> <%= link_to("Add Contacts" , :controller => 'contacts',:action => "add" ) %> </li>
+          <li class="<%= nav_selected?(:import)%>"> <%= link_to("Import Contacts" , :controller => 'contacts',:action => "import" ) %> </li>
+        </ul>
+      </div>

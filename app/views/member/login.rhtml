@@ -1,0 +1,96 @@
+
+<!--[if IE 6]>
+  <style>
+		.login_large_rectangle_ad {
+			width: 480px;
+			margin-top: 10px;
+			margin-left: 5px;
+			height: 350px;
+		}
+		.createaccount_form {
+			margin: 10px;
+		}
+
+		ul#simplesteps li {
+			font-family: serif, garamond;
+			font-size: 19px;
+		}
+		h2#itseasy { font-size: 20px; }
+		h1#noinviteyet { font-size: 25px; }
+  </style>
+<![endif]-->
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+
+<div class="createaccount_form" style="padding-left: 36px;">
+  <% form_tag login_url do -%>
+    <!--h4 class="system">Sign in</h4-->
+	<% if flash[:notice] %>
+    <div class="flash">
+      <%= flash[:notice] %>
+      <%= (tag('br') *2) unless flash[:notice].blank? %>
+    </div>
+    <% end %>
+    <div class="formbit">
+      <h3 class="nomargin">EMAIL</h3>		
+      <%= text_field 'member', 'email', :class => 'fatinput' %>
+    </div>
+    <div class="formbit">
+      <h3 class="nomargin">PASSWORD</h3>		
+      <%= password_field 'member', 'password', :class => 'fatinput' %>
+    </div>
+	<br />
+    <input type="checkbox" id="remember" name="remember" value="1" /> Remember me
+
+    <br /><br />
+
+   <%= ibuttonhome("sign-in") %>
+
+  <% end -%>
+
+  <br />
+
+  <h5 class="nomargin" style="padding-bottom: 16px;"><%= link_to('Forgot my password', forgot_password_url) %></h5>
+
+</div>
+<%= javascript_tag("$('member_email').focus();")  %>
+
+
+
+<div class="login_large_rectangle_ad" style="padding-left: 36px;">
+
+	<h1 id="noinviteyet">Haven't posted an Invite yet?  </h1>
+	<h2 id="itseasy">Post one today! It's easy:</h2>
+	<ul id="simplesteps">	
+		<li id="step1">
+		   Post a <b>Public Invite</b> describing who you'd like to meet or the type of meeting you'd like to have.
+		</li>
+					
+		<li id="step2">
+		   You'll be notified by email when someone <b>accepts your Invite</b>.
+		</li>
+		
+		<li id="step3">
+		   Approve the acceptance and your meeting is on!  Or you can decline any acceptance for any reason. <b>You control who attends your meeting</b>.
+		</li>
+
+	 </ul>
+	</div>
+
+<br style="clear:both;" />
+<br/>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<%= render :partial => 'shared/signin' %>
+
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>

@@ -1,0 +1,30 @@
+<html>
+ <head>
+   
+   <%= stylesheet_link_tag("meetingwave/base.css") %>
+           <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+
+   	<%= GMap.header(:host => request.host) %> 
+        <%= map_javascripts()  %>
+ 
+ </head>
+<body>
+  
+<% cache CachingObserver.home_page_map_key, 9.hours.from_now do %>
+    <%= render :partial => "/invitations/home_page_map"%>
+    <script type="text/javascript">
+      function loadClickableMarkers() {
+        <%= @on_click_js %>
+      }
+      Event.observe(window, 'load', function() { 
+        loadClickableMarkers();
+      });
+    </script>
+<% end %>
+
+</body>
+
+</html>
+
+
+

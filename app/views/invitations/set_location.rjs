@@ -1,0 +1,3 @@
+page.replace 'columntable', :partial => 'shared/upcoming_invitations'
+page.replace_html 'my_location', formatted_geoip_loc
+page.replace('my_location_feed', rss_image_link_tag() )

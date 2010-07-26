@@ -1,0 +1,20 @@
+<div class="unverified_form">
+	<h3>Emails Sent!</h3>
+
+	<p> We have re-sent verification emails for <%= @members.size %> users: </p>
+	<ul>
+		<% @members.each do |m| %>
+			<li> <%= m.fullname %>, <%= m.email %> </li>
+		<% end %>
+	</ul>
+
+	<p> If you need to send an email to these users manually (e.g. through the admin@meetingwave.com interface), you may copy and paste their emails from the textarea below.</p>
+	
+	<%= text_area_tag('emails', @members.collect { |m| "\"#{m.fullname}\" &lt;#{m.email}&gt;" }.join(", "), :size => "65x20") %>
+	<br/>
+	<br/>
+
+
+	<%= link_to("Go Back to the List Of Users", unverified_url)%>
+	
+</div>

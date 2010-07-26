@@ -1,0 +1,9 @@
+<h1><%= link_to('Admin', admin_url) %> &raquo; Verify Emails</h1>
+<p>By clicking on one of the emails below, you will cause that member to be marked as 'verified'. </p>
+
+<p> <%= flash[:notice] %> </p>
+<ul>
+	<% @members.each do |member| %>
+		<li><%= link_to(member.email, manually_verify_url(:member_id => member.id, :key => member.generate_security_token)) %> </li>
+	<% end %>
+</ul>

@@ -1,0 +1,26 @@
+<div class="article_view <%= article.class.to_s.underscore %> ">
+<div class="article_header">
+	<h1 class="article_title"><%= article.title %></h1> <h2 class="posted_date"><%= article.published_at.strftime("%m/%d/%y") rescue "DRAFT" %> </h2>
+</div>
+<h2 class="author">posted by <%= article.author.fullname %></h2>
+<%= article.body %>
+<br/>
+
+<%= render_BMI(article.title, blog_link(article.full_permalink) ) %>
+
+<% if(@article) %>
+<script type="text/javascript">
+    var disqus_url =  '<%=  blog_link(@article.full_permalink)%>';
+    var disqus_title =  '<%= @article.title %>';
+</script>
+
+<div id="disqus_thread"></div>
+<% end %>
+<script type="text/javascript" src="http://disqus.com/forums/mwblog/embed.js"></script><noscript><a href="http://mwblog.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus </span></a><%= link_to('View Comments', blog_link(article.full_permalink) + "#disqus_thread") %>
+
+
+<%= link_to('Permalink', blog_link(article.full_permalink) , :class => 'permalink') %>
+
+<br/>
+<br/>
+</div>

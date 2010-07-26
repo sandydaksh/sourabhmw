@@ -1,0 +1,22 @@
+  <% if( flash[:fb_connect_post])  %>
+   <script>
+/* FB.ensureInit(function() { 
+       <%#= post_invite_message  %>
+     });
+*/     </script>
+
+
+<script type="text/javascript">
+function send_feed(){
+var comment_data = {"images":[{"src":"fb/announce_75.gif?v6", "href":"http://meetingwave.com/facebook/index/"}],"canvas":true,"only_path":false};
+FB.Connect.showFeedDialog(84700828150,comment_data);
+}
+
+<%# if flash[:show_facebook_feed] %>
+function fb_session_ready(){
+FB.Connect.ifUserConnected(send_feed);
+}
+<%# end %>
+
+</script>
+<% end %>

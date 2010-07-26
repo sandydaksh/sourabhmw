@@ -1,0 +1,35 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Note from #{@full_name} regarding MeetingWave.com") %>
+
+  
+<%= open_body %>
+  <%= open_highlight %>
+  <%= @message %>
+  <%= close_highlight %>
+  <p>
+I thought you’d be interested in this new website: MeetingWave.com. It’s a free online tool that helps you make new professional and social contacts through face-to-face meetings. It’s easy to use, whether you are looking to meet new people while traveling or near home:
+  </p>
+<p>
+
+<ol>
+  <li> Post a Public Invite describing the type of people you'd like to meet.</li>
+<li>You'll be notified by email when someone accepts your Public Invite. </li>
+<li> You then approve or decline the acceptance – it's entirely up to you.  The other person will be notified of your decision.  If you approve, the meeting is on.  </li>
+</ol>
+
+</p>
+
+<p>
+Or, you can search for invites posted by others and accept those that interest you. Either way, it’s easy to use. Try out MeetingWave.com and see who you might be able to meet today.</p>
+
+<p> Sincerely,<br/>
+<%= @full_name %>
+</p>
+
+<%= close_body %>
+
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

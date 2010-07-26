@@ -1,0 +1,24 @@
+<% for column in MemberProfile.content_columns -%>
+	<% unless member_profile.send(column.name).nil? || member_profile.send(column.name) == '' -%>
+		<p>
+		  <b><%= column.human_name -%>:</b> 
+			<% if member_profile.send(column.name).respond_to?('strftime') -%>
+				<%=h member_profile.send(column.name).strftime('%B %d, %Y') -%>
+			<% else -%>
+				<%=h member_profile.send(column.name) -%>
+			<% end -%>
+		</p>
+	<% end -%>
+<% end -%>
+<% unless member_profile.political_party_name.blank? -%>
+	<p><b>Political party affiliation:</b> <%= member_profile.political_party_name -%></p>
+<% end -%>
+<% MemberProfile.reflect_on_all_associations.each do |assoc| -%>
+	<% unless member_profile.send(assoc.name).nil? || assoc.macro == :belongs_to -%>
+		<% if member_profile.send(assoc.name).respond_to?('empty?') && !member_profile.send(assoc.name).empty? -%>
+			<p>
+				<b><%= "#{make_plural(member_profile.send(assoc.name).count, assoc.name.to_s.singularize.humanize)}" %>:</b>  <%= member_profile.send(assoc.name).collect { |a| a.name }.join(', ') %>
+			</p>
+		<% end -%>
+	<% end -%>
+<% end -%>

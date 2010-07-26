@@ -1,0 +1,42 @@
+<%= stylesheet_link_tag( '/stylesheets/ttb/editor.css') %>
+<%= javascript_include_tag('autocomplete_profile_fields') %>
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<div id="edit_header">
+<h1>Copying: "<%= @original.name %>" </h1>
+
+<div id="errors"<%= 'style="display:none"' if @invitation.errors.blank? %>>
+	<p id="errors_notice">Please correct the errors below and click "Create Meeting" again.</p>
+</div>
+</div>
+<% form_tag({:controller => 'invite_editor', :action => 'copy'}, :id => 'invite_edit_form', :onsubmit => "beforeInviteSubmit();") do -%>
+	<%= hidden_field_tag('id', @original.id) %>
+    <% if private_mw? %>
+    <input type="hidden" name="invitation[university_name]" value="<%= private_mw %>" />
+    <% else %>
+    <input type="hidden" name="invitation[university_name]" value="public" />
+    <% end %>
+
+	<%= content_tag('div', flash[:notice], :id => 'flash') unless flash[:notice].blank? %>
+	<%= render :partial => 'form' %>
+    <div> 
+  	<div style="float:left; padding-left:755px; padding-top:24px"><p class="canceltext"><a href="javascript:history.back();" target="_self">Cancel</a></p></div> 
+     <div class="button_box" id="postinvite-button">
+     <%= new_ibutton('create-btn-over.jpg', :id => "postinvite-button", :border=>"0", :width=>"152", :height=>"43",:onmouseover=>"this.src= '/images/newdesign/create-btn-over.jpg';", :onmouseout=>"this.src = '/images/newdesign/create-btn.jpg';",:onclick => "Element.hide('postinvite-button'); Element.show('posting-indicator');")%>
+      <div id="posting-indicator" style="display: none;">
+         <%= indicator_image("spinner.small") %>
+         Posting...
+      </div>
+    </div>
+	</div>
+<% end %>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>

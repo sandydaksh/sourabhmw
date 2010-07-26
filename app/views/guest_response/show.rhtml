@@ -1,0 +1,102 @@
+
+<!--[if gte IE 5]>
+	<style>
+		  #select_date {
+					 width: 265px;
+					 position: absolute;
+					 margin-left: 35px;
+		  }
+		  #inv_name {
+					 margin-left: 5px; 
+		  }
+	</style>
+<![endif]-->
+
+<script>
+	var FUTURE_MEETINGS = <%= js_future_dates(@meeting.invitation) %>;
+	var DATES_TO_MEETINGS = <%= js_future_dates_to_meetings(@meeting.invitation) %>;
+	var MEETINGS_TO_DATES = <%= js_future_meetings_to_dates(@meeting.invitation) %>;
+</script>
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 948px; clear: both; padding-left: 30px;">
+
+<div id="guest_response_header">
+	<div class="header_row">
+		<h1 id="inv_name" class="left"><%= link_to @invitation.name, :controller => 'invitations', :action => 'show', :id => @invitation %></h1>
+		<h2 id="inv_meeting" class="right">
+           <% if @invitation.no_pref != 1 %>
+			<span id="date_part">
+				<%= @meeting.start_time_local.strftime("%b %d, %Y") %> 
+			</span>
+			<%= @meeting.start_time_local.strftime(" at %I:%M %p") %> 
+	       <% else %>
+        	No Preference
+           <% end %> 
+		</h2>	
+	</div>
+	<div class="subheader_row">
+		<h3 class="left">GUEST RESPONSE</h3>
+        <% if @invitation.no_pref != 1 %>
+	    <% if @invitation.recurring? %>
+			<div id="change_date_button" class="right">	
+				<h4><%= link_to_function("SELECT MEETING DATE"  , 'GuestResponse.selectDateDialog();') %>  </h4> 
+			 	<%= link_to_function(image_tag('/images/calendar.png'), 'GuestResponse.selectDateDialog();') %>
+			</div>
+		<% end %>
+        <% else %>
+        	No Preference
+        <% end %>
+		<div id="select_date" style="display: none;">
+			<div class="head">
+			<h5>SELECT DATE</h5> 
+			<a href="#" onclick="GuestResponse.closeSelectDateDialog();">
+				<%= button_image('small_close') %>
+			</a>
+			</div>
+			
+		<div class="sel_date_left">	
+			<div class="instructions">
+				<p>Select a date at right by clicking on it.</p>   
+				<p>Click <span class="orange bold" >&laquo; Prev</span> or <span class="orange bold">Next &raquo;</span> to navigate forward or backwards among dates.</p>
+			</div>
+		</div>
+		<div class="sel_date_right">
+			<div id='dates' class="dates">
+				<table>
+					<tr><td><a>September  1, 2007</a> </tr>
+					<tr><td><a>September 15, 2007</a> </tr>
+					<tr><td><a>September 21, 2007</a> </tr>
+					<tr><td><a>September 25, 2007</a> </tr>
+					<tr><td><a>September 26, 2007</a> </tr>
+					
+				</table>
+				<div class="nav">
+					<div class="prev">
+						&laquo; Prev 
+					</div>	
+					<div class="next">
+						Next &raquo; 
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+	</div>
+</div>
+
+<%= render :partial => 'responses', :locals => { :viewer => @viewer } %> 
+
+<div id="guest_response_spinner" style="display: none;">
+	<p> Loading guest responses for <span id="loading_date">  </span>... </p>
+	<%= image_tag('/images/ttb/spinner-white.gif') %>
+</div>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>

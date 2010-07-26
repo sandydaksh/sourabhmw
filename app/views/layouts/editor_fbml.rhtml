@@ -1,0 +1,43 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<%= title_tag %>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+	<!-- Stylesheets  -->
+	<%= stylesheet_link_tag("meetingwave/base.css") %>
+	<%= stylesheet_link_tag("meetingwave/two.css") %>
+	<%= stylesheet_link_tag("meetingwave/pages/editor.css") %>
+    <%= GMap.header(:host => request.host) %>  
+
+	<!-- Javascript Includes -->
+    <%= javascript_include_tag :defaults %>
+	<!-- Utilities  -->
+    <%= render :partial => '/shared/quick_invite_includes' unless current_member.blank? %>
+	<%= render :partial => '/shared/tooltip_includes' %>
+	<%= render :partial => '/shared/accessible_form_includes' %>
+	<%= render :partial => '/shared/meta_tags' %>	
+	<%= render :partial => '/shared/tab_includes' %>
+	<%= render :partial => '/shared/window' %>
+
+	<%= rss_link_tag() %>	
+ <%= fb_sig_session_key_hack() %>
+
+</head>
+<body>
+
+<div id="content">
+
+
+	<%= yield %>
+
+</div>
+
+<%= render :partial => '/shared/urchin_hitail' %>
+
+</body>
+</html>
+
+

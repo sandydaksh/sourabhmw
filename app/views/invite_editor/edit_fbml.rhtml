@@ -1,0 +1,36 @@
+
+<%= javascript_include_tag('autocomplete_profile_fields') %> 
+<% self.extend(TTB::FacebookUrlOveride) %>
+
+<div id="edit_header">
+<h1>Editing "<%= @invitation.name %>" </h1>
+<div id="changed" style="display: none;">
+<p id="changed_notice"> This invite has unsaved changes.  Click "Save All" to save it. </p>
+</div>
+</div>
+
+<% form_tag({:controller => 'invite_editor', :action => 'save'}, :id => 'invite_edit_form',:onsubmit => "beforeInviteSubmit();") do -%>
+	<%= hidden_field_tag('id', @invitation.id) %>   
+	
+	<div class="left_column">
+	 <%= render :partial => 'invite_editor/editor_who' %>
+	 <%= render :partial => 'invite_editor/editor_what' %>
+	   	
+	 <%= render :partial => 'invite_editor/editor_when' %>
+	 <%= render :partial => 'invite_editor/editor_where_map' %>
+	
+	 <%= render :partial => 'invite_editor/editor_why' %>
+
+ 	 <br class="clear" />
+	 <div class="button_box">
+		<%= ibutton('save_all', :class => 'postinvite_button')%>
+		<%= link_to( button_image('discard',  :alt => "DISCARD"), 
+								 show_invite_url(:id => @invitation.id), :title => 'DISCARD', 
+								:class => 'postinvite_button') %>
+	  </div>
+	</div>
+	
+<% end %>
+
+<%= observe_form('invite_edit_form', :function => " new function() {  Element.show('changed'); }")%>
+

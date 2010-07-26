@@ -1,0 +1,96 @@
+<% cache( CachingObserver.member_profile_invites_key(@member, params)) do %>
+<%  @invites = @member.public_profile_posted_invites(@univ_account,4).reverse -%>
+<div class="profile_column">
+
+	<div class="profile_summary">
+		<div class="profile_summary_header">
+	  	 	<h1 class="system profile_user_name"> <%= member.user_name %> </h1> 	
+	  		 <%= render :partial => '/member_profiles/external_profile_links_show', :locals => { :member => member, :member_profile => member.member_profile } %>
+	  	</div>
+	
+	<div class="cl">
+	  	 <div id="profile_pic_container">
+	  	 	   <% if member.member_profile.picture %>
+	  	 	     <%= image_tag(thumb_url(:id => member.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :class => "profile_pic") %>
+	  	 	   <% else %>
+	  	 	     <%= image_tag('/images/ttb/default_pic.jpg', :class => "profile_pic") %>
+	  	 	   <% end %>
+	  	 </div>
+	  	
+	  	 <div id="account_details">
+         		  <% if member.created_at %>
+                      <h3 class="nomargin">MEMBER SINCE</h3>
+                      <p> <%= time_ago_in_words(member.created_at) %> ago </p>
+	  			  <% end %>
+	  			  <h3 class="nomargin">NAME</h3>
+	  			  <p> <%= truncate(member.fullname) %> </p>
+	  	
+	  			  <h3 class="nomargin">INVITES</h3>
+	  			  <p> <%= member.invitations.count(:conditions => ["draft_status = 'posted' and university_name = ?",@univ_account]) %> posted, <%= member.confirmations.count %> received 
+	  	
+	  			  
+	  	</div>
+	  </div>
+      
+		<div style="clear:both;">      
+        <h5 class="nomargin" style="font-size:12px; padding:20px 0 10px 0;">
+	        <b>Verified Domains (date verified) (<a style="font-size:12px;" href="#" class="maplink" onclick="document.getElementById('whatisverified').style.display='block';document.getElementById('fade_whatisverified').style.display='block'">What's this?</a>):</b>
+        </h5>
+        </div>
+        
+        
+        
+        <% if !member.member_emails.nil? %>
+        <div style="border: 1px solid #D3E1EA;">
+        	<% member.member_emails.each do |em| %>
+				<% if em.verified == true && em.domain_display == true %>
+                    <h5 class="nomargin" style="font-size:14px; padding:10px 0 10px 10px;"><img src="/images/emailsetting/verified.png" align="absmiddle" /> 
+                        <% evalue = em.email.split('@') %>
+                        [at] [<%= evalue[1] %>]&nbsp;(<b style="font-size:12px;"><%= em.verified_at.strftime("%b %d, %Y") %></b>)<br />
+                    </h5>   
+                <% end %> 	
+            <% end %>
+        </div>      
+        <% end %>      
+		<div class="clear"> &nbsp; </div>
+	
+	</div>
+	
+<div id="my_invites_list">
+	 <h3><%= member.user_name %>'s  Invites <%= link_to(image_tag('/images/ttb/feed.gif'), user_feed_url(:id => member.username)) %></h3>
+	<% if @invites.blank? %>
+		
+		<p class="noneyet" style="text-align: center;">
+			<%= member.user_name %> has not  posted any invites yet.
+		 	<br/> <br/>
+		</p>
+	<% end %>
+	<% @invites.each do |invite| %>
+		<div class="invite">
+			<div class="text">
+				<h3><%= link_to(invite.name, show_invite_url(:id => invite)) %></h3>
+				
+			   <p class="dateline"> <% if invite.no_pref != 1 %><%= invite.upcoming_meeting.start_time_local.strftime("%m/%d/%Y %I:%M%p") %> at <%= invite.address.display_name if !invite.address.nil? %><% else %>No Preference<% end %> </p>
+			   <p class="description">
+				<% if invite.description.blank? %>
+					No description given.
+				<% else %>
+					<%= invite.description %>
+			    <% end %>
+			 </p>
+			</div>
+			<% attendees = invite.upcoming_meeting.attending_confirmations.size + 1 %>
+			<div class="attendees_box" title='<%= "#{pluralize(attendees, 'Attendee')}" %>'  alt='<%= "#{pluralize(attendees, 'Attendee')}" %>' >
+				<%= attendees %>
+			</div>
+			<div class="clear">&nbsp;</div>
+		</div>
+	<% end %>
+</div>
+	
+
+</div>
+
+  <% end %>
+
+<%= render :partial => "shared/whatisverified" %>

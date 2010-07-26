@@ -1,0 +1,72 @@
+<% if @posted.blank? %>
+  <p id="none"> You have no posted invitations. What are you waiting for?  <%= link_to('Go post one now!', postinvite_url) %></p>
+<% else %>
+
+			<% @posted.each do |inv| %>
+
+				<% begin  %>
+				<div class="wide-inv">
+
+					<div class="inv-date"><h4><%= inv.upcoming_meeting.start_time_local.strftime("%b<br/>%d") %></h4></div>
+
+					  <div class="inv-header">
+							<%= confs_accepted_note(inv) %>
+							<%= link_to(inv.name, show_invite_url(:id => inv.id)) %><br/>
+							<%= inv.upcoming_meeting.start_time_local.strftime("%I:%M %p") %>,
+							<%= location_format_short(inv) %>
+					  </div>
+
+					  <div class="inv-indicators">
+
+							<a href="" title="Confirmed">
+								<%= inv.confirmed_invitees.count %> 
+								<%= image_tag("/images/meetingwave/indicators/green_guy.gif") %>
+						    </a>
+
+							<a href="" title="Declined">
+								<%= inv.declined_invitees.count %> 
+								<%= image_tag("/images/meetingwave/indicators/red_guy.gif") %>
+						    </a>
+
+							<a href="" title="Messages">
+								<%= inv.messages.count %> 
+								<%= image_tag("/images/meetingwave/indicators/mail.gif") %>
+						    </a>
+
+
+					  </div>
+
+					  <div class="inv-desc">
+						<%= inv.description %>
+					  </div>
+
+					  <div class="inv-poster">
+							<div class="inv-poster-image">
+							  <% if(inv.inviter.member_profile.picture rescue false) %>
+								<%= image_tag(thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+							  <% end %>
+							</div>
+							<div class="inv-poster-details">
+								Posted by: <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id)) %>
+								<br/>
+								On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+							</div>
+							<div class="inv-buttons">
+
+							</div>
+
+					  </div>
+
+				</div>
+
+				<% rescue %>
+				<% end  %>
+
+			<% end %>
+
+<% end %>
+
+
+
+
+

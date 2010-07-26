@@ -1,0 +1,101 @@
+          <table width="758" border="0" cellspacing="0" cellpadding="0">  
+            <tr>
+              <td width="158" valign="top"><p class="label-create">Meeting Time</p></td>
+              <td width="24" valign="top"><p>
+                  <input type="radio" name="nopref" onclick="new Ajax.Request('/post_invite/change_date_picker?change=',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;" id="time"/>
+                </p></td>
+              <td><p class="label-time-select">No Preference</p><p><div id="Div1"></div></p></td>
+              <td width="18">&nbsp;</td>
+              <td width="95">&nbsp;</td>
+            </tr>				
+			<tr>
+              <td colspan="5" height="16">&nbsp;</td>
+            </tr>
+            <tr>
+              <!--td width="158" valign="top"><p class="label-create">Meeting Time</p></td-->
+              <td valign="top">&nbsp;</td>
+              <td valign="top"><p>
+                  <input type="radio" name="nopref" onclick="new Ajax.Request('/post_invite/change_date_picker?change=1',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;" id="time"/ checked>
+                  </p>              
+                  <input type="hidden" name="preferred_time" value="1" />
+                  </td>
+              <td>
+                  <p class="label-location">
+                    Preferred Day & Time Flexible...                  </p>
+                  <p>                  
+                   	<div id="Div5" style="padding-top:10px;">
+                    	<div style="float:left;"><span class="label-time-select">Start Time</span><br />
+						<%= date_selector('invitation[start_time_local]', 
+                                @invitation.start_time_local, 
+                                :disabled =>  (@invitation.posted? and @invitation.recurring?), 
+                                :class => 'edit_time_fields',
+                                :error => @invitation.date_errors? )%>                         </div>       
+                         <div style="float: left; padding-left: 50px;">
+                        <span class="label-time-select">End Time</span><br />
+                        <%= date_selector('invitation[end_time_local]', 
+                                                    @invitation.end_time_local, 
+                                                    :disabled =>  (@invitation.posted? and @invitation.recurring?), 
+                                                    :class => 'edit_time_fields',
+                                                    :error => @invitation.date_errors?)%>                         </div>
+                    </div>
+                  </p>               </td>
+              <td><p>&nbsp;</p></td>
+              <td><p>&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td colspan="5" height="16">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign=""><p>
+                  <input type="radio" name="nopref" onclick="new Ajax.Request('/post_invite/change_date_picker?change=2',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;" id="time"/>
+                </p></td>
+              <td>
+              	<p class="label-time-select">
+                	Exact Date & Time ...                
+                </p>
+                <p></p>
+              </td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            
+            
+            <tr>
+              <td valign="top" colspan="5" height="20">&nbsp;</td>
+            </tr>
+            
+            <tr>
+              <td valign="top"><p class="label-create">Recurrence</p></td>
+              <td colspan="2"><p>
+						&nbsp;<span class="label-time-select">I want this invite to  repeat</span>
+                        <br/>
+                    <%= select("invitation", "recurrence_frequency", Invitation::RECURRENCE_OPTS,  { }, :disabled => (@invitation.posted? and @invitation.recurring?),:class => "select-create") %>
+                        <%#= link_to_image("/images/ttb/questionmark.tiny.postwiz.gif") %>
+						<!--
+                        %= tool_tip('Repeating Invites', %q{ If you post a recurring invite, MeetingWave.com will give users the option of accepting 
+                                  the invite for any one or more recurring day(s) and time(s) you specify.  
+                                  You do not need to commit to holding a meeting on any given recurring date.   
+                                  By posting a Recurring Invite, you are simply indicating that you are generally available to meet 
+                                  on those specific dates.  Like any other Invite, only people you have approved may attend your meeting.  
+                                  <p>For example, if 
+                                  you post an invite that is to recur every Tuesday at 7 PM on a weekly basis, users can 
+                                  accept the invite for the first Tuesday at 7 PM, and/or the second Tuesday at 7 PM and so 
+                                  forth.  The way this would work on MeetingWave.com is as follows:  once a user accepts 
+                                  your invite, the user will be given the option of selecting a Tuesday to meet. You will 
+                                  then be notified that your invite has been accepted for the particular Tuesday selected by 
+                                  the user and be given the option to approve or decline that acceptance. </p> <p> Please note the 
+                                  recurring meeting dates will continue after the first confirmed meeting unless you delete 
+                                  the posted invite.  In addition, with recurring invites, we recommend not using a minimum 
+                                  invitee requirement or using one no greater then one (1) so a single acceptance is sufficient 
+                                  to confirm the proposed meeting.</p>}, 
+                        :id => 'ri_tt', 
+                        :image => '/images/ttb/questionmark.tiny.postwiz.gif',:border => 0) %-->
+                </p></td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top" colspan="5" height="20">&nbsp;</td>
+            </tr>
+			</table>

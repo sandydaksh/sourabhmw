@@ -1,0 +1,243 @@
+
+<form action="/" method="post" onsubmit="new Ajax.Request('/post_invite/make_address_hash',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;">
+
+		<div id="light5" class="white_content_common_edit_saved_location">
+        
+  		<p>
+        
+        <div style="width:723px; margin:0 auto;">
+        <div><img src="/images/newdesign/search-top-bg.jpg" border="0" width="723" height="7"></div>	
+        
+		  <div style="background:url(/images/newdesign/search-middle-bg.jpg) repeat-y; width:723px; ">
+          <div  style="width:660px; float:left; padding:25px 0 4px 0;"><p class="cancel-grey"><a href = "javascript:void(0)" onclick = 	"document.getElementById('light5').style.display='none';document.getElementById('fade5').style.display='none'" >
+         
+         Cancel &amp; Close</a></p> </div>
+          <div style="float:left; width:59px;"><a href = "javascript:void(0)" onclick = 	"document.getElementById('light5').style.display='none';document.getElementById('fade5').style.display='none'">
+         
+          <img src="/images/newdesign/location-close.jpg" border="0" width="28" height="26" style="margin:17px 0 4px 5px;"></a> </div>
+         
+          
+          <div style="clear:both;">
+          
+          <table width="614" border="0" cellspacing="0" cellpadding="0" align="center">
+  
+ 
+  <tr>
+    <td valign="top" width="234"><table width="234" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2"><img src="/images/newdesign/specify-location.jpg" border="0" width="229" height="33" style="margin:0 0 0 5px;"></td>
+    </tr>
+  <tr>
+    <td colspan="2"><p class="loctext">LOCATION OPTIONS</p></td>
+    </tr>
+  <tr>
+    <td width="20" valign="top"><p><input type="radio" name="decide4" onclick="Togglepopup('light1'); Togglefade('fade1');" id="loc4"></p></td>
+    <td width="214" valign="top"><p class="specify-text-unselect">Decide Location Later</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><input type="radio" name="decide4" onclick="Togglepopup('light2'); Togglefade('fade2');" id="loc4" checked ></p></td>
+    <td valign="top"><p class="specify-text-unselect">New Location</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><input type="radio" name="decide4" onclick="Togglepopup('light3'); Togglefade('fade3');" id="loc4"></p></td>
+    <td valign="top"><p class="specify-text-unselect">Saved Location</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><input type="radio" name="decide4" onclick="Togglepopup('light4'); Togglefade('fade4');" id="loc4"></p></td>
+    <td valign="top"><p class="specify-text-unselect">Airport</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><input type="radio" name="decide4" onclick="Togglepopup('light5'); Togglefade('fade5');" id="loc4" checked></p></td>
+    <td valign="top"><p class="specify-text-selected">Search for a Location</p></td>
+  </tr>
+  
+</table>
+</td>
+
+
+    <td width="380" valign="top"><table width="380" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2"><table width="370" border="0" cellspacing="0" cellpadding="0">
+
+      <tr>
+        <td colspan="4" height="53"></td>
+        </tr>
+     <% saved_addresses = @viewer.addresses_for_reuse %>
+        <div id="map_canvas" style="display:none;">
+          
+        </div>
+
+        <div id="airport_map_canvas" style="display:none;">
+          
+        </div>
+        
+        <div id="yelp" class="clearfix">
+
+          <%= hidden_field('yaddress', 'name') %>
+          <%= hidden_field('yaddress', 'address') %>
+          <%= hidden_field('yaddress', 'address2') %>
+          <%= hidden_field('yaddress', 'city') %>
+          <%= hidden_field('yaddress', 'state') %>
+          <%= hidden_field('yaddress', 'zip') %>
+          <%= hidden_field('yaddress', 'country') %>
+          <%= hidden_field('yaddress', 'yelp_id') %>
+          <%= hidden_field('yaddress', 'yelp_url') %>
+          <%= hidden_field('yaddress', 'yelp_photo_url') %>
+          <%= hidden_field('yaddress', 'latitude') %>
+          <%= hidden_field('yaddress', 'longitude') %>     
+          <%=hidden_field('address', 'kind',:value => "yelp")%>   
+      <tr>
+      
+      <div class="formbit_small clearfix"  id="yelp-location-box">
+        <td width="120"><p class="add" style="padding:0 0 0 2px;">keyword<br>
+            <%= text_field_tag('', '', :id => "yelp-terms", :class => 'search-box', :autocomplete => 'off')  %>        
+        </p>
+        <p class="note2" style="padding:0 0 0 3px;">e.g. pizza</p></td>
+      </div>
+      
+        
+        <td width="7">&nbsp;</td>
+        
+        
+        <div id="yelp-search-inputs">
+            <td width="148"><p class="add">Location<br>
+            <%= text_field_tag('', '', :id => "yelp-location", :class => 'search-box', :onchange => "showYelpLocation('yelp-location');", :autocomplete => 'off')  %>
+            </p> <p class="note2">e.g. Greenwich village</p></td>
+        </div>
+        
+        
+        <td width="95">
+        	<p>
+            	<%= link_to_function(yelp_button_image('search-button'), "doYelpSearch();", :id => "yelp-search-button",:border => "0", :width=>"82", :height=>"32", :style=>"margin:5px 0 0 8px;") %>
+                <%= indicator_image("spinner.offwhite", :id => "yelp-spinner", :style => "display: none;") %>
+            	<!--img src="/images/newdesign/search-button.jpg" border="0" width="82" height="32" style="margin:5px 0 0 8px;"-->
+            </p>
+        </td>
+      </tr>
+      
+    </table></td>
+  </tr>
+  <tr>
+    <td height="11" colspan="2"></td>
+  </tr>
+  <tr>
+    <td height="17" colspan="2">
+    <div style="width:366px; float:left;">
+    <p>
+          <div id="yelp_map_box">
+            <div id="yelp_map_canvas" style="height: 183px; width: 366px; position: relative; background-color: rgb(229, 227, 223);">
+            </div>
+          </div>
+	   	<!--img src="/images/newdesign/map.jpg" border="0" width="363" height="183" style="margin:0 0 0 3px;"-->
+    </p>
+    
+    
+    </div>    </td>
+  </tr>
+   <tr>
+    <td height="3" colspan="2"></td>
+  </tr>
+  <tr>
+    <td height="17" colspan="2">
+      <div style="width:366px; float:left;">
+    <p>
+          <div id="yelp-instructions-box">
+            <p>To search for meeting places:</p>
+            <ol>
+              <li>Enter the location you'd like to meet near (for example: "Greenwich Village").</li>
+              <li>Enter the type of place you want to meet at in the Search Terms box.</li>
+              <li>Click the search button, and voila!  Select from the list of choices that comes up.</li>
+            </ol>
+          </div>
+          <div id="yelp-none-found" style="display: none;">
+            No venues could be found in that search area with the terms provided.  Please try again with broader search terms or in a different area.
+          </div>
+            <style type="text/css">          
+            #yelp-list-box {
+            height:200px;
+            margin-left:2px;
+            margin-right:0;
+            width:366px;
+            }
+            </style>
+          <div id="yelp-list-box" style="display: none;">
+            <ul id="yelp-list">
+            </ul>
+          </div>    
+    	<!--img src="/images/newdesign/categories.jpg" border="0" width="363" height="231" style="margin:0 0 0 3px;"-->
+    </p>
+    
+    </div>  
+    </td>
+  </tr>
+  
+  
+  
+  </div>
+
+  <tr>
+    <td colspan="2" valign="top"><p class="add" style="padding:9px 0 0 3px;">
+    keep location private<br>
+    </p></td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="239" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="22"><p><%= undisclosed_checkbox_new(:airport_version => false)%></p></td>
+          <td width="217"><p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#333333;">Hide Location</p></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><p class="note2">Note:Confirmed Attendees will see Location</p></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</td>
+  </tr>
+  
+  <tr>
+    <td colspan="2" valign="top" ><div style="border-bottom:1px dotted #989898; margin:4px 0 0 0; width:600px;">&nbsp;</div></td></td>
+    </tr>
+  <tr>
+    <td colspan="2" valign="top" >
+    <div style="width:232px; margin:0 0 0 378px;">
+    <table width="232" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2" height="20">&nbsp;</td>
+    </tr>
+  <tr>
+    <td width="102"><p class="cancel-close"><a href = "javascript:void(0)" onclick = 	"document.getElementById('light5').style.display='none';document.getElementById('fade5').style.display='none'" >
+         
+         Cancel &amp; Close</a></p></td>
+    <td width="130"><p><input type="image" src="/images/newdesign/continue.jpg" border="0" width="130" height="38" onclick = 	"document.getElementById('light5').style.display='none';document.getElementById('fade5').style.display='none'"></p></td>
+  </tr>
+</table>
+</div></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="41"></td>
+  </tr>
+</table>
+
+</div>
+             </div>	        
+           <div><img src="/images/newdesign/search-bottom-bg.jpg" border="0" width="723" height="7"></div>
+          </div>
+          </p>
+        </div>
+        
+		<div id="fade5" class="black_overlay_common_edit_saved_location"></div>        
+</form>        

@@ -1,0 +1,35 @@
+      <% form_tag signup_post_url do -%>
+		<h1 class="invitename" style="text-align: center;">Create an Account</h1>
+		
+                <%= error_messages_for 'member', 
+                        :attributes_order => [:first_name, :last_name, :email, 
+                                              :user_name, :password, :terms_of_service], 
+                          :header => 'Please correct the following errors:' %>
+				<table class="editform">
+					<tr><td class="flabel">First Name:</td>		    <td><%= text_field 'member', 'first_name', :size => '25' %></td></tr>
+					<tr><td class="flabel">Last Name:</td>		    <td><%= text_field 'member', 'last_name', :size => '25' %></td></tr>
+				  </table>
+				<table class="editform">
+					<tr><td class="flabel">Email:</td>		        <td><%= text_field 'member', 'email', :size => '26' %></td></tr>
+					<tr><td class="flabel" >Username: </td>		    <td><%= text_field 'member', 'user_name', :size => '26' %></td></tr>
+					<tr><td class="flabel">Password:</td>		    <td><%= password_field 'member', 'password', :size => '26' %></td></tr>
+					<tr><td class="flabel">Password:<br/>(again)<td>	<td><%=  password_confirmation_field(:size => '26') %></td></tr>
+				</table>
+						
+                <%= check_box :member, :terms_of_service, :class => 'checkbox'  %>
+
+                <span class="terms">
+                I have read and agree to the MeetingWave <%= link_to('terms of use', tos_url, :target => '_blank') %>,
+                <%= link_to('privacy policy', pp_url, :target => '_blank') %>, and <%= link_to('safety tips', safety_url, :target => '_blank') %>.  
+                I verify I am at least 18 years old.
+              </span>
+		
+			  <div style="text-align: center;">
+				<input name="Submit" value="Join" type="image" src="<%= button_path("join") %>" />
+			   </div>
+		<% end %>
+	
+
+<%= javascript_tag("$('member_first_name').focus();")  %>
+
+

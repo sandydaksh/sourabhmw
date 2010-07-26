@@ -1,0 +1,87 @@
+ <% cache(CachingObserver.my_invitations_key(current_member,params), CachingObserver.my_invitations_ttl) do %>
+    <% setup_my_invites %>
+           <h3 class="section">UPCOMING MEETINGS</h3>
+           <table summary="Confirmed Invites" class="myinvites">
+			   <% @confirmed.flatten! %>
+			   <% @confirmed.compact! %>
+				<% if @confirmed.size.zero? %>
+					  <tr><td ><em>You have no confirmed invitations.</em></td></tr>
+				<% else %>
+
+					 <tbody>
+                         <% @confirmed.each do |meeting| %>
+							 <% klass = cycle("even", "odd") %>
+                             <tr class="<%= klass %>">
+                                <td> 
+								  <strong><%= mobile_time(meeting) %></strong> :
+									<%= short_link(meeting.invitation, meeting) %> 
+									in <strong><%= location_format_short(meeting.invitation) %></strong> 
+								</td>
+							 </tr>
+                         <% end %>
+                     </tbody>		
+				<% end %>
+           </table>
+
+           <h3 class="section">INVITES I'VE RECEIVED</h3>
+           <table summary="Received Invites" class="myinvites">
+                   <tbody>
+                        <% if @received.size.zero? %>
+                           <tr><td colspan="7">You have not received any invitations.</td></tr>
+                        <% else %>
+                           <% @received.each do |invitation| %>
+								<% klass = cycle("even", "odd") %>
+                               <tr class="<%= klass %>">
+								  <% meeting = invitation.upcoming_meeting %>
+								  <td> 
+									  <strong><%= mobile_time(meeting) %></strong>:  <%= short_link(invitation, meeting) %> 
+									  in  <strong><%= location_format_short invitation %></strong> 
+								  </td>
+                               </tr>
+                           <% end %>
+                        <% end %>
+                   </tbody>		
+           </table>
+
+
+
+        <h3 class="section">INVITES I'VE POSTED</h3>
+        <table summary="posted_invites" class="myinvites">
+             <tbody>
+                  <% if @posted.size.zero? %>
+                     <tr><td colspan="6">You have no posted invitations.</td></tr>
+                  <% else %>
+                     <% @posted.each_with_index do |meeting, idx| %>
+	      			    <% klass = cycle('even', 'odd') %>
+	      			    
+	      			    <tr id="posted_<%= meeting.invitation_id %>" class="<%= klass -%>">
+						  <td> <strong><%= mobile_time(meeting) %></strong>:
+							   <%= short_link(meeting.invitation, meeting) %> has
+							 <span class="orange"> <%= pluralize(meeting.confirmed_invitees.count, 'person') %>  attending.</span> </td>
+	      			    </tr>
+                     <% end %>
+                  <% end %>
+         
+             </tbody>		
+        </table>
+
+           <h3 class="section">INVITES I'M WATCHING</h3>
+           <table summary="watching_invites" class="myinvites">
+                   <tbody>
+                        <% if @watching.size.zero? %>
+						  <tr><td colspan="6"><em>You're not watching any invitations right now.</em></td></tr>
+                        <% else %>
+                           <% @watching.each do |confirmation| %>
+                              <% invitation = confirmation.invitation %>
+                               <tr class="<%= cycle("even", "odd") -%>">
+								 <td> <strong><%= mobile_time(confirmation.meeting) %>: </strong>  
+									  <%= short_link(invitation, confirmation.meeting) %> in
+                                      <%= location_format_short(invitation) %>, posted by  
+									  <strong><%= invitation.inviter.user_name %> </strong>.
+								 </td>
+                               </tr>
+                           <% end %>
+                        <% end %>
+                   </tbody>		
+           </table>
+<%end%>

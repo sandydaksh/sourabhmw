@@ -1,0 +1,64 @@
+  <div id="browse_invites">
+    <table summary="browse_invites">
+      <thead>
+        <tr>
+          <th scope="col" id="browse_invites_1">When</th>
+          <th scope="col" id="browse_invites_2">What</th>
+          <th scope="col" id="browse_invites_3">Where</th>
+          <th scope="col" id="browse_invites_4">Who</th>
+        </tr>
+      </thead>	
+      <tbody>
+        <% if @invitations.nil? or @invitations.size.zero? %>
+          <tr class="even">
+            <td colspan="3">
+              <%= none_found(@browse_state) %>
+            </td>
+          </tr>
+        <% else %>
+          <% @invitations.each do | meeting |  %>
+          <tr class="<%= style = cycle('odd', 'even') %>">
+          
+                     <% image =  "meetingwave/indicators/recurring" + ( ( style == 'odd' ) ? "_odd" : "" )  +".gif" %>
+
+            <td > 
+            <div style="width:100px">
+        <%  if( meeting.recurring?) %>    
+           <%= content_tag('span', image_tag(image) + " " + meeting.recurrence_frequency.capitalize, :class => 'repeat_freq')%>
+
+        <% else  %>
+				<%= browse_date(meeting) %> 
+				<% if meeting.expired? %>
+					<br/>
+					<%= content_tag('span', 'EXPIRED', :class => 'expired') %>
+				<% elsif meeting.recurring? %>
+					<br/>
+					<%= content_tag('span', meeting.recurrence_frequency.capitalize, :class => 'repeat_freq')%>
+				<% end %>
+<% end %>
+        </div>
+			</td>
+            <td > 
+			  <%= link_to(truncate(meeting.name, 50), show_invite_url(:id => meeting.invitation), :alt => meeting.name, :title => meeting.name, :class => "bd") %> 
+              <br />
+			  <%= truncate(meeting.description, 50) %>
+  
+	  
+            </td>
+            <td>
+              <%= address_detail(meeting,style) %> <br />
+            </td>
+            <td class="host">
+					<%= link_to(mini_icon(meeting.inviter),  member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :title => meeting.inviter.user_name) %>
+				    <%= link_to(truncate(meeting.inviter.user_name, 14), member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name) %>
+
+			</td>
+          </tr>
+          <% end %> 
+        <% end %>
+
+      </tbody>		
+    </table>
+
+
+  </div>

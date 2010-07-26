@@ -1,0 +1,28 @@
+<% setup_other_invites %>
+
+<h3 class="your_other_invites">YOUR OTHER INVITES</h3>
+<h5 class="your_other_invites">Click on one of the invitations below to view the guest responses for it.</h5>
+<div id="columntable">
+   <table summary="your other invites">
+      <thead>
+         <tr>                   
+            <th scope="col" id="guest_response_1">Date</th>
+            <th scope="col" id="guest_response_2">Title</th>
+            <th scope="col" id="guest_response_3">Responses</th>
+         </tr>
+      </thead>	
+      <tbody>
+      <% if @other_meetings.size.zero? %>
+      <tr ><td colspan="3"> You do not have any other invites at this time. </td></tr>
+      <% else %>
+         <% @other_meetings.each do |meeting| %>
+            <tr class="<%= cycle('even', 'odd') -%>" >
+               <td><%= meeting.short_date %></td>
+               <td><%= guest_response_link(meeting) %></td>
+               <td class="center_it"><%= meeting.invitation.invitees.size %></td>
+            </tr>
+         <% end %>
+      <% end %>
+      </tbody>		
+   </table>
+</div>

@@ -1,0 +1,67 @@
+
+<div class="standard_message has_padding"> 
+	
+	<% unless(@fb_user.merged_account?) %> 
+	       <fb:explanation>  <fb:message>Link with MeetingWave.com</fb:message>  If you link your Facebook and MeetingWave accounts then you will be able to:
+	  <ul> <li> Display "My Invitations" on your Facebook Profile</li>
+		<li> See "My Inviations" from within Facebook </li>   
+		 <li> Post an Invite from within Facebook </li>     
+		 </fb:explanation>
+	   <% end %>
+<div class="standard_message has_padding">
+	<fb:editor action="?signin=true" labelwidth="75" >   
+
+	<p> <strong>Sign In to MeetingWave</strong> in order to merge that account with your Facebook account </p>
+	<fb:editor-text label="Email" name="member[email]" value="<%= @login %>"/>               
+
+	<fb:editor-custom label="Password">               
+	<%= password_field_tag 'member[password]', nil %>
+</fb:editor-custom>
+
+
+<fb:editor-buttonset> 
+<fb:editor-button value="Sign In"/>  
+</fb:editor-buttonset>    
+
+</fb:editor>    
+
+
+<fb:editor action="?signup=true" labelwidth="75" >   
+
+<p> <strong>Create A MeetingWave Account</strong></p>
+<%= error_messages_for 'member', 
+:attributes_order => [:first_name, :last_name, :email, 
+	:user_name, :password, :terms_of_service, :captcha], 
+	:header => 'Please correct the following errors before we create your account:' %>
+	<fb:editor-custom label="FIRST NAME (optional)">
+		<%= text_field 'member', 'first_name', :class => 'fatinput' %>
+	</fb:editor-custom>
+	<fb:editor-custom label="LAST NAME (optional)"> 
+		<%= text_field 'member', 'last_name', :class => 'fatinput' %>
+	</fb:editor-custom>
+	<fb:editor-custom label="EMAIL">
+		<%= text_field 'member', 'email', :class => 'fatinput' %> 
+	</fb:editor-custom>
+
+<br/>
+	<fb:editor-custom label="USERNAME">  
+		<%= text_field 'member', 'user_name', :class => 'fatinput' %>
+	</fb:editor-custom>
+	<fb:editor-custom label="PASSWORD">
+		<%= password_field 'member', 'password', :class => 'fatinput' %>       
+	</fb:editor-custom>
+<fb:editor-custom label="PASSWORD (again)">	
+<%=  password_confirmation_field %>
+</fb:editor-custom>     
+
+<fb:editor-buttonset> 
+	<fb:editor-button value="Create"/>  
+</fb:editor-buttonset>
+
+
+              
+
+</fb:editor>  
+</div>    
+
+</div>

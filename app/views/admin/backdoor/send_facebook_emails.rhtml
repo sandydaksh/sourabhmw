@@ -1,0 +1,56 @@
+<style>
+
+   div#wrapper{
+	  font-size:130%;   
+	  padding:30px;
+}     
+   div.notification{    
+	  border:thin solid black;
+	  padding:20px; 
+	  width:300px;
+	  margin:auto;  
+	  font-size:80%;  
+	  background-color:lightyellow; 
+	
+	 
+	
+}
+   div#recipients{
+	
+}   
+   span.recipient{
+	 display:block;
+	 margin-left:40px;
+}
+
+div#errors{
+  font-size:25px;
+  color:red;
+  width:70%;
+  background-color:lightyellow;
+  margin:auto;
+  padding:10px;
+ border:thin solid black;
+}
+</style>
+
+
+<% if @errors %>
+  <div id="errors">
+      <%= @errors %>  
+  
+    </div>  
+<% end %>
+
+
+
+<div id="wrapper">
+    
+    Subject:
+     <div class="notification"> <%= @subject %> </div>
+    Html:
+     <div class="notification"> <%= @html %> </div>
+    Text:            <div class="notification"> <%= @text %> </div>
+    
+	</div>
+</div>

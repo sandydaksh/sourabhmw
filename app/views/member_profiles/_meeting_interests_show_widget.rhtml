@@ -1,0 +1,28 @@
+<% widget_id = "meeting_interests_#{profile_widget.id}" %>
+<div class="pwidget" id="<%= widget_id %>">
+	
+	<!-- HEADER -->
+	<div class="header">
+		<h3>MEETING INTERESTS</h3>
+	</div>
+	
+	<!-- NONE EXIST YET -->
+	<% if member_profile.meeting_interests.blank? %>
+			<p class="noneyet">
+				No meeting interests listed.  
+			</p> 
+	<% end %>
+	
+	<!-- VIEW -->
+	<div class="view">
+		<% member_profile.meeting_interests.each do |meeting_interest| %>
+			<h4 class="subheader"> <%= meeting_interest.interest %> </h4>
+			<h5 class="entry"> 
+				<%= meeting_interest.time %> 
+				<br/>
+				<%= meeting_interest.location %>
+			</h5>
+		<% end %>
+	</div>
+	
+</div>

@@ -1,0 +1,94 @@
+ <% cache( show_cache_key, CachingObserver.show_invite_ttl ) do %>
+<h1 class="invitename"><%= @invitation.name %></h1>
+
+<%= mobile_buttons(@meeting, @member) %> 
+
+<h3 class="wsection">WHO</h3>  
+<%= host(@invitation) %>
+<h3 class="wsection">WHERE</h3> 
+<%= where(@invitation, :is_mobile => true) %> 
+<h3 class="wsection">WHEN</h3> 
+<%= whence(@meeting, :is_mobile => true) %>
+<h3 class="wsection">WHAT</h3>  
+<%= description(@invitation) %> 
+<h3 class="wsection">WHY</h3>  
+<%= why(@invitation) %>
+
+
+<hr/>
+	<h2 class="invitename">GUESTS</h2>
+	<% if(@viewer == @invitation.inviter)  %>
+	   <% unless @meeting.expired? %>
+			<h4 class="wsection">RSVPs Requiring Action</h4>
+			<% if @outstanding_rsvps.size.zero? %>
+				<em>There are no RSVPs at this time.</em>
+			<% else %>
+			  <p>Select whether to approve or decline these RSVPs, then click the UPDATE RSVPs button. </p>
+			  <%= form_tag(update_rsvps_url) %>
+				<%= hidden_field_tag('id', @meeting.id) %>
+				<table class="guestlist" width="100%" summary="Outstanding RSVPs.">
+					<thead> <tr><th>Name</th><th class="approve_decline">Approve/Decline</th></tr> </thead>
+					<tbody>
+						<% @outstanding_rsvps.each do |invitee| %>
+							<%= mobile_outstanding_rsvp_sidebar_row(@meeting, invitee, cycle("even", "odd", :name => "oustanding")) %>
+						<% end %>
+						<tr> <td colspan="2" style="text-align: center">  <%= ibutton('update_rsvps') %> </td> </tr>
+					</tbody>
+				 </table>
+			   </form>
+			<% end %>
+		<% end %>
+
+		<h4 class="wsection">Guest List</h4>
+		<% if @guest_list.size.zero? %>
+			<em>There are no approved guests at this time.</em>
+		<% else %>
+			<table class="guestlist" width="100%" summary="All guests that who have been invited and are either approved or declined.">
+				<thead> <tr> <th>Name</th> <th>Status</th> </tr> </thead>
+				<tbody>
+				  <% @guest_list.each do |invitee| %>
+					<%= guest_response_sidebar_row(@meeting, invitee, cycle("even", "odd", :name => "guest_list")) %>
+				  <% end %>
+				</tbody>
+			</table>
+		<% end %>
+	<% else %>
+	    <% if @guest_responses.blank?  %>
+		  <em>No attendees.</em>
+		<% else  %>
+			<table class="guestlist" width="100%" summary="All guests that who have been invited and are either approved or declined.">
+				<thead> <tr> <th>Name</th> <th>Status</th> </tr> </thead>
+				<tbody>
+					<% @guest_responses.each do |invitee| %>
+						<%= guest_response_sidebar_row(@meeting, invitee, cycle("even", "odd")) %>
+					<% end %>
+				</tbody>
+			</table>
+		<% end %>
+	<% end %>
+
+	<% if(@viewer and @viewer != @invitation.inviter) %>
+	 	 <h2 class="invitename">MESSAGING</h2>
+		 <%= form_tag(invitee_send_message_url) %>
+			 <%= content_tag('h5', 'Send a Message to the Inviter:')  %>
+			 <%= text_area_tag('message[body]', nil, :size => '40x2') %>
+			 <%= hidden_field_tag('message[meeting_id]', @meeting.id) %>
+			 <div style="text-align: center;">			 
+				<%= ibutton('send') %> 
+			 </div>
+		 </form> 
+	<% end %> 
+
+
+	<%= acceptances_awaiting_response_table(@invitation, @meeting) %>
+
+
+<%end %>
+
+
+
+
+
+
+
+

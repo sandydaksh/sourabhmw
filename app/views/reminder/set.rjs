@@ -1,0 +1,7 @@
+if @invite_show_page
+  page.replace_html("flash", set_message_for(@reminder, false))
+  page.show("flash")
+else
+  page.replace_html("notice", set_message_for(@reminder))
+  page.show("notice")
+end

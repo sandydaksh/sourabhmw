@@ -1,0 +1,15 @@
+
+<% if(@fb_user) %>
+<% cache(CachingObserver.facebook_tab_key(@fb_user.member)) do %>
+<%= 
+     @viewer = @fb_user.member
+     setup_my_invites()
+     @invites = @my_invitations.select(&:open?).reject(&:deactivated) 
+       render :partial => "invite_list", :locals => { :no_invites_message => "You don't have any invites!! Click on Post Invite."}
+%>
+
+<%end%>
+
+  <% else %>
+   <%= fb_success("No Invites available.....  ")%>
+  <% end %>

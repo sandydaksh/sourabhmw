@@ -1,0 +1,380 @@
+    <%= GMap.header(:host => request.host) %>  
+  <!--[if IE]>
+    <style>
+.gs-hint-wrap {
+  margin-left: 2px;
+}
+#be-accurate {
+  margin-left: -15px;
+}
+    </style>
+  <![endif]-->
+  <style type="text/css">
+
+    form.gs-post-invite label.overlabel-apply {
+      padding: 4px;
+      color: #9999a2;
+      font-size: 14px;
+      z-index:1;
+      margin: 0;
+      float: none;
+      text-align: left;
+    }
+    .validation-advice {
+      background-image: url(/images/meetingwave/indicators/green_arrow_up.gif);
+      background-position: left 5px;
+      padding-left: 19px;
+      background-repeat: no-repeat;
+      float: left;
+      margin-right: 30px;
+      padding-top: 8px;
+      font-weight:bold;
+      color: #841004;
+    }
+    #advice-locval-location_name.validation-advice {
+      background-image: url(/images/meetingwave/indicators/green_arrow_down.gif);
+      background-position: left 10px;
+      padding-left: 19px;
+      background-repeat: no-repeat;
+    }
+    
+    select#state {
+      width:145px;
+    }
+
+    #map_box {
+      margin-left: 125px;
+      font-size: 14px;
+      margin-top: 0px;
+      padding-top: 5px;
+    }
+    #map_canvas {
+      width: 365px;
+      height: 100px;
+      margin-bottom: 10px;
+    }
+    
+
+  </style>
+
+
+  <div id="gs-post-an-invite">
+    <h1>Step 3 of 3: Post an invite.</h1>
+  </div>
+  <div class="instructions">
+    <p class="postone"> We could not find any active Public Invites
+    in <u><%= current_member.member_profile.current_city if current_member %></u>.  
+    <br/>
+    <br/>
+    Go ahead and post your own Public Invite!</p>
+  </div>
+
+  <%= form_tag({:controller => 'get_started', :action => 'step3a'}, :class => "gs-post-invite compact_accessible", :id => 'gs-form' ) %>
+
+    <%= hidden_field_tag('client_tz_offset','') %>
+	<% if private_mw? %>
+    <input type="hidden" name="univname" value="<%= private_mw %>" />
+    <% else %>
+    <input type="hidden" name="univname" value="public" />
+    <% end %>
+  <div class="clearfix">
+    <label for="title" >TITLE</label>
+    <%= text_field_tag('title', '', :class => 'txt required', :onfocus => "Element.show('be-creative');", :onblur => "Element.hide('be-creative');") %>
+
+    <div id="be-creative" class="gs-hint-wrap" style="display: none;">
+      <div class="gs-hint" >
+        <h2>Be Creative!</h2>
+        <p>A good title is essential to your Invite's success since other users
+        rely on titles when browsing for Invites to review and accept. An invite
+        titled "Coffee with other new moms" will generate a lot more interest from
+        the people you are seeking to meet than a broad invite named "Coffee in
+        CT".</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!--[if lte IE 6]>
+    <div id="advice-required-title"  style="margin-left: 62px; display: none; " class="validation-advice">
+      This is a required field.
+    </div>
+  <![endif]-->
+
+  <!--[if IE 7]>
+    <div id="advice-required-title"  style="margin-left: 124px; display: none; " class="validation-advice">
+      This is a required field.
+    </div>
+    <div class="cl" style="height: 1px;" > </div>
+  <![endif]-->
+
+  <div class="clearfix">
+    <label for="description" >DESCRIPTION</label>
+    <%= text_field_tag('description', '', :class => 'txt required', :onfocus => "Element.show('be-descriptive');", :onblur => "Element.hide('be-descriptive');") %>
+    <div id="be-descriptive" class="gs-hint-wrap" style="display: none;">
+      <div class="gs-hint">
+        <h2>Be Descriptive!</h2>
+        <p> Include as much information as you can in the Invite description.  If you
+        are flexible about the time and place, let others know.  </p>
+      </div>
+    </div>
+  </div>
+  <!--[if lte IE 6]>
+    <div id="advice-required-description"  style="margin-left: 62px; display: none;" class="validation-advice">
+      This is a required field.
+    </div>
+  <![endif]-->
+
+  <!--[if IE 7]>
+    <div id="advice-required-description"  style="margin-left: 124px; display: none; " class="validation-advice">
+      This is a required field.
+    </div>
+    <div class="cl" style="height: 1px;" > </div>
+  <![endif]-->
+
+  <div class="clearfix">
+    <label for="location" >LOCATION</label>
+    <div id="location-box">
+        <div id='advice-locval-location_name' class="validation-advice" style="display: none;"> All location fields are required.  </div>
+      <div class="compact_accessible_wrap clearfix">
+        <label class="overlabel" for="location_name">Location Name</label>
+        <%= text_field_tag('location_name', '', :class => 'txt', :onfocus => 'focusLocation("location_name");', :onblur => 'blurLocation("location_name");', :class => 'txt locval') %>
+      </div>
+
+      <div class="compact_accessible_wrap clearfix">
+        <label class="overlabel" for="address">Address</label>
+        <%= text_field_tag('address', '', :class => 'txt', 
+                                          :onfocus => 'focusLocation("address");', 
+                                          :onblur => 'blurLocation("address");', 
+                                          :onchange => "showAddress('address');") %>
+      </div>
+      <br class="cl"/>
+      <%= text_field_tag('city', current_member.member_profile.current_city, :class => 'txt', :onfocus => 'focusLocation("city");',:onblur => 'blurLocation("city");',:onchange => "showAddress('city');") if current_member %>
+
+                         <%= select_tag('state', us_state_options_for_select(current_member.member_profile.current_state, :include_blank => true), :onchange => "setState();") if current_member %>
+                         <%= select_tag('country', country_options_for_select(current_member.member_profile.current_country, ["United States", "Canada"]), :class => "required", :onchange => "setCountry();") if current_member %>
+   </div>
+    <div id="be-accurate" class="gs-hint-wrap" style="display: none;">
+      <div class="gs-hint" >
+        <h2>Be Accurate!</h2>
+        <p> Even if you are flexible or undecided about where to meet (e.g., for
+        coffee or lunch), it's a good idea to provide a specific address that is
+        close to where you want to meet. Providing a real address ensures your
+        Invite can show up on the MeetingWave map and is more easily found by
+        people near you.  </p>
+      </div>
+    </div>
+  </div>
+
+     <div id="map_box">
+        <p>The location you entered should appear on the map below:</p>
+        <div id="map_canvas">
+
+        </div>
+     </div>
+
+     <label for="time">TIME</label>
+     <div id="time-box">
+          I'm generally available <%= select("invitation", "recurrence_frequency", Invitation::RECURRENCE_OPTS[1..-1]) %> starting on  
+          <%= calendar_date_select_tag('date', Time.now.strftime("%m/%d/%Y"), {:time => false,
+                                                                               :class => 'date_only', 
+                                                                               :popup => :force, 
+                                                                               :valid_date_check => "date >= (new Date()).stripTime()"})  %>
+          <br/>
+		  from <%= simple_time_select('start_time') %> to <%= simple_time_select('end_time', Time.now + 1.hour) %> .
+     </div>
+     <%= ibutton('finish', :class => 'btn', :id => "finish_button", :onclick => "$('finish_button').hide();$('posting-indicator').show();") %>
+       <div class="button_box" id="posting-indicator" style="display: none;margin:auto;padding-top:20px;width:102px;height:44px;">
+                <%= indicator_image("spinner.offwhite") %>
+                Posting...
+            </div>
+  </form>
+
+
+  <p class="extra full_form">Need more options? 
+  <%= link_to('Try the full PostInvite form instead.', pop_to_facebook(facebook_postinvite_url(:canvas => true), postinvite_url)) %> 
+  </p>
+
+  <p class="extra">
+    If you’d rather not post an invite at this time, you can just <%= link_to('go to your MeetingWave home page', pop_to_facebook(facebook_dashboard_url(:canvas => true), my_invites_url)) %>.
+    </p>
+  
+  <script type="text/javascript">
+    function focusLocation(fieldId) {
+      Element.show('be-accurate');
+      hideLabel(fieldId, true);
+    }
+
+    function blurLocation(fieldId) {
+      Element.hide('be-accurate');
+      if ($F(fieldId) === '') {
+         hideLabel(fieldId, false);
+      }
+    }
+
+    function initSpecialOverLabels () {
+      if (!document.getElementById) return;  	
+      var labels, id, field;
+      // Set focus and blur handlers to hide and show 
+      // LABELs with 'overlabel' class names.
+      labels = document.getElementsByTagName('label');
+      for (var i = 0; i < labels.length; i++) {
+        if (labels[i].className == 'overlabel') {
+          // Skip labels that do not have a named association
+          // with another field.
+          id = labels[i].htmlFor || labels[i].getAttribute('for');
+          if (!id || !(field = document.getElementById(id))) {
+            continue;
+          }
+          // Change the applied class to hover the label 
+          // over the form field.
+          labels[i].className = 'overlabel-apply';
+          // Hide any fields having an initial value.
+          if (field.value !== '') {
+            hideLabel(field.getAttribute('id'), true);
+          }
+          // Handle clicks to LABEL elements (for Safari).
+          labels[i].onclick = function () {
+            var id, field;
+            id = this.getAttribute('for');
+            if (id && (field = document.getElementById(id))) {
+              field.focus();
+            }
+          };
+        }
+      }
+    };
+
+    function hideLabel (field_id, hide) {
+      var field_for;
+      var labels = document.getElementsByTagName('label');
+      for (var i = 0; i < labels.length; i++) {
+        field_for = labels[i].htmlFor || labels[i].getAttribute('for');
+        if (field_for == field_id) {
+          labels[i].style.textIndent = (hide) ? '-2000px' : '0px';
+          return true;
+        }
+      }
+    }
+
+    window.onload = function() {
+      $('title').focus();
+      $('client_tz_offset').value = timeZoneOffset();
+      initializeMap();
+    }
+
+    setTimeout(initSpecialOverLabels, 50);
+
+    function locationValidate(value) {
+       if($F('location_name') != '' &&
+           $F('address') != '' &&
+           $F('city') != '' &&
+           $F('country') != '') {
+         return true;
+       } else {
+         return false;
+       }
+    }
+
+    function validateGSForm(result, form) {
+		if(!result) {
+		   alert("Please correct the errors in QuickInvite form first.")
+           $('finish_button').show();
+           $('posting-indicator').hide(); 
+        } 
+    }
+
+    new Validation('gs-form', {onFormValidate:validateGSForm});
+    Validation.add('locval', 'All location fields are required.', function(value) { return locationValidate(value); } );
+
+
+
+    // MAP STUFF
+
+        var map      = null;
+        var geocoder = null;
+        var marker   = null;
+
+        function initializeMap() {
+          if (GBrowserIsCompatible()) {
+            map = new GMap2(document.getElementById("map_canvas"));
+            map.setCenter(new GLatLng(39.8163, -98.55762), 1);
+            geocoder = new GClientGeocoder();
+            map.addControl(new GSmallZoomControl());
+          }
+
+          showAddress(getMostLocalField());
+        }
+
+        function getMostLocalField() {
+            if($F('address').length > 0) {
+              return 'address';
+            } else if($F('city').length > 0) {
+              return 'city';
+            } else if($F('state').length > 0) {
+              return 'state';
+            } else if($F('country').length > 0) {
+              return 'country';
+            }
+          }
+
+        function setCountry() {
+          var country = $F('country');
+          if(country != "United States") {
+            $('state').value = '';
+            $('state').disabled = true;
+          } else {
+            $('state').disabled = false;
+          }
+          showAddress('country');
+        }
+
+        function setState() {
+          //$('city').value = '';
+          showAddress('state');
+        }
+
+        function showAddress(whichField) {
+          var address = $F('address');
+          if(address.length > 0) { address += ", "; }
+          address += $F('city');
+          if(address.length > 0) { address += ", "; }
+          address += $F('state');
+          if(address.length > 0) { address += ", "; }
+          address += $F('country');
+          var zoomLevel = 3;
+          if(whichField == 'city') {
+            //zoomLevel = 9;
+            zoomLevel = 11;
+          } else if(whichField == 'address') {
+            zoomLevel = 11;
+          } else if (whichField == 'state') {
+            zoomLevel = 11;
+          }
+              
+
+          if (geocoder) {
+            geocoder.getLatLng(address, function(point) {
+                if (point) {
+                    map.setCenter(point, zoomLevel);
+                    if(marker != null) { map.removeOverlay(marker); }
+                    marker = new GMarker(point);
+                    map.addOverlay(marker);
+                    //Element.show('map_instructions');
+            }
+          }
+        );
+      }
+    }
+
+    </script>
+
+
+
+
+
+  </script>
+
+
+	<div style="text-align: left; background-color: #aee057;  font-size: 18px; width: 95px; border-top: 1px solid #5b5b5b; border-right: 1px solid #5b5b5b; padding: 6px; color: #FFFFFF; font-weight: bold">
+	  Step 3 of 3
+	  </div>

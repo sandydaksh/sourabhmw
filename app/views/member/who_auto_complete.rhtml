@@ -1,0 +1,12 @@
+<ul class="autocomplete_list">
+<% @contacts.each do |contact| %>
+	<li class="autocomplete_item">
+		<div class="contact_image"><%= mini_icon_for_autocomplete(contact) %></div>
+		<div class="contact_text">
+			<%= content_tag('span', contact.user_name, :class => "contact_name") %><br/>
+			<span class="contact_email"><%= contact.fullname %></span><br/>
+		</div>
+		<br style="clear: both;" />
+	</li> 
+<% end %> 
+</ul>

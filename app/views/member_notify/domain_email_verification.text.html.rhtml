@@ -1,0 +1,27 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Click To Verify Your Profile Information!") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    Hello <%= @name %>-
+  <%= close_highlight %>
+
+<p>
+<a href="<%= @url %>" >Click Here</a> to verify your email address and you can than choose to display the verified email domain (e.g., @company.com or @alumni.college.edu) on your MeetingWave Profile and use that verified profile url virtually anywhere. <br /><br />
+If the above link does not work, you can paste the following address into your browser:<br /><br />
+<%= @url %> <br /><br />
+
+Thank you for using MeetingWave. By focusing on meeting people face to face,
+we hope you can build a network of valuable connections, where you live and
+where you work. <br /><br />
+
+At any time, if you have feedback for us, please let know by clicking <a href="http://www.meetingwave.com/contact">Feedback</a> at the bottom of our website.</p>
+
+<%= close_body %>
+
+<%#= login_button @url %>
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

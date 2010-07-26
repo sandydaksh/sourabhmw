@@ -1,0 +1,90 @@
+<script type="text/javascript">
+function facetoface()
+{
+if(document.getElementById("faf").checked==true)
+{
+if(document.getElementById("facetoface").style.display=="none")
+{
+document.getElementById("facetoface").style.display="inline";
+document.getElementById('checked_locat').value='1';
+}
+else
+{
+
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+}
+else
+{
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+
+}
+
+function vcheckuncheck()
+{
+ if(document.getElementById('vcheck').checked)
+ {
+    document.getElementById("virtual_f").value='v_flag';
+ }
+ else
+ {
+    document.getElementById("virtual_f").value='0'; 
+ }      
+}
+
+function romancecheck()
+{
+ if(document.getElementById('rom').checked)
+ {
+    document.getElementById("romance").value='19';
+ }
+ else
+ {
+    document.getElementById("romance").value='0'; 
+ }      
+}
+
+
+function npcheckuncheck()
+{
+ if(document.getElementById('npcheck').checked)
+ {
+    document.getElementById("preference_flag").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag").value=''; 
+ }      
+}
+
+
+function npcheckuncheck1()
+{
+ if(document.getElementById('preference').checked)
+ {
+    document.getElementById("preference_flag1").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag1").value=''; 
+ }      
+}
+
+</script>

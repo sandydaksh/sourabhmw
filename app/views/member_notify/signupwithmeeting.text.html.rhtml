@@ -1,0 +1,20 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Welcome to MeetingWave!") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    Hello <%= @name %>-
+  <%= close_highlight %>
+
+<p>Thank you for joining MeetingWave and for your interest in the upcoming meeting "<%= @ename %>".</p>
+
+<p>To complete your registration and your acceptance of the meeting, please click on the button below to verify your email address.</p>
+
+<%= close_body %>
+
+<%= login_button @url %>
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

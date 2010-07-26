@@ -1,0 +1,37 @@
+<div class="outer" id="whatbox">
+		<h2 id="whattab">&nbsp;</h2>
+		<div class="inner1 clearfix">	
+			<div class="formwrap">
+				<%= error_messages_for('invitation', :header => '', :attributes_order => [:name, :description, :activity_id, :minimum_invitees, :maximum_invitees]) %>
+				<div class="what_left">
+					<div class="formbit_small">
+						<h3>MEETING NAME*</h3>         
+						<%= text_field 'invitation', 'name', :class => 'txt'  %>
+						<h3 class="inline">ACTIVITY*</h3> 
+                                                <% cache("editor/activity/#{@invitation.activity_id || "none"}" )do %>
+						   <%= select 'invitation', 'activity_id', Activity::ACTIVITY_OPTS, :prompt => true, :class => 'txt' %>
+                                                <% end %>
+					</div>
+				</div>
+
+				<% unless @invitation.closed? %>
+					<div class="what_right">
+						<div class="min_max_input">
+							<div class="agemin">
+								<h3>MIN INVITEES</h3>
+								<%= text_field 'invitation', 'minimum_invitees', :class => 'txt_short'  %> 
+							</div>
+							<div class="agemax">
+								<h3>MAX INVITEES</h3>
+								<%= text_field 'invitation', 'maximum_invitees', :class => 'txt_short'  %> 
+							</div>
+						</div>
+					</div>
+				<% end %>
+				<div class="formbit_small cl">
+					<h3 id="meeting-description">MEETING DESCRIPTION</h3>
+					<%= text_area 'invitation', 'description', :cols => 34, :rows => 9, :class => 'meeting_description'  %>
+				</div>
+			</div>
+		</div>
+</div>                        

@@ -1,0 +1,27 @@
+<%=  invite_report_hello_user %>
+
+    <%=  invite_report_intro() %>
+
+<% @invitations.each do | inv| %> 
+       <%= inv.upcoming_meeting.start_time_local.strftime("%b %d") %> <%= inv.name + show_invite_url(inv, :host => host_with_port, :only_path => false) %>
+       <%= inv.inviter.username %>, <%=  location_format_short(inv) %>
+       <%= truncate(inv.description, 100) %>
+
+<% end %>
+
+    <%= invite_report_appology %>
+
+  <%= recurring_note %>  
+
+<% @recurring_invitations.each do | inv| %>
+     <% if inv.no_pref != 1 %><%= inv.upcoming_meeting.start_time_local.strftime("%b %d")%><% else %>No Preference<% end %> <%= inv.recurrence_frequency %> <%= inv.name %> 
+     From: <%= inv.inviter.username %>, <%=  location_format_short(inv) %>
+     Description: <%= truncate(inv.description, 100) %>
+     <%=  show_invite_url(inv, :host => host_with_port, :only_path => false) %>
+   
+<% end %>
+  
+<%= invite_report_marketing_blurb_text %>
+
+ 
+

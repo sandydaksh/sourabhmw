@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        <%= title_tag %>
+        <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	<link rel="stylesheet" href="/stylesheets/ttb/meetingwave.css" />  
+	<%= stylesheet_link_tag  '/stylesheets/facebook/override.css' %>
+ 
+	<link rel="stylesheet" href="/stylesheets/ttb/confirmed_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/watching_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/drafts.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/received_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/posted_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/columntable.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/signin.css" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+	<%= rss_link_tag() %>
+	<link rel="stylesheet" href="/stylesheets/ttb/reminder.css" />
+
+
+        <%= javascript_include_tag :defaults %>
+		<%= javascript_include_tag('reminder.js') %>
+
+</head>
+
+<body>
+<!-- LOGO -->
+ <script>
+    var fb_sig_session_key = '<%= params[:fb_sig_session_key] %>'
+</script>
+
+<!-- CONTENT -->
+<div class="content clearfix">
+     <div class="content_main">
+         <%= yield %> 
+     </div>
+
+</div>
+
+<%= render :partial => '/shared/urchin_hitail' %>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+<% widget_box_id = "user_widget_#{profile_widget.id}" %>
+<div class="pwidget" id="<%= widget_box_id %>">
+	
+	<div class="header">
+		<h3><%= profile_widget.title.upcase %></h3>
+	</div>
+	
+	<!-- VIEW -->
+	<div class="view">
+		<%= profile_widget.html %>
+	</div>
+
+</div>

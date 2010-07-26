@@ -1,0 +1,144 @@
+<!--[if IE ]>
+<style type="text/css">
+  #password_field label.overlabel-apply {
+    padding-top: 6px;
+  }
+  input#member_password_header {
+    margin-top: 4px;
+  }
+  #login-button {
+    margin-top:8px;
+  }
+  p#you-decide {
+    margin-top: 50px;
+  }
+  ul#browse-post {
+    margin-top: 20px;
+  }
+  #sub-nav-wrap {
+    margin-top: 6px;
+  }
+  #main-nav-wrap {
+    margin-top: 8px;
+  }
+  #logo-box {
+	  margin-top: 0;
+	  padding-top: 0;
+  }
+  #logo {
+	  margin-top: 5px;
+  }
+</style>
+<![endif]-->
+
+<!--[if lte IE 6 ]>
+<style type="text/css">
+
+  #login-button {
+    margin-top: 6px;
+    float:right;
+  }
+
+  #logo {
+    width: 320px;
+  }
+
+  #browse-sub-nav-wrap {
+    width: 290px;
+  }
+
+  
+
+</style>
+<![endif]-->
+
+<div id="masthead" class="clearfix">
+  <ul id="administrivia">
+    <li> <%= link_to("About Us", about_url) %>  /</li>  
+    <li> <%= link_to("In the News", in_news_home_url) %>  /</li>  
+    <li> <%= link_to("Features", features_url) %>  /</li> 
+    <li> <%= link_to("Tell a Friend", add_contact_url) %>  /</li>  
+    <li> <%= link_to("MW Blog", news_home_url) %>   /</li>
+    <li> <%= link_to("Safety Tips", safety_url) %>  /</li>  
+    <li> <%= link_to("FAQ", help_url) %>  </li>
+  </ul>
+
+  <div id="logo-box" class="clearfix">
+      <% if controller.action_name == 'myinvitations' %>
+      <h1>
+      	  <span><img src="/images/meetingwave/logos/logo.gif"/></span>
+      </h1>
+      <% else %>
+		  <%= link_to(content_tag('h1', content_tag('span', 'MeetingWave.com'), :id => 'logo'), home_url) %>
+      <% end %>
+	  <% if current_member.blank? and controller.action_name != "signup" %>
+		  <%= link_to(content_tag('span', 'Signup!'), signup_url, :id => 'signup_button') %>
+	  <% end %>
+  </div>
+
+  <div id="main-nav-wrap">
+    <ul id="main-nav">
+      <li><%= link_to("Features", features_url, :id => "features-nav-button") %></li>
+      <li><%= link_to("Post Invite", postinvite_url, :id => "post-invite-nav-button") %></li>
+      <li><%= link_to("Search Invites", browse_url) %></li>
+      <li><%= link_to("FAQ", help_url) %></li>
+    </ul>
+  </div>
+
+  <% if current_member.blank? %>
+    <div id="login">
+      <%= form_tag login_url %>
+        <div class="compact_accessible_wrap" id="email_field"> 
+          <label for="member_email_header" class="overlabel" style="display: none;">email</label> 
+          <%= text_field_tag('member[email]', '', :id => "member_email_header") %>
+        </div>
+        <div class="compact_accessible_wrap" id="password_field"> 
+          <label for="member_password_header" class="overlabel" style="display: none;">password</label> 
+          <%= password_field_tag('member[password]', '', :id => "member_password_header") %>
+        </div>
+        <%= ibutton("login", :id => 'login-button') %>
+      </form>
+	  <%= link_to(button_image('login_using_google_gr'), google_signup_url, :id => "login_using_google_nav") %>
+      <%= facebook_connect_on_nav  %>
+    </div>
+
+    <script type="text/javascript">
+    Event.observe(window, 'load', function() { initOverLabels(); });
+    </script>
+  <% else %>
+
+    <div id="welcome-box">
+      <h3>Welcome <%= link_to(truncate(current_member.welcome_name, 20).upcase, home_url) %>! </h3>
+    </div>
+
+    <div id="sub-nav-wrap">
+      <ul id="sub-nav">
+        <%= fb_connect_javascript_tag + init_fb_connect("XFBML")%>
+        <%= render :partial => "/shared/fb_connect_feed" %>
+
+          <li id="logout"> <%= link_to(button_image('logout'), "#" , :onclick => "logoutWithFacebook('#{logout_url}');") %></li>
+		  <li> <%= link_to("Home", home_url) %> | </li>
+		  <li> <%= link_to("Profile", my_profile_url, :id => "profile-button") %> | </li>
+		  <li> <%= link_to("Import Contacts", contacts_url) %> | </li>
+		  <li> <%= link_to("Account", my_account_url) %> | </li>
+		  <li> <%= link_to("Calendar", calendar_url) %> | </li>
+          <!-- <li> <%= link_to('Upcoming Invites', upcoming_url) %> | </li>-->
+          <li> <%= link_to("Advanced Search", ssearch_url, :id => "advanced-search-button") %> | </li>
+          <li> <%= link_to("Map", map_url, :id => "map-button")%>            </li>
+      </ul>
+    </div>
+
+  <% end %>
+
+
+  <% if current_member.blank? and (controller.controller_name == 'browse' or controller.controller_name == 'map') %>
+    <div id="browse-sub-nav-wrap">
+      <ul id="browse-sub-nav">
+          <!-- <li> <%= link_to('Upcoming Invites', upcoming_url) %> | </li> -->
+          <li> <%= link_to("Advanced Search", ssearch_url) %> | </li>
+          <li> <%= link_to("Map", map_url, :id => "map-button")%>            </li>
+      </ul>
+    </div>
+  <% end %>
+
+</div>

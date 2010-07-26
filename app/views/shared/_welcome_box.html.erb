@@ -1,0 +1,8 @@
+<div id="welcome">
+	  <h3>Welcome!</h3>
+	  <h2>
+<%=link_to(button_image("home"), home_url) %> 
+<%= link_to(truncate(current_member.welcome_name, 20), home_url) %>
+
+</h2>
+</div>

@@ -1,0 +1,2 @@
+class BeboUser < SocialNetworkUser
+end

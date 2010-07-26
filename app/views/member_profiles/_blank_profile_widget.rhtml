@@ -1,0 +1,106 @@
+<div class="pwidget" id="new_profile_widget">
+	
+	<div class="header">
+		<%= text_field_tag('new_profile_widget[title]', 'YOUR TITLE HERE', :class => 'title')%>
+	</div>
+	<p>Add your own topics and details, however best describes you.  For example:</p>
+	<h4 class="subheader">FAVORITE MOVIES</h4>
+	<h5 class="entry">
+		Rambo<br/>
+		Sound of Music<br/>
+		Terminator
+	</h5>
+	
+	<!-- NEW HEADING and DETAILS -->
+		<div >
+			
+		
+				<% form_remote_tag(:url => {:action => 'add_profile_widget_section'}) do -%>
+					<div id="edit_subsection_job" class="edit_subsection" style="display: none;">
+						<p>
+							<label>HEADING:</label>
+							<%= text_field_tag("job[title]", job.title, :class => 'txt') %>
+						</p>
+						<p class="singlerow">
+							<label>YEARS:</label> 
+							<%= text_field_tag("job[start_year]", job.start_year, :class => 'txt') %>
+							<label class="middle">TO:</label>
+							<%= text_field_tag("job[end_year]", job.end_year, :class => 'txt') %>
+							
+						</p>
+						<p>
+							<label>EMPLOYER:</label>
+							<%= text_field_tag("job[employer_name]", job.employer_name, :class => 'txt') %>
+							
+						</p>
+						
+						<p>
+							<label>LOCATION:</label>
+							<%= text_field_tag("job[location]", job.location, :class => 'txt')%>
+						</p>
+						
+						<div class="buttons">
+							<%#= ibutton('save_small') %>
+                            <%= link_to_remote(button_image_save('save_small')) %> 
+							<%= link_to_function(button_image_cancel('cancel_small'), "cancelEditProfileSubsection('#{subsection_id}');") %>
+						</div>
+					</div>
+				
+				<!-- DATA WITH EDIT LINK -->
+				<div id="view_subsection_job_<%= job.id %>" >
+					<h4 class="subheader"> 
+						<%= job.title.upcase %> 
+						<br/>
+						<%= link_to_function('EDIT', "editProfileSubsection('#{subsection_id}');", :class => 'edit_link') %>
+						<%= link_to_remote('DEL', {:url => { :action => 'delete_job', :id => job.id}, 
+																:confirm => "Are you sure you want to delete this job?"}, 
+													  :class => 'delete_link', :alt => "DELETE", :title => "DELETE") %>
+					</h4>
+					<h5 class="entry"> <%= format_job(job) %> </h5>
+				</div>
+			<% end %>
+		
+		<!-- ADD NEW SECTION -->
+		
+		<!-- ADD NEW LINK -->		
+		<div id="edit_subsection_add_new_job_button" style="display: <%= (new_job.nil? rescue true) ? 'block': 'none' %>;" class="add_new_buttons">
+			<%= link_to_function('ADD NEW', 'addProfileSubsection("job");', :class => 'add_link' ) %>
+		</div>
+		
+		<!-- ADD NEW FORM -->		
+		<div id="edit_subsection_add_new_job"  style="display: <%= (new_job.nil? rescue true) ? 'none': 'block' %>;" class="add_new_subsection">
+			<% form_remote_tag(:url => {:action => 'add_job'}) do -%>
+				<% new_job ||= Job.new %>
+				
+				<p>
+					<label>TITLE:</label>
+					<%= text_field_tag("new_job[title]", new_job.title, :class => 'txt') %>
+				</p>
+				
+				<p class="singlerow">
+					<label>YEARS:</label> 
+					<%= text_field_tag("new_job[start_year]", new_job.start_year, :class => 'txt') %>
+					<label class="middle">TO:</label>
+					<%= text_field_tag("new_job[end_year]", new_job.end_year, :class => 'txt') %>	
+				</p>
+				
+				<p>
+					<label>EMPLOYER:</label>
+					<%= text_field_tag("new_job[employer_name]", new_job.employer_name, :class => 'txt') %>
+				</p>
+				
+				<p>
+					<label>LOCATION:</label>
+					<%= text_field_tag("new_job[location]", new_job.location, :class => 'txt')%>
+				</p>
+				
+				<div class="buttons">
+					<%= ibutton('save_small') %>
+					<%= link_to_function('Cancel', 'cancelAddProfileSubsection("job")') %>
+				</div>
+			<% end %>
+		</div>
+	
+	</div>
+
+</div>

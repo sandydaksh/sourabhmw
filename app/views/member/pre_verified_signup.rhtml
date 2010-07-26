@@ -1,0 +1,93 @@
+
+
+<!--[if IE 6]>
+  <style>
+    #pre_verified_email input {
+      margin-left: -40px;
+    }
+  </style>
+<![endif]-->
+<!--[if IE 7]>
+  <style>
+    #pre_verified_email input {
+      margin-left: -40px;
+    }
+  </style>
+<![endif]-->
+
+      <div class="editaccount_form" style="margin-left: 40px;">
+        <% form_tag(:action => 'pre_verified_signup')  do -%>
+		<h1>Create an Account</h1>
+
+                <%= error_messages_for 'member', 
+                        :attributes_order => [:first_name, :last_name, :email, 
+                                              :user_name, :password, :terms_of_service, :captcha], 
+                          :header => 'Please correct the following errors before we create your account:' %>
+
+                <%= hidden_field_tag('security_token', @non_member.security_token) %>
+                <%= hidden_field_tag('response', @invite_response) %>
+                <%= hidden_field_tag('invite_id', @invite_id) %>
+		
+		<div class="formbit">
+			<h3>FIRST NAME (optional)</h3>		
+                        <%= text_field 'member', 'first_name', :class => 'txt' %>
+		</div>
+		<div class="formbit">
+			<h3>LAST NAME (optional)</h3>		
+                        <%= text_field 'member', 'last_name', :class => 'txt' %>
+		</div>
+
+        <div id="pre_verified_email" class="formbit">
+			<h3>EMAIL</h3>		
+                        <%= text_field('member', 'email', :class => 'txt') %>
+                        <div id="pre_verified_email_tt_container">	
+                          <%= pre_verified_email_tool_tip(@member, @non_member) %>
+                          <%= not_verified_email_tool_tip(@member, @non_member) %>
+                          <script type="text/javascript">
+                                  function check_verified_email() {
+                                          var non_member_email = '<%= @non_member.email %>';
+                                          if($F('member_email') == non_member_email) {
+                                                  Element.show('activator_verified_tt');
+                                                  Element.hide('activator_not_verified_tt');
+                                          } else {
+                                                  Element.hide('activator_verified_tt');
+                                                  Element.show('activator_not_verified_tt');
+                                          }
+                                  }
+                          </script>
+                          <%= observe_field('member_email', :frequency => 1, :function => "check_verified_email();") %>
+                        </div>
+                    <br style="clear:both;"/>
+                </div>
+
+
+		<div class="formbit">
+			<h3>USERNAME</h3>		
+                        <%= text_field 'member', 'user_name', :class => 'txt' %>
+		</div>
+		<div class="formbit">
+			<h3>PASSWORD</h3>		
+                        <%= password_field 'member', 'password', :class => 'txt' %>
+		</div>
+		<div class="formbit">
+			<h3>PASSWORD (again)</h3>		
+                        <%=  password_confirmation_field %>
+		</div>
+		
+                <%= check_box :member, :terms_of_service, :class => 'checkbox'  %>
+
+                I have read and agree to the MeetingWave <%= link_to('terms of use', tos_url, :target => '_blank') %>,
+                <%= link_to('privacy policy', pp_url, :target => '_blank') %>, and <%= link_to('safety tips', safety_url, :target => '_blank') %>.  
+                I verify I am at least 18 years old.
+		
+		<br /><br />
+		
+
+		<div class="formbit">
+		  <%= get_captcha(:options=> { :theme => "white"}) %>
+		</div>
+		
+		<input name="Submit" value="Join" type="image" src="<%= button_path("join") %>" />
+            <% end %>
+	</div>
+

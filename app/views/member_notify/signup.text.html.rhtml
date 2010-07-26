@@ -1,0 +1,51 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<% if @level.nil? %>
+
+<%= headline("Welcome to MeetingWave!") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    Hello <%= @name %>-
+  <%= close_highlight %>
+
+<p>Thank you for joining MeetingWave. By focusing on meeting people face to face,
+we hope you can build a network of valuable connections, where you live and
+where you work. At any time, if you have feedback for us, please let know by
+clicking <a href="http://www.meetingwave.com/contact">Feedback</a> at the bottom of our website.</p>
+
+<p>To complete your registration, click on the button below to verify your email
+address.</p>
+
+<%= close_body %>
+
+<%= login_button @url %>
+
+<%= brought_to_you_by %>
+
+<% else %>
+<% un = University.find_by_url(@level) %>
+<%= headline("Welcome to #{un.name} Member  MeetingWave!") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    Hello <%= @name %>-
+  <%= close_highlight %>
+
+<p>Thank you for joining <%=un.name%> Member MeetingWave. By focusing on meeting your fellow member face-to-face over coffee or other meeting activity, we hope you can build a network of valuable connections, where you live and where you work. To complete your registration, click on the button below to verify your email address. </p>
+
+<p>At any time, if you have <a href="http://www.meetingwave.com/contact">Feedback</a> for us, please let know by clicking Feedback at the bottom of our website.</p>
+<p>Sincerely, <br> 
+The MeetingWave team</p>
+
+
+<%= close_body %>
+
+<%= login_button @url %>
+
+<%= brought_to_you_by %>
+
+
+<% end %>
+
+<%= render :partial => '/invitation_notify/footer' %>

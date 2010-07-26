@@ -1,0 +1,67 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<%= title_tag %>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+	
+	<!-- Stylesheets  -->
+	<%= stylesheet_link_tag("meetingwave/base.css") %>
+	<%= stylesheet_link_tag("meetingwave/two.css") %>
+	<%= stylesheet_link_tag("meetingwave/pages/browse.css") %>
+	<%= stylesheet_link_tag("meetingwave/pages/super_search.css") %>
+	<%= stylesheet_link_tag("ttb/accessible.css") %>
+        
+        <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+
+	<%= stylesheet_link_tag  '/stylesheets/ttb/tooltips.css' %>
+	<%= javascript_include_tag 'Tooltip'  %>
+	
+	<!-- Javascript Includes -->
+	<%= javascript_include_tag("accessible.js")%>
+
+	
+	<%= render :partial => '/shared/meta_tags' %>	
+	<%= rss_link_tag(@feed_params) %>
+
+	<%= javascript_include_tag 'ibox.js' %>
+	<%= javascript_include_tag 'validation'%>
+	<%= stylesheet_link_tag 'ttb/ibox.css' %>
+	<%= stylesheet_link_tag 'meetingwave/modular/get_started.css' %>
+	<%= calendar_date_select_includes :style => "plain", :format => :american %>
+
+</head>
+<style>
+div#content{
+   width:640px;
+}
+.search_results{
+ width:590px;
+}
+</style>
+<body>
+
+<div id="content">
+
+
+
+	<%= yield %>
+
+</div>
+<%= render :partial => '/shared/urchin_hitail' %>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

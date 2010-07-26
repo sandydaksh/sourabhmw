@@ -1,0 +1,14 @@
+<div id="login">
+  <%= form_tag login_url %>
+	  <h3>Login</h3>
+	  <div class="field"> 
+		  <h5>Email</h5> 
+		  <%= text_field_tag('member[email]') %>
+	  </div>
+	  <div class="field"> 
+		  <h5>Password</h5> 
+		  <%= password_field_tag('member[password]') %>
+	  </div>
+	  <%= ibutton("go", :class => "btn") %>
+  </form>
+</div>

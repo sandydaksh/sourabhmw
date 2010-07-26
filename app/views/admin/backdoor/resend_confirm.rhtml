@@ -1,0 +1,22 @@
+<div class="unverified_form">
+	<%= form_tag(resend_url) %>
+	<%= hidden_field_tag("confirmed", "yes")%>
+	<h1>Are you sure?</h1>
+
+	<p> This will cause an email verification to be re-sent to the following members: </p>
+	<ul>
+		<% @members.each do |m| %>
+			<li> 
+				<%= m.fullname %>, <%= m.email %> 
+				<%= hidden_field_tag('selected_members[]', m.id) %>
+			</li>
+		<% end %>
+	</ul>
+	<%= submit_tag("Yes, Send the Emails!") %>
+	</form>
+	<br/>
+	<br/>
+	<%= link_to("CANCEL", unverified_url)%>
+	<br/>
+	<br/>
+</div>

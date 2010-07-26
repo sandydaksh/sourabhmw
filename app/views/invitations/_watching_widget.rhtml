@@ -1,0 +1,41 @@
+
+<% if @watching.blank? %>
+  <p id="none"> You're not watching any invitations right now. <%= link_to('Go find some!', browse_url) %></p>
+<% else %>
+                           <% @watching.each do |confirmation| %>
+                                     <% inv =  confirmation.invitation %>
+                                     <% begin  %>
+      <div class="wide-inv">
+        <div class="inv-date"><h4><%= inv.upcoming_meeting.start_time_local.strftime("%b<br/>%d") %></h4></div>
+        <div class="inv-header">
+          <%= confs_accepted_note(inv) %>
+          <%= link_to(inv.name, show_invite_url(:id => inv.id)) %><br/>
+          <%= inv.upcoming_meeting.start_time_local.strftime("%I:%M %p") %>,
+          <%= location_format_short(inv) %>
+        </div>
+        <div class="inv-indicators">
+          <%= content_tag('span', confirmation.status.simple_name, :class => 'pending') if(confirmation.status == Status::INVITE_REQUESTED) %>
+        </div>
+        <div class="inv-desc">
+          <%= inv.description %>
+        </div>
+        <div class="inv-poster">
+          <div class="inv-poster-image">
+            <% if(inv.inviter.member_profile.picture rescue false) %>
+                    <%= image_tag(mini_thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+            <% end %>
+          </div>
+          <div class="inv-poster-details">
+            Posted by: <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id)) %>
+            <br/>
+            On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+          </div>
+          <div class="inv-buttons">
+          </div>
+        </div>
+      </div>
+    <% rescue %>
+    <% end  %>
+  <% end %>
+<% end %>
+

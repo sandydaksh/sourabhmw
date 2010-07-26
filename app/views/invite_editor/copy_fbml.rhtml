@@ -1,0 +1,28 @@
+<% self.extend(TTB::FacebookUrlOveride) %>
+<%= javascript_include_tag('autocomplete_profile_fields') %>  
+<div id="edit_header">
+<h1>Copying: "<%= @original.name %>" </h1>
+
+<div id="errors"<%= 'style="display:none"' if @invitation.errors.blank? %>>
+	<p id="errors_notice">Please correct the errors below and click "Post Invite" again.</p>
+</div>
+</div>
+<% form_tag({:controller => 'invite_editor', :action => 'copy'}, :id => 'invite_edit_form', :onsubmit => "beforeInviteSubmit();") do -%>
+	<%= hidden_field_tag('id', @original.id) %>
+    <div class="left_column">
+		<%= render :partial => 'invite_editor/editor_who' %>
+		<%= render :partial => 'invite_editor/editor_what' %>
+
+	    <%= render :partial => 'invite_editor/editor_when' %>
+	    <%= render :partial => 'invite_editor/editor_where_map' %>
+
+	    <%= render :partial => 'invite_editor/editor_why' %>
+
+		<div class="button_box">
+		  <%= ibutton('postinvite', :class => 'postinvite_button')%>
+		  <%= link_to( button_image('cancel',  :alt => "CANCEL"), 
+								 show_invite_url(:id => @original.id), :title => 'CANCEL', 
+								 :class => 'postinvite_button') %>		
+        </div>
+	</div>
+<% end %>

@@ -1,0 +1,68 @@
+<div class="bookmarkit">
+  <%= BMI_CONFIG["title"] %>
+    <% if BMI_CONFIG["delicious"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' to Del.icio.us" href="http://del.icio.us/post?url=<%= url %>&title=<%= title %>"  target="_blank">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Add to del.icio.us" title="Add '<%= title %>' to del.icio.us" src="/images/bookmarkit/delicious.gif" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["digg"] -%>
+      <a style="font-size:22px;" title="Digg '<%= title %>' on Digg.com" href="http://digg.com/submit?phase=2&url=<%= url %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Digg on Digg.com" title="Digg '<%= title %>' on Digg.com" src="/images/bookmarkit/digg.gif" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["reddit"] -%>
+      <a style="font-size:22px;" title="Submit '<%= title %>' to reddit.com" href="http://reddit.com/submit?url=<%= url %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Submit to reddit.com" title="Submit '<%= title %>' to reddit.com" src="/images/bookmarkit/reddit.gif" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["blinklist"] -%>
+      <a style="font-size:22px;" title="Blink '<%= title %>'" href="http://www.blinklist.com/index.php?Action=Blink/addblink.php&Url=<%= url %>&Title=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Blink" title="Blink '<%= title %>'" src="/images/bookmarkit/blinklist.gif" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["dzone"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' to dzone" href="http://www.dzone.com/links/add.html?description=&url=<%= url %>&title=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="dzone" title="Add '<%= title %>' to dzone" src="/images/bookmarkit/dzone.png" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["newsvine"] -%>
+      <a style="font-size:22px;" title="Seed '<%= title %>' on Newsvine" href="http://www.newsvine.com/_tools/seed&save?u=<%= url %>&h=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Seed on Newsvine" title="Seed '<%= title %>' on Newsvine" src="/images/bookmarkit/newsvine.gif" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["furl"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' to Furl" href="http://www.furl.net/storeIt.jsp?u=<%= url %>%t=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Add to Furl" title="Add '<%= title %>' to Furl" src="/images/bookmarkit/furl.gif" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["spurl"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' to Spurl" href="http://www.spurl.net/spurl.php?url=<%= url %>&title=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Add to Spurl" title="Add '<%= title %>' to Spurl" src="/images/bookmarkit/spurl.png" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["simpy"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' on simpy.com" href="http://www.simpy.com/simpy/LinkAdd.do?href=<%= url %>&amp;title=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Add on simpy.com" title="Add '<%= title %>' on simpy.com" src="/images/bookmarkit/simpy.png" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["fark"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' to fark.com" href="http://cgi.fark.com/cgi/fark/edit.pl?new_url=<%= url %>&amp;new_comment=<%= title %>&amp;new_link_other=&amp;linktype=Misc">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Add to fark.com" title="Add '<%= title %>' to fark.com" src="/images/bookmarkit/fark.png" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["blogmarks"] -%>
+      <a style="font-size:22px;" title="BlogMark '<%= title %>'" href="http://blogmarks.net/my/new.php?mini=1&simple=1&url=<%= url %>title=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="BlogMark '<%= title %>'" title="BlogMark '<%= title %>'" src="/images/bookmarkit/blogmarks.png" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["myweb2"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' to Yahoo! myweb2" href="http://myweb2.search.yahoo.com/myresults/bookmarklet?u=<%= url %>&amp;t=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Add to Yahoo! myweb2" title="Add '<%= title %>' to Yahoo! myweb2" src="/images/bookmarkit/yahoomyweb.png" />
+      </a>
+    <% end -%>
+    <% if BMI_CONFIG["wists"] -%>
+      <a style="font-size:22px;" title="Add '<%= title %>' to wists.com" href="http://wists.com/r.php?c=&r=<%= url %>&title=<%= title %>">
+            <img style="border:0;" hspace="3" class="bookrmarkit" alt="Add' to wists.com" title="Add '<%= title %>' to wists.com" src="/images/bookmarkit/wists.png" />
+      </a>
+    <% end -%>
+</div>

@@ -1,0 +1,14 @@
+Re: Important updates for <%= @invitation.name %>
+
+<%= @inviter_name.capitalize_each_word  %> has updated this invitation. 
+
+
+<%= message_txt(@inviter_name, @message) %>
+
+  The following invitation details were modified:
+<%= all_changed_attrs_txt(@changed_attributes.dup) %>
+
+You can view the details of your invitation by following this link:
+  <%= @url %>
+
+<%= brought_to_you_by_txt %>

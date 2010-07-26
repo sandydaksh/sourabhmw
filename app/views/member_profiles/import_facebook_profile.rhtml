@@ -1,0 +1,99 @@
+   <!--[if IE 6]>
+	<style>
+
+		.grad_year {
+			padding-bottom:10px;;
+			margin-bottom:14px;
+			font-size: 1.5em;
+		}
+
+		.first_field_in_float {
+			margin-left: -10px;
+		}
+
+		h3.margin_hack {
+			margin-left: 10px;
+			padding-bottom: 0;
+		}
+		.profile_main {
+			padding: 0;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
+		.pwidget {
+			margin-left: 0;
+		}
+		.edit p.singlerow {
+		   height: 20px;
+		}
+		.edit p input.txt {
+			width: 170px;
+		}
+		.edit p.singlerow input {
+			width: 60px;
+		}
+		
+		
+	</style>
+
+	<![endif]-->
+	
+<style>
+   .profile_main h4 {
+    float:left;
+    width:400px;
+}
+   
+   div.flashtip{
+   font-weight:bold;
+padding:5px 14px;
+   }
+   
+   a.pedit{
+     display:none;
+   }
+ </style>
+
+	<div class="profile_main">
+		<div class="profile_header">
+			<h4 class="nomargin">MeetingWave Profile Importer</h4> 
+			
+		</div>
+		<br/>
+   
+		               <%= render :partial => "profile_message" %>
+                               
+   <div  class="flashtip">  
+     <p>   Click the green SAVE button on each box to import your Facebook profile information into your public MeetingWave profile. </p>
+                                   <p> Or simply <%= link_to_function(button_image("save_all_small", :style => "vertical-align:middle;"), "$$('div.edit_subsection form').each( function(form){ form.onsubmit(); })") %> to import all of it.</p>
+   </div>
+
+	<div id="column_A" class="widget_column">
+		<% @column_a_widgets.each do |widget| %>
+			<%= render :partial => "import_#{widget.widget_partial}_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+	</div>
+	
+	<div id="create_column" class="widget_column">
+		<%= render :partial => 'create_widget' %>
+	</div>
+	
+	<div id="column_B" class="widget_column">
+		<% @column_b_widgets.each do |widget| %>
+			<%= render :partial => "import_#{widget.widget_partial}_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+
+	</div>
+	
+	<%= sortable_js %>
+
+
+</div>
+
+ 
+
+
+
+
+
+

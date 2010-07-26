@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        <%= title_tag %>
+        <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	<link rel="stylesheet" href="/stylesheets/ttb/meetingwave.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/confirmed_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/watching_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/drafts.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/received_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/posted_invites.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/columntable.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/signin.css" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+	<%= rss_link_tag() %>
+	<link rel="stylesheet" href="/stylesheets/ttb/reminder.css" />
+
+
+        <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+		<%= javascript_include_tag('reminder.js') %>
+
+		<%= render :partial => '/shared/meta_tags' %>
+		<%= javascript_include_tag 'ibox.js' %>
+		<%= javascript_include_tag 'validation'%>
+		<%= javascript_include_tag 'accessible'%>
+
+		<%= stylesheet_link_tag 'ttb/ibox.css' %>
+		<%= stylesheet_link_tag 'ttb/accessible.css' %>
+
+		<%= calendar_date_select_includes :style => "plain", :format => :american %>
+
+</head>
+
+<body>
+<!-- LOGO -->
+<%= render :partial => 'shared/logo' %>
+
+<!-- NAVIGATION -->
+<%= render :partial => 'shared/main_nav' %>
+
+<!-- CONTENT -->
+<div class="content clearfix">
+     <div class="content_main">
+         <%= yield %> 
+     </div>
+
+     <div class="content_column">
+
+		<% if show_create_your_profile_button(@viewer) %>
+		<!-- CREATE YOUR PROFILE BUTTON -->
+			<div class="create_your_profile">
+				<a href="<%= my_profile_url %>" class="create_your_profile_link">   	
+				<%= content_tag('h3', '>>Remember to Create Your Profile!') %>	
+				<%= image_tag('/images/ttb/little_guy.gif', :class => 'little_guy') %>
+				</a>
+			</div>
+		<% end %>
+
+
+        <!-- UPCOMING -->
+        <div class="widgetright">
+          <%= render :partial => 'shared/upcoming' %>
+        </div>
+
+     </div>
+
+</div>
+
+<!-- FOOTER -->
+<%= render :partial => 'shared/footer' %>
+
+</body>
+</html>

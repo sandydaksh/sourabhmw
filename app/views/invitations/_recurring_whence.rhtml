@@ -1,0 +1,41 @@
+<style>
+.calendar tbody td.today { font-weight: normal; }
+.calendar tbody td.hilite { color: red;}
+.calendar tbody td.day { color: green; font-weight: bold; }
+.calendar tbody td.disabled { color: #999; font-weight: normal; }
+
+
+</style>
+<div id="change_date_button">
+  <p class="repeats" style="padding-left: 4px;">This invite repeats <span class="repeat_term">
+ every <%=  invitation.recurrence_period %></span>. 
+	<% 
+	if @meeting_selected %>
+	  <span id="meeting_prefix">The meeting date <span class='repeat_term'>you selected</span> is:</span>
+	<% else %>
+	  <span id="meeting_prefix">The next meeting will take place on:</span> 
+	<% end %>
+  </p>
+  <p class="repeating_whence">
+ 
+   <% if @m_idd!=nil && @m_idd!='next'
+         @meeting = @invitation.meetings.find(@m_idd) 
+      end
+   %>
+    <%= recurring_whence(@invitation, @meeting) %>
+</p>
+
+  <h3 class="nomargin select_new_date">
+    <%= link_to_function('SELECT ANOTHER DATE', 'dateSelector.show()', :id => "select_another_date")  %>
+  </h3>
+   <%= hidden_field_tag('meeting_id', @meeting.id) if invitation.posted? %>
+</div>
+    
+
+	<div id="select_date" style="display: none;">	
+	</div>
+	<script>
+    var INVITE_ID = <%= @invitation.id %>; //This is needed deeper in the javascript.  Is is duplicated elsewhere.
+	 var dateSelector =  new DateSelector('select_date', <%= js_future_meetings(@meeting.invitation) %>, <%= js_future_dates(@meeting.invitation) %>, { click : selectNewDate });
+	</script>
+

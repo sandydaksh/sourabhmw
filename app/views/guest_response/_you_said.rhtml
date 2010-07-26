@@ -1,0 +1,26 @@
+<p class="you">
+<span class="title">You </span>[<%= @message.created_at.strftime("%m/%d") %>]:   
+<span class="message"> <%= @message.body %></span>
+</p>
+<br/>
+<%= link_to_function("&raquo; Send another message ...", 
+					  "Element.remove('another_message_#{@confirmation.id}'); Element.show('simple_message_form_#{@confirmation.member.id}');", 
+					   :id => "another_message_#{@confirmation.id}") %>
+					
+<div id="simple_message_form_<%= @confirmation.member.id %>" style="display: none;">
+		<%= form_remote_tag(:url => send_simple_message_url, 
+					        :loading => "Element.hide('smf_#{@confirmation.member.id}'); Element.show('spinner_#{@confirmation.member.id}');", :html => { :id => "smf_#{@confirmation.member.id}" }) %>
+		<h4 class="send_message"> NEW MESSAGE </h4>
+		<%= hidden_field_tag 'message[member_id]', @confirmation.member.id %>
+		<%= hidden_field_tag 'message[meeting_id]', @confirmation.meeting.id %>
+		<%= text_area_tag 'message[body]', nil, :id => 'response_box_wide' %>
+		<div class="send_button_bar">
+			<%= send_submit() %>
+
+		</div>
+	</form>
+
+	<div id="spinner_<%= @confirmation.member.id %>" style="display: none;">
+		<%= image_tag('/images/ttb/spinner.guest_response.gif', :style => 'margin-left: 100px; margin-top: 20px;') %>
+	</div>
+</div>

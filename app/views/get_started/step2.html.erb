@@ -1,0 +1,148 @@
+<%= GMap.header(:host => request.host) %>  
+<style type="text/css">
+  .validation-advice {
+    background-image: url(/images/meetingwave/indicators/green_arrow_left.gif);
+    background-position: left 12px;
+    padding-left: 15px;
+    background-repeat: no-repeat;
+    float: left;
+    margin-right: 30px;
+    padding-top: 8px;
+    font-weight:bold;
+    color: #841004;
+  }
+</style>
+
+<div id="gs-where-are-you">
+  <h1>Step 2 of 3: Where are you?</h1>
+</div>
+
+<div class="instructions">
+
+  <p class="whereyouat"> 
+  Enter your city, state, and country below.  We will use this information to
+  help notify you of meetings near you, so you can get started networking with
+  people right away.
+  </p>
+
+</div>
+
+<%= form_tag({:controller => 'get_started', :action => 'step2'}, :id => "gs-form", :class => 'get_started') %>
+  <div class="clearfix">
+    <label for="county" >COUNTRY</label>
+    <%= select_tag('country', country_options_for_select('United States', ["United States", "Canada"]), :onchange => "setCountry();", :class => "required") %>
+  </div>
+
+  <div class="clearfix">
+    <label for="state" >STATE</label>
+    <%= select_tag('state', us_state_options_for_select(nil, :include_blank => true), :onchange => "setState();", :class => "state-class") %>
+  </div>
+
+  <!--[if IE]>
+    <style>
+      #city {
+      margin-left: -75px;
+      }
+    </style>
+  <![endif]-->
+  
+
+  <div class="clearfix">
+    <label for="city" >CITY</label>
+    <%= text_field_tag('city', nil, :class => 'txt required', :onchange => "showAddress('city');") %>
+  </div>
+
+    <script type="text/javascript">
+        var map      = null;
+        var geocoder = null;
+        var marker   = null;
+
+        function initialize() {
+          if (GBrowserIsCompatible()) {
+            map = new GMap2(document.getElementById("map_canvas"));
+            map.setCenter(new GLatLng(39.8163, -98.55762), 1);
+            geocoder = new GClientGeocoder();
+          }
+        }
+
+        window.onload = function() { initialize(); };
+
+        window.onunload = function() { GUnload(); };
+
+
+        function setCountry() {
+          var country = $F('country');
+          if(country != "United States") {
+            $('state').value = '';
+            $('state').disabled = true;
+          } else {
+            $('state').disabled = false;
+          }
+          showAddress('country');
+        }
+
+        function setState() {
+          $('city').value = '';
+          showAddress('state');
+        }
+
+        function showAddress(whichField) {
+          var address = $F('city');
+          if(address.length > 0) {
+			  address += ", ";
+			  address += $F('state');
+		  } else {
+			  address += $('state').options[$('state').selectedIndex].text;
+		  }
+
+          if(address.length > 0) { address += ", "; }
+          address += $F('country');
+          var zoomLevel = (whichField == 'city') ? 9 : 3;
+
+          if (geocoder) {
+            geocoder.getLatLng(address, function(point) {
+                if (point) {
+                    map.setCenter(point, zoomLevel);
+                    if(marker != null) { map.removeOverlay(marker); }
+                    marker = new GMarker(point);
+                    map.addOverlay(marker);
+                    Element.show('map_instructions');
+            }
+          }
+        );
+      }
+    }
+     new Validation('gs-form');
+     Validation.add('state-class', 'This is a required field.', function(value) { return !(($F('country') == 'United States') && (value == '')); });
+
+    </script>
+    <%= observe_field('city', :frequency => 1, :function => "showAddress('city');") %>
+
+    <div id="map_box">
+      <div id="map_instructions" style="display: none;" >
+        <h2>Does this look right?</h2>
+        <p>We’ve plotted the location you entered below.  Please make sure this matches your location.</p>
+      </div>
+
+      <div id="map_canvas">
+
+      </div>
+    </div>
+
+
+  <%= ibutton('last_step', :class => 'btn') %>
+
+	  <%= link_to('[ Skip this Step ]', { :controller => 'get_started', :action => 'step3a' }, {:id => 'skip-step2'}) %>
+  <br/>
+  <br/>
+</form>
+
+<p class="extra">If you’d rather not enter your location at this time, you can 
+<%= link_to('go to your MeetingWave home page instead', pop_to_facebook(facebook_dashboard_url(:canvas => true),my_invites_url)) %>. 
+</p>
+
+
+
+	<div style="text-align: left; background-color: #aee057;  font-size: 18px; width: 95px; border-top: 1px solid #5b5b5b; border-right: 1px solid #5b5b5b; padding: 6px; color: #FFFFFF; font-weight: bold">
+	  Step 2 of 3
+	  </div>

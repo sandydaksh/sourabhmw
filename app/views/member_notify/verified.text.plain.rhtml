@@ -1,0 +1,95 @@
+<% if @level.nil? %>
+Hello <%= @name %>, and welcome to MeetingWave, the online tool to meet people
+offline. We believe that the best way to build a valuable business or social
+network is to meet people face to face. MeetingWave helps you meet people where
+you live or work, or even when you are traveling. To help you make the right
+connections, we encourage you to follow these tips:
+
+Fill out your Profile
+By including some information about yourself, you can make it easier to attend
+and create relevant meetings. Be sure to add your zip code and indicate your
+meeting interests:
+    http://www.meetingwave.com/myprofile
+
+Set up one or more Meeting Alerts or RSS Feeds
+You can receive updates when new invites meeting your search criteria have been
+posted to the website: 
+    http://www.meetingwave.com/ssearch
+
+Post an Invite
+Try posting an Invite to find people with similar interests in your area. Be
+specific in the meeting name, and indicate if you are flexible about the time
+or place of the meeting. You can always decline any acceptance or cancel a
+meeting for any reason, and we’ll notify the other attendees for you.
+
+Post Multiple Invites
+If you are looking to meet different types of people, set up multiple invites
+(one for business networking, another for social networking). This is more
+effective than combining them in one invite.
+
+Help Spread with Word about MeetingWave
+To increase your network, let your friends and families know about MeetingWave.
+The more members we have, the more people we can meet:
+    http://www.meetingwave.com/tell_a_friend
+
+Questions?
+If you have questions or comments about MeetingWave, please let us know: 
+    http://www.meetingwave.com/contact
+
+Thank you again for joining MeetingWave. We are confident that you will be able
+to make the right business, professional and social connections through our
+website.
+
+Sincerely, 
+The MeetingWave team
+
+<%= brought_to_you_by_txt %>
+
+<% else %>
+<% un = University.find_by_url(@level) %>
+    Hello <%= @name %>, and welcome to the <%=un.name%> Member MeetingWave, the online tool to meet people offline.   
+
+   We believe that the best way to build a valuable business or social network is to meet people face-to-face.
+   MeetingWave helps you meet your fellow member where you live or work, or even when you are traveling. 
+   To help you make the right connections, we encourage you to follow these tips:
+ 
+  Fill out your Profile
+ 
+  By including some information about yourself, 
+  you can make it easier to attend and create relevant meetings. 
+  Be sure to add your zip code and indicate your meeting interests and other background information.
+ 
+  Set up one or more Meeting Alerts or RSS Feeds
+  
+  You can receive updates when new invites meeting your search criteria have been posted to the website. 
+ Click here to set one up.
+  
+  Propose Networking Meetings
+  
+  Try creating an Invite for proposed meetings to meet fellow with similar interests in your area. 
+  Be specific in the meeting name, and indicate if you are flexible about the time or place of the meeting. 
+  You can always decline any acceptance or cancel a meeting for any reason, and we’ll notify the other attendees for you.
+  
+  Post Multiple Invites
+  
+  If you are looking to meet different types of people, set up multiple invites
+  (one for business networking meetings, another for social networking meetings). 
+  This is more effective than combining them in one invite.
+
+  Questions?
+  
+  If you have questions or comments about MeetingWave, please 
+  click here.
+  
+ Thank you again for joining the <%=un.name%> Member MeetingWave. 
+ We are confident that you will be able to make the right business, professional 
+ and social connections through our website.
+  
+  
+  Sincerely, 
+  The MeetingWave team
+ <%= brought_to_you_by_txt %>
+
+<% end %>
+
+

@@ -1,0 +1,167 @@
+<script type="text/javascript">
+	function hidden_values(mid)
+    {
+        var m_id = "raju1" + mid;
+        document.getElementById(m_id).value = document.getElementById('raju').value;
+        
+        if(document.getElementById('bit-0')==null)
+        {
+         alert('Please enter a valid email first before forwarding.');
+         return false;
+        }
+    }
+    
+    function clear_values(mid)
+    {
+    var m_id = "raju1" + mid;
+    document.getElementById(m_id).value='';    
+    document.getElementById('raju').value='';
+    }
+</script>
+<script type="text/javascript">
+function remove_defalt_find_meeting(messageid)
+	  {
+		 if(document.getElementById(messageid).value=='I thought you might be interested ...')
+		 {
+		 document.getElementById(messageid).value="";
+         document.getElementById(messageid).className="black";
+         }
+         
+	  }
+	  
+	  function fill_defalt_find_meeting(messageid)
+	  {
+		 if(document.getElementById(messageid).value=='')
+		 {
+		 document.getElementById(messageid).value="I thought you might be interested ...";
+         document.getElementById(messageid).className="gray1";
+		 }
+	  }
+
+</script>
+
+<form method="post" id="forward_invite_form<%= meeting.id %>" action="/post_invite/forward_invite/<%= meeting.id %>">        
+  <table width="650" border="0" cellspacing="0" cellpadding="0" id="light_forward<%= invite.id %>" class="white_content_forward" style="background:#d3e1ea;">
+      <tr>
+        <td width="366" rowspan="2"><p style=" font-size:14px; font-weight:bold; margin-left:0px; > margin-left:18px;">Forward Invite&nbsp; (<%= truncate(invite.name,25) %>)</p></td>
+        <td width="284" align="left"><p style=" font-size:13px; font-weight:bold;">Tell your friends...Anytime. Anyplace.</p></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" style=">padding-top:0;"><img src="/images/meetingwave/candy/running_boy.gif" alt="Running_guy"/></td>
+      </tr>
+      
+      <tr>
+        <td valign="top"><table width="345" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-left:0px; > margin-left:18px;">
+          <tr>
+            <td width="336"><p class="label2">EMAIL OR CONTACT TO FORWARD INVITE TO:</p></td>
+          </tr>
+          <tr>
+            <td>
+			    <%= render :partial => "layouts/style",:locals => {:meeting => meeting} %>
+
+                
+              <ol>
+                <li id="forward-who-list" class="input-text">
+                
+                <input type="text" value="" id="forward-who-auto-field<%= meeting.id %>" name="forward-who-auto-field<%= meeting.id %>" />
+                <div id="forward-who-auto-results<%= meeting.id %>">
+                  <div class="default">Start typing the name of a contact or enter a new email. </div> 
+                  <ul class="feed">
+                  </ul>
+                </div>
+                </li>
+              </ol>
+             <input type="hidden" name="raju1<%= meeting.id %>" id="raju1<%= meeting.id %>" />
+
+                <script language="JavaScript">
+                    var whoAutoCompleterField = null;
+                  Event.observe(window, 'load', function() {
+                    whoAutoCompleterField = new FacebookList('forward-who-auto-field<%= meeting.id %>', 
+                                                                'forward-who-auto-results<%= meeting.id %>',
+                                          {fetchFile:'/member/who_auto_complete_json'});
+                    });  
+
+                </script>    
+
+            </td>
+            
+          </tr>
+          <tr>
+            <td><p class="label2">MESSAGE FOR YOU:</p></td>
+          </tr>
+          
+          <tr>
+            <td>
+            	<textarea name="message" id="message<%= invite.id %>" onClick="return remove_defalt_find_meeting(this.id)" onBlur="return fill_defalt_find_meeting(this.id)" style="width:300px; height:87px; color:gray;">I thought you might be interested ...</textarea>            </td>
+                <%= observe_field("message#{invite.id}", :function => '$("internal_message'"#{invite.id}"'").innerHTML = (  value );', :frequency => 1 ) %>
+          </tr>
+        </table></td>
+        <td valign="top"><table width="251" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="39" style="padding-bottom:10px;"><img src="/images/meetingwave/candy/man.jpg" /></td>
+            <td width="212"><p style=" font-size:14px; font-weight:bold; padding-bottom:10px;">Tell a Friend</p></td>
+          </tr>
+          <tr>
+            <td colspan="2"><p class="label2">Use this form to tell a friend about an invite they might be interested in. Just enter their email at left and click Forward. A preview of the email appears below.</p></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding-top:20px;" align="center" valign="top"><%= ibutton_change_forward("sign-in",meeting.id) %>&nbsp;&nbsp;
+                <p class="canceltext"><a href="#" onClick="clear_values(<%= meeting.id %>); document.getElementById('light_forward<%= invite.id %>').style.display='none';document.getElementById('fade_forward<%= invite.id %>').style.display='none'">Cancel</a></p></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center" style="padding-bottom:10px;">&nbsp;</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="top" align="left" style="padding-bottom:15px;"><table width="585" border="1" cellpadding="0" cellspacing="0" bordercolor="#195591" style="margin-left:0px; > margin-left:18px;">
+  <tr>
+    <td align="left" valign="top"><table width="585" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="319" height="81" align="left" valign="middle" style="background-color:#e8f2da; padding-left:8px;"><img src="/images/newdesign/logo1.jpg" width="293" height="63"></td>
+            <td width="306" align="left" valign="top" style="background-color:#e8f2da; padding-top:40px;"><span style=" font-family:Arial, Helvetica, sans-serif;color:#333333; font-weight:bold; font-size:12px;">Connect with people.</span> <span style=" font-family:Arial, Helvetica, sans-serif;color:#2267a0; font-weight:bold; font-size:12px;">Anytime. Anyplace.</span> </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:10px 0 20px 8px;"><span style=" font-family:Arial, Helvetica, sans-serif;color:#2267a0; font-weight:bold; font-size:15px;"><%= "This invite is being forwarded to you by #{current_member.fullname.capitalize_each_word} " if current_member %></span></td>
+          </tr>
+          <tr>
+            <td colspan="2"><p><span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#333333; padding:0 0 0 8px;">Who :</span> <span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal; color:#333333;"> &nbsp;&nbsp;&nbsp;&nbsp;
+			<%#= invite.inviter.fullname.capitalize_each_word if invite %>
+             <% if !invite.hidden_user_name.nil? %>
+                        <%= invite.hidden_user_name.private_name.capitalize_each_word if invite %>
+			 <% else %>
+                        <%= invite.inviter.user_name.capitalize_each_word if invite %>
+               <% end %>             
+            
+            </span><br>
+							<span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#333333; padding:0 0 0 8px;">What :</span> <span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal; color:#333333;">&nbsp;&nbsp;&nbsp;<%= invite.name if invite %> </span><br>
+                            
+							<span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#333333; padding:0 0 0 8px;">When :</span> <span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal; color:#333333;">&nbsp;
+                            
+                            	<% if !whence_for_time(invite).nil? && !whence_for_time(invite).blank? && invite.no_pref != 1 %> 
+								<%= whence_for_time(invite) %>   
+                                <% else %>
+                                <%= "No Preference" %> 
+                                <% end %> 
+                            </span><br>
+							<span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#333333; padding:0 0 0 8px;">Where :</span> <span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal; color:#2267a0;">
+                            <% if !invite.address.nil? && invite.address.city != "NA" %>
+								<%= where_forward(invite) if invite %>
+                            <% else %>
+                            Open
+                            <% end %>
+                            </span><br>
+							<span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#333333; padding:0 0 0 8px;">Why :</span> <span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal; color:#333333;">&nbsp;&nbsp;&nbsp;&nbsp;<%= why(invite) if invite %> </span><br><br>
+							<span style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:normal; color:#333333; padding:0 0 0 8px;"><%= current_member.fullname.capitalize_each_word if current_member %> Says:</span><br><p id="internal_message<%= invite.id %>"  style="font-family:Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; color:#333333; padding:0 0 15px 8px;">I thought you might be interested...</p>
+							</p>
+			</td>
+          </tr>
+        </table></td>
+  </tr>
+</table>
+</td>
+      </tr>
+  </table>
+</form>
+<div id="fade_forward<%= invite.id %>" style="display: none;position: absolute;top: 0%;left: 0%;width: 100%;height:3500px;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);"></div>
+

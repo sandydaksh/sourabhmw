@@ -1,0 +1,9 @@
+<table width="800" id="rg<%= session[:j] %>" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="95"></td>
+    <td width="10"></td>
+    <td width="695" height="30">
+    	<input type="text" name="alumni_url[]" value="" />&nbsp;&nbsp;<%= link_to_remote"Remove",{ :url => {:action=>"deleteurlbox", :id => "rg#{session[:j]}"}},:class => "outside" %>
+    </td>
+  </tr>
+</table>

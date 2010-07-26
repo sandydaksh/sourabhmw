@@ -1,0 +1,21 @@
+		<div id="nav_bar">
+			<ul>
+
+			  <li> <%= link_to('PostInvite', postinvite_url) %> </li>
+
+			  <% unless @viewer.nil? %>
+				  <li>
+					<a href="#" rel="ibox&amp;type=3&amp;height=625&amp;width=515&amp;url=/quickinvite">QuickInvite<span class="super">SM</span></a>            
+				  </li>
+			  <% end  %>
+
+			  <li> <%= link_to("Browse Invites", browse_url) %> </li>
+
+			  <% if @viewer.nil? %>
+				  <li> <%= link_to("Join", signup_url)%> </li>
+			  <% end  %>
+
+			  <li> <%= link_to("FAQ", help_url)%> </li>
+
+			</ul>
+		</div>

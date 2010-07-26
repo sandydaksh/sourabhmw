@@ -1,0 +1,15 @@
+<div class="feed_stuff right" style="position:relative;">
+     <div id="search_config" style="display: none;">
+      
+    </div>
+    <% if logged_in? %>
+          <%= link_to_remote(image_tag('meetingwave/buttons/meeting_alerts.gif'), 
+                             {:url => {:controller => :saved_searches, :action =>  :email_widget}.merge( @search_filter.to_params),  
+                               :update => "search_config", 
+                               :complete => "$('search_config').appear();"}, 
+                               :id => "meeting_alerts_button" ) %>
+
+     <% end %>
+   
+   <%= rss_atom_button() %>
+</div>

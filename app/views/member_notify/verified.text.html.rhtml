@@ -1,0 +1,158 @@
+<%= render :partial => '/invitation_notify/header' %>
+<% if @level.nil? %>
+<%= headline("Welcome to MeetingWave!") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    Hello <%= @name %>, and welcome to MeetingWave, the online tool to meet people offline.   
+  <%= close_highlight %>
+
+  <p>
+  We believe that the best way to build a valuable business or social network
+  is to meet people face to face. MeetingWave helps you meet people where you
+  live or work, or even when you are traveling. To help you make the right
+  connections, we encourage you to follow these tips:
+  </p>
+
+  <h2>Fill out your Profile</h2>
+  <p>
+  By <a href="http://www.meetingwave.com/myprofile">including some information about yourself</a>, 
+  you can make it easier to attend and create relevant meetings. Be sure to add your zip code and
+  indicate your meeting interests.
+  </p>
+
+  <h2>Set up one or more Meeting Alerts or RSS Feeds</h2>
+  <p>
+  You can receive updates when new invites meeting your search criteria have
+  been posted to the website. <a href="http://www.meetingwave.com/ssearch">Click here</a>
+  to set one up.
+  </p>
+
+  <h2>Post an Invite</h2>
+  <p>
+  Try <a href="http://www.meetingwave.com/postinvite">posting an Invite</a> 
+  to find people with similar interests in your area. Be specific in the
+  meeting name, and indicate if you are flexible about the time or place of the
+  meeting. You can always decline any acceptance or cancel a meeting for any
+  reason, and we’ll notify the other attendees for you.
+  </p>
+
+  <h2>Post Multiple Invites</h2>
+  <p>
+  If you are looking to meet different types of people, set up multiple invites
+  (one for business networking, another for social networking). This is more
+  effective than combining them in one invite.
+  </p>
+
+  <h2>Help Spread with Word about MeetingWave</h2>
+  <p>
+  To increase your network, <a href="http://www.meetingwave.com/tell_a_friend">let your friends and families know</a> 
+  about MeetingWave. The more members we have, the more people we can meet.
+  </p>
+
+  <h2>Questions?</h2>
+  <p>
+  If you have questions or comments about MeetingWave, please 
+  <a href="http://www.meetingwave.com/contact">click here</a>.
+  </p>
+
+  <p>
+  Thank you again for joining MeetingWave. We are confident that you will be
+  able to make the right business, professional and social connections through
+  our website.
+  </p>
+
+  <p>
+  Sincerely, 
+  <br/>
+  The MeetingWave team
+  </p>
+
+<%= close_body %>
+
+<%= brought_to_you_by %>
+
+<% else %>
+<% un = University.find_by_url(@level) %>
+<%= headline("Welcome to #{un.name} Member MeetingWave!") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    Hello <%= @name %>, and welcome to the <%=un.name%> Member MeetingWave, the online tool to meet people offline.   
+  <%= close_highlight %>
+
+  <p>
+   We believe that the best way to build a valuable business or social network is to meet people face-to-face.
+   MeetingWave helps you meet your fellow member where you live or work, or even when you are traveling. 
+   To help you make the right connections, we encourage you to follow these tips:
+  </p>
+
+  <h2>Fill out your Profile</h2>
+  <p>
+  By <a href="http://www.meetingwave.com/myprofile">including some information about yourself</a>, 
+  you can make it easier to attend and create relevant meetings. 
+  Be sure to add your zip code and indicate your meeting interests and other background information.
+  </p>
+
+  <h2>Set up one or more Meeting Alerts or RSS Feeds</h2>
+  <p>
+  You can receive updates when new invites meeting your search criteria have been posted to the website. 
+  <a href="http://www.meetingwave.com/ssearch">Click here</a> to set one up.
+  </p>
+  
+  <h2>Propose Networking Meetings</h2>
+  
+  <p> Try <a href="http://www.meetingwave.com/postinvite">creating an Invite</a> for proposed meetings to meet fellow with similar interests in your area. 
+  Be specific in the meeting name, and indicate if you are flexible about the time or place of the meeting. 
+  You can always decline any acceptance or cancel a meeting for any reason, and we’ll notify the other attendees for you.
+  </p> 
+  
+ <!-- <h2>Post an Invite</h2>
+  <p>
+  Try <a href="http://www.meetingwave.com/postinvite">posting an Invite</a> 
+  to find people with similar interests in your area. Be specific in the
+  meeting name, and indicate if you are flexible about the time or place of the
+  meeting. You can always decline any acceptance or cancel a meeting for any
+  reason, and we’ll notify the other attendees for you.
+  </p>-->
+
+  <h2>Post Multiple Invites</h2>
+  <p>
+  If you are looking to meet different types of people, set up multiple invites
+  (one for business networking meetings, another for social networking meetings). 
+  This is more effective than combining them in one invite.
+  </p>
+
+  <!--<h2>Help Spread with Word about MeetingWave</h2>
+  <p>
+  To increase your network, <a href="http://www.meetingwave.com/tell_a_friend">let your friends and families know</a> 
+  about MeetingWave. The more members we have, the more people we can meet.
+  </p>-->
+
+  <h2>Questions?</h2>
+  <p>
+  If you have questions or comments about MeetingWave, please 
+  <a href="http://www.meetingwave.com/contact">click here</a>.
+  </p>
+
+  <p>
+ Thank you again for joining the <%=un.name%> Member MeetingWave. 
+ We are confident that you will be able to make the right business, professional 
+ and social connections through our website.
+  </p>
+
+  <p>
+  Sincerely, 
+  <br/>
+  The MeetingWave team
+  </p>
+
+<%= close_body %>
+
+<%= brought_to_you_by %>
+
+
+
+<% end %>
+
+<%= render :partial => '/invitation_notify/footer' %>

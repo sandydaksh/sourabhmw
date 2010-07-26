@@ -1,0 +1,58 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 950px; padding-left: 36px; clear: both;">
+  <% form_tag :action => 'index' do -%>
+  <h1>Contact Us</h1>
+
+  <p> MeetingWave would love to hear your feedback.  Please
+  let us know how we're doing and how we can make your experience
+  on MeetingWave better.</p>
+
+  <p><%= flash[:errors] %></p>
+
+  <div class="formbit">
+    <h3 class="nomargin">YOUR EMAIL</h3>
+     <%= text_field_tag('email', params[:email], @email_input_options) %>
+  </div>
+  <div class="formbit">
+    <h3 class="nomargin">YOUR NAME</h3>		
+    <%= text_field_tag('name', params[:name], :class => 'txt') %>
+  </div>
+  <div class="formbit">
+    <h3 class="nomargin">SUBJECT</h3>		
+    <%= text_field_tag('subject', params[:subject], :class => 'txt') %>
+  </div>
+  <div class="formbit">
+    <h3 class="nomargin">FEEDBACK</h3>		
+    <%= text_area_tag('feedback', params[:feedback], :size => "55x10", :class => 'txt_area') %>
+  </div>
+  <div class="formbit">
+    <h3 class="nomargin">HUMAN-NESS</h3>		
+	<%= get_captcha(:options => { :theme => 'white'}) %>
+  </div>
+
+
+<br/>
+    <input name="Submit" value="Send" type="image" src="<%= button_path("send")%>" />
+  <% end %>
+
+  <br/>
+
+  <p> If you'd prefer, you can always contact us via email at 
+  <%= mail_to('feedback@meetingwave.com', 'feedback@meetingwave.com') %>.  </p>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<% end %>
+

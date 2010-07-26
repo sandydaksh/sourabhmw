@@ -1,0 +1,51 @@
+<div id="people_declined" class="widgetinvites guest_responses"<%= ' style="display:none"' if (@meeting.people_declined.blank?) %>>
+	<h3 class="sectionhead">PEOPLE YOU'VE DECLINED</h3>
+	<table summary="guest_responses">
+		<thead>
+			<tr>
+				<th scope="col" id="guest_responses_1">Member</th>
+				<th scope="col" id="guest_responses_2">Response</th>
+				<th scope="col" id="guest_responses_3">Comments</th>
+				<th scope="col" id="guest_responses_4"> </th>
+			</tr>
+		</thead>
+		<tbody>
+		<% @meeting.people_declined.each_with_index do |member, idx| %>
+			<% row_class = ((idx % 2 == 0) ? "odd" : "even") %>   
+			<% conf = member.confirmation_for(@meeting) %>
+			<tr class="<%= row_class -%>" id="conf_<%= conf.id %>" >
+				<td class="username" id="col1_<%= conf.id %>" style="<%= bg_for_row(conf.member, row_class) %>">
+					<%= toggle_row(member.user_name, conf.id) %> 
+                    <p class="member_stats"> <%= truncate(member.fullname.capitalize_each_word) %> </p>
+				</td>
+				<td class="status" id="approve_reject_status_<%= conf.id %>"> 
+					<%= conf.status.simple_name %> 
+				</td>
+				<td class="comment" id="col3_<%= conf.id %>">  
+					<%= most_recent_msg_txt(@meeting, viewer, member) %> 
+				</td>
+				<td class="close" id="col4_<%= conf.id %>">
+					<%= open_button(conf.id, row_class) %>
+					<%= close_button(conf.id, row_class) %>
+				</td>
+			</tr>
+
+			<tr id="details_<%= conf.id %>" class="details_row" style="display: none; ">
+			<td colspan="4">
+			<div class="details_left">
+				<%= render :partial => '/guest_response/profile_snippet', :locals => { :member => member } %>
+			</div>
+			<div class="details_right"> 
+			<%= render :partial => '/guest_response/message_thread', :locals => { :past_messages => @meeting.messages_for_viewer(member), :inviter => @meeting.invitation.inviter } %>                                                      
+			<% if( conf.status == Status['confirmed']) %>     
+				<%= render :partial => '/guest_response/simple_message', :locals => { :member => member } %>
+			<% else %>
+				<%= render :partial => '/guest_response/approve_reject_message', :locals => { :conf => conf } %>
+			<% end %>
+			</div>
+			</td>
+			</tr>
+		<% end %>
+		</tbody>		
+  </table>
+</div>

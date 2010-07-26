@@ -1,0 +1,8 @@
+ <div id="view_subsection_job_<%= job.id %>" class="edit_box" style="<%= job.new_record? ? "display:none;" : "" %>">
+  <h4 class="subheader"> 
+    <%= job.title.upcase %> 
+    <br/>
+  
+    </h4>
+    <h5 class="entry"> <%= format_job(job) %> </h5>
+  </div>

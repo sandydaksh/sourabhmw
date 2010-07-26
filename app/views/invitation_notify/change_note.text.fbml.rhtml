@@ -1,0 +1,11 @@
+
+Re: Important updates <a href='<%= @url %>'> <%= @invitation.name  %> </a>
+
+ <%= @inviter_name.capitalize_each_word  %> has updated this invitation. 
+
+
+ <%= message_txt(@inviter_name, @message) %>
+
+The following invitation details were modified:
+ <%= all_changed_attrs_fbml(@changed_attributes.dup) %>
+

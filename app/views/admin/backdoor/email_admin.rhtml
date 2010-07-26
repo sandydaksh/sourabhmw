@@ -1,0 +1,59 @@
+<%= javascript_include_tag 'ibox.js' %>
+<%= stylesheet_link_tag 'ttb/ibox.css' %>
+<style>
+    span.subject{
+	display:block;  
+	font-weight:bold;
+	font-size:110%; 
+	float:left;
+}             
+
+    div.email_summary img{
+	    margin-left:15px;
+	    text-align:center;
+}
+  span.detail{
+	display:block; 
+	margin-left:10px;
+}       
+
+  div#search_box{
+	padding: 20px;
+	font-size:120%; 
+	margin-bottom:10px;
+	border-bottom:thin solid black; 
+	height:3em;
+}      
+  a.send_link{
+  
+}
+    
+ div#status_message{
+	font-size:120%;
+	color:orange;   
+	padding: 10 10 10 30px;  
+	border:thin solid orange;
+	
+}
+
+</style>
+
+<h1><%= link_to('Admin', admin_url) %> &raquo; Email Logs</h1>
+
+
+<div id="search_box">
+        <% form_tag('live_filter') do %>
+	<%= text_field_tag("search_filter",params[:search_filter], :id => "search_filter", :size => 50) %> 
+	<%= submit_tag("Filter") %>
+        <% end %>
+	<div id="status_message" style="display:none">   
+
+	</div>
+</div>   
+
+
+
+<div id="email_results">
+<%= render :partial => 'email_results' %>
+
+</div>

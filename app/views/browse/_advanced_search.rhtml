@@ -1,0 +1,252 @@
+ <%= form_tag('', :id => 'search_filter', :onsubmit => "postTZoffset(this); window.location.href = '/ssearch?' + Form.serialize(this); return false;") %>
+<div id="light_adsearch" class="white_content_advancesearch">
+  <p>
+  <div style="width:628px; margin:0 auto; background:#d3e1ea;">
+    <div><img src="/images/newdesign/advace-pop-top-bg.jpg" border="0" width="628" height="7"></div>
+    <div style="background:#d3e1ea url(/images/newdesign/advace-pop-middle-bg.jpg) repeat-y; width:628px; ">
+      <div  style="width:550px; float:left; padding:25px 0 4px 0;">
+        <p class="cancel-grey"><a href = "javascript:void(0)" onclick = 	"document.getElementById('light_adsearch').style.display='none';document.getElementById('fade_adsearch').style.display='none';">Cancel &amp; Close</a></p>
+      </div>
+      <div style="float:left; width:59px;"><a href = "javascript:void(0)" onclick = 	"document.getElementById('light_adsearch').style.display='none';document.getElementById('fade_adsearch').style.display='none'"> <img src="/images/newdesign/location-close.jpg" border="0" width="28" height="26" style="margin:17px 0 4px 5px;"></a> </div>
+      <div style="float:left;">
+        <p><img src="/images/newdesign/advance-heading.jpg" border="0" width="244" height="28" class="advimg"></p>
+      </div>
+      
+      
+      <!-- advance form start-->
+      <div style="clear:both; width:585px; margin:0 0 0 39px;">
+          <div style="width:246px; float:left;">
+          
+            <div>
+              <p class="labelheading">keywords (optional)<br>
+                <%= keywords %>
+                <!--textarea name="textarea" cols="4" rows="4"  class="keywordbox"></textarea-->
+                <span class="advsmalltext">e.g. iPhone, agile development, green</span> </p>
+            </div>
+            
+            <div style="width:246px; clear:both;">
+              <p class="adlabelheading">LOCATION </p>
+            </div>
+            
+            <div style="width:20px; float:left;">
+              <p>
+                 <input type="checkbox" name="vcheck" id="vcheck" onclick="vcheckuncheck();" <%= "checked" if !params[:vcheck].nil? && params[:vcheck] == "on" %>/>
+                        <input type="hidden" value="<%= params[:search_filter][:virtual_flag] if !params[:search_filter].nil? %>" id="virtual_flag" name="search_filter[virtual_flag]">
+              </p>
+            </div>
+            
+            <div style="width:226px; float:left;">
+              <p class="chktext">Virtual Meetings</p>
+            </div>
+            
+            <div style="width:246px; clear:both;">
+            
+              <div style="float:left; width:20px;">
+                <input type="checkbox" id="faf"  <%= "checked" if !params[:checked_locat].nil? && params[:checked_locat] == "1" %>/>
+                </p>
+              </div>
+              
+              <div style="float:left; width:226px;">
+                <p class="chktextdark">Face-to-Face Meetings...</p>
+              </div>
+              
+              <div style="246px; clear:both;">
+                <!--select class="advmilebox">
+                  <option>within 5 miles of</option>
+                </select-->
+                <%= radius %>
+              </div>
+              
+              <div>
+                <p class="firstlabeltext">Specific Location<br />
+                   <%= location %>
+                </p>
+                <!--input type="text" maxlength="10" class="advtextbox">
+                <span class="advanceout">Outside US?</span-->
+                <p class="countrytext">e.g. Los Angeles, CA or 90230</p>
+              </div>
+              
+              <div>
+                <p class="firstlabeltext">Country<br />
+                   <%= country %>
+                </p>
+              </div>    
+              
+              <div>
+                <p class="firstlabeltext">State<br />
+                   <%= state %>
+                </p>
+              </div>      
+              
+              <div>
+                <p class="firstlabeltext">City<br />
+                   <%= city %>
+                </p>
+              </div>  
+              
+              <div>
+                <p class="firstlabeltext">Zip<br />
+                   <%= zip %>
+                </p>
+              </div>         
+              
+              <div>
+                <p class="firstlabeltext">Us Airport<br />
+                   <%= airport %>
+                </p>
+              </div>                                                    
+              
+              <!--p class="advaddtext"><img src="/images/newdesign/adv-arrow.png" border="0" width="10" height="8">
+              	<span style="padding-left:15px;">additional search criteria</span></p>
+              <p class="labelheading">Meeting size<br>
+                <select class="advcommonbox">
+                  <option>...</option>
+                </select>
+              </p-->
+              
+              <!--p class="labelheading">Activity<br>
+                <select class="advcommonbox">
+                  <option>Coffee</option>
+                </select>
+              </p>
+              
+              <p class="labelheading">Who is buying<br>
+                <select class="advcommonbox">
+                  <option>...</option>
+                </select>
+              </p-->
+              
+            </div>
+            
+          </div>
+          
+          
+          <div style="width:339px; float:left;">
+          
+            <div style="margin:0 0 0 70px; width:269px;">
+            
+              <p class="labelheading">Meeting Type<br>
+                <%= activity_new %>
+                
+              <div style="width:269px; clear:both; padding:6px 0 0 0;">
+                <div style="width:20px; float:left;">
+                  <p>
+                    <%= check_box 'search_filter', 'romance', { }, "0", "1" %>
+                    <%= hidden_field 'search_filter', 'client_tz_offset', :value => ''  %>
+                  </p>
+                </div>
+                
+                <div style="width:249px; float:left;">
+                  <p class="advexcludetext">Exclude Romance</p>
+                </div>
+                
+              </div>
+              
+              <div style="width:269px; clear:both;">
+                <div>
+                  <p class="labelheading">Meeting Time</p>
+                </div>
+                
+                <div style="width:20px; float:left;">
+                  <p>
+                    <input type="checkbox" id="preference" name="preference" onclick="npcheckuncheck1();" <%= "checked" if !params[:preference].nil? && params[:preference] == "on" %> />
+                        <input type="hidden" value="<%= params[:search_filter][:preference_flag] if !params[:search_filter].nil? %>" id="preference_flag1" name="search_filter[preference_flag]">
+                  </p>
+                </div>
+                
+                <div style="width:249px; float:left;">
+                  <p class="advnopreftime">No Date Preference</p>
+                </div>
+                
+              </div>
+              
+              <!--div style="width:269px; clear:both; padding:8px 0 0 0;">
+              
+                <div style="width:20px; float:left;">
+                  <p>
+                    <input type="radio" name="nopref">
+                  </p>
+                </div>
+                
+                <div style="width:249px; float:left;">
+                  <p class="advpreftime">Preferred Day & Time...</p>
+                  <div style="width:115px; float:left;">
+                    <select class="advweekbox">
+                      <option>Weekday</option>
+                    </select>
+                  </div>
+                  
+                  <div style="width:129px; float:left;">
+                    <select class="advevenbox">
+                      <option>Evenings</option>
+                    </select>
+                  </div>
+                </div>
+                
+              </div-->
+              
+              <!--div style="width:269px; clear:both;">
+              
+                <div style="width:20px; float:left;">
+                  <p>
+                    <input type="radio" name="nopref">
+                  </p>
+                </div>
+                
+                <div style="width:249px; float:left;">
+                  <p class="advexatext">With Date...</p>
+                </div>
+                
+              </div>
+              
+              <p class="labelheading">On or after<br>
+                  <
+				  %= date_selector("search_filter[start_date]", @search_filter.start_date, 'txt ssearch_date')%>
+              </p>
+              
+			  <p class="labelheading">Before<br>
+                  <
+				  %= date_selector("search_filter[end_date]", @search_filter.end_date, 'txt ssearch_date')%>	
+              </p-->              
+              
+              <!--div style="width:269px; clear:both;">
+                <p class="labelheading">CONFIRMED ATTENDEES<br>
+                  <select class="advcommonbox">
+                    <option>At least 1 Confirmed</option>
+                  </select>
+                </p>
+                <p class="labelheading">WHEN WAS THE MEETING POSTED<br>
+                  <select class="advcommonbox">
+                    <option>within the Last Week</option>
+                  </select>
+                </p>
+              </div-->
+              
+            </div>
+          </div>
+      </div>
+      <!-- advance form End-->
+      
+      
+      
+      
+    </div>
+    <div style="border-bottom:1px dotted #989898; margin:4px 0 0 45px; width:545px; clear:both;">&nbsp;</div>
+    <div style="width:545px; clear:both; margin:4px 0 0 39px;">
+      <div style="width:373px; float:left;">
+        <p class="advancecancel">
+        <a href="#" onclick= 	"document.getElementById('light_adsearch').style.display='none';document.getElementById('fade_adsearch').style.display='none';">Cancel & Close</a>
+        </p>
+      </div>
+      <div style="width:172px; float:left;">
+        <p>
+          <input type="image" src="/images/newdesign/search-fm-button.jpg" border="0" width="159" height="50" style="margin:15px 0 0 0;">
+        </p>
+      </div>
+    </div>
+    <div style="clear:both;"><img src="/images/newdesign/advace-pop-bottom-bg.jpg" border="0" width="628" height="7"></div>
+  </div>
+  </p>
+</div>
+</form>
+<div id="fade_adsearch" class="black_overlay_advancesearch"></div>

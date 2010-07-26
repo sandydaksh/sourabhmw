@@ -1,0 +1,57 @@
+
+<% member_profiles.each do |member_profile| %>
+
+  <div class="member_profile clearfix">
+    <h2><%= link_to(member_profile.member.user_name, member_profile_short_url(:username => member_profile.member.username)) %></h2>
+    <div class="profile_pic_container">
+      <% if member_profile.picture %>
+
+
+
+        <%= image_tag(thumb_url(:id => member_profile.picture.id)) %>
+      <% else %>
+        <%= image_tag('/images/ttb/default_pic.jpg') %>
+      <% end %>	 
+      <%= render( :partial => "/admin/quality/rate" , :locals => { :asset => member_profile})  %>
+    </div>
+
+    <div class="profile_summary">
+      <h3 >MEMBER SINCE: 
+        <%= time_ago_in_words(member_profile.member.created_at) %> ago 
+      </h3>
+
+      <h3 >NAME:  
+        <%= truncate(member_profile.member.fullname) %> 
+      </h3>
+      <h3>TOTAL INVITES:   <%= member_profile.member.invitations.count %> </h3>
+      <h3 class="il">CURRENT INVITES: </h3>
+      <% member_profile.member.invitations.future.each_with_index do |invite, idx| %>
+        <%= link_to(invite.name, show_invite_url(:id => invite.id)) %>
+        <%= (idx == (member_profile.member.invitations.size - 1)) ? "" : "," %>
+      <% end %>
+      <h3>PROFILE SUMMARY:</h3>
+      <h4>JOBS</h4>
+      <% member_profile.jobs.each_with_index do |job, idx| %>
+        <%= job.title %> at <%= job.employer_name %>
+        <%= (idx == (member_profile.jobs.size - 1)) ? "" : "," %>
+      <% end %>
+      <h4>EDUCATION</h4>
+      <% member_profile.educations.each_with_index do |education, idx| %>
+        <%= education.school_name %> <%= "(#{education.school_type})" unless education.school_type.blank? %>
+        <%= (idx == (member_profile.educations.size - 1)) ? "" : "," %>
+      <% end %>
+      <h4>MEETING INTERESTS</h4>
+      <% member_profile.meeting_interests.each_with_index do |meeting_interest, idx| %>
+        <%= meeting_interest.interest %>
+        <%= (idx == (member_profile.meeting_interests.size - 1)) ? "" : "," %>
+      <% end %>
+      <h4>PERSONAL</h4>
+		<% MemberProfile::ATTRS_BY_TYPE[:personal].each do |personal_attribute| %>
+			<% unless (formatted_attribute = format_interest(member_profile, personal_attribute)).blank? %>
+				<%= personal_attribute.to_s.humanize.upcase %>: <%= formatted_attribute %>,
+			<% end %>
+		<% end %>
+    </div>
+  </div>
+
+<% end %>

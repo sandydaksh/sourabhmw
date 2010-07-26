@@ -1,0 +1,108 @@
+  <div id="main" class="show-inv">
+        <h1><%= @invitation.name %> <%= private_indicator(@invitation) %></h1> 
+
+        <form action="" id="rsvp_form" method="post">
+				<div id="button_box">
+					<% if @invitation.expired? %>
+						<div class="exp_div">
+						  <%= content_tag('div', 'EXPIRED', :class => 'expired show_expired') %>
+						</div>
+					<% elsif @member.nil? %>
+						<%= pre_verified_signup_button(:accept, @non_member)  %>
+						<%= pre_verified_signup_button(:decline, @non_member) %>
+					<% end %>
+				</div>
+
+				<div id="flash" style="display: <%= flash[:notice].blank? ? 'none' : 'block' %>;"> <%= flash[:notice] %> </div>
+
+				<h3 class="five_w">WHO</h3>
+				<div class="w_section" >
+					<h4 >HOST</h4>
+					<%= host(@invitation) %>
+					<% unless @invitation.invitee_profile.blank? %>
+						<h4>INVITEES</h4>
+						<%= @invitation.invitee_profile %>
+					<% end %>
+				</div>
+		
+				<h3 class="five_w">WHAT</h3>
+				<div class="w_section">
+					<% unless @invitation.description.blank? %>
+						<p> <%= description(@invitation) %> </p>
+					<% end %>
+                    
+                    <% if @invitation.activity
+						val = @invitation.activity.name
+					else
+						val = "No activity specified"
+					end %>                    
+
+					<h3 class="oneliner"><em>ACTIVITY:</em> <%= val %>  </h3>
+                    
+                    
+					<h3 class="oneliner"><em>COSTS:</em>  <%= costs(@invitation) %> </h3>
+					<% unless @invitation.minimum_invitees.blank? and @invitation.maximum_invitees.blank? %>
+						  <h3 class="oneliner"><em>No. OF INVITEES:</em> <%= size(@invitation) %>  </h3>
+					<% end %>
+				</div>
+
+				<h3 class="five_w">WHERE</h3>
+				<div class="w_section">
+				  <%= where(@invitation) %>
+				</div>
+
+				<h3 class="five_w">WHEN</h3>
+				<div class="w_section">
+					<% if @invitation.recurring? %>
+						<%= render :partial => 'recurring_whence', :locals => {:invitation => @invitation} %>
+					<% else %>
+						<%= whence(@invitation) %>
+					<% end %>
+				</div>
+
+				<h3 class="five_w">WHY</h3>
+				<div class="w_section">
+				  <%= why(@invitation) %>
+				</div>
+		  </form>
+    </div>		
+
+	<div class="sidebar">
+		<h2 class="big_date">Currently viewing meeting for: <%= @meeting.start_time_local.strftime("%A, %B %d, %Y") %> </h2>
+
+		<% if(!@meeting.expired? and (@meeting.invitation.inviter == @member) ) %>	
+					<%= acceptances_notice(@meeting.invitation) %>
+		<% end %>
+
+		<div class="sidebar-box">
+		<% if(@member && @member == @meeting.invitation.inviter) %>
+		  <%= render :partial => 'guest_response_inviter', :locals => { :guest_list => @guest_list, 
+																		:outstanding_rsvps => @outstanding_rsvps, 
+																		:member => @member, 
+																		:meeting => @meeting} %>
+		<% else %>
+		  <%= render :partial => 'guest_response', :locals => { :guest_responses => @guest_responses, :member => @member, :meeting => @meeting} %>
+		<% end %>
+	    </div>
+							
+		<div class="sidebar-box">
+			<%= render(:partial => 'messages', :locals => { :invitation => @invitation, 
+										 :meeting => @meeting, 
+										 :member => @member,
+										 :confirmation => @confirmation })  unless (@member.nil? or @member == @invitation.inviter) %>
+										
+	    </div>
+
+		<div class="sidebar-box">
+			<%= render( :partial => 'reminder_settings', :locals => { :invitation => @invitation, :reminder => @reminder, :member => @member }) unless (@member.nil? or @meeting.expired?) %>
+	    </div>
+
+		<% if display_recurring_confirmations(@meeting.invitation, @member) %>
+			<div class="sidebar-box">
+				<%= render :partial => 'recurring_confirmed', :locals => { :member => @member, :meeting => @meeting} %>
+			</div>
+		<% end %>
+
+	</div>
+
+

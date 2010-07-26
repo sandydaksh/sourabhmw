@@ -1,0 +1,46 @@
+
+		<% if @upcoming_near_me.blank? %>
+		  <p id="none"> There are no invitations upcoming near you.  Maybe you want to <%= link_to('post one!', postinvite_url) %></p>
+		<% else %>
+
+			<% @upcoming_near_me.each do |meeting| %>
+               <% if !meeting.nil? %>
+				<% inv = meeting.invitation %>
+				<div class="wide-inv">
+
+					<div class="inv-date"><h4><%= meeting.start_time_local.strftime("%b<br/>%d") %></h4></div>
+
+					  <div class="inv-header">
+							<%= confs_accepted_note(inv) if @viewer == inv.inviter %>
+							<%= link_to(inv.name, show_invite_url(inv)) %><br/>
+							<%= meeting.start_time_local.strftime("%I:%M %p") %>,
+							<%= location_format_short(inv) %>
+					  </div>
+
+					  <div class="inv-desc">
+						<%= inv.description %>
+					  </div>
+
+					  <div class="inv-poster">
+							<div class="inv-poster-image">
+							  <% if(inv.inviter.member_profile.picture rescue false) %>
+								<%= image_tag(thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+							  <% end %>
+							</div>
+							<div class="inv-poster-details">
+								Posted by: <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id)) %>
+								<br/>
+								On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+							</div>
+							<div class="inv-buttons">
+
+							</div>
+
+					  </div>
+
+				</div>
+
+			<% end %>
+			<% end %>
+<% end %>
+

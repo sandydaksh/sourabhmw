@@ -1,0 +1,25 @@
+
+<h2><%= @problem_user.user_name %></h2>
+<%= link_to("[Open Profile in New Window]", member_profile_url(:id => @problem_user.id), :target => "problemuser") %> 
+<br/>
+<strong>Member Since:</strong> <%= @problem_user.created_at %> 
+<br/>
+<strong>Email: </strong><%= @problem_user.email %>
+<br/>
+<strong>Full Name:</strong> <%= @problem_user.fullname %>
+<br/>
+<strong>Facebook User ?:</strong> <%= @problem_user.source == "Facebook" ? "Yes" : "No" %>
+<br/>
+<strong># Invites Posted:</strong> <%= @problem_user.invitations.size %>
+<br/>
+<strong># Messages Sent:</strong> <%= @problem_user.sent_messages.count %>  
+<%= link_to_function("[Click here to see 10 most recent...]", "Element.show('recent_messages');") unless @problem_user.sent_messages.count.zero? %>
+<br/>
+<div id="recent_messages" style="display: none;">
+  <% @problem_user.sent_messages.find(:all, :order => "created_at DESC", :limit => 10).each do |msg| %>
+    <p class="msg">
+      <strong><%= msg.subject %> @ <%= msg.created_at %></strong><br/>
+      <%= msg.body %>
+    </p>
+  <% end %>
+</div>

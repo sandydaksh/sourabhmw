@@ -1,0 +1,44 @@
+<h1> Confirmed Meetings for  <%= params[:date]   %> </h1>
+
+<style>
+  td{
+    padding:4px;
+  }
+</style>
+<table>
+  <tr>
+  <th>
+    Title
+  </th>
+   <th>
+    Inviter
+  </th>
+  
+   <th>
+    Date
+  </th>
+  
+  <th>
+    Number of Confirmations
+  </th>
+  
+  <th>
+    Attendees
+  </th>
+ 
+</tr>
+<% for row in @rows %>
+  <tr>
+    <td style="width:300px;"> <%= link_to(row.invitation.name, show_invite_url(:id => row.invitation.id, :meeting_id => row.id)) %> </td>
+    <td> <%= link_to(row.invitation.inviter.username, member_profile_url(row.invitation.inviter)) %>  </td>
+    <td> <%= row.start_time.to_s  %> </td>
+    <td> <%= row.confirmations.length %> </td>
+    <td> <% for confirmation in row.confirmations %> 
+             <%= link_to confirmation.member.username, member_profile_url(confirmation.member) %> <br>
+
+          <% end %>
+    </td>
+   </tr>
+<% end %>
+
+<table>

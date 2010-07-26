@@ -1,0 +1,20 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Re: #{@invitation.name}") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    <%= "#{@invitee_name.capitalize_each_word} #{invited_as(@confirmation)}" %> has declined your invitation<%= @occurrence %>.
+  <%= close_highlight %>
+
+  <%= message(@invitee_name, @message) %>
+
+  <p>You can see the status of your invitation, including all RSVP'ed invitees, using the button below.</p>
+
+<%= close_body %>
+
+<%= invitation_button(@url) %>
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

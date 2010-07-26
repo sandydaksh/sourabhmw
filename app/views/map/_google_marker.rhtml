@@ -1,0 +1,41 @@
+
+
+
+<div class="info_window">  
+  <h2><%= link_to(invite.name, (show_invite_url(:id =>invite)), :target => "_top"  ) %>   </h2>
+  <h3 class="nomargin five_w">WHO</h3>
+  <div class="formbit w_section" >
+    <%= image_tag(mini_thumb_url(:id => invite.inviter.member_profile.picture_id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :class => "mini_icon", :alt => '') if(invite.inviter.member_profile.picture_id rescue false) %>     
+    <%= host(invite, :target => "_top") %>      
+  </div>
+  
+  <h3 class="nomargin five_w">WHAT</h3>
+  
+  <div class="formbit w_section">
+    
+    <% unless invite.description.blank? %>
+     <p>
+       <%= truncate(description(invite),150) %>
+     </p>
+    <% end %>
+    
+    <h3 class="nomargin oneliner">ACTIVITY:</h3> <%= activity(invite) %>
+    <br/>
+    <h3 class="nomargin oneliner">COSTS: </h3> <%= costs(invite) %> 
+    <br/>
+    
+    <% unless invite.minimum_invitees.blank? and invite.maximum_invitees.blank? %>
+     <h3 class="nomargin oneliner">No. OF INVITEES:</h3> <%= size(invite) %> 
+    <% end %>
+    
+  </div>
+  
+  <h3 class="nomargin five_w">WHEN</h3>
+  <div class="formbit w_section">
+    <%= whence(invite.upcoming_meeting) rescue "Unknown"%>   
+  </div>
+  <h3 class="nomargin five_w">WHY</h3>
+  <div class="formbit w_section">
+    <%= why(invite) %>
+  </div>               
+</div>

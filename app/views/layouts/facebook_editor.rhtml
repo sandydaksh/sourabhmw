@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        <%= title_tag %>
+        <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	<link rel="stylesheet" href="/stylesheets/ttb/meetingwave.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/browse_advsearch.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/browse.css" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+
+        <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+	<%= stylesheet_link_tag  '/stylesheets/ttb/tooltips.css' %>
+	<%= javascript_include_tag 'Tooltip'  %>
+	
+    <%= calendar_date_select_includes :style => "plain", :format => :american %>
+
+	<%= render :partial => '/shared/meta_tags' %>
+
+</head>
+<body> 
+	<script>
+	    var fb_sig_session_key = '<%= params[:fb_sig_session_key] %>'
+	</script>
+
+<!-- LOGO -->
+
+<!-- NAVIGATION -->
+
+
+<!-- CONTENT -->
+<div class="content_nobg clearfix">   
+<%= yield %>
+</div>  
+
+
+<!-- FOOTER -->  
+</body>
+</html>
+

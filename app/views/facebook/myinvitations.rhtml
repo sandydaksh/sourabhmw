@@ -1,0 +1,21 @@
+<%= inline_stylesheet("ttb/confirmed_invites.css" )%>
+<%= inline_stylesheet("ttb/watching_invites.css" )%>
+<%= inline_stylesheet("ttb/received_invites.css" )%>
+<%= inline_stylesheet("ttb/posted_invites.css" ) %>    
+<% self.extend TTB::FacbookInviteUrlOveride %>
+
+<style>
+   #confirmed_invites_6 img, #received_invites_6 img, #posted_invites_6 img, #watching_invites_6 img{
+	display:none;
+}
+</style>
+
+<div style="margin:15px;">
+<%= render :partial => 'invitations/confirmed_widget' %> 
+
+ <%= render :partial => 'invitations/received_widget' %> 
+
+ <%= render :partial => 'invitations/posted_widget' %> 
+
+ <%= render :partial => 'invitations/watching_widget' %>
+</div>

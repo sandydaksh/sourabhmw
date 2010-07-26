@@ -1,0 +1,56 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 690px; clear: both; padding-left: 165px;">
+<h1>Listing Universities</h1> 
+
+<table width="690" border="0" cellspacing="3" cellpadding="0" align="center">
+<% i = 1 %>
+  <tr>
+    <th>SNo.</th>
+    <th>Universities</th>
+    <th>URL Name</th>
+    <th>Universities Logo</th>
+    <!--<th width="210">Landing Page Heading</th>-->
+    <!--<th width="150">Landing Page Content</td>-->
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @universities.each do |university| %>
+
+  <tr>
+    <td class="univ-alumni"><%= i %></td>
+    <td width="200" class="univ-alumni"><%= university.name %></td>
+    <td width="200" class="univ-alumni"><%= university.url %></td>
+    <td  class="univ-alumni"><% if !university.binary_data.nil? %><%= image_tag("/invitations/code_image/#{university.id}", :alt => "#{university.name}") %><% else %><%= university.url %><% end %><!--<img  src="/picture/thumb/<%#= university.logo %>" alt="<%#= private_mw %>" name="<%#= private_mw %>"/>--></td>
+    <!--<td width="210" class="univ-alumni"><%#= university.text_header %></td>-->
+    <!--<td width="150" class="univ-alumni"><%#= university.welcome_text %></td>-->
+    <td width="134" class="univ-alumni"><%= link_to 'Edit', edit_university_path(university), :class=>"savetext" %></td>
+    <td width="134" class="univ-alumni">
+    <% if university.status == true %>
+		<%#= link_to 'Disable', university,:disable => "disable", :confirm => 'Are you sure to disable this university?', :method => :delete, :class=>"savetext" %>
+        <a href="/disable?id=<%= university.id %>&disable=disable" onclick="if (confirm('Are you sure to disable this university?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit(); };return false;" class="savetext">Disable</a>
+    <% else %>
+    	<%#= link_to 'Enable', university,:del => "del", :confirm => 'Are you sure to enable this university?', :method => :delete, :class=>"savetext" %>
+        <a href="/enable?id=<%= university.id %>&enable=enable" onclick="if (confirm('Are you sure to enable this university?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m);f.submit(); };return false;" class="savetext">Enable</a>
+    <% end %>
+    </td>
+  </tr>
+<% i = i + 1 %>
+<% end %>
+</table>
+
+<br />
+
+<div style="float: left;"><p class="savetext"><%= link_to 'Create New University', new_university_path %> |
+<!--div style="float: left;"><p class="savetext"><%#= link_to 'Add New Alumni', new_alumini_path %> |</p></div-->
+<a href="/admin/backdoor/index" class="savetext">Admin Dashboard</a> |
+<a href="/verify" class="savetext">Waive user who submits the .edu email, but hasn't clicked through</a> |
+<a href="/email" class="savetext">Waive several signed up emails (who didnt sent .edu email) into one private label</a> |
+<a href="/univ" class="savetext">Waive a single email address (who didnt sent .edu email) into multiple private labels</a> </p></div>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+</div>

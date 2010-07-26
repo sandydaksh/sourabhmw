@@ -1,0 +1,20 @@
+You've been invited!
+
+ Who:   <%=  @inviter_name.capitalize_each_word %>  
+ What:  <%=  @invitation.name %>   
+ When:  <%=  start_time(@invitation) %>   
+ Where: <%=  where_text(@invitation)  %> 
+ Why:   <%=  why(@invitation) %>  
+
+<%= message_txt(@inviter_name, @message) %>
+
+You can respond to this invitation on MeetingWave.com by following this link: 
+  <%= @url %>
+
+<% if @invitation.is_private? %>
+<%= word_wrap("This is a PRIVATE INVITE sent only to individuals specified by #{@inviter_name.capitalize_each_word}.  The invite will only be viewable by invited individuals and will not be published on MeetingWave.com or included in the results of searches conducted by other users.") %>
+<% else %>
+<%= word_wrap("This invite will be published on MeetingWave.com.  Since you have been specifically invited by #{@inviter_name.capitalize_each_word}, your acceptance of this invite confirms you will be attending the meeting.  Although other users can also accept this invite,  #{@inviter_name.capitalize_each_word } must approve their acceptance in order for such other users to be notified they may attend the proposed meeting.") %>
+<% end %>
+
+<%= brought_to_you_by_txt %>

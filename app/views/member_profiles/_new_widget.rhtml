@@ -1,0 +1,212 @@
+<% size = @settings[:size].to_i %>  
+  
+<% h4_size = (size * 2.5).ceil %>  
+<% h3_size = (size * 1.2).ceil %>  
+<% description_size = (size * 1.1).ceil %>
+<% attendees_size = (size * 3).ceil %>   
+<% size_of_attendee_box = 50 %>  
+<% size_of_invite_box = size * 7 %>
+<% outer_padding = 5 %>
+<% text_width =( @sizes_to_widths[@settings[:size_name]].to_i - size_of_attendee_box - (2 * outer_padding) )%>
+<% super_size = (size * 0.8).ceil %>     
+<% small_padding = (size * 0.2).ceil %>  
+<% medium_padding = (size * 0.3).ceil %>
+<% large_padding = (size * 0.5).ceil %>  
+<% total_height = (size_of_invite_box * @settings[:limit].to_i + @sizes_to_logos[@settings[:size_name]][:height] + ( size * 12) ) %>     
+
+<script>
+     var total_height = <%= total_height %>;
+</script>
+
+<style>
+  #my_invites_list {
+	clear: both;
+	background-color:#<%= @settings[:background] %>;
+	font-size:<%= @size %>px;
+	padding: .5em;
+	padding-bottom: 0;
+	margin: auto;
+	font-family: arial; 
+	color: #<%= @settings[:font_color] %>;
+	height:<%= total_height %>px;   
+	width: <%= (@sizes_to_widths[@settings[:size_name]]) %>;   
+}   
+
+#my_invites_list p {
+border:0pt none;
+margin:0pt;
+padding:0pt;
+}
+
+div#my_invites_list a:hover {
+	color: #<%= @settings[:hover_color] %>;
+	text-decoration:none;
+}
+div#my_invites_list:visited {
+	color: #<%= @settings[:link_color] %>;
+	text-decoration:none;
+}
+div#my_invites_list a {
+	color: #<%= @settings[:link_color] %>;
+	text-decoration:none;
+}    
+
+ img {
+border:0pt none;
+margin:0pt;
+padding:0pt;
+}
+	
+
+#my_invites_list h4 {
+	padding-left: 0;
+	padding-bottom: .3em;
+	font-size: <%= h4_size %>px;
+	font-weight: bold; 
+	margin:0em;
+}
+#my_invites_list .invite {
+  padding: .2em;
+  padding-bottom: 0;
+  margin: 0; 
+  height: <%= size_of_invite_box %>px;
+}
+
+#my_invites_list .invite h3 {
+  font-size: <%= h3_size %>px;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+#my_invites_list .invite .text {
+	float: left;
+	width: <%= text_width %>px;
+}
+
+#my_invites_list .invite .text p.dateline {
+  font-weight: bold;
+  color: #<%= @settings[:date_color] %>;
+  padding-bottom: 0;   
+  font-size:<%= size %>px;
+}
+
+#my_invites_list .invite .text p.description {
+  color: #<%= @settings[:description_color] %>;
+  font-weight: bold;
+  margin-top: 0;
+  padding-top: 0;
+  font-size: <%= description_size %>px;
+  padding-bottom: 0;
+}
+
+#my_invites_list .invite .attendees_box {
+	float: right;
+	background-image: url(/images/ttb/attendees_box.gif);
+	width: 50px;
+	height: 50px;
+	padding-left: 0px;
+	padding-top: 2px;
+	font-size: <%= attendees_size %>px;
+	font-weight:bold;
+	text-align: center;
+	background-repeat: no-repeat;   
+	color:#42412D;
+}
+
+#my_invites_list .invite .clear {
+	clear: both; 
+}  
+
+div.ttb_meeting_even{
+	background-color:#<%= @settings[:even_color] %>;
+}    
+
+div.ttb_meeting_odd{
+	background-color:#<%= @settings[:odd_color] %>;
+}     
+
+div.ttb_logo_sm		{
+	background-color: #<%= @settings[:logo_background] %>;   
+	margin-bottom:.5em;
+}   
+
+
+#logo { 
+		height: <%= @sizes_to_logos[@settings[:size_name]][:height] %>px; 
+		width: <%= @sizes_to_logos[@settings[:size_name]][:width] %>px;
+		}
+.ttb_smalllogo		{
+	float: left;
+}  
+
+.ttb_tagline	{
+	color: #<%= @settings[:tag_color] %>; 
+    width:100%; 
+    margin: auto;;
+	text-align: center;
+	font-weight: bold;
+	padding-top: 5px;
+	clear: both;   
+	font-size: <%= size %>px;
+}   
+
+div.ttb_logo_sm a{
+	display:block;
+	float:left;  
+}   
+
+a.copy_link{
+	display:block;
+	float:right;
+	margin-right:5px;  
+	font-size:<%= size %>px;
+}
+span.super {
+ vertical-align: super;
+font-size: 0.8em;
+font-weight: normal;
+} 
+
+div.clear{
+	font-size:<%= size %>px;
+}
+
+</style>
+
+<div id="my_invites_list">
+ <h4><%= @settings[:name] %> </h4>
+ <% if !@invites.nil? %>
+	<% @invites.each do |invite| %>
+		<div class="invite ttb_meeting_<%= cycle('even', 'odd') -%>">
+			<div class="text">
+				<h3><%= link_to(truncate(invite.name,24), show_invite_url(:id => invite.id), :target => "_blank", :title => invite.name, :alt => invite.name) %></h3>
+				
+			   <p class="dateline"> <%= invite.upcoming_meeting.start_time_local.strftime("%m/%d/%Y %I:%M%p") %> at <%= invite.address.display_name if invite.address %> </p>
+			   <p class="description">
+				<% if invite.description.blank? %>
+					No description given.<br/>
+				<% else %>
+					<%= truncate(invite.description,50) %>
+			    <% end %>
+			 </p>
+			</div>
+			<% attendees = invite.upcoming_meeting.attending_confirmations.size + 1 %>
+			<div class="attendees_box" title='<%= "#{pluralize(attendees, 'Attendee')}" %>'  alt='<%= "#{pluralize(attendees, 'Attendee')}" %>' >
+				<%= attendees %>
+			</div>
+			<div class="clear">&nbsp;</div>
+		</div>
+	<% end %>     
+	<% end %> 	
+	<div class="ttb_logo_sm">
+		<%= link_to(image_tag("/images/meetingwave/logo.gif", :id => 'logo'), "www.meetingwave.com") %>
+		<br/>
+		<div class="ttb_tagline">Connect with People. Anytime. Anyplace.<span class="super">SM</span></div>
+		<br clear=both>  
+	</div>
+        <% ps = params.clone(); ps.delete(:uuid) ;ps.delete(:action) %>
+	<%= link_to('Copy This Widget', widget_config_url(ps), :class => 'copy_link', :target => "_blank") %>     
+	<br clear=both>  
+	
+</div>

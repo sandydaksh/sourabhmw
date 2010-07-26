@@ -1,0 +1,109 @@
+  <div class="outer" id="whobox">
+			<h2 id="whotab">&nbsp;</h2> 
+			<div class="inner">	
+				<div class="formwrap">
+				<div class="formbit_small who_choice">
+				  <p class="who_options"> This invite is:  
+					<%= select_tag('invitation[is_public]', options_for_select([['PUBLIC.', "1"], ['PRIVATE.', "0"]], (@invitation.is_public? ? "1" : "0")), :id => 'invitation[is_public]')%>
+					<%= candy_image('arrow_right') %>
+
+					<%#= observe_field('invitation[is_public]', 
+											#:frequency => 1, 
+											#:on => :click, 
+											#:function => "new function() { showWhoType($F('invitation[is_public]')); };") %>
+				  <p id="open_invite" class="invite_type_description" <%=show_public_who_section(@invitation) %>  >
+						   Anyone can accept this PUBLIC invite, although you decide WHO will attend.
+				  </p>
+				  <p id="private_invite" class="invite_type_description" <%=show_private_who_section(@invitation) %>  >
+						This invitation will be private and viewable by invitees only.
+				  </p>
+				<br class="clear"/>
+				</div>
+				
+
+				
+				<div id="invitees_select"  >
+		        	<div class="formbit_small clearfix">
+						<h3 class="notifications">NOTIFICATIONS</h3>
+							<p>
+								An email notification will be sent to any of the people you indicate below.  
+                                If the person you'd like to invite is not a member or not in your <%= link_to("contact list", contacts_url) %>, 
+								just type their email in the text box below, separated by commas.
+		        	  		</p>
+							<%= error_messages_for('invitation', :header => '', :attributes_order => [:invited_members]) %>
+
+                            <div id="text">
+
+                            </div>
+					
+                            <ol>
+                              <li id="who-list" class="input-text">
+                                <input type="text" value="" id="who-auto-field" name="who-auto-field"  />
+                                <div id="who-auto-results">
+                                  <div class="default">Start typing the name of a contact or enter a new email. </div> 
+                                  <ul class="feed">
+                                    <%  @invitation.invited_non_members.each do |non_member|  %>
+                                      <li value="<%= non_member.email %>" ><%= "#{non_member.email}" + (  non_member.name.blank? ? "" : "(#{non_member.name})" ) %></li>
+                                    <% end %>
+
+									<% if @invitation.invited_non_members.blank? and !params['who-auto-field'].blank? %>
+										<% params['who-auto-field'].split(",").each do |email| %>
+											<% if email.match(RE::VALID_EMAIL) %>
+											  <li value="<%= email %>" ><%= email %></li>
+											<% end %>
+										<% end %>
+									<% end %>
+
+                                    <% @members.each do |member| %>
+                                      <li value="<%= member.id %>" >
+                                        <% if member.fullname.blank? %>
+                                          <%= member.user_name %>
+                                        <% else %>
+                                          <%= "#{member.fullname} (#{member.user_name})" %>
+                                        <% end %>
+                                      </li>
+                                    <% end %>
+
+                                  </ul>
+                                </div>
+                              </li>
+                            </ol>
+
+                            <script language="JavaScript">
+                                var whoAutoCompleterField = null;
+                              Event.observe(window, 'load', function() {
+                                whoAutoCompleterField = new FacebookList('who-auto-field', 
+                                                                            'who-auto-results',
+                                                      {fetchFile:'/member/who_auto_complete_json'});
+                                                      
+                                                      
+
+          
+                                });  
+
+                            </script>
+                                
+					</div>
+		        </div>
+		  
+				<div id="invitee_profile_form" <%=show_public_who_section(@invitation) %>>
+		          <h3>INVITEE PROFILE</h3>
+
+					<div class="compact_accessible_wrap">
+						<label for="invitation[invitee_profile]" class="overlabel">  
+							Describe the type of people you would like to meet.  
+							For example,  people working in the financial industry, 
+							alumni from your school, fellow sports fans, web designers, 
+							Ruby developers, real estate agents, lawyers, etc.  
+						</label>
+			  	  		<%= text_area 'invitation', 'invitee_profile', :class => 'invitee_profile_box', :id => 'invitation[invitee_profile]' %>
+					</div>
+			<br class="clear"/>
+			</div>
+			</div>
+			
+		</div>
+</div>
+<script>
+setTimeout(initOverLabels, 50);
+</script>

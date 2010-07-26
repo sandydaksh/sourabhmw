@@ -1,0 +1,9 @@
+<h1>Editing military_branch</h1>
+
+<%= form_tag :action => 'update', :id => @military_branch %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+</form>
+
+<%= link_to 'Show', :action => 'show', :id => @military_branch %> |
+<%= link_to 'Back', :action => 'list' %>

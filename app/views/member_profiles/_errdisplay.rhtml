@@ -1,0 +1,6 @@
+<% if !@arr.blank? %>
+    Following email addresses are not valid: <br />
+    <% @arr.each do |arr| %>
+        <% if !@arr.first %><%= "," %><% end %>&nbsp;<%= arr %>
+    <% end %>    
+<% end %>

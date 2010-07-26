@@ -1,0 +1,46 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<%= title_tag %>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+	<!-- Stylesheets  -->
+
+      <% start_caching_stylesheets %>
+
+	<%= stylesheet_link_tag("meetingwave/base.css") %>
+	<%= stylesheet_link_tag("meetingwave/two.css") %>
+	<%= stylesheet_link_tag("meetingwave/pages/editor.css") %>
+	<%= stylesheet_link_tag("meetingwave/modular/textboxlist.css") %>
+	<%= stylesheet_link_tag("meetingwave/modular/nav.css") %>
+
+    <%= cached_stylesheet_link_tag %>
+
+	<!-- Javascript Includes -->
+        <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+    <%= javascript_include_tag 'textboxlist.js' %>
+    <%= javascript_include_tag 'textboxlist.fb.js' %>
+    <%= GMap.header(:host => request.host) %>  
+
+	<!-- Utilities  -->
+    <%= render :partial => '/shared/quick_invite_includes' unless current_member.blank? %>
+	<%= render :partial => '/shared/tooltip_includes' %>
+	<%= render :partial => '/shared/accessible_form_includes' %>
+	<%= render :partial => '/shared/meta_tags' %>	
+	<%= render :partial => '/shared/tab_includes' %>
+	<%= render :partial => '/shared/window' %>
+	<%= rss_link_tag() %>	
+</head>
+<body>
+  <div id="content">
+    <%= render :partial => 'shared/nav' %>
+	<%= yield %>
+  </div>
+  <%= render :partial => '/shared/footer' %>
+</body>
+</html>
+
+

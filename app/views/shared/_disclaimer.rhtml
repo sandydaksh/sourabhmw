@@ -1,0 +1,18 @@
+<div id="disc" style="display:none; position: absolute; top: 138px; left: 438px; padding:8px; border:10px solid #000000; background-color: #d3e1ea; z-index:1002; overflow: auto; width: 400px; height: 189px;"> <a href = "javascript:void(0)" onclick = "document.getElementById('disc').style.display='none';document.getElementById('fade_disc').style.display='none'"><img src="/images/close.png"  border="0"  style="margin:3px 0 0 360px; background-color:#d3e1ea;" /></a>
+<% ut = University.find_by_url(private_mw).data_type %>
+<% if ut == "university" %>
+    <div style="margin-left: 7px; margin-right: 7px; font-size:13px;">
+        <p align="center" style="font-size:15px;"><strong>Disclaimer:</strong></p><p style="padding-top:3px;">MeetingWave hereby disclaims any sponsorship of or affiliation with
+        or endorsement of this MeetingWave alumni private label by the university or
+        college.  The name, logo and insignia of the school are the property of such
+        university or college and are used here solely for descriptive purposes for the
+        benefit of MeetingWave members who are verified alumni of such university or
+        college.</p>	
+    </div>
+<% elsif ut == "company" %>    
+    <div style="margin-left: 7px; margin-right: 7px; font-size:13px;">
+        <p align="center" style="font-size:15px;"><strong>Disclaimer:</strong></p><p style="padding-top:3px;">MeetingWave hereby disclaims any sponsorship of or affiliation with or endorsement of this Private MeetingWave label by the Corporations or Associations. The name, logo and insignia of the Corporations/Associations are the property of such Corporations/Associations and are used here solely for descriptive purposes for the benefit of MeetingWave members who are verified members of such Corporations/Associations.</p>	
+    </div>
+<% end %>
+</div>
+<div id="fade_disc" style="display:none; position: absolute;top: 0%;left: 0%;width: 100%;height:1250px;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);"></div>

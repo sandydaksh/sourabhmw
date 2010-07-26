@@ -1,0 +1,6 @@
+page.replace_html("broadcast_results", :partial => '/guest_response/broadcast_sent', :locals => { :recipients => @recipients, :message => @message})
+page.hide("send_broadcast")
+page.hide("bcast_spinner")
+page.show("broadcast_results")
+page.show("bcast_form_fields")
+page.call("GuestResponse.clearBroadcastForm")

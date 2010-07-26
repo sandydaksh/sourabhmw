@@ -1,0 +1,10 @@
+Re: <%= @invitation.name %>
+
+<%= "#{@inviter_name.capitalize_each_word} #{invited_as(@confirmation)}" %> has declined to meet with you<%= @occurrence %>. 
+
+<%= message_txt(@inviter_name, @message) %>
+
+You can view the details of this invitation by following this link:
+    <%= @url %>
+
+<%= brought_to_you_by_txt %>

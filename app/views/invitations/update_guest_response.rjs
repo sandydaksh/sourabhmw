@@ -1,0 +1,12 @@
+page.replace 'guest_response_container', 
+            :partial => 'guest_response', 
+            :locals => { :guest_responses => @guest_responses, 
+		                     :member => @member, 
+			                   :meeting => @meeting }
+			                   
+
+page.replace 'messages_sidebar',
+               :partial => 'messages',  
+               :locals => { :confirmation => @confirmation, 
+               :member => @member, 
+               :meeting => @meeting }

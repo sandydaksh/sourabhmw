@@ -1,0 +1,43 @@
+<%= stylesheet_link_tag( '/stylesheets/ttb/editor.css') %>
+<%= javascript_include_tag('autocomplete_profile_fields') %>
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+
+<div id="edit_header">
+<h1>You are Editing "<%= @invitation.name %>" </h1>
+
+<div id="changed" style="display: none;">
+<p id="changed_notice"> This invite has unsaved changes.  Click "Save All" to save it. </p>
+</div>
+</div>
+<% form_tag({:controller => 'invite_editor', :action => 'save'}, :id => 'invite_edit_form', :onsubmit => "beforeInviteSubmit();") do -%>
+	<%= hidden_field_tag('id', @invitation.id) %>
+	<%= content_tag('div', flash[:notice], :id => 'flash') unless flash[:notice].blank? %>
+	<%= render :partial => 'form' %>
+    <div> 
+  	<div style="float:left; padding-left:785px; padding-top:14px"><p class="canceltext"><a href="javascript:history.back();" target="_self">Cancel</a></p></div> 
+	<div class="button_box" id="postinvite-button">
+      <%= new_ibutton('save_all.gif', :id => "postinvite-button", :border=>"0",:onmouseover=>"this.src= '/images/newdesign/save_all-over.gif';", :onmouseout=>"this.src = '/images/newdesign/save_all.gif';",:onclick => "Element.hide('postinvite-button'); Element.show('posting-indicator');")%>
+	</div>
+	</div>
+    <div class="button_box" id="posting-indicator" style="display: none;">
+        <%= indicator_image("spinner.small") %>
+        Posting...
+    </div>
+
+
+
+	
+<% end %>
+
+<%= observe_form('invite_edit_form', :function => " new function() {  Element.show('changed'); }")%>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>

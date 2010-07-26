@@ -1,0 +1,14 @@
+<% unless past_messages.blank? %>
+<h4> PAST MESSAGES</h4>
+
+	<% past_messages.each do |m| %>
+			<p class="<%= author_class(m.author, inviter) %>"> 
+            <span class="title"> <%= author_name(m.author, inviter) %>
+            </span>
+              [<%= m.created_at.strftime("%m/%d") %>]:
+				<span class="message">  <%= m.body %></span>
+			</p>
+	
+	<% end %>
+<% end%>
+	

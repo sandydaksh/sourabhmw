@@ -1,0 +1,69 @@
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<div id="inner_content">
+
+	<p class="contact_header"> Current MeetingWave Contacts  </p>
+	<p class="align_space">Your current MeetingWave Contacts are listed below.  Click on a member's name to view their MeetingWave profile.  </p>
+
+    <%= content_tag(:p, flash[:error], :class => "error") if(flash[:error]) %>
+    <%= content_tag(:p, flash[:notice], :class => "notice") if(flash[:notice]) %>
+
+	<div id="standalone_contacts_wrapper" >
+	<div id="contact_list" >
+			<div id="select_box">
+		  <h5 class="import_subhead" style="float: left;" > Contact List </h5>
+			<div style="float:right; margin:10px; "> 
+					<%= image_tag("ttb/blueguy.tan.gif", :style => "vertical-align:middle; height: 15px; width: 15px;") %> <span style="font-size: 10px;">Currently a Member  </span>
+			</div>
+	<br style="clear:both;"/>
+			</div>
+		<div id="current_slider">
+        <% cache(CachingObserver.contacts_page_key(current_member)) do -%>
+                        <%     @contacts = current_member.all_contacts.group_by{|contact| contact.user_name[0...1].downcase} -%>
+			<ol id="contacts">
+				<% ("a".."z").each do |letter| %>
+					<% next unless(contacts = @contacts[letter]) %>
+					<li class="letter_header">
+						<%= content_tag(:h2, letter.upcase, :id => "#{letter}_header") %>
+						<ul >
+						  <% @contacts[letter].each do |contact| %>
+							<li class="contact <%= contact.class.to_s.underscore.downcase %>">
+								<% if contact.is_a?(Member) %>
+									<span class="contact_name"> <%= link_to(contact.user_name, member_profile_short_url(:username => contact.user_name)) %> </span> 
+								<% else  %>
+									<span class="contact_name"> <%= contact.user_name  %> </span> 
+								<% end  %>
+								<span class="full_name"> <%= "(#{contact.fullname})" unless contact.fullname == contact.user_name %> </span> 
+							</li>
+						  <% end %>  
+						</ul>      
+					</li>
+				<% end %>
+			</ol>
+<% end -%>
+		</div>
+	</div>
+  </div>
+
+	<div id="tell_friends">
+	  <h2><%= link_to('Tell Your Friends', add_contact_url) %></h2>
+	  <p> Do you know someone who should know about MeetingWave?  Then tell them using our <%= link_to('super easy Tell a Friend form!', add_contact_url) %> </p>
+	</div>
+
+	<div id="import_your_contacts">
+	  <h2><%= link_to('Import Your Contacts', url_for(:controller => 'contacts', :action => 'import')) %></h2>
+	  <p> If you use any popular webmail or LinkedIn, you can grab all of your contacts at once with our handy 
+		  <%= link_to('contact importer!', url_for(:controller => 'contacts', :action => 'import')) %> </p>
+	</div>
+
+</div>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>

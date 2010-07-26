@@ -1,0 +1,175 @@
+<style type="text/css">
+.pagination {
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+  width: 385px;
+  clear: both;
+
+}
+
+.pagination span.disabled {
+  color: #999;
+}
+.pagination span.current {
+  color: #Aee057;
+}
+</style>
+
+<script type="text/javascript">
+function facetoface()
+{
+if(document.getElementById("faf").checked==true)
+{
+if(document.getElementById("facetoface").style.display=="none")
+{
+document.getElementById("facetoface").style.display="inline";
+document.getElementById('checked_locat').value='1';
+}
+else
+{
+
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+}
+else
+{
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+
+}
+
+function vcheckuncheck()
+{
+ if(document.getElementById('vcheck').checked)
+ {
+    document.getElementById("virtual_f").value='v_flag';
+ }
+ else
+ {
+    document.getElementById("virtual_f").value='0'; 
+ }      
+}
+
+function romancecheck()
+{
+ if(document.getElementById('rom').checked)
+ {
+    document.getElementById("romance").value='19';
+ }
+ else
+ {
+    document.getElementById("romance").value='0'; 
+ }      
+}
+
+
+function npcheckuncheck()
+{
+ if(document.getElementById('npcheck').checked)
+ {
+    document.getElementById("preference_flag").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag").value=''; 
+ }      
+}
+
+
+function npcheckuncheck1()
+{
+ if(document.getElementById('preference').checked)
+ {
+    document.getElementById("preference_flag1").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag1").value=''; 
+ }      
+}
+
+</script>
+
+<script type="text/javascript">
+function datevalid()
+{
+alert("amit");
+alert(document.getElementById("search_filter[start_time]").value);
+
+}
+</script>      
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+    	<div id="top-bg-new">&nbsp;</div>  
+                    <div>
+                    
+                    
+   
+<div class="signup-section verification-main-print">
+
+	Welcome <% if !params[:uname].nil? %><%= params[:uname] %>.<% else %>,<% end %> You're almost registered for MeetingWave. Look out for MeetingWave's verification email and remember to click through to complete your registration.  Then you can search for invites and accept any of interest or post your own invites to meet new people.
+
+</div>
+
+<div class="signup-section verification-fine-print">
+
+	If you don't see a verification email in your Inbox within the next few
+	minutes check your junk/bulk/spam folder.  If there, please move it to
+	your Inbox and open it so that your spam filter is more likely to recognize
+	future emails from MeetingWave.com. If you can't find the email there,
+	please contact us at <a href="mailto:register@meetingwave.com">register@meetingwave.com</a>.
+
+</div>
+
+<div class="signup-section">
+	<%= image_tag('/images/meetingwave/candy/next_opportunity_look.png') %>
+	<%= image_tag('/images/meetingwave/candy/things_you_can_do.png', :style => 'margin-left: 15px;') %>
+</div>
+</div>        
+   	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+
+
+
+  
+ 
+    
+  </div>
+  
+</div>
+<!-- new create form END-->
+<!-- End-inner-container-->
+
+</div>
+<!-- End-main-container-->
+<%= render :partial => 'shared/signin' %>
+
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+
+ <%= form_tag('', :id => 'search_filter', :onsubmit => "postTZoffset(this); window.location.href = '/ssearch?' + Form.serialize(this); return false;") %>
+<div id="light_adsearch" class="white_content_advancesearch">
+  <p>
+  </p>
+</div>
+</form>
+<div id="fade_adsearch" class="black_overlay_advancesearch"></div>

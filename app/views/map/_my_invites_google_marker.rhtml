@@ -1,0 +1,27 @@
+
+
+
+<div class="info_window">  
+  <h2><%= link_to(invite.name, show_invite_url(:id =>invite), :target => ( context?(:social_network) ? nil : "ttb" ) ) %>   </h2>
+  <h3 class="nomargin five_w">WHO</h3>
+  <div class="formbit w_section" >
+    <%= image_tag(mini_thumb_url(:id => invite.inviter.member_profile.picture_id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :class => "mini_icon", :alt => '') if(invite.inviter.member_profile.picture_id rescue false) %>     
+    <%= host(invite, :target => "ttb") %>      
+  </div>
+  
+  <h3 class="nomargin five_w">WHAT</h3>
+  
+  <div class="formbit w_section">
+    
+    <% unless invite.description.blank? %>
+     <p>
+       <%= truncate(description(invite),150) %>
+     </p>
+    <% end %>   
+  </div>
+  
+  <h3 class="nomargin five_w">WHEN</h3>
+  <div class="formbit w_section">
+    <%= whence(invite.upcoming_meeting) rescue "Unknown"%>   
+  </div>  
+</div>

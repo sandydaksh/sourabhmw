@@ -1,0 +1,24 @@
+<div class="dashboard_header" style="margin-bottom:5px;margin-top:0px;padding-top:2px;">  
+	<div class="dh_titlebar" style="padding-top:2px;">
+    <h2 style="background-image: url(http://photos-150.ll.facebook.com/photos-ll-sctm/v43/110/5440433150/app_2_5440433150_9537.gif);">MeetingWave</h2>
+</div>
+
+<h1 style="margin:15px;">Page Profile Settings</h1>
+
+<fb:editor action="?fb_page_id=<%= @page_id %>&amp;save_location=true" labelwidth="175">
+    <fb:editor-text label="City" name="page[city]" value=" <%= @page.city %> "/>
+    <fb:editor-text label="State" name="page[state]" value="<%= @page.state %> "/> 
+    <fb:editor-text label="Country" name="page[country]" value="<%= @page.country %> "/> 
+    <fb:editor-text label="Zip" name="page[zip]" value="<%= @page.zip %>"/>       
+    <fb:editor-divider/>
+	 <fb:editor-custom label="Number of meetings to show">   
+              <%= text_field(:page, :number_on_profile, {:style => "width:20px;"}) %>
+     </fb:editor-custom>
+  
+    <fb:editor-buttonset> 
+ 			<fb:editor-button value="Save"/>  
+	 </fb:editor-buttonset> 
+	<fb:editor-divider/>                                          
+	
+	
+</fb:editor>

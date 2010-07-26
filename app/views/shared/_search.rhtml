@@ -1,0 +1,13 @@
+<div id="search">
+
+      <h3 class="nomargin">SEARCH</h3>
+
+      <% form_tag(simple_search_url,  :onsubmit => "window.location.href = '/simple_search?' + Form.serialize(this); return false;") do -%>
+      <div id="searchform">			
+                      <input class="fatinput" name="terms" value=" " type="text" />
+
+                      <input name="Submit" value="Find" type="image" src="<%=  button_path("find") %>" />
+      </div>
+      <% end -%>
+
+ </div>

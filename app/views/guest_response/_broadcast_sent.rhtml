@@ -1,0 +1,23 @@
+
+	<div class="details_left">
+		<h4> SENT TO: </h4>
+		<div class="bcast_recipients">
+			<ul>
+	   			<% recipients.each do |rec| %>
+					<li><%= 	mini_icon_img(rec) %> <%= rec.user_name %></li>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+
+	<div class="details_right">
+	   <h4 class="sent">MESSAGE SENT:</h4>
+	
+		<p class="you">
+			<br/>
+			<span class="message"> <%= message.body %></span>
+		</p>
+
+		<%= link_to_function("&raquo; Send another message ...", "Element.hide('broadcast_results'); Element.show('send_broadcast');") %>	
+	
+	</div>

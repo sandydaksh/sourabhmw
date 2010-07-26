@@ -1,0 +1,57 @@
+<% extend InvitationNotifyHelper %>
+
+   <%= '<center>  <span class="hideme" style="font:10px normal Arial; color:#155E8D; padding-bottom:4px;">Please add noreply@meetingwave.com  to your contacts list to avoid having these emails automatically blocked from your inbox.</span><br>'  unless @hideme %>
+      <table width="640" cellpadding="0" cellspacing="0" style="font: 0.8em arial; color: #155E8D; border-collapse: collapse;">
+         <tr>
+            <td>
+							<a href="http://meetingwave.com" target="ttb">
+                            
+                            <%= image_tag "/images/meetingwave/new_email_logo.gif", :width=>"640",:height=>"95",:alt=>"MeetingWave.com",:border=>"0" %>
+                            
+                            <!--<img src="http://localhost:3000//images/meetingwave/candy/how_for_who.gif" width="640" height="95" alt="MeetingWave.com" border="0">--></a>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <table width="640" cellpadding="0" cellspacing="0" style="border:0px solid #155E8D; border-width:0 1px 20px 1px; border-collapse: collapse;"> 
+
+
+<%= headline("This invite is being forwarded to you by #{@forwarder} ") %>
+
+<%= open_body %>
+  <%= render :partial => '/invitation_notify/five_ws' %>
+  <%= message(@forwarder, @message) %>
+<%= close_body %>
+<% unless @hideme%>  
+    <%= rsvp_button(@url) %>
+	<%= open_body %>
+
+	<p style="font: 0.8em arial;">
+
+	This Invite was published on MeetingWave.com. If you are interested in
+	attending this proposed meeting, please click Attend and we'll notify
+	the member who posted this Invite, <%= @inviter_name.capitalize_each_word %>,
+	of your interest. We recommend creating a Profile with background information
+	before accepting the Invite. Although any member can accept this Invite,
+	UserName must approve each acceptance in order for each member to be
+	notified they may attend the proposed meeting. Meetings are only
+	confirmed when there is at least one request to attend that is
+	approved.
+
+	</p>
+
+
+	<%= close_body %>
+    <%= brought_to_you_by %>
+<% end %>
+
+      </table>
+     </td>
+    </tr>
+   </table>
+   <%= "</center>" unless @hideme %> 
+
+
+            
+
+

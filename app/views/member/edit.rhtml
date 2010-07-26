@@ -1,0 +1,130 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+
+      <div class="editaccount_form">
+        <% form_tag my_account_post_url do -%>
+		  <h1>Personal Info</h1>
+
+                  <%= content_tag('div', flash[:notice], :id => 'flash') unless flash[:notice].blank? %>
+
+                  <%= error_messages_for 'member', :header => 'We were unable to update your account.  Please correct the following errors:' %>
+                  <%= flash[:rendered_errors] if( flash[:rendered_errors] ) %>
+
+					<div class="feelgood">
+					  <h2 id="data">Your Data</h2>
+					  <p> 
+					  At MeetingWave, your contact info is your own.  Rest assured that we will
+					  never divulge your email or mobile phone number to any third party.  Even
+					  when meeting with new people your online identity is protected, thanks to
+					  MeetingWave's <em>double-blind</em> messaging system.  Of course, you can
+					  give your contact info to whomever you please, but at MeetingWave we are
+					  committed to keeping you in control of your meetings.
+					</p>
+					</div>
+
+						<div class="formbit">
+                  	           <h3>FIRST NAME</h3>		
+                  	           <%= text_field 'member', 'first_name', :class => 'txt' %>
+                  	   </div>
+
+
+                  	   <div class="formbit">
+                  	           <h3>LAST NAME</h3>		
+                  	           <%= text_field 'member', 'last_name', :class => 'txt' %>
+                  	   </div>
+
+                  	   <div class="formbit" id="poo">
+                  	           <h3>EMAIL</h3>		
+                  	           <%= text_field 'member', 'email', :class => 'txt',:disabled => "disabled" %>
+                  	   </div>
+
+					<div class="feelgood">
+					  <h2 id="contact">No Spam</h2>
+					  <p> 
+					  At MeetingWave, we will only contact you for one of three reasons:
+					  <ul>
+						  <li>To notify you about your invites.</li>
+						  <li>When there are new invites we think you'd be interested in.</li>
+						  <li>When we launch new features to make your MeetingWave experience better.</li>
+					  </ul>
+					  We are committed to keeping your inbox clean.
+					</p>
+					</div>
+
+                       <div class="formbit" id="poo1">
+                               <h3>USERNAME</h3>		
+                               <%= text_field 'member', 'user_name', :class => 'txt' %>
+                       </div>
+					   <% unless @member.open_id_user? %>
+
+						   <div class="formbit">
+								   <h3 >PASSWORD</h3>
+								   <%= password_field 'member', 'password', :class => 'txt' %>
+						   </div>
+
+						   <div class="formbit">
+								   <h3 >PASSWORD (again)</h3>
+								   <%= password_confirmation_field %>
+						   </div>
+					   <% end %>
+                  
+                  <%= hidden_field_tag('member[form]', 'edit')%>
+
+		  <h1>Contact Info</h1>
+
+				  <div class="default_reminder" >
+					   <h3>REMINDER SETTINGS  <%= tool_tip('Reminder Settings', reminder_settings_html, :id => 'private_tt', :image => '/images/ttb/questionmark.tiny.postwiz.gif') %> </h3>
+				      When I configure a reminder without specifying a time, send it <%= select('member', 'default_reminder_advance', Reminder::ADVANCE_OPTS)  %> before the event.
+				  </div>
+				 
+				 <div class="default_reminder" >
+					   <h3>EMAIL SETTINGS  </h3>
+						<%= check_box('member', 'receives_news_updates')%> Yes, please send me news updates about new features on MeetingWave.
+				 </div>
+				
+				 <div class="default_reminder" >
+					   <h3>MOBILE PHONE SETTINGS <img src="/images/ttb/new.lightbg.gif"/></h3>
+							<div class="formbit_new">
+								<h4 class="cell_phone">COUNTRY CODE</h4>
+								<%= select('member', 'cell_phone_prefix', Country::CALLING_CODE_OPTIONS, { }, :id => 'country_code_select') %>
+								<%= tool_tip('Country Code', 'Select your country from the list to ensure we use the correct country code when sending you text messages.', :id => 'country_code_tt', :image => '/images/ttb/questionmark.tiny.postwiz.gif') %> 
+							</div>
+							<h4 class="cell_phone">PHONE NUMBER</h4>
+							<%= text_field('member', 'cell_phone_number', :class => 'cell_phone_number') %>
+							<%= tool_tip('Phone Number', 'Enter your phone number with area code.  For example, 303-555-5555.', :id => 'phone_number_tt', :image => '/images/ttb/questionmark.tiny.postwiz.gif') %> 
+							
+							 <br/>
+						<div class="cell_phone_checkboxes">
+								<div>
+									<%= check_box('member', 'receives_sms_reminders')%> Yes, please send my configured reminders for confirmed meetings via a text message (SMS). <br/>
+								</div>
+								<div>
+									<%= check_box('member', 'receives_sms_invites')%> Yes, please notify me with a text message (SMS) when I am invited to a meeting. <br/>
+								</div>
+						</div>
+				 </div>
+					
+				
+                  
+		<p style="padding-left:36px;">
+	        <%= image_submit_tag("/images/meetingwave/buttons/save_new.gif",:border => 0,:style=>"padding-top:5px;",:onmouseover=>"this.src= '/images/meetingwave/buttons/save_new-over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/save_new.gif';") %>
+        	<!--input name="Submit" value="Save" type="image" src="<%#= button_path("save") %>" /-->
+        </p>
+            <% end %>
+            <br/>
+
+            <h5 ><%= link_to('DELETE MY ACCOUNT', confirm_delete_account_url, {:alt => 'Delete my account', :title => 'Delete my account'}) %> </h5>
+
+	</div>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+

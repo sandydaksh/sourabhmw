@@ -1,0 +1,1 @@
+page.replace_html("flash", update_message_for(@reminder))

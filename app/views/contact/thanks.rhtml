@@ -1,0 +1,24 @@
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 950px; padding-left: 36px; clear: both;">
+<div class="contact_us_form" >
+  <h1>Thanks for Your Feedback!</h1>
+  <p> Your feedback has been sent to the MeetingWave team.  We value your
+  input and will get back to you as soon as possible. </p>
+
+</div>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<% end %>

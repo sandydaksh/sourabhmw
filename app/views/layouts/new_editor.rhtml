@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+<title>MeetingWave</title>
+ <%# start_caching_stylesheets %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/meetinwavenew/style.css" />
+	<%= stylesheet_link_tag("meetingwave/base_meeting.css") %>
+	<%= stylesheet_link_tag("meetingwave/two.css") %>
+	<%= stylesheet_link_tag("meetingwave/pages/editor.css") %>
+	<%= stylesheet_link_tag("meetingwave/modular/textboxlist.css") %>
+	<%= stylesheet_link_tag("meetingwave/modular/nav.css") %>
+
+ <%#= cached_stylesheet_link_tag %>
+    <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+    <%= javascript_include_tag 'textboxlist.js' %>
+    <%= javascript_include_tag 'textboxlist.fb.js' %>
+    <%= GMap.header(:host => request.host) %>  
+	<!-- Utilities  -->
+    <%= render :partial => '/shared/quick_invite_includes' unless current_member.blank? %>
+	<%= render :partial => '/shared/tooltip_includes' %>
+	<%= render :partial => '/shared/accessible_form_includes' %>
+	<%= render :partial => '/shared/meta_tags' %>	
+	<%#= render :partial => '/shared/tab_includes' %>
+	<%= render :partial => '/shared/window' %>
+	<%= rss_link_tag() %>	
+<script type="text/javascript">
+  function checksearch(){
+    showYelpLocation('yelp-task');
+  }
+</script>
+<script type="text/javascript">
+  function stopRKey(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if((evt.keyCode == 13) && node.id == "yelp-terms") {
+      doYelpSearch();
+      return false;
+    }
+    if ((evt.keyCode == 13) && (node.type=="text"))  {return false;}
+  }
+
+  document.onkeypress = stopRKey;
+
+  var map      = null;
+  var airport_map = null;
+  var yelp_map = null;
+  var geocoder = null;
+  var marker   = null;
+  var airport_marker   = null;
+  var tabs_initialized = false;
+
+  function initialize() {
+    if (GBrowserIsCompatible()) {
+      map = new GMap2(document.getElementById("map_canvas"));
+      map.setCenter(new GLatLng(39.8163, -98.55762), 1);
+      airport_map = new GMap2(document.getElementById("airport_map_canvas"));
+      airport_map.setCenter(new GLatLng(39.8163, -98.55762), 1);
+      yelp_map = new GMap2(document.getElementById("yelp_map_canvas"));
+      yelp_map.setCenter(new GLatLng(39.8163, -98.55762), 1);
+      yelp_map.addControl(new GSmallMapControl());
+	  
+
+      geocoder = new GClientGeocoder();
+    }
+    
+
+    showAirportType($F('address_airport_type')); 
+    
+
+    
+    var tabs = new Control.Tabs('address-tabs', { afterChange : function(selectedTab) { 
+        if(tabs_initialized) { 
+          if(selectedTab.id == 'regular-address') {
+            $('address_kind').value = 'regular';
+            $('please-verify').show();
+          } else if(selectedTab.id == 'airport') {
+            $('address_kind').value = 'airport';
+            $('please-verify').show();
+          } else if(selectedTab.id == 'yelp') {
+            $('address_kind').value = 'yelp';
+            $('please-verify').hide();
+          } else {
+            $('address_kind').value = 'saved';
+            $('please-verify').hide();
+          }
+        }
+      }
+    } ); 
+
+    if($('address_kind').value == 'airport') {
+      tabs.setActiveTab('airport');
+      showAirport();
+    } else if($('address_kind').value == 'saved') {
+      tabs.setActiveTab('my-addresses');
+    } else if($('address_kind').value == 'yelp') {
+      tabs.setActiveTab('yelp');
+    } else {
+      showAddress(getMostLocalField());
+    } 
+    tabs_initialized = true;
+  }
+
+
+
+  function getMostLocalField() {
+    if($F('address_address').length > 0) {
+      return 'address_address';
+    } else if($F('address_city').length > 0) {
+      return 'address_city';
+    } else if($F('address_state').length > 0) {
+      return 'address_state';
+    } else if($F('address_country').length > 0) {
+      return 'address_country';
+    }
+  } 
+  
+  function showYelpLocation(locationElement){
+   
+    var locationString = $(locationElement).value;
+
+    if (geocoder) {
+
+      //geocoder.getLatLng(locationString, function(point) {
+      geocoder.getLocations(locationString, function(response) {
+
+        var place = response.Placemark[0];
+        var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
+        $('yaddress_country').value = place.AddressDetails.Country.CountryNameCode;
+
+        if (point) {
+          yelp_map.setCenter(point, 11);
+          yelp_map.clearOverlays();
+          $('yelp-list-box').hide();
+          $('yelp-list').innerHTML = "";
+          $('yelp-instructions-box').show();
+
+          //marker = new GMarker(point);
+          //yelp_map.addOverlay(marker);
+        }
+      });
+    }
+  }
+
+  function doYelpSearch(){
+    $("yelp-search-button").hide();
+    $("yelp-spinner").show();
+    yelp_map.clearOverlays();
+    var mapBounds = yelp_map.getBounds();
+    new Ajax.Request('/yelp/yelp', {
+      method: 'get',
+      parameters: { term : $("yelp-terms").value,
+        num_biz_requested : '10',
+        tl_lat : mapBounds.getSouthWest().lat(),
+        tl_long : mapBounds.getSouthWest().lng(),
+        br_lat : mapBounds.getNorthEast().lat(),
+        br_long : mapBounds.getNorthEast().lng(),
+        ywsid : 'oiZ-u1lsx86Zn3YucqRONg'},
+      onSuccess: function(transport) {
+        $("yelp-spinner").hide();
+        $("yelp-search-button").show();
+        var businesses = transport.responseJSON.businesses;
+        if(businesses.length == 0) {
+          $('yelp-none-found').show();
+          $('yelp-list-box').hide();
+        } else {
+          $('yelp-none-found').hide();
+          YELP_MARKERS = { };
+          ACTIVE_YELP_MARKERS = { };
+          SELECTED_YELP_MARKERS = { };
+          BUSINESSES = businesses;
+          for(var i = 0; i < businesses.length; i++) {
+            biz = businesses[i];
+            createMarker(biz, new GLatLng(biz.latitude, biz.longitude), i);
+          }
+        }
+        rePopulateYelpList(businesses);
+      }
+    });
+  }
+
+  function resise(){
+	  yelp_map = new GMap2(document.getElementById("yelp_map_canvas"));
+      yelp_map.setCenter(new GLatLng(39.8163, -98.55762), 1);
+      yelp_map.addControl(new GSmallMapControl());  
+      yelp_map.checkResize();
+      }
+
+  function rePopulateYelpList(businesses){
+    if(businesses.length == 0) {
+      $('yelp-list-box').hide();
+    } else {
+      $('yelp-list-box').show();
+    }
+    $('yelp-instructions-box').hide();
+    $('yelp-list').innerHTML = "";
+    var newHTML = "";
+    for(var i = 0; i < businesses.length; i++) {
+      biz = businesses[i];
+      newHTML += createYelpListItem(biz, i);
+    }
+    $('yelp-list').innerHTML = newHTML;
+  }
+
+  function createYelpListItem(biz, markerNum) {
+    var html = '<li class="clearfix"  onmouseover="showHoveredYelpAddress(' + markerNum + ');" onmouseout="hideHoveredYelpAddress(' + markerNum + ');"   onClick="selectYelpAddress($(\'radio_' + markerNum + '\'), ' + markerNum + ');" >';
+    html += '<div class="address-radio"  >';
+    html += '<img src="/images/meetingwave/mapicons/bl-' + (markerNum + 1)  + '.png" />';
+    html += '<br/>';
+    html += '<input  name="yelp-address[id]" value="' + biz.id + '" onClick="selectYelpAddress(this, ' + markerNum + ');" id="radio_' + markerNum + '" type="radio">';
+    html += '</div>';
+    html += '<div class="address-img"><img src="' + biz.photo_url + '" /></div>';
+    html += '<div class="address-text">';
+    html += '<a href="'+biz.url+'" target="_blank" class="bizname">'+biz.name+'</a><br/>';
+    html += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/>&nbsp;based&nbsp;on&nbsp;';
+    html += '<a href="' + biz.url + '" target="_blank" >' + biz.review_count + '&nbsp;reviews</a><br/>';
+    html += formatCategories(biz.categories);
+    if(biz.neighborhoods.length)
+      html += formatNeighborhoods(biz.neighborhoods);
+    html += biz.address1 + '<br/>';
+    if(biz.address2.length)
+      html += biz.address2+ '<br/>';
+    html += biz.city + ',&nbsp;' + biz.state + '&nbsp;' + biz.zip + '<br/>';
+    //if(biz.phone.length)
+    //html += formatPhoneNumber(biz.phone);
+    //html += '<a href="'+biz.url+'" target="_blank">Read the reviews »</a><br/>';
+    html += "</div></li>";
+    return html;
+  }
+  function getZOrder(marker,b) {
+    return GOverlay.getZIndex(marker.getPoint().lat()) + marker.YelpZLevel * 1000000;
+  }
+
+  function hideHoveredYelpAddress(markerNum) {
+    var activeMarker = ACTIVE_YELP_MARKERS[markerNum];
+    var regularMarker = YELP_MARKERS[markerNum];
+    activeMarker.YelpZLevel = 1;
+    regularMarker.YelpZLevel = 1;
+    yelp_map.removeOverlay(activeMarker); // .hide();
+    yelp_map.addOverlay(regularMarker);  // .show();
+  }
+
+  function showHoveredYelpAddress(markerNum) {
+    var marker = YELP_MARKERS[markerNum];
+    if(marker) {
+      marker.YelpZLevel = 1;
+      yelp_map.removeOverlay(marker);
+      //marker.hide();
+    }
+    $H(ACTIVE_YELP_MARKERS).each(function(pair) {
+      pair.value.YelpZLevel = 1;
+      yelp_map.removeOverlay(pair.value);
+      //	pair.value.hide();
+    });
+
+    //for(var i = 0; i < ACTIVE_YELP_MARKERS.length; i++) {
+    //ACTIVE_YELP_MARKERS[i].hide();
+    //}
+
+    var activeMarker =  ACTIVE_YELP_MARKERS[markerNum];
+    if(activeMarker) {
+      activeMarker.YelpZLevel = 2;
+      yelp_map.addOverlay(ACTIVE_YELP_MARKERS[markerNum]);
+      //	ACTIVE_YELP_MARKERS[markerNum].show();
+      return;
+    } else {
+      activeMarker = new GMarker(marker.getLatLng(), { icon : getActiveIcon(markerNum), zIndexProcess : getZOrder });
+      activeMarker.YelpZLevel = 2;
+      yelp_map.addOverlay(activeMarker);
+      ACTIVE_YELP_MARKERS[markerNum] = activeMarker;
+    }
+  }
+
+  function selectYelpAddress(radiobutton, markerNum) {
+    var marker = YELP_MARKERS[markerNum];
+    if(marker) { 
+      yelp_map.removeOverlay(marker);
+      //marker.hide();
+    }
+    var activeMarker = ACTIVE_YELP_MARKERS[markerNum];
+    if(activeMarker) { 
+      yelp_map.removeOverlay(activeMarker);
+      //activeMarker.hide();
+    }
+
+    $H(SELECTED_YELP_MARKERS).each(function(pair) {
+      yelp_map.removeOverlay(pair.value);
+      //pair.value.hide();
+    });
+    //for(var i = 0; i < SELECTED_YELP_MARKERS.length; i++) {
+    //SELECTED_YELP_MARKERS[i].hide();
+    //}
+    var selectedMarker = SELECTED_YELP_MARKERS[markerNum];
+    if(selectedMarker) {
+      yelp_map.addOverlay(selectedMarker);
+      //selectedMarker.show();
+    } else {
+      selectedMarker = new GMarker(marker.getLatLng(), { icon : getSelectedIcon(markerNum),  zIndexProcess : getZOrder });
+      selectedMarker.YelpZLevel = 2;
+      yelp_map.addOverlay(selectedMarker);
+      SELECTED_YELP_MARKERS[markerNum] = selectedMarker;
+    }
+    yelp_map.panTo(selectedMarker.getLatLng());
+
+    var selectedAddressArray = Element.select('ul#yelp-list', 'li.selected-address');
+    selectedAddressArray.invoke('removeClassName', 'selected-address');
+    var containingLI = $(radiobutton).ancestors()[1]; // wrapped in a div, then the li element ...
+    Element.addClassName(containingLI, 'selected-address');
+    $(radiobutton).checked = true;
+    $('yaddress_name').value = BUSINESSES[markerNum].name;
+    $('yaddress_address').value = BUSINESSES[markerNum].address1;
+    $('yaddress_address2').value = BUSINESSES[markerNum].address2;
+    $('yaddress_city').value = BUSINESSES[markerNum].city;
+    $('yaddress_state').value = BUSINESSES[markerNum].state;
+    $('yaddress_latitude').value = BUSINESSES[markerNum].latitude;
+    $('yaddress_longitude').value = BUSINESSES[markerNum].longitude;
+    $('yaddress_zip').value = BUSINESSES[markerNum].zip;
+    $('yaddress_yelp_url').value = BUSINESSES[markerNum].url;
+    $('yaddress_yelp_photo_url').value = BUSINESSES[markerNum].photo_url;
+    $('yaddress_yelp_id').value = BUSINESSES[markerNum].id;
+    // Country is set when location is set via setYelpLocation
+  }
+
+  var YELP_MARKERS = null;
+  var ACTIVE_YELP_MARKERS = null;
+  var SELECTED_YELP_MARKERS = null;
+  var BUSINESSES = null;
+  function createMarker(biz, point, markerNum) {
+    var infoWindowHtml = generateInfoWindowHtml(biz)
+    var marker = new GMarker(point, { icon : getRegularIcon(markerNum),  zIndexProcess : getZOrder});
+    marker.YelpZLevel = 1;
+    yelp_map.addOverlay(marker);
+    GEvent.addListener(marker, "click", function() {
+      marker.openInfoWindowHtml(infoWindowHtml, { pixelOffset : new GSize(32,5), maxWidth:200});
+
+    });
+    // automatically open first marker
+    //if (markerNum == 0) {
+    //marker.openInfoWindowHtml(infoWindowHtml, {maxWidth:400});
+    //}
+    YELP_MARKERS[markerNum] = marker;
+  }
+
+
+
+
+
+  function getRegularIcon(i) {
+    return getIcon(i + 1, "bl");
+  }
+
+  function getActiveIcon(i) {
+    return getIcon(i + 1, "red");
+  }
+
+  function getSelectedIcon(i) {
+    return getIcon(i + 1, "gr");
+  }
+
+  function getIcon(i, style) {
+    var icon = new GIcon();
+    icon.image = "/images/meetingwave/mapicons/" + style + "-" + i + ".png";
+    icon.shadow = "images/meetingwave/mapicons/shadow.png";
+    icon.iconSize = new GSize(19, 30);
+    icon.shadowSize = new GSize(34, 30);
+    icon.iconAnchor = new GPoint(15, 29);
+    icon.infoWindowAnchor = new GPoint(15, 3);
+    return icon;
+  }
+
+  /*
+   * Formats and returns the Info Window HTML
+   * (displayed in a balloon when a marker is clicked)
+   */
+  function generateInfoWindowHtml(biz) {
+    var text = '<div class="marker" style="height: 100px; width: 230px;">';
+
+    // image and rating
+    text += '<img style="float: left; height: 40px;" class="businessimage" src="'+biz.photo_url+'"/>';
+
+    // div start
+    text += '<div style="float: left; height: 60px;" class="businessinfo">';
+    // name/url
+    text += '<a href="'+biz.url+'" target="_blank" class="bizname">'+biz.name+'</a><br/>';
+    // stars
+    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/>&nbsp;based&nbsp;on&nbsp;';
+    // reviews
+    text += biz.review_count + '&nbsp;reviews<br/>';
+    // categories
+    text += formatCategories(biz.categories);
+    // neighborhoods
+    //    if(biz.neighborhoods.length)
+    //       text += formatNeighborhoods(biz.neighborhoods);
+    // address
+    text += biz.address1 + '<br/>';
+    // address2
+    if(biz.address2.length)
+      text += biz.address2+ '<br/>';
+    // city, state and zip
+    text += biz.city + ',&nbsp;' + biz.state + '&nbsp;' + biz.zip + '<br/>';
+    // phone number
+    //  if(biz.phone.length)
+    //     text += formatPhoneNumber(biz.phone);
+    // Read the reviews
+    //text += '<br/><a href="'+biz.url+'" target="_blank">Read the reviews »</a><br/>';
+    // div end
+    text += '</div></div>'
+    return text;
+  }
+
+  /*
+   * Formats the categories HTML
+   */
+  function formatCategories(cats) {
+    var s = 'Categories: ';
+    for(var i=0; i<cats.length; i++) {
+      s+= cats[i].name;
+      if(i != cats.length-1) s += ', ';
+    }
+    s += '<br/>';
+    return s;
+  }
+
+  /*
+   * Formats the neighborhoods HTML
+   */
+  function formatNeighborhoods(neighborhoods) {
+    s = 'Neighborhoods: ';
+    for(var i=0; i<neighborhoods.length; i++) {
+      s += '<a href="' + neighborhoods[i].url + '" target="_blank">' + neighborhoods[i].name + '</a>';
+      if (i != neighborhoods.length-1) s += ', ';
+    }
+    s += '<br/>';
+    return s;
+  }
+
+  /*
+   * Formats the phone number HTML
+   */
+  function formatPhoneNumber(num) {
+    if(num.length != 10) return '';
+    return '(' + num.slice(0,3) + ') ' + num.slice(3,6) + '-' + num.slice(6,10) + '<br/>';
+  }
+
+
+
+
+  Event.observe(window, 'load', function() { initialize(); } );
+  //window.onunload = function() { GUnload(); };
+
+
+  function setCountry() {
+    var country = $F('address_country');
+    if(country != "United States") {
+      $('address_state').value = '';
+      $('address_state').disabled = true;
+    } else {
+      $('address_state').disabled = false;
+    }
+    showAddress('address_country');
+  }
+
+  function setState() {
+    $('address_city').value = '';
+    showAddress('address_state');
+  }
+
+  function showAddress(whichField) {
+    var address = $F('address_address');
+    address += $F('address_address2');
+    if(address.length > 0) { address += ", "; }
+    address += $F('address_city');
+    if(address.length > 0) { address += ", "; }
+    address += $F('address_state');
+    if(address.length > 0) { address += ", "; }
+    address += $F('address_country');
+    var zoomLevel = 3;
+    if(whichField == 'address_city') {
+      zoomLevel = 9;
+    } else if(whichField == 'address_address' || whichField == 'address_address2') {
+      zoomLevel = 15;
+    }
+              
+
+    if (geocoder) {
+      geocoder.getLatLng(address, function(point) {
+        if (point) {
+          map.setCenter(point, zoomLevel);
+          if(marker != null) { map.removeOverlay(marker); }
+          marker = new GMarker(point);
+          map.addOverlay(marker);
+          //Element.show('map_instructions');
+        }
+      }
+    );
+    }
+  }
+
+  function showAirport() {
+    var air_type = $('address_airport_type').options[$('address_airport_type').selectedIndex].text;
+    var address = "";
+    if(air_type == "In the US") {
+      address += $('address_airport_id').options[$('address_airport_id').selectedIndex].text;
+      if(address.length > 0) { address += ", "; }
+      address += "United States";
+    } else {
+      address += $('address_airport_non_us').value;
+      if(address.length > 0) { address += ", "; }
+      address += $('address_country_airport').value;
+    }
+              
+
+    if (geocoder) {
+      geocoder.getLatLng(address, function(point) {
+        if (point) {
+          airport_map.setCenter(point, 5);
+          if(airport_marker != null) { airport_map.removeOverlay(airport_marker); }
+          airport_marker = new GMarker(point);
+          airport_map.addOverlay(airport_marker);
+        }
+      }
+    );
+    }
+  }
+
+  function selectAddress(radiobutton) {
+    var selectedAddressArray = Element.select('ul#address-list', 'li.selected-address');
+    selectedAddressArray.invoke('removeClassName', 'selected-address');
+    var containingLI = $(radiobutton.id).ancestors()[1]; // wrapped in a div, then the li element ...
+    Element.addClassName(containingLI, 'selected-address');
+  }
+</script>    
+</head>
+
+<body onload="checksearch();" style="overflow-x:hidden;">
+
+<!-- start-main-container-->
+<div class="maincontainer">
+  <div class="header_new"><%= render :partial => '/shared/new_header' %></div>
+<div id="middle-mw-top" style="clear:both;">
+    	<div id="top-bg-new">&nbsp;</div>  
+                    <div style="width:940px;">
+  
+  <%= yield %>
+                      </div>        
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+
+  <div id="footer_new"> <%= render :partial => '/shared/footerhome' %> </div>
+</div>
+<!-- End-main-container-->
+
+
+</body>
+</html>

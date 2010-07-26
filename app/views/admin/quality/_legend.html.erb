@@ -1,0 +1,59 @@
+<div id="quality-key">
+  <h3>Legend</h3>
+  <p>The number of stars you give an invite will affect where it will be seen
+  on the site.  Here is a legend showing what different ratings mean. </p>
+
+  <table>
+    <thead>
+      <th id="stars">Page</th>
+      <th id="may">Minimum # of Stars</th>
+    </thead>
+
+    <tr>
+      <td class="may"> 
+        <ul>
+          <li>Browse:Search</li>
+        </ul>
+      </td>
+      <td> <%= candy_image("onestar") %> </td>
+    </tr>
+
+    <tr>
+      <td class="may"> 
+        <ul>
+          <li>Home:Logged-in:Map</li>
+          <li>Browse:Upcoming</li>
+        </ul>
+      </td>
+      <td> <%= candy_image("twostars") %> </td>
+    </tr>
+
+    <tr>
+      <td class="may"> 
+        <ul>
+          <li>Home:Logged-in:Upcoming</li>
+          <li>Home:Logged-out:Mini-Map</li>
+          <li>Browse:Map</li>
+        </ul>
+      </td>
+
+      <td> 
+           <%= candy_image("threestars") %> <br/>
+      </td>
+    </tr>
+
+    <tr>
+
+      <td class="may"> 
+        <ul>
+          <li>Home:Logged-out:Upcoming</li>
+          <li>Home:Logged-out:WaveMakers</li>
+        </ul>
+      </td>
+
+      <td> <%= candy_image("fivestars") %> </td>
+
+    </tr>
+
+  </table>
+</div>

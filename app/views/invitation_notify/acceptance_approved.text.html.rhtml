@@ -1,0 +1,20 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Re: #{@invitation.name}") %>
+
+<%= open_body %>
+  <%= open_highlight %>
+    <%= @inviter_name.capitalize_each_word %> has confirmed a spot for you<%= @occurrence %>.
+  <%= close_highlight %>
+  
+  <%= message(@inviter_name, @message) %>
+
+  <p>You can see the details of the invitation by clicking the button below. </p>
+
+  <%= close_body %>
+
+  <%= invitation_button(@url) %>
+
+  <%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

@@ -1,0 +1,16 @@
+# page.replace_html("approve_reject_status_#{@confirmation.id}", @confirmation.status.simple_name)
+# page.replace("approve_reject_form_#{@confirmation.id}", :partial => '/guest_response/approved_or_rejected', :locals => { :approve_or_reject => params[:app_rej]})
+page.replace('acceptances_awaiting_response_count', pluralize(@confirmations_remaining.length, "acceptance") ) if !@confirmations_remaining.blank?
+page.remove('acceptances_awaiting_response_msg') if (@confirmations_remaining.blank? and @to_update.include?('people_requesting'))
+
+@meeting.attending_confirmations.blank? ? page['broadcast_recipients_approved'].disable : page['broadcast_recipients_approved'].enable
+@meeting.not_attending_confirmations.blank? ? page['broadcast_recipients_unapproved'].disable : page['broadcast_recipients_unapproved'].enable
+
+@to_update.each do |updated|
+  page.replace( updated, :partial => "/guest_response/#{updated}", :locals => { :viewer => @viewer } )
+end
+
+page.visual_effect :highlight, "col1_#{@confirmation.id}", :duration => 3
+page.visual_effect :highlight, "approve_reject_status_#{@confirmation.id}", :duration => 3
+page.visual_effect :highlight, "col3_#{@confirmation.id}", :duration => 3
+page.visual_effect :highlight, "col4_#{@confirmation.id}", :duration => 3

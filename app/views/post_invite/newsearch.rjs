@@ -1,0 +1,1 @@
+page.replace_html 'search_loc_id', :partial => 'post_invite/new_search_location'

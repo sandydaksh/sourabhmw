@@ -1,0 +1,41 @@
+<h3 class="invitename">FIND INVITES</h3>
+
+   <%= form_tag(find_url) %>
+      <h3 class="wsection">SEARCH TERMS</h3>		
+      <%= text_field_tag 'terms', '', :size => "26"  %>
+	  <div style="text-align: center;">
+	    <input name="Search" value="Search" type="image" src="<%= button_path(" mainsearch" ) %>" />
+	  </div>
+	</form>
+
+
+  <% if @invitations.blank? %>
+
+	  <p>
+		<em>We could not find any invitations in this area. Be the
+		first to post an invite using the form below! </em>
+	  </p>
+
+	  <%= link_to('Click here to post one now...', get_started_url) %>
+
+  <% else %>
+  <div class="paginate"> <%= will_paginate @invitations  %> </div>
+    <table class="myinvites">
+      <tbody>
+          <% @invitations.each do | meeting |  %>
+          <tr class="<%= cycle('odd', 'even') %>">
+
+            <td> 
+			  <strong> <%= mobile_time(meeting) %>:  <%= short_link(meeting.invitation, meeting, 38) %>  </strong>
+			     in <%= location_format_short(meeting.invitation, 15) %> posted by <%= truncate(meeting.inviter.user_name, 10) %>.
+            </td>
+
+          </tr>
+          <% end %> 
+
+      </tbody>		
+    </table>
+    <div class="paginate"> <%= will_paginate @invitations  %> </div>
+	<br/>
+	<br/>
+  <% end %>

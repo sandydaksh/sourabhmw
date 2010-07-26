@@ -1,0 +1,299 @@
+<style type="text/css">
+.pagination {
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+  width: 385px;
+  clear: both;
+
+}
+
+.pagination span.disabled {
+  color: #999;
+}
+.pagination span.current {
+  color: #Aee057;
+}
+</style>
+
+<script type="text/javascript">
+function facetoface()
+{
+if(document.getElementById("faf").checked==true)
+{
+if(document.getElementById("facetoface").style.display=="none")
+{
+document.getElementById("facetoface").style.display="inline";
+document.getElementById('checked_locat').value='1';
+}
+else
+{
+
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+}
+else
+{
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+
+}
+
+function vcheckuncheck()
+{
+ if(document.getElementById('vcheck').checked)
+ {
+    document.getElementById("virtual_f").value='v_flag';
+ }
+ else
+ {
+    document.getElementById("virtual_f").value='0'; 
+ }      
+}
+
+function romancecheck()
+{
+ if(document.getElementById('rom').checked)
+ {
+    document.getElementById("romance").value='19';
+ }
+ else
+ {
+    document.getElementById("romance").value='0'; 
+ }      
+}
+
+
+function npcheckuncheck()
+{
+ if(document.getElementById('npcheck').checked)
+ {
+    document.getElementById("preference_flag").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag").value=''; 
+ }      
+}
+
+
+function npcheckuncheck1()
+{
+ if(document.getElementById('preference').checked)
+ {
+    document.getElementById("preference_flag1").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag1").value=''; 
+ }      
+}
+
+</script>
+
+      
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+    	<div id="top-bg-new">&nbsp;</div>  
+                    <div style="width:995px; clear:both;">
+
+                    
+            
+    <div class="signup-section">
+    <% if flash.now[:notice1] %>
+	<p style="color: red; text-align:center; border: 1px solid;">
+    	<%= flash.now[:notice1] %>
+	</p>
+    <% end %>
+                    
+    <% if !private_mw? %>
+	<p>
+	To create or attend a meeting, you need a MeetingWave account. We need a valid email address to let you know about your meetings - We promise not to abuse it. And it's free!
+	</p>
+    <% else %>
+    <% un = University.find_by_url(private_mw) %>
+    <div>
+    <% if !session[:alumni_url] and params[:sessval].nil? %>
+    <p style="color:#575757;">
+		<% desc = un.signup_text.gsub("\r\n","<br />") unless un.signup_text.blank? %>
+        <% unless un.signup_text.blank? %>
+            <%= auto_link(desc) %>
+        <% end %>    
+    </p>
+    <% else %>
+    <p style="color:#575757;">
+    	Hi - To create or attend a meeting, you need a MeetingWave account. Please provide a valid email address so we can let you know about your meetings.
+    </p>    
+    <% end %>
+    </div>
+    <% end %>
+</div>
+
+<% form_tag signup_post_url do -%>
+	<div class="signup-section clearfix">
+<%= error_messages_for 'member',
+:attributes_order => [:first_name, :last_name, :email,
+:user_name, :password, :terms_of_service, :captcha],
+:header => 'Please correct the following errors before we create your account:' %>
+<%= flash[:rendered_errors] if( flash[:rendered_errors] ) %>
+	<%= content_tag(:p, flash[:loginerror], :class => "error") if(flash[:loginerror]) %>
+
+<input type="hidden" name="sessval" value="<%= session[:alumni_url] %>" />
+<div style="width:580px; float:left;">
+<p class="signup-create">Create an Account</p>
+<%= fb_connect_javascript_tag %>
+<%= init_fb_connect("XFBML") %>
+<!--script type="text/javascript" src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php"/>
+<script type="text/javascript">
+//<![CDATA[
+              Element.observe(window,'load', function() {
+                FB_RequireFeatures(["XFBML"], function() {
+                  FB.Facebook.init('5d8a0cbf6068a259af6b9add7dd2865e','/xd_receiver.html');
+                });
+              });
+
+//]]>
+</script-->
+<% if !private_mw %>
+<p style="padding-left:215px; margin-top: -27px; "><img alt="Connect with Google" src="/images/newdesign/google_facebook.jpg" width="367" height="29" border="0" name="Connect with Google" usemap="#Connect with GoogleMap">
+    <map name="Connect with GoogleMap" id="Connect with GoogleMap">
+      <area shape="rect" coords="1,6,174,27" onclick="document.getElementById('member_terms_of_service').checked='true'" id="login_using_google_nav" href="/open_id/google" /><area shape="rect" coords="189,4,365,31" onclick="document.getElementById('member_terms_of_service').checked='true'; FB.Connect.requireSession( function(){ window.location.href  = '/' ;}); return false;" id="connect_with_facebook_nav" href="#" />
+    </map>
+</p>
+<% else %>
+<% if session[:alumni_url].nil? %>
+<p style="padding-left:215px; margin-top: -20px; "><img alt="Connect with Google" src="/images/newdesign/google_facebook1.jpg" width="367" height="29" border="0" name="Connect with Google" usemap="#Connect with GoogleMap">
+    <map name="Connect with GoogleMap" id="Connect with GoogleMap">
+      <area shape="rect" coords="6,3,174,23" onclick="document.getElementById('member_terms_of_service').checked='true'" id="login_using_google_nav" href="/open_id/google" /><area shape="rect" coords="195,9,317,21" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'" id="nav" href="#" />
+    </map>
+</p>
+<% else %>
+<p style="padding-left:215px; margin-top: -20px; "><img src="/images/newdesign/google_facebook3.jpg" width="367" height="29" border="0" usemap="#Connect with GoogleMap">
+    <map name="Connect with GoogleMap" id="Connect with GoogleMap">
+      <area shape="rect" coords="195,9,317,21" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'" id="nav" href="#" />
+    </map>
+</p>
+<% end %>
+<% end %>
+
+<!--p style="padding-left: 220px; margin-bottom: 0px; margin-top: -22px; >margin-top: -22px;"><a href="<%#= google_signup_url %>" id="login_using_google_nav" onclick="document.getElementById('member_terms_of_service').checked='true'"><img src="/images/login_using_google_gr1.jpg" border="0" alt="Connect with Google" name="Connect with Google" width="171" height="21"></a></p><p style="padding-left: 405px;"><%#= facebook_connect_on_nav_new  %></p-->
+</div>
+<div style="width:200px; float:left;"><p><div class="terms"><% if session[:alumni_url].nil? %>By clicking either button, you will be affirming the<br/> "I have read and agree" box below.<% end %></div></p></div>
+
+
+      <div class="signupaccount left">
+      
+		<div class="formbit">
+			<h3>EMAIL <%#= @ref %></h3>		
+			<%= text_field 'member', 'email', :class => 'txt' %>
+			<!-- <%= tool_tip('Email Privacy', email_tt_html, :id => 'email_tt', :image => '/images/ttb/questionmark.postwiz.gif') %> -->
+		</div>
+
+		<input type="hidden" name="member[university_name]" value="<%= @univ_account %>" />
+
+		<div class="formbit rightside" >
+			<h3 class="usright">USERNAME</h3>		
+			<%= text_field 'member', 'user_name', :class => 'txt' %>
+		</div>
+
+		<div class="formbit">
+			<h3>PASSWORD</h3>		
+			<%= password_field 'member', 'password', :class => 'txt' %>
+		</div>
+
+		<div class="formbit rightside" >
+			<h3 class="usright">PASSWORD (again)</h3>		
+			<%=  password_confirmation_field %><br>
+             <!--div style="padding-top: 3px;"> <%#= link_to(button_image('login_using_google_gr'), google_signup_url, :id => "login_using_google_nav") %>&nbsp;<%#= facebook_connect_on_nav  %>
+             </div-->
+		</div>
+
+       <div class="formbitright" id="terms">
+        <div class="terms">
+                I have read and agree to the MeetingWave <%= link_to('terms of use', tos_url, :target => '_blank') %>,
+				<%= link_to('privacy policy', pp_url, :target => '_blank') %>, and <%= link_to('safety tips', safety_url, :target => '_blank') %>.
+                I verify I am at least 18 years old.
+			</div>
+
+			<%= check_box :member, :terms_of_service, :class => 'checkbox'  %>
+
+		</div>
+		
+		<br /><br />
+		
+	</div>
+    <div class="signupaccount right clearfix" style="margin-top:0px;">
+        <div class="left <%= 'fieldWithErrors' if @captcha_error %>">
+			<h3>HUMAN-NESS </h3>
+			<%=  get_captcha(:options => { :theme => "white" } ) %>
+		</div>
+        <p style="text-align:right;"><%= ibuttonsign("join-signup") %></p>
+        
+		<!--<input name="Submit" value="Join" type="image" id="join-now" class="left" src="<%#= button_path("join_now") %> " />-->
+	</div>
+	</div>
+<% end %>
+	
+<%= javascript_tag("$('member_email').focus();")  %>
+
+
+
+<!--div class="signup-section clearfix">
+<%#= image_tag('/images/meetingwave/what_theyre_saying.png', :style => 'float: left; margin-right: 15px;') %>
+<%#= image_tag('/images/meetingwave/candy/next_opportunity_handshake.png') %>
+</div-->
+                    
+                    
+                    
+                    
+                
+
+
+
+
+  
+ 
+    
+<!-- new create form END-->
+<!-- End-inner-container-->
+
+<!-- End-main-container-->
+
+ 
+                    </div>        
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+
+
+
+
+  
+ 
+    
+  </div>
+  
+
+<!-- End-main-container-->
+<%= render :partial => 'shared/signin' %>
+
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+

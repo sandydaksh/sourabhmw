@@ -1,0 +1,137 @@
+	<script type="text/javascript">
+    
+    function show_popup(e,id)
+		{
+			if(!e)e=window.event;
+			$(id).style.display='';
+			$(id).style.top = (document.documentElement.scrollTop + e.clientY)+'px';
+			$(id).style.left =(document.documentElement.scrollLeft + e.clientX)+'px';
+			
+		}
+        
+        function raghu(e,f)
+        {
+        if(!e)e=window.event;
+        var sTop = document.documentElement.scrollTop>0?document.documentElement.scrollTop:document.body.scrollTop;
+        var sLeft = document.documentElement.scrollLeft>0?document.documentElement.scrollLeft:document.body.scrollLeft;
+        
+        
+        document.getElementById('nospam').style.top = ((sTop+e.clientY )-80) + 'px';
+        
+        document.getElementById('nospam').style.left = ((sLeft + e.clientX)-336)  + 'px';
+        document.getElementById('nospam').style.display='';
+        
+        }
+    </script>
+    
+    <div id="nospam" style="display:none; position: absolute; background-color: #d3e1ea; z-index:1002; overflow: auto; width: 416px; height: 185px;">
+				
+	</div>	
+        
+        <div class="search-right">
+                        <div>
+                          <p>
+                          <% if current_member %>
+                          	<a href = "javascript:void(0)"  onclick="attend<%= meeting.id %>(); new Ajax.Request('/rsvp/capload/<%= meeting.id %>', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.but1<%= meeting.id %>.src='/images/newdesign/search_images/lets-meet-btn-over.jpg';" onmouseout="document.but1<%= meeting.id %>.src='/images/newdesign/search_images/lets-meet-btn.jpg';"> <img src="/images/newdesign/search_images/lets-meet-btn.jpg"  name="but1<%= meeting.id %>"  border="0" width="118" height="38" class="meetimg"/></a>
+                          <% else %>
+                          		<a href="<%= login_and_respond_to_url(:id => meeting.id) %>" onmouseover="document.but2<%= meeting.id %>.src='/images/newdesign/search_images/lets-meet-btn-over.jpg';" onmouseout="document.but2<%= meeting.id %>.src='/images/newdesign/search_images/lets-meet-btn.jpg';" ><img src="/images/newdesign/search_images/lets-meet-btn.jpg" name="but2<%= meeting.id %>"   border="0" width="118" height="38" class="meetimg"/></a>
+                          <% end %>
+                          
+                        <script type="text/javascript">
+                          var attendDialog = null;
+                          function attend<%= meeting.id %>() {
+                            attendDialog = new Window({className: "meetingwave_modal_search", 
+                                width:350, 
+                                height:380, 
+                                zIndex: 100, 
+                                resizable: false, 
+                                title: "<%= truncate(meeting.invitation.name, 45).gsub('"', "'") %>", 
+                                draggable:false, 
+                                maximizable: false,
+                                minimizable: false,
+                                wiredDrag: false}, true);
+                            attendDialog.setContent('attend-dialog<%= meeting.id %>');
+                            attendDialog.showCenter(true);
+                          }
+                        </script>
+                        
+                    <%
+					@meeting = meeting.upcoming_meeting
+					if @meeting.nil?
+					  @meeting = meeting.most_recent_meeting
+					end
+					%>
+                                                  
+                    <div id="attend-dialog<%= meeting.id %>" style="display: none;">
+                          <div class="attend-dialog-container">
+                            <div id="attend-form<%= meeting.id %>">
+                                <p>When you click Lets Meet<!--<img src="/images/newdesign/search_images/lets-small.jpg" border="0" width="50" height="16"/>--><%#= candy_image('attend-small')%>, a note will be sent to the inviter letting him 
+                                know you’d like to attend this meeting.  You can include your own note by typing 
+                                a message into the text box below.</p>
+                                <form id="attend_note_form<%= meeting.id %>">
+                                    <h4>MESSAGE</h4>
+                                    <%= text_area_tag("message[body]","",  :rows => 2, :cols => 24) %>
+                                    <br /><br />
+                                    <div id="<%= "sandy"+meeting.id.to_s %>"><p id="pid"></p></div>
+                                    <div id="<%= "cap"+meeting.id.to_s %>"></div>
+                                    
+                                    
+                                    <div id="button-box<%= meeting.id %>">
+                                    <div style="width:97px; float:left;"><%= link_to_remote(button_image_search('lets-meet-popup',:border=>"0",:height => "32",:width => "95"), 
+                                                           { :url => attend_url(:id => (@meeting.id rescue nil)), 
+                                                             :submit => 'attend-form'+meeting.id.to_s} ) %></div>
+                                                             <div style="width:95px; float:left;">  <img width="95" height="32" border="0" src="/images/newdesign/search_images/cancel-lets_pop.jpg" alt="Cancel-lets_pop" onclick="document.getElementById('attend_note_form<%= meeting.id %>').reset(); document.getElementById('pid').innerHTML=''; attendDialog.close();"><%#= link_to_function(button_image_search('cancel-lets_pop',:border=>"0",:height => "32",:width => "95"), "attendDialog.close();") %></div>
+                                                             <div style="width:120px; float:left;">
+                                                             <p style="padding:7px 0 0 64px;"><a class="nospam" href="javascript:void(0);" onclick="raghu(event,'nospam'); new Ajax.Request('/rsvp/add_todo_popup',{asynchronous:true}) ">
+												NO SPAM
+                                            </a></p>
+                                                             </div>
+                                         
+                                      
+                                         
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="attend-processing" style="display: none;">
+                                Please wait while we notify <b><%= meeting.inviter.user_name %></b>.
+                                <br/> <br/>
+                                <%= indicator_image('spinner.dark_on_light.green') %>
+                            </div>
+                          </div>
+                        </div>                          
+                          
+                         </p>
+                        </div>
+                        
+                        
+                        <div class="search-save">
+                          <p><img src="/images/newdesign/search_images/save-meet.jpg" border="0" width="18" height="16" class="saveimg"/></p>
+                        </div>
+                        <% @confirmation = @meeting.confirmations.find_by_member_id(current_member.id) if current_member if @meeting %>
+                        <div class="search-mail" id="search-mail<%=meeting.id%>">
+                        
+                         <%= render :partial => "browse/save_meeting",:locals => {:meeting => meeting} %>
+                        </div>
+                        <% if !private_mw? %>
+                        <div style="clear:both; width:165px;">
+                          <div class="search-save">
+                            <p>
+                            <img src="/images/newdesign/search_images/forward.jpg" border="0" width="19" height="15" class="emailimg"/></p>
+                          </div>
+                           
+                              <div class="search-mail">
+                              <p class="mailtext">
+                              <% if current_member %>
+                                <% if @meeting %>
+                                 <a href="#" onclick="document.getElementById('light_forward<%= meeting.id %>').style.display='block';document.getElementById('fade_forward<%= meeting.id %>').style.display='block'">Forward</a>
+                                 <!--a href="#" rel="ibox&amp;type=3&amp;height=625&amp;width=700&amp;url=/forward_invite/<%#=@meeting.id%>">Forward</a-->				
+                                <% end %>
+                              <% else %>
+                                 <a href="/member">Forward</a>
+                              <% end %>
+                              </p>
+                              <%= render :partial => "invitations/forward",:locals => {:invite => meeting,:meeting => meeting.upcoming_meeting} %>
+                              </div>
+                        </div>
+                        <% end %>
+                      </div>

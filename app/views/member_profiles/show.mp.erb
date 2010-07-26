@@ -1,0 +1,32 @@
+<% cache(CachingObserver.member_profile_show_key(@member, params)) do %>
+  <% setup_member_profile_data() %>
+<h1 class="invitename"> <%= @member.user_name %>'s Profile </h1> 	
+<% if @member.member_profile.picture %>
+	<div class="piccontainer" > <%= image_tag(thumb_url(:id => @member.member_profile.picture.id, :dontcache => Time.now.to_i.to_s)) %> </div>
+<% end %>
+	  	
+<% if openwave? %>
+	   <h6 class="flabel">NAME: </h6>  
+	   <%= truncate(@member.fullname) %> 
+	   <h6 class="flabel">MEMBER SINCE: </h6> 
+	   <%= time_ago_in_words(@member.created_at) %> ago 
+	   <h6 class="flabel">INVITES: </h6> 
+	   <%= @member.invitations.count(:conditions => ["draft_status = 'posted'"]) %> posted, <%= @member.confirmations.count %> received 
+
+<% else %>
+	<table class="profileview">
+	   <tr><td class="flabel">NAME: </td> <td> <%= truncate(@member.fullname) %> </td> </tr>
+	   <tr><td class="flabel">MEMBER SINCE: </td> <td> <%= time_ago_in_words(@member.created_at) %> ago </td> </tr>
+	   <tr><td class="flabel">INVITES: </td> <td> <%= @member.invitations.count(:conditions => ["draft_status = 'posted'"]) %> posted, <%= @member.confirmations.count %> received </td></tr>
+	</table>
+<% end  %>
+
+		<% @column_a_widgets.each do |widget| %>
+			<%= render :partial => "#{widget.widget_partial}_show_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+	
+		<% @column_b_widgets.each do |widget| %>
+			<%= render :partial => "#{widget.widget_partial}_show_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+
+<%end%>

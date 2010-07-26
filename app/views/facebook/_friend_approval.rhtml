@@ -1,0 +1,5 @@
+<% self.extend(InvitationNotifyHelper) %>
+You've been invited!
+<%=  @inviter_name.capitalize_each_word %>  has invited you to  '<%=  @invitation.name %>'  on <%=  start_time(@invitation) %>   at <%=  where_text(@invitation)  %> 
+ 
+Why:   <%=  why(@invitation) %>  

@@ -1,0 +1,36 @@
+<h1> <%= link_to('Articles', blog_editor_url) %> &raquo; New Blog Article</h1>
+<% form_for(:article,  @faq, :url => url_for(:action => 'save')) do |f| %>
+Title:   <%= f.text_field(:title) %>	  <br>
+          <%= f.collection_select(:type,Article::TYPES, :to_s, :to_s) %> <br>
+
+Article: <%= f.text_area(:body, :cols => 100) %>	      <br>
+
+	<%= check_box_tag("article[draft]", "1", true, :id => 'draft_check_box') %>Save this as draft<br/>
+
+	<%= submit_tag("Save Draft", :id => 'save_draft_button', :style => (@article.draft? ? '' : 'display: none;')) %>
+	
+	<%= submit_tag("Publish", :id => 'publish_button', :style => (@article.draft? ? 'display: none;' : '')) %>
+
+  <% javascript_tag do -%>
+	function togglePublishButton(value) {
+		 if(parseInt(value) == 1) {
+		 	$('publish_button').hide(); 
+			$('save_draft_button').show(); 
+		 } else {
+		 	$('publish_button').show(); 
+			$('save_draft_button').hide(); 
+		 }
+	}
+  <% end -%>
+  <%= observe_field("draft_check_box", :frequency => 0.5, :function => "togglePublishButton(value);") %>
+
+<% end %>
+<br/>
+<% if @mode == :mce %>
+<%= javascript_include_tiny_mce_if_used %>  
+<%= tiny_mce if using_tiny_mce? %>
+	<%= link_to('Switch to Plain Text Editor', new_article_plain_url, :confirm => "You will lose any unsaved changes.  Are you sure you want to switch to plaintext mode?") %>
+<% else %>
+	<%= link_to('Switch to Rich Text Editor', new_article_url, :confirm => "You will lose any unsaved changes.  Are you sure you want to switch to rich text mode?") %>
+<% end %>
+<br/>

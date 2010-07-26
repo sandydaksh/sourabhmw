@@ -1,0 +1,27 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<div class="search_results" style="padding-left: 36px;">
+<div class="clearfix">
+<div class="left">
+<h1>All Meeting Locations</h1> 
+<p>
+<%= metro_area_list_seeall([metro_area_names, country_names].flatten) %>
+</p>
+</div>
+</div>
+</div>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<% end %>

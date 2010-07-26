@@ -1,0 +1,22 @@
+<div id="guest_response_container" class="widgetrightinvitation">
+	<%#= guest_response_header(meeting, member) %>
+	<div id="columntable"  class="guest_response_inner">
+		<% if guest_responses.blank? %>
+		<p id="no_grs_yet">No guest responses yet.</p>
+		<% else %>
+			<table>
+				<thead>
+					<tr> <th>Name</th> <th scope="col" id="columntable_3">Status</th> </tr>
+				</thead>
+				<tbody>
+					<% guest_responses.each do |invitee| %>
+						<%= guest_response_sidebar_row(meeting, invitee, cycle("even", "odd")) %>
+					<% end %>
+				</tbody>
+			</table>
+			<% if member and member == meeting.invitation.inviter %>
+				<%= link_to("&raquo; MANAGE GUESTS", guest_response_url(:id => meeting.id)) %> 
+			<% end %>
+		<% end%>
+	</div>
+</div>

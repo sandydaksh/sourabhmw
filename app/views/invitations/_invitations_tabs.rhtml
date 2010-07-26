@@ -1,0 +1,88 @@
+				<%
+					if params[:near]
+						img = "nearby-over.jpg"
+					else
+						img = "nearby.jpg"
+					end
+						
+					if params[:created]
+						img1 = "created-over.jpg"
+					else
+						img1 = "created.jpg"
+					end
+					
+					if params[:accepted]
+						img2 = "accepted-over.jpg"
+					else
+						img2 = "accepted.jpg"
+					end
+					
+					if params[:received]
+						img3 = "received-over.jpg"
+					else
+						img3 = "received.jpg"
+					end
+
+					if params[:confirmed]
+						img4 = "confirmed-over.jpg"
+					else
+						img4 = "confirmed.jpg"
+					end
+
+					if params[:watching]
+						img5 = "watching-over.jpg"
+					else
+						img5 = "watching.jpg"
+					end
+					
+					if params[:archive]
+						img6 = "archive-over.jpg"
+					else
+						img6 = "archive.jpg"
+					end
+
+					if params[:all]
+						img7 = "all-over.jpg"
+					else
+						img7 = "all.jpg"
+					end
+					
+					if params[:near].nil? && params[:created].nil? && params[:accepted].nil? && params[:received].nil? && params[:confirmed].nil? && params[:watching].nil? && params[:archive].nil? && params[:all].nil? 
+						img = "nearby-over.jpg"
+					end
+
+				%>
+                
+				<ul id="myinvitation-tab">
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?near=near', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.near.src='/images/newdesign/nearby-over.jpg'" onmouseout="document.near.src='/images/newdesign/<%= img %>'"><img src="/images/newdesign/<%= img %>" name="near" border="0" width="75" height="33" /></a>
+                  </li>
+                  
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?created=created', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.create.src='/images/newdesign/created-over.jpg'" onmouseout="document.create.src='/images/newdesign/<%= img1 %>'"><img src="/images/newdesign/<%= img1 %>" name="create" border="0" width="68" height="33" /></a>
+                  </li>
+                  
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?accepted=accepted', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.acc.src='/images/newdesign/accepted-over.jpg'" onmouseout="document.acc.src='/images/newdesign/<%= img2 %>'"><img src="/images/newdesign/<%= img2 %>" name="acc" border="0" width="84" height="33" /></a>
+                  </li>
+                  
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?received=received', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.rec.src='/images/newdesign/received-over.jpg'" onmouseout="document.rec.src='/images/newdesign/<%= img3 %>'"><img src="/images/newdesign/<%= img3 %>" name="rec" border="0" width="81" height="33" /></a>
+                  </li>
+                  
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?confirmed=confirmed', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.conf.src='/images/newdesign/confirmed-over.jpg'" onmouseout="document.conf.src='/images/newdesign/<%= img4 %>'"><img src="/images/newdesign/<%= img4 %>" name="conf" border="0" width="90" height="33" /> </a>
+                  </li>
+                  
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?watching=watching', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.watch.src='/images/newdesign/watching-over.jpg'" onmouseout="document.watch.src='/images/newdesign/<%= img5 %>'"><img src="/images/newdesign/<%= img5 %>" name="watch" border="0" width="82" height="33" /></a>
+                  </li>
+                  
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?archive=archive', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.arch.src='/images/newdesign/archive-over.jpg'" onmouseout="document.arch.src='/images/newdesign/<%= img6 %>'"><img src="/images/newdesign/<%= img6 %>" name="arch" border="0" width="71" height="33" /></a> 
+                  </li>
+                  
+                  <li>
+                  	<a href="#" onclick="new Ajax.Request('/invitations/myinvitations?all=all', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.all.src='/images/newdesign/all-over.jpg'" onmouseout="document.all.src='/images/newdesign/<%= img7 %>'"> <img src="/images/newdesign/<%= img7 %>" name="all" border="0" width="54" height="33" /></a>
+                  </li>
+                </ul>

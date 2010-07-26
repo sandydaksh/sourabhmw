@@ -1,0 +1,24 @@
+<h1>Listing occupations</h1>
+
+<table>
+  <tr>
+  <% for column in Occupation.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for occupation in @occupations %>
+  <tr>
+  <% for column in Occupation.content_columns %>
+    <td><%=h occupation.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => occupation %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => occupation %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => occupation }, :confirm => 'Are you sure?', :method => 'post' %></td>
+  </tr>
+<% end %>
+</table>
+<%= will_paginate @occupations %>
+<br />
+
+<%= link_to 'New occupation', :action => 'new' %>

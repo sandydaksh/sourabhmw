@@ -1,0 +1,28 @@
+<% widget_id = "educations_#{profile_widget.id}" %>
+<div class="pwidget" id="<%= widget_id %>">
+	<div class="header">
+		<h3>EDUCATION</h3>
+	</div>
+	
+	<!-- VIEW -->
+	<% if member_profile.educations.blank? %>
+			<p class="noneyet">You have no schools listed yet. </p> 
+	<% end %>
+	
+	<div class="view">
+		<% Education::SCHOOL_TYPES.each do | school_type | %>
+			<% attribute_name = school_type.gsub(" ", "_").downcase.pluralize.to_sym %>
+			<% unless @member_profile.send(attribute_name).blank? %>
+				<h4 class="subheader"> <%= school_type.upcase %> </h4>
+				<% @member_profile.send(attribute_name).each do |education| %>
+					<h5 class="entry">
+						<%= "#{format_timeframe(education)}<br/>" unless format_timeframe(education).blank? %>
+						<%= "#{education.school_name}<br/>" unless education.school_name.blank? %>
+						<%= education.location unless (education.location.blank?) %>
+					</h5>
+				<% end %>
+			<% end %>
+		<% end %>
+	</div>
+	
+</div>

@@ -1,0 +1,18 @@
+<ul class="autocomplete_list">
+<% @addresses.each do |addr| %>
+	<li class="autocomplete_item">
+		<p class="address">
+			<%= content_tag('span', addr.send(@field), :class => "address_#{@field}") %><br/>
+			<span class="address_address"><%= addr.address %></span><br/>
+			<% unless addr.address2.blank? %>
+			<span class="address_address2"><%= addr.address2 %></span><br/>
+			<% end %>
+			<span class="address_city"><%= addr.city %></span>,
+			<span class="address_state"><%= addr.state %></span>
+			<span class="address_zip"><%= addr.zip %> </span>
+			<br/>
+			<span class="address_country"><%= addr.country %></span>
+		</p>
+	</li> 
+<% end %> 
+</ul> 

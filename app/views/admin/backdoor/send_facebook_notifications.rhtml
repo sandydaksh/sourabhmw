@@ -1,0 +1,37 @@
+<style>
+
+   div#wrapper{
+	  font-size:130%;   
+	  padding:30px;
+}     
+   div#notification{    
+	  border:thin solid black;
+	  padding:20px; 
+	  width:300px;
+	  margin:auto;  
+	  font-size:80%;  
+	  background-color:lightyellow; 
+	
+	 
+	
+}
+   div#recipients{
+	
+}   
+   span.recipient{
+	 display:block;
+	 margin-left:40px;
+}
+</style>
+
+
+
+
+
+
+<div id="wrapper">
+    
+        <span><%= @errors %></span><br>
+    Sent notification: <div id="notification"> <%= @notification %> </div>
+	</div>
+</div>

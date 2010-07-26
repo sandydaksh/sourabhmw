@@ -1,0 +1,34 @@
+<h1>Welcome</h1>
+<p>Thanks for signing up!  All we need now is a username and you'll be on your way...</p>
+
+      <div class="createaccount ">
+        <% form_tag username_url do -%>
+
+                  <%= content_tag('div', flash[:notice], :id => 'flash') unless flash[:notice].blank? %>
+                  <%= error_messages_for 'member', :header => 'We were unable to create your account.  Please correct the following errors:' %>
+                  <%= flash[:rendered_errors] if( flash[:rendered_errors] ) %>
+
+					<div class="clearfix">
+						<div class="formbit" id="username">
+							<h3>USERNAME</h3>
+							<%= text_field 'member', 'user_name', :class => 'txt' %>
+						</div>
+
+					   <div class="formbit" id="terms">
+							<%= check_box :member, :terms_of_service, :class => 'checkbox'  %>
+
+							<span class="terms">
+								I have read and agree to the MeetingWave <%= link_to('terms of use', tos_url, :target => '_blank') %>,
+								<%= link_to('privacy policy', pp_url, :target => '_blank') %>, and <%= link_to('safety tips', safety_url, :target => '_blank') %>.
+								I verify I am at least 18 years old.
+							</span>
+					   </div>
+				   </div>
+					   <div style="clear: both; width: 100%; text-align: center; margin-top: 20px;">
+						   <input name="Submit" value="Save" type="image" src="<%= button_path("save") %>" />
+					   </div>
+            <% end %>
+
+	</div>
+
+<%= javascript_tag("$('member_user_name').focus();")  %>

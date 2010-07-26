@@ -1,0 +1,72 @@
+<h1><%= link_to("Admin", admin_url) %> > Flagged Invites </h1>
+<div class="instructions">
+  <h2>Flagged Invites</h2>
+  <p>
+  Below is a list of Invites that have been flagged by users.   To delete an
+  Invite, click the trash can icon, select notification options from the dialog
+  that pops up, and confirm the deletion.  If you decide to notify the user, an
+  email will be sent letting him know that his Invite was flagged.
+  </p>
+  <h2>Trashcanning</h2>
+  <p> Please be careful.  By trashcanning an Invite, you are causing it to be
+  deactivated.  This means it will no longer appear in search results, on
+  user's home pages, or anywhere else on the site.  It is, as far as the user
+  is concerned, deleted. 
+  </p>
+</div>
+
+<%= will_paginate(@invitations) %>
+<% @invitations.each do |inv| %>
+  <div class="wide-inv" id="inv-<%= inv.id %>">
+    <div class="inv-date"><h4><%= inv.upcoming_meeting.start_time_local.strftime("%d") %></h4></div>
+    <div class="inv-header">
+      <%= link_to(inv.name, show_invite_url(:id => inv.id)) %><br/>
+      <%= inv.upcoming_meeting.start_time_local.strftime("%I:%m %p") %>,
+      <%= location_format_short(inv) %>
+    </div>
+    <div class="inv-desc">
+      <%= inv.description %>
+    </div>
+    <div class="inv-poster">
+      <div class="inv-poster-image">
+        <% if(inv.inviter.member_profile.picture rescue false) %>
+          <%= image_tag(thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+        <% end %>
+      </div>
+      <div class="inv-poster-details">
+        Posted by: <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id)) %>
+        <br/>
+        On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+      </div>
+    </div>
+    <h4 class="flags-heading">Flags:</h4> 
+    <ul class="flags"><%= flag_reasons(inv) %> </ul>
+    <h4 class="flaggers-heading">Flaggers:</h4> 
+    <ul class="flaggers"> <%= flaggers(inv) %> </ul>
+    <%= link_to_function('Trash It', "Element.show('trash-can-#{inv.id}')", :class => 'trash-it') %>
+    <%= link_to_remote('Clear Flag', :url => clear_flag_url(:id => inv.id), :html => { :class => 'clear-flag' } ) %>
+
+    <div id="trash-can-<%= inv.id %>" class="trash-can-box" style="display: none;">
+       <%= form_remote_tag(:url => trash_it_url(:id => inv.id)) %>
+         <h2>Delete This Invite?</h2>
+         <p>Are you sure you want to destroy the Invite <b>"<%= inv.name %>"</b>? </p>
+
+         <p class="send_note">
+           <%= check_box_tag('send_notification', 1, false) %>Send notification email to Inviter  
+         </p>
+
+         <div class="trash-buttons">
+           <%= ibutton('trash_it') %>
+           <%= link_to_function("CANCEL", "Element.hide('trash-can-#{inv.id}');", :class => "cancel-trash-link") %>
+         </div>
+       </form>
+    </div>
+
+
+
+
+
+  </div>
+<% end %>
+
+<%= will_paginate(@invitations) %>

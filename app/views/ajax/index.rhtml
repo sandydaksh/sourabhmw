@@ -1,0 +1,8 @@
+<table border="0" style="width:100%;border:1px solid #7f9db9;">
+<% vulgur_words = ["fuck","sex","fuck off","fuck of"] %>
+<% @matches.each do |record| %>
+    
+<tr><td onclick="document.getElementById('what').value='<%=record.interest%>';document.getElementById('results').style.display='none';" style="cursor:pointer;" onmouseover="this.style.backgroundColor='#e8f2da';" onmouseout="this.style.backgroundColor='#ffffff';"><% if !vulgur_words.include?(record.interest) %><%= record.interest.slice(0..20)%><% end %></td></tr>
+	
+<% end %> 
+</table>

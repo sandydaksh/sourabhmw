@@ -1,0 +1,28 @@
+<style>
+
+   div.input_field{
+       float:left;
+       margin:10px;
+   }
+
+   div#chart_control{
+     margin:auto;
+     width:700px;
+}
+
+</style>
+
+<div id="chart_control" style="height:100%;">
+  <% form_tag( url_for(:action => params[:action] )) do %>
+  <div class="input_field"> <span class="label"> Member Type: </span> <%= collection_select(:settings, :member_type, [["all",""], ["TTB", "ttb"], ["Facebook", "facebook"]], "last", "first")%> </div>
+  <div class="input_field"> <span class="label"> Days Per Point: </span> <%= collection_select(:settings, :slice, [1,2,7,14,30,60], :to_s, :to_s )%> </div>
+  <div class="input_field"> <span class="label"> Number of Data Points </span> <%= collection_select(:settings, :buckets, [5,10,20,30,60], :to_s, :to_s )%> </div>
+  <div class="input_field" >   <%= submit_tag("Refresh")%></div>
+  <% end %>
+</div>
+
+<%= javascript_include_tag("swfobject.js") %>
+<%= @users_graph %>
+<%= @invites_graph%>
+<%= @confirmations_graph%>
+<%= @good_graph %>

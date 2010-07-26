@@ -1,0 +1,15 @@
+page.replace_html('flash', content_tag('p', flash[:notice]))
+page.call('highlight_flash')
+page.replace('accept_button', accept_button(@meeting, @viewer))
+page.replace('decline_button', decline_button(@meeting, @viewer))
+if @invitation.recurring? && @confirmation
+  page.call('ConfirmationUtils.defineNewConfirmation', @confirmation.id, @confirmation.status.simple_name, js_date(@meeting.start_time_local), @meeting.id, true) 
+   
+  page.replace('guest_response_container', :partial => '/invitations/guest_response', :locals => { :guest_responses => @guest_responses, :member => @member, :meeting => @meeting})
+  
+  page.call('Field.clear','respond_with_comment_form')
+  page.call('Element.hide', 'comment')
+ 
+else
+  page.remove('respond_with_comment_form')
+end

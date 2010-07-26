@@ -1,0 +1,11 @@
+<%= stylesheet_link_tag('ttb/ratings.css') %>
+<h1><%= link_to("Admin", admin_url)%>  > <%= link_to("Quality Control", {:controller => "admin/quality", :action => "index"})%> > WaveMakers </h1>
+
+
+<p> There are currently <strong><%= @member_profiles.size %> WaveMakers</strong>.  A WaveMaker is a MeetingWave member whose member profile has been rated with <strong><%= LookUp::Stars::FOR_HOME_WAVEMAKERS %> stars or better</strong>.  You can remove someone's WaveMaker status by rating them lower than <%= LookUp::Stars::FOR_HOME_WAVEMAKERS %> on this page.
+</p>
+
+<p> If you want to identify new WaveMakers, <%= link_to("see the Member Profile Quality Control page", {:controller =>  "admin/quality", :action => "profiles" }) %> </p>
+
+
+  <%= render :partial => 'member_profiles', :asset => @member_profiles %>

@@ -1,0 +1,58 @@
+		<% form_tag(get_started_post_url) do -%>
+
+				<h2 class="invitename" style="text-align: center;"> Post an Invite Today!  </h2> 
+
+				<%= error_messages_for 'invitation', :header => 'Please correct the following errors: ' %>
+
+
+
+					
+					<h3 class="profilesection">WHAT  </h3>
+					<table class="editform"> <tr><td> <%= text_field_tag('what', @invitation.name, :size => '37') %> </td></tr> </table>
+
+					<h3 class="profilesection">WHY  </h3>
+					<table class="editform"> <tr><td> <%= text_field_tag('why', (@invitation.purpose.name rescue ''), :size => '37') %> </td></tr> </table>
+
+					<h3 class="profilesection">WHERE </h3> 	
+
+					<% if openwave? %>
+							<label class="flabel" style="text-align: right;">Name:</label> <%= text_field_tag('location', (@invitation.address.name rescue ''), :size => "25") %> 
+							<label class="flabel" style="text-align: right;">Address:</label> <%= text_field_tag('address', (@invitation.address.address rescue ''), :size => "25") %> 
+							<label class="flabel" style="text-align: right;">City:</label> <%= text_field_tag('city', (@invitation.address.city rescue ''), :size => "25") %>
+							<label class="flabel" style="text-align: right;">State:</label> <%= text_field_tag('state', (@invitation.address.state rescue ''), :size => "25") %>
+							<label class="flabel" style="text-align: right;">Country:</label> <%= text_field_tag('country', (@invitation.address.country rescue ''), :size => "25") %>
+					<% else %>
+						<table class="editform">
+							<tr><td class="flabel" style="text-align: right;">Name:</td><td> <%= text_field_tag('location', (@invitation.address.name rescue ''), :size => "25") %> </td></tr>
+							<tr><td class="flabel" style="text-align: right;">Address:</td><td> <%= text_field_tag('address', (@invitation.address.address rescue ''), :size => "25") %> </td></tr>
+							<tr><td class="flabel" style="text-align: right;">City:</td><td> <%= text_field_tag('city', (@invitation.address.city rescue ''), :size => "25") %></td></tr>
+							<tr><td class="flabel" style="text-align: right;">State:</td> <td><%= text_field_tag('state', (@invitation.address.state rescue ''), :size => "25") %></td> </tr>
+							<tr><td class="flabel" style="text-align: right;">Country:</td><td><%= text_field_tag('country', (@invitation.address.country rescue ''), :size => "25") %></td> </tr>
+						</table>
+					<% end %>
+
+
+					<h3 class="profilesection">WHEN </h3>		
+					<div class="editform"> 
+					  I'm generally available <%= select("invitation", "recurrence_frequency", Invitation::RECURRENCE_OPTS[1..-1]) %> <strong>starting</strong> on  
+								<%= text_field_tag('date', '', :style => "-wap-input-format: 'NNNNNN';", :size => '6', :maxlength => '6') %> <em>(MMDDYY)</em>
+							  <strong>from </strong>
+									<%= text_field_tag("start_time[hrs]", '', :style => '-wap-input-format: "NN";', :size => '2', :maxlength => '2') %><strong>:</strong>
+									<%= text_field_tag("start_time[min]", '', :style => '-wap-input-format: "NN";', :size => '2', :maxlength => '2') %>
+									<%= select_tag('start_time[meridiem]', options_for_select(['AM', 'PM'])) %> 
+								  <strong>to</strong>
+									  <%= text_field_tag("end_time[hrs]", '', :style => '-wap-input-format: "NN";', :size => '2', :maxlength => '2') %><strong>:</strong>
+									<%= text_field_tag("end_time[min]", '', :style => '-wap-input-format: "NN";', :size => '2', :maxlength => '2') %>
+									<%= select_tag('end_time[meridiem]', options_for_select(['AM', 'PM'])) %>.
+									<p/>
+				   </div>
+
+			
+			<hr/>
+			<div style="text-align: center;">
+			  <p/>
+					<input name='Submit' value='PostInvite' type='image' src='<%=button_path("postinvite")%> ' /><br/>
+					<strong><%= link_to('Cancel', my_invites_url) %></strong>
+			</div>
+			<br/>
+		<% end %>

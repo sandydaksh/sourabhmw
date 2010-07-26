@@ -1,0 +1,40 @@
+<div class="unverified_form">
+	<h1><%= link_to('Admin', admin_url) %> &raquo; Users</h1>
+	
+	<p> Please check the checkboxes next to users for which you'd like another verification email to be sent. </p>
+		
+	<%= form_tag(resend_confirm_url) %>
+	<table class="report">
+
+		<thead>
+			<th> </th><th> Full Name </th> <th> Username </th> <th> Email </th> <th> Signed Up </th>
+		</thead>
+		<tbody>
+			<% @unverified_users.each do |m| %>
+			<tr class="<%= cycle("even", "odd") -%>" >
+				<td>
+					<%= check_box_tag('selected_members[]', m.id, false) %>
+				</td>
+				<td>
+					<%= m.fullname %>
+				</td>
+				<td>
+					<%= link_to(m.user_name, "http://www.meetingwave.com/member_profiles/show/#{m.user_name}") %>
+				</td>
+				<td>
+					<%= m.email %>
+				</td>
+				<td>
+					<%= distance_of_time_in_words_to_now(m.created_at) %> ago 
+				</td>
+			</tr>	
+			<% end %>
+
+		</table>
+		<br/>
+		<br/>
+
+		<%= submit_tag("Re-Send Verification Emails", :class => 'resend_button')%>
+
+	</form>
+</div>

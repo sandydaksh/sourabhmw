@@ -1,0 +1,26 @@
+<%= will_paginate(@raw_emails) %>
+
+<% for email in @raw_emails %>   
+     <% next if( @subject && !email.subject.match("#{@subject}") ) %> 
+     <div class="email_summary">  
+	   <span class="subject"> <%= email.subject %></span> 
+		<%= link_to_function(
+			image_tag("ttb/icons/email.gif", :alt => "View Email", :title => "View Email"), 
+			"window.open('#{url_for(:action => "view_email", :id => email.id)}','view_email','toolbar=0,scrollbars=1,resizable=1,status=1,width=700,height=600')")%>  	         
+	    <%= link_to_remote(
+									image_tag('demo/icon_arrow.gif', :alt => "Resend", :title => "Resend"), 
+									{:url => {:action => "resend_email", :id => email.id} , 
+									:confirm => "Are you sure you want to resend this email to #{email.to}?",
+									:loading => "Element.show('spinner')",
+									 :complete => "Element.hide('spinner')"}, 
+									:class => "send_link") %>  
+		  <%= image_tag("failed.gif", :alt => "Failed at #{email.failed_at.to_s}", :title => "Failed at #{email.failed_at.to_s}" ) if(email.failed?) %>   
+		  <%= image_tag("warning.png", :alt => "Need to send", :title => "Need to send") if(email.need_to_send?) %>
+		
+          <span class="detail">From: <%= email.from %></span> 
+		 
+		  <span class="detail"> To: <%= email.to %>  </span> 
+		   
+		  <span class="detail time"> When: <%= time_ago_in_words(email.created_on) %> ago  </span>  
+     </div>
+<% end %>   

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        <%= title_tag %>
+        <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	<link rel="stylesheet" href="/stylesheets/ttb/meetingwave.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/postinvite.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/columntable.css" />
+	<link rel="stylesheet" href="/stylesheets/ttb/invitee_profile_box.css" />
+	<%= rss_link_tag() %>
+
+        <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+
+	<%= render :partial => '/shared/meta_tags' %>
+
+	<%= javascript_include_tag 'ibox.js' %>
+	<%= javascript_include_tag 'validation'%>
+	<%= javascript_include_tag 'accessible'%>
+    
+	<%= stylesheet_link_tag 'ttb/ibox.css' %>
+	<%= stylesheet_link_tag 'ttb/accessible.css' %>
+	
+	<%= calendar_date_select_includes :style => "plain", :format => :american %>
+</head>
+
+<body>
+
+<!-- LOGO -->
+<%= render :partial => 'shared/logo' %>
+
+<!-- NAVIGATION -->
+<%= render :partial => 'shared/main_nav' %>
+
+<!-- CONTENT -->
+<div class="content clearfix">
+     <div class="content_main">
+         <%= yield %> 
+		 <div class="ad_banner_postinvite">
+		    <%= render :partial => 'adsense/banner' %>
+		  </div>	
+     </div>
+
+     <div class="content_column">
+
+        <!-- UPCOMING -->
+        <div class="widgetright">
+          <%= render :partial => 'shared/upcoming' %>
+		  <div class="ad_half_banner">
+		    <%= render :partial => 'adsense/half_banner' %>
+		  </div>
+        </div>
+
+     </div>
+
+</div>
+
+<!-- FOOTER -->
+<%= render :partial => 'shared/footer' %>
+
+
+</body>
+</html>

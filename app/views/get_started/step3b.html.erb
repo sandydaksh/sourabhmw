@@ -1,0 +1,122 @@
+  <div id="gs-attend-a-meeting">
+    <h1>Step 3 of 3: Post an invite.</h1>
+  </div>
+
+  <div class="instructions">
+
+    <p class="postone"> Here are some Invites near you.  If you’d like to
+    attend one, click the <%= image_tag('/images/meetingwave/buttons/accept.gif', :id => 'little-accept') %> 
+    button.  
+    
+    <br/>
+    <br/>
+    
+    If you don’t see any here that you like, you can 
+    <%= link_to('post your own right now!', {:controller => 'get_started', :action => 'step3a'}) %> 
+    </p>
+
+  </div>
+
+<% if !@inv.nil? %>
+<div class="invites">
+    <h2>ACCEPTED INVITES</h2>
+    <%# @m.each do |inv| %>
+      <% mtg = @inv.invitation.upcoming_meeting %>
+          <div class="inv">
+            <div class="inv-left clearfix">
+              <div class="inv-date">
+                  <%= @inv.invitation.upcoming_meeting.start_time_local.strftime("%b<br/>%d") %>
+              </div>
+              <h3 class="inv-title">
+                  
+                  <%= link_to(truncate(@inv.invitation.name, 25), pop_to_facebook(facebook_show_invite_url(@inv.invitation, :canvas => true), show_invite_url(@inv.invitation))) %><br/>
+              </h3>
+              <h3 class="inv-place">
+                  <%= city(@inv.invitation) %>
+              </h3>
+              <br class="cl"/>
+              <p class="inv-desc">
+                <%= truncate(@inv.invitation.description,110) %>
+              </p>
+            </div>
+            <div class="inv-right">
+              <div class="inv-inviter">
+                <% if(@inv.invitation.inviter.member_profile.picture rescue false) %>
+                    <%= image_tag(mini_thumb_url(:id => @inv.invitation.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '', :class => "inv-inviter-img")  %>
+                <% else %>
+                    <img src="/images/meetingwave/indicators/green_guy.gif" class="inv-inviter-img"/>
+                <% end %>
+                <%= @inv.invitation.inviter.user_name %>
+              </div>
+              <p style="font-weight:bolder;">Accepted</p>
+            </div>
+          </div>
+  <%# end %>
+
+
+
+  </div>
+
+
+  <% end %>
+  <div class="invites" style="clear:both; margin-top:30px;">
+    <h2>RELATED INVITES</h2>
+   
+
+    <% @invitations.each do |inv| %>
+    <% if !inv.upcoming_meeting.nil? && !inv.upcoming_meeting.blank? %>
+      <% mtg = inv.upcoming_meeting %>
+    
+          <div class="inv">
+            <div class="inv-left clearfix">
+              <div class="inv-date">
+                  <%= inv.upcoming_meeting.start_time_local.strftime("%b<br/>%d") if inv.upcoming_meeting.start_time_local %>
+              </div>
+              <h3 class="inv-title">
+                  
+                  <%= link_to(truncate(inv.name, 25), pop_to_facebook(facebook_show_invite_url(inv, :canvas => true), show_invite_url(inv))) %><br/>
+              </h3>
+              <h3 class="inv-place">
+                  <%= city(inv) %>
+              </h3>
+              <br class="cl"/>
+              <p class="inv-desc">
+                <%= truncate(inv.description,110) %>
+              </p>
+            </div>
+            <div class="inv-right">
+              <div class="inv-inviter">
+                <% if(inv.inviter.member_profile.picture rescue false) %>
+                    <%= image_tag(mini_thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '', :class => "inv-inviter-img")  %>
+                <% else %>
+                    <img src="/images/meetingwave/indicators/green_guy.gif" class="inv-inviter-img"/>
+                <% end %>
+                <% if getUserName(inv.inviter.id)%>
+                  <%= pw_name if inv.inviter %>
+                <% else %>
+                 <%= inv.inviter.user_name if inv.inviter %>
+                <% end %>
+              </div>
+              <%= attend_button(inv.upcoming_meeting, current_member)  %>
+            </div>
+          </div>
+        <% end %>  
+  <% end %>
+
+
+
+  </div>
+  <br/>
+  <br/>
+
+  <p class="extra"> 
+  <% url = ( context?(:social_network) ? "javascript:parent.location='#{  url_for(:controller => "facebook", :action => "dashboard", :canvas => true, :only_path => false)}'" : my_invites_url) %>
+
+  If you’d rather not accept or post an invite at this time, you can just 
+  <%= link_to('go to your MeetingWave home page', pop_to_facebook(facebook_dashboard_url(:canvas => true), my_invites_url)) %>. 
+  </p>
+
+
+<div style="text-align: left; background-color: #aee057;  font-size: 18px; width: 95px; border-top: 1px solid #5b5b5b; border-right: 1px solid #5b5b5b; padding: 6px; color: #FFFFFF; font-weight: bold">
+Step 3 of 3
+</div>

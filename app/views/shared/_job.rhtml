@@ -1,0 +1,50 @@
+<div id="<%= field_name %>_<%= num %>" class="autocomplete_row <%= field_name %>_row">
+  <div id="left_side_autocomplete">
+			<div style="float:left;">
+				<h3 class="nomargin">TITLE</h3>
+      	<%= text_field_tag("#{type_name}[jobs][][title]", (field.name rescue ''), 
+								:width => '10', 
+								:id => "#{type_name}_#{field_name}_names_#{num}",
+								:class => "profile_autocomplete_txt fatinput",
+								:onkeypress => 'return noenter()') %> 
+				<div class="auto_complete" id="<%= "#{type_name}_#{field_name}_names_#{num}_auto_complete" %>"></div>
+ 				<%= local_autocompleter(type_name, field_name, num) %>
+			</div>
+			<div style="float:left; padding-left: 10px;">
+				<h3 class="nomargin">EMPLOYER</h3>
+      	<%= text_field_tag("#{type_name}[jobs][][employer_name]", (field.employer.name rescue ''), 
+								:width => '10', 
+								:id => "#{type_name}_employer_names_#{num}",
+								:class => "profile_autocomplete_txt fatinput",
+								:onkeypress => 'return noenter()') %>
+				<div class="auto_complete" id="<%= "#{type_name}_employer_names_#{num}_auto_complete" %>"></div>
+				<%= local_autocompleter(type_name, 'employer', num) %>
+			</div>
+  </div>
+  <div id="right_side_autocomplete">
+    <div class="delete_ac_item" style="padding-top: 12px;">
+      <%= link_to_function(button_image("close", :alt => 'Remove'), "remove_field('#{field_name}', #{num});")  %>
+    </div>
+  </div>
+  
+  <br style="clear:both;" />
+		<div style="float: left;">
+		 <h3 class="nomargin">ENDED</h3>
+	   <%= select_year_tag(field.end_year, 
+			:start_year => Date.today.year, 
+			:end_year => 1920, 
+			:include_blank => true,
+			:name => "#{type_name}[jobs][][end_year]", :class => "job_year") %>
+
+		</div>
+		<div style="float: left; padding-left: 10px;">		
+		<h3 class="nomargin">STARTED</h3>
+		<%= select_year_tag(field.start_year, 
+			:start_year => Date.today.year, 
+			:end_year => 1920, 
+			:include_blank => true,
+			:name => "#{type_name}[jobs][][start_year]", :class => "job_year") %>
+
+		</div>
+  <br style="clear:both;" />
+</div>

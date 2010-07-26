@@ -1,0 +1,78 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width: 690px; clear: both; padding-left: 165px;">
+<script type="text/javascript">
+function ValidateForm(){
+	var emailID=document.getElementById('select_university');
+	
+	if (emailID.value=="")
+    {
+		alert("Please select a University")
+		emailID.focus()
+		return false
+	}
+	return true
+ }
+</script>
+<h3>Waive several signed up emails (who didnt sent company email) into one private label</h3>
+
+<form method="post" action="/email_company">
+<table width="690" border="0" cellspacing="0" cellpadding="0">
+<% if @em_array %>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Following emails doesn't match in the database - 
+	<% @em_array.each do |em| %>
+    	<%= em %>
+    <% end %>, and others are verified.</td>
+  </tr>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+<% end %>
+
+  <tr>
+    <td width="97">Company:</td>
+    <td width="10">&nbsp;</td>
+    <td width="589">
+        <select id="select_university" name="university_value">
+            <option value="">Select Company</option>
+            <% @companies.each do |univ| %>
+	            <option value="<%= univ.id %>"><%= univ.name %></option>            
+            <% end %>
+        </select>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Member Emails:</td>
+    <td>&nbsp;</td>
+    <td><textarea rows="10" cols="65" name="member_emails"></textarea> &nbsp; Provide comma separated member emails. (e.g. example@anydomain.com,example1@anydomain.com etc.)</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Verify" onclick="return ValidateForm();"> &nbsp;<a href="/companies" class="savetext">Cancel</a></td>
+  </tr>
+</table>
+
+</form>
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+</div>

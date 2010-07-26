@@ -1,0 +1,81 @@
+<% body_font_style = "color:#5B5B5B;
+                      font-family:arial;
+                      font-size:14pt;
+text-align:left;" %>
+<% date_style = "background-color:#6EA416;height:40px;font-size:12pt;text-align:center;width:40px;color:white;font-weight:bold;margin-top:3px;padding-top:2px;" %>
+<% name_style = "color:#548404;font-size:16pt;font-weight:bold;text-decoration:none;" %>
+<% invite_header_style = "color:#548404;" %>
+<% profile_link_style = "color:#6EA416;
+text-decoration:none;" %>
+
+<% second_column_style =" padding-left:8px;" %>
+<% desc_style = "padding-bottom:10px;"  %>
+<% text_style = "font-size:14pt;font-family:arial;text-align:left;" %>
+
+
+<%= render :partial => '/invitation_notify/header' %>
+ <%= open_body %>
+ <%=  content_tag(:h4, invite_report_hello_user, :style => "text-align:left;font-size:16pt;") %>
+ <%= content_tag(:p, invite_report_intro(), :style => text_style) %>
+ <table style="<%= body_font_style  %> " width="640">
+
+<% @invitations.each do | inv| %> 
+   <tr>
+     <td style="vertical-align:top;">
+       <div style="<%= date_style %>  ">
+          <% if inv.no_pref != 1 %><%= inv.upcoming_meeting.start_time_local.strftime("%b<br/>%d") %><% else %>No Preference<% end %>
+       </div>       
+     </td>
+     <td>
+       <div  style="<%= invite_header_style + second_column_style %>">
+       <%= link_to(inv.name, show_invite_url(inv, :host => host_with_port, :only_path => false), :style => name_style) %><br/>
+        <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id, :host => host_with_port), :style => profile_link_style) %>, <%=  location_format_short(inv) %>
+     </div>
+     </td>
+   </tr> 
+   <tr>
+     <td></td>
+     <td style="<%= second_column_style %>">
+     <div style="<%= desc_style  %>">
+        <%= truncate(inv.description, 225) %>
+      </div>
+     </td>
+   </tr>	  
+<% end %>
+ </table>
+
+  <%= content_tag(:p, recurring_note, :style => text_style) %>  
+   <table style="<%= body_font_style  %> " width="640">
+
+<% @recurring_invitations.each do | inv| %>
+   <tr>
+     <td style="vertical-align:top;">
+       <div style="<%= date_style %>  ">
+          <% if inv.no_pref != 1 %><%= inv.upcoming_meeting.start_time_local.strftime("%b<br/>%d") %><% else %>No Preference<% end %> <br/>
+       </div>     
+     </td>
+     <td>
+       <div  style="<%= invite_header_style + second_column_style %>">
+       <%= link_to(truncate(inv.name, 50), show_invite_url(inv, :host => host_with_port, :only_path => false), :style => name_style) %><br/>
+        <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id, :host => host_with_port), :style => profile_link_style) %>, <%=  location_format_short(inv) %>
+     </div>
+     </td>
+   </tr>
+   <tr>
+     <td style="font-size:10pt;"> <%= inv.recurrence_frequency %> </td>
+     <td style="<%= second_column_style %>">
+     <div style="<%= desc_style  %>">
+        <%= truncate(inv.description, 225) %>
+      </div>
+     </td>
+   </tr>	
+<% end %>
+ </table>
+  
+<%= content_tag(:div, invite_report_marketing_blurb, :style => text_style) %>
+ <%= close_body %>
+
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

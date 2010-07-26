@@ -1,0 +1,267 @@
+<style type="text/css">                  
+select {
+
+border:1px solid #D0D0D0;
+color:#666666;
+font-family:Arial,Helvetica,sans-serif;
+margin:0 0 0 4px;
+/*width:255px;
+*/}
+
+.select-public {
+border:1px solid #D0D0D0;
+color:#666666;
+font-family:Arial,Helvetica,sans-serif;
+margin:0 0 0 0px;
+width:148px;
+
+}
+
+.select-create {
+border:1px solid #D0D0D0;
+color:#666666;
+font-family:Arial,Helvetica,sans-serif;
+margin:0 0 0 4px;
+width:255px;
+}  
+
+.select-airport {
+border:1px solid #D0D0D0;
+color:#666666;
+font-family:Arial,Helvetica,sans-serif;
+margin:0 0 0 0;
+width:246px;
+}      
+
+
+form ul.holder { width: 447px; background: #FFFFFF; border: solid 1px #D0D0D0; margin:0 0 0 4px; }
+#forward-who-auto-results ul li.auto-focus, 
+#quick-who-auto-results ul li.auto-focus, 
+#who-auto-results ul li.auto-focus { 
+background: #000000; 
+color: #fff;
+}
+          
+</style>
+
+<style type="text/css">
+#Div1, #Div2, #Div3 ,#locedit1,#locedit2,#locedit3
+{ 
+DISPLAY: none; 
+} 
+</style> 
+
+<script type="text/javascript">
+function Toggle(theDiv) {
+document.getElementById("Div3").style.display = "none";
+document.getElementById("Div2").style.display = "none";
+document.getElementById(theDiv).style.display = "block";
+}
+</script>
+
+
+<script type="text/javascript">
+function Togglepopup(theDiv) {
+document.getElementById("light1").style.display = "none";
+document.getElementById("light2").style.display = "none";
+document.getElementById("light3").style.display = "none";
+document.getElementById("light4").style.display = "none";
+document.getElementById("light5").style.display = "none";
+document.getElementById(theDiv).style.display = "block";
+}
+
+function Togglefade(theDiv) {
+document.getElementById("fade1").style.display = "none";
+document.getElementById("fade2").style.display = "none";
+document.getElementById("fade3").style.display = "none";
+document.getElementById("fade4").style.display = "none";
+document.getElementById("fade5").style.display = "none";
+document.getElementById(theDiv).style.display = "block";
+}
+</script>
+
+<script type="text/javascript">
+function checkuncheck()
+{
+ if(document.getElementById('location_check').checked)
+ {
+    //document.getElementById("locedit1").style.display = "block";
+    document.getElementById("locedit2").style.display = "block";
+    document.getElementById("locedit3").style.display = "block";
+ }
+ else
+ {
+    //document.getElementById("locedit1").style.display = "none"; 
+    document.getElementById("locedit2").style.display = "none"; 
+    document.getElementById("locedit3").style.display = "none";                         
+ }      
+}
+
+function checkuncheckprivatename()
+{
+ if(document.getElementById('private_name').checked)
+ {
+    document.getElementById("private_name_flag").value='1'; 
+ }
+ else
+ {
+    document.getElementById("private_name_flag").value='0'; 
+ }      
+}
+
+</script>
+<script type="text/javascript">
+function raghu(e,f)
+{
+alert('dddddd');
+if(!e)e=window.event;
+var sTop = document.documentElement.scrollTop>0?document.documentElement.scrollTop:document.body.scrollTop;
+
+//var sLeft = document.documentElement.scrollLeft>0?document.documentElement.scrollLeft:document.body.scrollLeft;
+
+
+document.getElementById('light1').style.top = ((sTop+e.clientY )+0) + 'px';
+
+//document.getElementById('popUp').style.left = (sLeft + e.clientX)   + 'px';
+document.getElementById('light1').style.display='block';
+
+}
+
+function virtualtypecheck()
+{
+if(document.getElementById("v2").style.display == "inline")
+{
+document.getElementById("v2").style.display = "none";
+document.getElementById('checked_vtype').value='';
+document.getElementById('virtual_flag').value=0;
+}
+else
+{
+document.getElementById("v2").style.display = "inline";
+document.getElementById('checked_vtype').value=1;
+document.getElementById('virtual_flag').value=1;
+}
+
+if(document.getElementById("v3").style.display == "inline")
+{
+document.getElementById("v3").style.display = "none";
+}
+else
+{
+document.getElementById("v3").style.display = "inline";
+}
+
+if(document.getElementById("v4").style.display == "inline")
+{
+document.getElementById("v4").style.display = "none";
+}
+else
+{
+document.getElementById("v4").style.display = "inline";
+}
+
+if(document.getElementById("v5").style.display == "inline")
+{
+document.getElementById("v5").style.display = "none";
+}
+else
+{
+document.getElementById("v5").style.display = "inline";
+}
+
+}
+
+function optionalMW()
+{
+if(document.getElementById("opt1").style.display == "inline")
+{
+document.getElementById("opt1").style.display = "none";
+document.getElementById("imageup").style.display = "inline";
+document.getElementById("imagedown").style.display = "none";
+document.getElementById('checked_val').value='';
+}
+else
+{
+document.getElementById("opt1").style.display = "inline";
+document.getElementById('checked_val').value=1;
+document.getElementById("imageup").style.display = "none";
+document.getElementById("imagedown").style.display = "inline";
+
+}
+if(document.getElementById("opt1sub").style.display == "inline")
+{
+document.getElementById("opt1sub").style.display = "none";
+}
+else
+{
+document.getElementById("opt1sub").style.display = "inline";
+}
+if(document.getElementById("opt2").style.display == "inline")
+{
+document.getElementById("opt2").style.display = "none";
+}
+else
+{
+document.getElementById("opt2").style.display = "inline";
+}
+if(document.getElementById("opt2sub").style.display == "inline")
+{
+document.getElementById("opt2sub").style.display = "none";
+}
+else
+{
+document.getElementById("opt2sub").style.display = "inline";
+}
+if(document.getElementById("opt3").style.display == "inline")
+{
+document.getElementById("opt3").style.display = "none";
+}
+else
+{
+document.getElementById("opt3").style.display = "inline";
+}
+if(document.getElementById("opt3sub").style.display == "inline")
+{
+document.getElementById("opt3sub").style.display = "none";
+}
+else
+{
+document.getElementById("opt3sub").style.display = "inline";
+}
+}
+</script>
+
+
+
+
+<!-- start-inner-container-->
+<!-- new create form start-->
+<% form_tag({:controller => 'post_invite', :action => 'new_save'}, :id => 'post_invite_form', :onsubmit => "beforeInviteSubmit();" ) do -%>
+	<%= hidden_field_tag('id', @invitation.id) %>
+<% if private_mw? %>
+<input type="hidden" name="invitation[university_name]" value="<%= private_mw %>" />
+<% else %>
+<input type="hidden" name="invitation[university_name]" value="public" />
+<% end %>
+
+
+            	<%= render :partial => 'invite_editor/new_form' %>
+<!-- new create form END-->
+<!-- End-inner-container-->
+<% end %>
+
+<%= render :partial => "post_invite/decide_location_later" %>
+<%= render :partial => "post_invite/new_location" %>
+<%= render :partial => "post_invite/saved_location" %>
+<%= render :partial => "post_invite/airport_location" %>
+<%= render :partial => "post_invite/search_location" %>
+<div id="edit_saved_loc">
+
+</div>
+
+<div id="new_saved_loc">
+
+</div>
+
+
+

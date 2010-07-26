@@ -1,0 +1,10 @@
+Important Message Re: "<%= @invitation_name%>"
+From: <%= @author.capitalize_each_word %>
+To: <%= recipients(@recipient, @broadcast) %>
+
+<%= message_txt(@author, @message) %>
+
+You can respond to this message by visiting the invitation page on MeetingWave.com: 
+  <%= @url_invite %>
+
+<%= brought_to_you_by_txt %>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>MeetingWave.com</title>
+		<link rel="stylesheet" href="/stylesheets/meetingwave/modular/quick_invite.css" />
+		<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+		<%= javascript_include_tag :defaults %>
+		<link rel="stylesheet" href="/stylesheets/meetingwave/modular/forward.css" />
+	</head>
+
+	<% @hideme = true %>
+  
+  <body>
+    
+    <!--[if gte IE 5]>
+                 <style>
+                         .quickinvite form .formbit img {
+                             padding-bottom: 6px;
+                         }
+                         #who_auto_complete {
+                                 margin-left: 0px;
+                         }
+
+
+	#tell-friend-box {
+		width: 190px;
+		}
+
+                 </style>
+         <![endif]-->
+
+         <!-- CONTENT -->
+
+    <div id="forward_invite_box" class="contentquickinvite clearfix">
+      <div class="quickinvite">
+        <% form_tag(forward_invite_url(:id => @meeting.id), :id => "forward_invite_form", :class => 'compact_accessible') do -%>
+        
+          <input type="hidden" name="client_tz_offset" id="client_tz_offset" value="" /> 
+          <script type="text/javascript"> 
+            //<![CDATA[ 
+            $('client_tz_offset').value = timeZoneOffset();			
+            //]]> 	 
+          </script>
+          <div class="quick_invite_header">
+            <h4>Forward Invite</h4>
+            <div class="quick_invite_tagline"> Tell your friends ....Anytime. Anyplace.<br/>
+              <%= image_tag('/images/meetingwave/candy/running_guy.gif')%>
+            </div>
+            <br style="clear: both;">
+          </div>
+          <br/>
+          <%= error_messages_for 'invitation', :header => 'Please correct the following errors before we post this invite: ' %>
+
+		  <div id="form-fields">
+          <div class="formbit" id="contact-box">
+            <h3>EMAIL OR CONTACT TO FORWARD INVITE TO: </h3>						
+            <%=  indicator_image('greendot', :id => 'who_status', :class => 'valid_indicator') %>
+            <style>
+
+              #forward-who-auto-field { width: 350px; }
+              #forward-who-auto-results, #quick-who-auto-results .feed { width: 362px; } 
+              #forward-who-auto-results .default { width: 346px; } 
+              form ul.holder { width: 350px; }
+            </style>
+
+            <div class="compact_accessible_wrap">
+
+              <div id="text">
+
+              </div>
+
+              <ol>
+                <li id="forward-who-list" class="input-text">
+                <input type="text" value="" id="forward-who-auto-field" name="forward-who-auto-field" class="qi_input" />
+                <div id="forward-who-auto-results">
+                  <div class="default">Start typing the name of a contact or enter a new email. </div> 
+                  <ul class="feed">
+                  </ul>
+                </div>
+                </li>
+              </ol>
+
+              <div id='advice-required-who' class="validation-advice" style="display: none;">
+                Please enter names/emails separated by commas.
+              </div>
+            </div>
+
+          </div>
+          <div class="formbit" id="message-box">
+            <h3 > MESSAGE FROM YOU: </h3>	
+            <%=indicator_image('greendot',:id => 'dontvalidate', :class => 'valid_indicator') %>
+            <div class="compact_accessible_wrap clearfix">
+              <label for="message" class="overlabel"> <%= @message %> </label>
+              <%= text_area_tag('message',"" , :class => 'qi_input', :id => 'message') %> 
+            </div>
+            <%= observe_field("message", :function => "$('internal_message').innerHTML = (  value );", :frequency => 1 ) %> 
+          </div>
+		</div>
+
+
+          <div id="tell-friend-box" >
+
+			<h2>Tell a Friend</h2>
+			<p>Use this form to tell a friend about an invite they might be interested in.
+			Just enter their email at left and click Forward.  A preview of the email appears below.</p>
+
+			<div id="buttons">
+				<input name='Submit' value='Forward' type='image' src='<%= button_path("forward")%> ' />
+				<br/>
+				<%= link_to_function('CANCEL', 'hideIbox();')%>
+			</div>
+          </div>
+
+
+          <div style="clear:both;margin:20px;">
+            <%= render :partial => "/invitation_notify/forward_invite_email_template"%>
+          </div>
+       
+        
+        <% end %>
+        <script type="text/javascript"> 
+          //<![CDATA[
+          
+          function quickInviteElementValidate(result, element){
+            var status_element_id = element.id + "_status";
+            if(result) {
+		  	  		$(status_element_id).src = "<%= indicator_path('greencheck') %>";
+		  	  	} else {
+		  	  		$(status_element_id).src = "<%= indicator_path('greenx') %>";	
+		  	  	}
+          
+        }
+        
+        function quickInviteFormValidate(result, form) {
+          if(!result) {
+            alert("Please enter email addresses of contacts seperated by commas.")
+          }
+        }
+        
+        new Validation('forward_invite_form', {immediate:true, onElementValidate:quickInviteElementValidate, onFormValidate:quickInviteFormValidate});
+
+        var forwardWhoAutoCompleterField = null;
+        function forwardBeforeSubmit() { forwardWhoAutoCompleterField.update(); return true; }
+        function initWhoForwardField() {
+                  forwardWhoAutoCompleterField = new FacebookList('forward-who-auto-field', 
+                                                                  'forward-who-auto-results',
+                                                                {fetchFile:'/member/who_auto_complete_json'});
+                  $('forward_invite_form').onsubmit = forwardBeforeSubmit;					 		
+        }
+
+        setTimeout(initOverLabels, 50);
+		setTimeout(initWhoForwardField, 100);
+
+
+
+        setTimeout(initOverLabels, 50);
+        
+        //]]> 
+        </script> 
+        
+      </div>
+      
+    </div>
+    
+  </body>
+</html>
+
+
+

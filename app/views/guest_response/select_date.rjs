@@ -1,0 +1,2 @@
+page.replace_html 'responses', :partial => 'responses', :locals => {:viewer => @viewer}
+page.hide 'guest_response_spinner'

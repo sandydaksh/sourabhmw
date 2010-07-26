@@ -1,0 +1,51 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<%= render :partial => '/member_profiles/profile_column', :locals => { :member => @member } unless(context?(:social_network)) %>
+
+<script type="text/javascript" src="/javascripts/cropper/lib/prototype.js" language="javascript"></script>
+<script type="text/javascript" src="/javascripts/cropper/lib/scriptaculous.js?load=builder,dragdrop" language="javascript"></script>
+<script type="text/javascript" src="/javascripts/cropper/cropper.js" language="javascript"></script>
+
+
+<div class="profile_main_pic">
+    <h1 >Finalize Your Picture</h1>
+    <p>Please drag and/or move the square to select a square piece of your picture.  You can change the size of the square by clicking on a corner and dragging it out.
+  <br/> 
+  <div class="formbit">
+    <%= render :partial => 'pic', :locals => { :picture => @picture } %>
+  </div>
+
+</div>
+
+<!--
+<div class="crop_instructions">
+	<h2 class="nomargin">INSTRUCTIONS</h2>
+	<%= image_tag('/images/ttb/crop_example.gif', :class => 'crop_example') %>
+	
+	<p>MeetingWave profile images must be in the shape of a
+		square. 	
+    </p>
+
+	<p>You can use the controls at left to make sure your uploaded 
+		image looks right on your MeetingWave profile page.  Just
+		follow these three simple steps:
+		<ol class="crop_list">
+			<li> Rotate your image with the <span class="rotate_help">ROTATE</span> links</li>
+			<li> Select a square region by clicking and dragging on the image</li>
+			<li> Hit the <%= image_tag('/images/ttb/mini_crop.gif') %> button when you've selected the area you want</li>
+		</ol>
+	</p>
+        <br/>
+        <br/>
+        <br/>
+</div>
+-->
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>

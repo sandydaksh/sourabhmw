@@ -1,0 +1,42 @@
+<div class="pwidget" id="new_profile_widget" >
+	
+	<div class="header">
+		<h3><%= @profile_widget.title %></h3>
+	</div>
+	<% @profile_widget.profile_sections.each do |section| %>
+		<h4 class="subheader"> <%= section.name %> </h4>
+		<h5 class="entry"> 
+			<%= section.section_details.collect(&:text).join("<br/>") %> 
+		</h5>
+	<% end %>
+	<div class="edit title">
+	
+		<p class="new_widget_instructions">Finally, you can continue to add information or click DONE to finalize your new profile box.</p>
+		
+		<% form_remote_tag(:url => {:action => 'populate_new_profile_widget'}, :html => {:id => 'new_widget_form'}) do -%>		
+			<%= hidden_field_tag('profile_widget[id]', @profile_widget.id) %>
+			<p class="section">
+				<label>CATEGORY:</label>
+				<%= text_field_tag("new_profile_section[name]", '', :class => 'txt section_heading') %>
+			</p>
+			<p class="detail">
+				<label>Item:</label>
+				<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+			</p>
+			<p class="detail">
+				<label>Item:</label>
+				<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+			</p>
+			<p class="detail">
+				<label>Item:</label>
+				<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+			</p>
+			<div id="new_details"><%= link_to_function('ADD ITEM', 'addDetailRow();', :class => 'more_details' ) %>
+			<div class="buttons">
+					<%= ibutton('save_small') %>
+				<%= link_to_remote(button_image('done_small'), :submit => 'new_widget_form', :url => {:action => 'finalize_new_profile_widget'}) %>
+				
+			</div>
+		<% end %>
+	</div>
+</div>

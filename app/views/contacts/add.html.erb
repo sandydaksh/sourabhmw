@@ -1,0 +1,86 @@
+
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<div id="inner_content">
+	<h1> Tell a Friend About MeetingWave </h1>
+	<%= content_tag(:p, flash[:error], :class => "error") if(flash[:error]) %>
+    <%= content_tag(:p, flash[:notice], :class => "notice") if(flash[:notice]) %>
+
+
+
+	<p class="align_space"> 
+
+	Do you know someone who would be interested in using MeetingWave?
+	Enter their email addresses, separated by commas, in the box below.
+	We'll send an email and add them to your contact list.  You can
+	personalize the email that will be sent by editing the Note below.
+
+	</p>
+
+	<div id="import_form">
+		<% form_tag(url_for(:action => "run_import"), :id => "do_import_form", :class => 'compact_accessible') do -%>
+
+		 <div  class="formbit dontsend">
+		     <%= check_box_tag("dont_send_email","true", false, :onclick => "dontEmailClicked();", :class => "dontsend_cb")%> 
+			 <div id="dont_send_check"> Don't send an email to
+			 these people, just add them to my contact list. </div>
+		 </div>
+
+		 <div class="formbit">
+		    <label >Email Addresses</label>
+			<div id="emails_box" class="compact_accessible_wrap">
+				<label for="checked_emails" class="overlabel" id="checked_email_label">john@domain.com, tina@example.com, mom@home.com ...</label>
+				<%= text_area_tag("email[addr]", "",:id => "checked_emails")%>
+			</div>
+		 </div>
+		 <br style="clear:both;"/>
+
+
+		 <div id="include_note"> 
+			 <div class="formbit dontsend"> 
+				<%= check_box_tag("include_note","true", true, :onclick => "$('notebox').toggle()", :class => "dontsend_cb")%> 
+				<div class="nonote"> Include a personal note. </div>
+			 </div>
+			 <div class="formbit" id="notebox">
+				<label>Your Note</label>
+				<div class="compact_accessible_wrap">
+					<%= text_area_tag("email[note]", "I thought you'd be interested in learning about MeetingWave.com since you enjoy meeting new people and making new contacts.  \n\nMeetingWave makes it easy for you to expand your network offline - anytime, anyplace.  And it's free! ", :id => "note")%>            
+				</div>
+			 </div>
+		</div>
+
+
+		 <div id="import_button_box" >
+         	  <%= image_submit_tag("/images/meetingwave/buttons/invite.gif",:border => 0,:style=>"padding-top:5px;",:id=>'notify_button',:onmouseover=>"this.src= '/images/meetingwave/buttons/invite_over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/invite.gif';") %>
+			  <!--input name='submit' value='notify' type='image' src='<%#= button_path("invite") %>' id='notify_button' /-->
+              <%= image_submit_tag("/images/meetingwave/buttons/import.gif",:border => 0,:style=>"padding-top:5px; display:none;",:id => "just_add_button",:onmouseover=>"this.src= '/images/meetingwave/buttons/import_over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/import.gif';") %>
+			  <!--input name='submit' value='just_add' type='image' src='<%#= button_path("import") %>' id='just_add_button' style="display:none;" /-->
+			  <br/> <br/>
+		 </div>
+
+		 <% end %>
+   </div>
+
+</div>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<script type="text/javascript"> 
+	function dontEmailClicked() {
+		$('include_note').toggle();
+		$('just_add_button').toggle(); 
+		$('notify_button').toggle();
+    }
+	Event.observe(window, 'load', function() { 
+		initOverLabels(); 
+	}); 
+</script>	

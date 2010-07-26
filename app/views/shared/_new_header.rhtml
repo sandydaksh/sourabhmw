@@ -1,0 +1,180 @@
+<script type="text/javascript">
+function notified()
+{
+    alert('Please verify your University email id.');
+}
+
+function notified1()
+{
+    alert('Please verify your Company email id.');
+}
+
+
+function open_win(url_add,uni_val)
+{
+//alert(uni_val);
+    //window.open(url_add,'welcome','width=,height=,menubar=yes,status=yes,location=yes,toolbar=yes,scrollbars=yes');
+    if (document.getElementById('privatetopublic').value=='public')
+    {
+    window.open(url_add,'MeetingWave','width=800,height=800,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+    }
+    else
+    {
+    window.open('http://<% if request.host.match('trunk') %>'+uni_val+'.trunk.meetingwave.com<% else %>'+uni_val+'.meetingwave.com<% end %>?pubtop=<%= current_member.email %>','MeetingWave','width=800,height=800,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+    //window.open('http://'+uni_val+'.localhost:3000?pubtop=<%= current_member.email %>','MeetingWave','width=800,height=800,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes,resizable=yes');
+    }
+}
+</script>
+
+
+
+
+<% if !private_mw? %>
+
+        <%= fb_connect_javascript_tag + init_fb_connect("XFBML")%>
+        <%= render :partial => "/shared/fb_connect_feed" %>
+<div class="topleft-create" style="margin:0;">
+ &nbsp;
+</div>
+
+<div class="nav-create">
+ <table width="513" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="right"><ul id="topnavbar-create">
+          <li id="topnavbar-create-harvey"><% if current_member && !current_member.first_name.blank? %><%= link_to(current_member.first_name, my_profile_url ,:class=>"user-text")%> <% else %> <% if current_member && !current_member.user_name.blank? %><%= link_to(current_member.user_name, my_profile_url,:class=>"user-text") %><% end %> <% end %></li>
+          <li id="topnavbar-create-search"><%= link_to('<span>'"Search"'</span>', ssearch_url) %></li>
+          <li id="topnavbar-create-crmeeting"> <%= link_to('<span>'"Create Meeting"'</span>', postinvite_url) %></li>
+          <li id="topnavbar-create-mymeetings"><%= link_to('<span>'"My Meetings"'</span>', home_url) %></li>
+          <li id="topnavbar-create-help"> <%= link_to('<span>'"HELP"'</span>', help_url) %></li>
+            <li id="topnavbar-create-signout"><%= link_to('<span>'"Signout"'</span>', logout_url , :onclick => "logoutWithFacebook('#{logout_url}');") %></li>
+        </ul></td>
+    </tr>
+  </table>
+  
+</div>
+
+
+<div class="topleft-create" style="margin:0;">
+  <ul id="navbarlogo">
+    <li id="navbarlogo-logo">
+    	<a href="/"><span>Meetingwave</span></a>
+    </li>
+
+  </ul>
+  
+</div>
+<div class="nav-create" style="margin:20px 0 0 0;">
+  <% allaccount = AccountEmail.find(:all,:conditions => ["member_id = ?",current_member.id]) %>
+  <!--p style="padding-left:379px; font-size:11px; text-decoration:underline; color:#000000;"><%# if current_member.university_name != 'public' %><a href="http://<%#= current_member.university_name %>.<%# if request.host.match('trunk') %>trunk.meetingwave.com<%# else %>meetingwave.com<%# end %>?pubtop=<%#= current_member.email %>">Go back to Private Label &raquo;</a><%# else %>&nbsp;<%# end %></p-->
+  <p style="padding-left:260px; font-size:11px; text-decoration:underline; color:#000000;">
+  <% if current_member && !allaccount.nil? && !allaccount.blank? %>
+  <select class="private-menu" id="privatetopublic" onchange="open_win('http://<% if request.host.match('trunk') %>trunk.meetingwave.com<% else %>www.meetingwave.com<% end %>?pritop=<%= current_member.email %>',this.value);">
+    <option value="public">
+    	Public MeetingWave
+    </option>
+    <% allaccount.each do |account| %>
+      <% un = University.find_by_url(account.university_name) %>
+      <%  if !un.nil? %>
+      <option value="<%= account.university_name %>" <%= "selected='selected'" if account.university_name == private_mw %>>
+        <%= un.name %> <% if un.data_type == "university" %>University<% elsif un.data_type == "company" %>Company<% end %> MeetingWave
+      </option>
+      <% end %>
+    <% end %>  
+  </select>
+  <% end %>
+  </p>
+</div>
+
+<% else %>
+<% @current_university = University.find(:first,:conditions => ["url = ?",private_mw]) %>
+<% if @current_university.data_type == "university" %>
+  <% funct = "notified" %>
+<% elsif @current_university.data_type == "company" %>
+  <% funct = "notified1" %>
+<% end %>
+<div class="header_new">
+<div class="topleft-create">
+  <ul id="navbarlogo_private">
+    <li id="navbarlogo_private-logo">
+    <% if @current_university.logo_display == true %>
+		<% if params[:action] != "domain_verification" %>
+          <% if params[:action] == "change_password" && @pi_vate != '2' or (params[:action] != "change_password") %>
+            <a href="/"><%= image_tag("/invitations/code_image/#{@current_university.id}", :alt => "#{@current_university.name}",:style=>"padding-left:5px; border:none;") %></a>
+          <% else %>
+            <a href="#" onclick="<%= funct %>();"><%= image_tag("/invitations/code_image/#{@current_university.id}", :alt => "#{@current_university.name}",:style=>"padding-left:5px; border:none;") %></a>
+          <% end %> 
+        <% else %>
+            <a href="#" onclick="<%= funct %>();"><%= image_tag("/invitations/code_image/#{@current_university.id}", :alt => "#{@current_university.name}",:style=>"padding-left:5px; border:none;") %></a>
+        <% end %> 
+    <% end %>
+    </li>
+  </ul>
+  <p class="alumni-text" style="padding-left:5px; padding-top:15px;"><%= University.find_by_url(private_mw).name %><%= " "+@current_university.alumni_type+" " if !@current_university.alumni_type.nil? %> MeetingWave</p>
+</div>
+
+
+<div class="nav-create">
+  <table width="513" border="0" cellspacing="0" cellpadding="0" align="right">
+    <tr>
+      <td align="right">
+      <ul id="topnavbar-create">
+      <% if params[:action] != "domain_verification" %>
+      	<% if params[:action] == "change_password" && @pi_vate != '2' or (params[:action] != "change_password") %>
+          <li id="topnavbar-create-harvey"><% if current_member && !current_member.first_name.blank? %><%= link_to(current_member.first_name, my_profile_url ,:class=>"user-text")%> <% else %> <% if current_member && !current_member.user_name.blank? %><%= link_to(current_member.user_name, my_profile_url,:class=>"user-text") %><% end %> <% end %></li>
+          <li id="topnavbar-create-search"><%= link_to('<span>'"Search"'</span>', ssearch_url) %></li>
+          <li id="topnavbar-create-crmeeting"> <%= link_to('<span>'"Create Meeting"'</span>', postinvite_url) %></li>
+          <li id="topnavbar-create-mymeetings"><%= link_to('<span>'"My Meetings"'</span>', home_url) %></li>
+          <li id="topnavbar-create-help"> <%= link_to('<span>'"HELP"'</span>', help_url) %></li>
+          <li id="topnavbar-create-signout"><%= link_to('<span>'"Signout"'</span>', logout_url , :onclick => "logoutWithFacebook('#{logout_url}');") %></li>
+	    <% else %>
+          <li id="topnavbar-create-harvey"><% if current_member && !current_member.first_name.blank? %><a href="#" onclick="<%= funct %>();" class="user-text"><%= current_member.first_name %></a> <% else %> <% if current_member && !current_member.user_name.blank? %><a href="#" onclick="<%= funct %>();" class="user-text"><%= current_member.user_name %></a><% end %> <% end %></li>
+          <li id="topnavbar-create-search"><a href="#" onclick="<%= funct %>();"><span>Search</span></a></li>
+          <li id="topnavbar-create-crmeeting"><a href="#" onclick="<%= funct %>();"><span>Create Meeting</span></a></li>
+          <li id="topnavbar-create-mymeetings"><a href="#" onclick="<%= funct %>();"><span>My Meetings</span></a></li>
+          <li id="topnavbar-create-help"><a href="#" onclick="<%= funct %>();"><span>HELP</span></a></li>
+          <li id="topnavbar-create-signout"><%= link_to('<span>'"Signout"'</span>', logout_url , :onclick => "logoutWithFacebook('#{logout_url}');") %></li>
+        <% end %>
+      <% else %>
+          <li id="topnavbar-create-harvey"><% if current_member && !current_member.first_name.blank? %><a href="#" onclick="<%= funct %>();" class="user-text"><%= current_member.first_name %></a> <% else %> <% if current_member && !current_member.user_name.blank? %><a href="#" onclick="<%= funct %>();" class="user-text"><%= current_member.user_name %></a><% end %> <% end %></li>
+          <li id="topnavbar-create-search"><a href="#" onclick="<%= funct %>();"><span>Search</span></a></li>
+          <li id="topnavbar-create-crmeeting"><a href="#" onclick="<%= funct %>();"><span>Create Meeting</span></a></li>
+          <li id="topnavbar-create-mymeetings"><a href="#" onclick="<%= funct %>();"><span>My Meetings</span></a></li>
+          <li id="topnavbar-create-help"><a href="#" onclick="<%= funct %>();"><span>HELP</span></a></li>
+          <li id="topnavbar-create-signout"><%= link_to('<span>'"Signout"'</span>', logout_url , :onclick => "logoutWithFacebook('#{logout_url}');") %></li>
+       <% end %>
+       </ul>       
+      </td>
+    </tr>
+  </table>
+  <div style="clear:both;">
+  <table width="513" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+      <td align="left" style="padding-top: 40px;">
+      <% if params[:action] != "domain_verification" && params[:action] != "change_password" %>
+          <% allaccount = AccountEmail.find(:all,:conditions => ["member_id = ?",current_member.id]) %>
+          <ul style="margin-right: 18px; margin-top: 13px; float: right;">
+              <li>
+                  <select class="private-menu" id="privatetopublic" onchange="open_win('http://<% if request.host.match('trunk') %>trunk.meetingwave.com<% else %>www.meetingwave.com<% end %>?pritop=<%= current_member.email %>',this.value);">
+                  <!--select class="private-menu" id="privatetopublic" onchange="open_win('http://localhost:3000?pritop=<%#= current_member.email %>',this.value);"--> 
+                    <% allaccount.each do |account| %>
+                      <% acc = University.find_by_url(account.university_name) %>
+                      <% if !acc.nil? %>
+                      <option value="<%= account.university_name %>" <%= "selected='selected'" if account.university_name == private_mw %>>
+                        <%= acc.name %> <% if acc.data_type == "university" %>University<% elsif acc.data_type == "company" %>Company<% end %> MeetingWave
+                      </option>
+                      <% end %>
+                    <% end %>  
+                      <option value="public">
+                        Public MeetingWave
+                      </option>                  
+                  </select>
+              </li>
+          </ul>
+      <% end %>
+      </td>
+    </tr>
+  </table>  
+  </div>
+</div>
+</div>
+<% end %>

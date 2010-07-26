@@ -1,0 +1,12 @@
+<% if approve_or_reject.to_s == 'approve' %>
+  <p class="approved">Yes, I want <%= @confirmation.member.user_name %> to come. </p>
+<% else %>
+   <p class="rejected">No, <%= @confirmation.member.user_name %> may not attend. </p>
+<% end %>
+
+<% unless @message.blank? %>
+	<p class="you">
+    <span class="title">You </span> [<%= @message.created_at.strftime("%m/%d/%y") %>]:   
+		<span class="message"> <%= @message.body %></span>
+	</p>
+<% end %>

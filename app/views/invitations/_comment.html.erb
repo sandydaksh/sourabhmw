@@ -1,0 +1,7 @@
+<h3> <%= link_to_function("#{image_tag('/images/ttb/button_add_comment.gif')} CLICK TO INCLUDE A NOTE (optional)", "new Effect.toggle($('comment'),'slide'); return false;") %> </h3>
+<div id="comment" style="display: none;">
+	<%= text_area_tag 'message[body]', nil, :size => '45x8' %>
+	<p class="hint">(e.g., "Can I bring a friend?", "Can I come 15 minutes late?", etc.)</p>
+</div>
+
+

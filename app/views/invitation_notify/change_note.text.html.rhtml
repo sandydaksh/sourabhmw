@@ -1,0 +1,32 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Re: Important updates for '#{@invitation.name}'") %>
+
+<%= open_body %>
+
+  <%= open_highlight %>
+    <%= @inviter_name.capitalize_each_word  %> has updated this invitation. 
+  <%= close_highlight %>
+
+  <%= message(@inviter_name, @message) %>
+
+  <p>The following invitation details were modified:</p>
+  <table style="margin-left: 30px; color: #555; ">
+	<tr style="color: #000; font-weight: bold;">
+		<th width="15%"></th>
+		<th width="43%" style="text-align: left; padding-left: 15px;">From</b></th>
+		<th width="43%" style="text-align: left; padding-left: 20px;" >To</th>
+	</tr>	
+    <%= all_changed_attrs(@changed_attributes.dup) %>
+  </table>
+
+  <p>You can view the original invitation using the button below.</p>
+
+  <%= close_body %>
+    
+  <%= invitation_button(@url) %>
+
+  <%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>
+

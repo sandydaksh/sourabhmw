@@ -1,0 +1,67 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<p style="padding:0 26px 0 26px;">
+MeetingWave has launched private label versions to allow university alumni to meet with other fellow alumni over coffee, lunch, dinner, golf or other networking activity for business or social purposes.  Members can meet new clients, new business contacts or just reconnect with other alumni.  
+</p><br />
+<p style="padding:0 26px 0 26px;">
+Click <a onclick="document.getElementById('how').style.display='block';document.getElementById('fade_how').style.display='block'" href="javascript:void(0)">How It Works</a> to learn how MeetingWave provides control, flexibility and privacy when meeting new people.  
+</p><br />
+<p style="padding:0 26px 0 26px;">
+MeetingWave's focus is not events, but instead small targeted networking meetings over coffee, lunch, golf or other networking activity.  It's easy to use.
+</p><br />
+<p style="padding:0 26px 0 26px;">
+MeetingWave's Current Alpha Alumni Private Labels include:
+</p><br />
+<div style="padding:0 0 0 66px;">
+<table width="400" border="1"  cellspacing="0" cellpadding="0" bordercolor="#cccccc">
+  <tr>
+    <th style="text-align:center; padding:5px 0 5px 0; font-family: Helvetica, sans-serif; font-size:15px;"><b>University/College</b></th>
+    <th style="text-align:center; padding:5px 0 5px 0; font-family: Helvetica, sans-serif; font-size:15px;"><b>Approved Email Domains</b></th>
+  </tr>
+
+  <% if @university %>
+  <% @university.each do |univ| %>  
+  <tr>
+    <td style="text-align:left; padding:5px 0 5px 20px; font-family: Helvetica, sans-serif; font-size:14px;"><a href="http://<%= univ.url %>.<% if request.host.match('trunk') %>trunk.meetingwave.com<% else %>meetingwave.com<% end %>" target="_blank"><%= univ.name %></a></td>
+    <td style=" padding:5px 0 5px 25px; font-family: Helvetica, sans-serif; font-size:14px;">
+    <% dom = univ.email_domains.map{|x| x.domain} if univ.email_domains %>
+    <% if dom %><% dom.each do |dom| %><ul><li><%= dom %></li></ul><% end %><% end %>
+    </td>
+  </tr>
+  <% end %>
+  <% end %>
+</table>
+</div><br />
+
+<p style="padding:0 26px 0 26px;">
+This alpha version requires alumni verification using one of the listed .edu email domains.  Please also <a href="/contactinfo">Contact Us</a> to suggest any additional email domains for an existing private label or other feedback or suggestions.
+</p><br />
+<p style="padding:0 26px 0 26px;">
+Unless you use your .edu email regularly, we recommend signing up with your regular email (e.g., gmail, yahoo, etc.) and then verifying your .edu email in step 2 of the signup process.  
+</p><br />
+<p style="padding:0 26px 0 26px;">
+MeetingWave has another verification option allowing for easy click through access using a link added to your school's website. Check your school's alumni website for MeetingWave's link and click through to sign up without a .edu email address. If you don't see our link, contact them to suggest adding MeetingWave's verification link. Tell them you'd like to network with fellow alumni. 
+</p><br />
+<p style="padding:0 26px 0 26px;">
+Please <a href="/contactinfo">Contact Us</a> if you'd like to suggest a college or university for alpha testing (if possible, please provide a link to the school's website, a suitable logo and the email domain used by the school's alumni).
+</p><br />
+<p style="padding:0 26px 0 26px;">
+Other improvements in MeetingWave's pipeline include an upgrade to our email system, location-based mobile versions for the iPhone, Android & Blackberry platforms and other improvements.
+</p><br />
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<%= render :partial => 'shared/how_it_works' %>
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+
+<%= render :partial => 'shared/about' %>
+<% end %>

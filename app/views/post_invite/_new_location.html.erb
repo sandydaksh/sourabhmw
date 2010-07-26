@@ -1,0 +1,233 @@
+ <script type="text/javascript">
+function validate_location()
+{
+	
+    try{
+    if(document.getElementById("address_name").value=="")
+	{
+  		document.getElementById("location_id").innerHTML="Location name can not be left blank";
+  		document.getElementById("address_name").focus();
+  		return false;
+	}
+
+	else if(document.getElementById("address_address").value=="")
+	{
+  		document.getElementById("address_id").innerHTML="Location address can not be left blank";
+   		document.getElementById("address_address").focus();
+  		return false;
+	}
+
+	else if(document.getElementById("address_city").value=="")
+	{
+  		document.getElementById("city_id").innerHTML="Location city can not be left blank";
+   		document.getElementById("address_city").focus();
+  		return false;
+	}
+    
+    
+    
+	else if(document.getElementById("address_state").value=="")
+	{
+  		
+        document.getElementById("state_id").innerHTML="Location state can not be left blank";
+   		document.getElementById("address_state").focus();
+  		return false;
+       }
+        
+    else
+    {
+       HideDiv(); 
+                
+    }
+}
+	catch(err){
+		HideDiv();
+	}
+}
+
+	function HideDiv(){
+    
+		document.getElementById("location_id").innerHTML="";
+		document.getElementById("address_id").innerHTML="";
+		document.getElementById("city_id").innerHTML="";
+		document.getElementById("state_id").innerHTML="";
+        document.getElementById("light2").style.display="none";
+        document.getElementById("fade2").style.display="none";
+	}
+
+</script>
+
+<form action="/" method="post" onsubmit="  new Ajax.Request('/post_invite/make_address_hash',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false; ">
+<div id="light2" class="white_content_common">
+  <p>
+  <div style="width:648px; margin:0 auto;">
+    <div><img src="/images/newdesign/loc-top-bg.jpg" border="0" width="648" height="7"></div>
+    <div style="background:url(/images/newdesign/loc-middle-bg.jpg) repeat-y; width:648px; ">
+      <div  style="width:571px; float:left; padding:25px 0 4px 0;">
+        <p class="cancel-grey"><a href = "#invitation_maximum_invitees" onclick="document.getElementById('light2').style.display='none';document.getElementById('fade2').style.display='none'"> Cancel &amp; Close</a></p>
+      </div>
+      <div style="float:left; width:59px;"><a href ="#invitation_maximum_invitees" onclick="document.getElementById('light2').style.display='none';document.getElementById('fade2').style.display='none'"> <img src="/images/newdesign/location-close.jpg" border="0" width="28" height="26" style="margin:17px 0 4px 5px;"></a> </div>
+      <div style="clear:both;">
+        <table width="544" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <td valign="top" width="234"><table width="234" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td colspan="2"><img src="/images/newdesign/specify-location.jpg" border="0" width="229" height="33" style="margin:0 0 0 5px;"></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p class="loctext">LOCATION OPTIONS</p></td>
+                </tr>
+                <tr>
+                  <td width="20" valign="top"><p>
+                      <img src="/images/newdesign/unselected.png" onclick="Togglepopup('light1'); Togglefade('fade1');">
+                    </p></td>
+                  <td width="214" valign="top"><p class="specify-text-unselect">Decide Location Later</p></td>
+                </tr>
+                <tr>
+                  <td colspan="2" height="8"></td>
+                </tr>
+                <tr>
+                  <td valign="top"><p>
+                      <img src="/images/newdesign/selected.png" onclick="Togglepopup('light2'); Togglefade('fade2');">
+                    </p></td>
+                  <td valign="top"><p class="specify-text-selected">New Location</p></td>
+                </tr>
+                <tr>
+                  <td colspan="2" valign="top" height="8"></td>
+                </tr>
+                <tr>
+                  <td valign="top"><p>
+                      <img src="/images/newdesign/unselected.png" onclick="Togglepopup('light3'); Togglefade('fade3');">
+                    </p></td>
+                  <td valign="top"><p class="specify-text-unselect">Saved Location</p></td>
+                </tr>
+                <tr>
+                  <td colspan="2" valign="top" height="8"></td>
+                </tr>
+                <tr>
+                  <td valign="top"><p>
+                      <img src="/images/newdesign/unselected.png" onclick="Togglepopup('light4'); Togglefade('fade4');">
+                    </p></td>
+                  <td valign="top"><p class="specify-text-unselect">Airport</p></td>
+                </tr>
+                <tr>
+                  <td colspan="2" valign="top" height="8"></td>
+                </tr>
+                <tr>
+                  <td valign="top"><p>
+                      <img src="/images/newdesign/unselected.png" onclick="Togglepopup('light5'); Togglefade('fade5'); resise();">
+                    </p></td>
+                  <td valign="top"><p class="specify-text-unselect">Search for a Location</p></td>
+                </tr>
+              </table></td>
+            <td width="310" valign="top"><table width="310" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td colspan="2"><p style="font-family:Arial, Helvetica, sans-serif; font-size:11PX; color:#333333; padding:51px 0 3px 0; text-transform:uppercase;">Location Name<br>
+                      <%= location_input(:class => 'locationbox',:maxlength => '50') %>
+                    
+                      <br /><p><span id="location_id" style="color:#FF0000; font-size:10px;"></span></p>
+                    </p>
+                      <!--p class="note1">Note: Find previous locations in Saved Locations</p-->
+                    </td>
+                </tr>
+                <tr>
+                  <td width="95" valign=""><div id="sctoggle"><%= render :partial => "post_invite/outside_us_link" %></div></td>
+                  <td width="215"><p style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#ff00ff; font-weight:normal; padding:10px 4px 0 25px;"> <br>
+                     </p></td>
+                </tr>
+                <%=hidden_field('address', 'kind',:value => "regular")%>
+                <tr>
+                  <td colspan="2"><p class="add">ADDRESS<br>
+                      <%= text_field('address', 'address', :class => 'locationbox',:maxlength => '50', :onchange => "showAddress('address_address');")  %>
+                      <br>
+                      <%= text_field('address', 'address2', :class => 'locationbox',:maxlength => '50')  %>
+                      
+                      <br />
+                 <span id="address_id" style="color:#FF0000; font-size:10px; text-transform:none;"></span>
+                    </p></td>
+                </tr>
+                <tr>
+                  <td height="7" colspan="2" valign="top"></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><p class="add">city<br>
+                  	  <%= text_field('address', 'city', :class => 'locationbox',:maxlength => '50')  %>
+                      </p>
+                      <span id="city_id" style="color:#FF0000; font-size:10px; text-transform:none;"></span>
+                    
+                    <p><span id="loc_city" style="color:#FF0000; font-size:10px;"></span></p>
+                    </td>
+                </tr>
+                <tr>
+                  <td height="7" colspan="2" valign="top"></td>
+                </tr>
+                 <tr>
+                  <td colspan="2"><table width="310" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="157"><div id="stat">
+                        <%= render :partial => "post_invite/states" %>
+                            
+                                                      <p><span id="loc_state" style="color:#FF0000; font-size:10px;"></span></p>
+                          </div></td>
+                        <td width="15">&nbsp;</td>
+                        <td width="138"><p class="add">ZIP CODE<br>
+                        	<%= text_field( 'address', 'zip', :class => 'zipbox') %>
+                          </p>
+                          </td>
+                      </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                  <td height="17" colspan="2"><span id="state_id" style="color:#FF0000; font-size:10px;"></span></td>
+                </tr>
+                <tr>
+                  <td colspan="2" valign="top"><p class="add"> keep location private<br>
+                    </p></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><table width="239" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="22"><p>
+                           <%= undisclosed_checkbox_new(:airport_version => false)%>	  
+                          </p></td>
+                        <td width="217"><p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#333333;">Hide Location</p></td>
+                      </tr>
+                      <tr>
+                        <td>&nbsp;</td>
+                        <td><p class="note2">Note:Confirmed Attendees will see Location</p></td>
+                      </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td colspan="2" valign="top" ><div style="border-bottom:1px dotted #989898; margin:4px 0 0 0; width:510px;">&nbsp;</div></td>
+          </tr>
+          <tr>
+            <td colspan="2" valign="top" ><div style="width:232px; margin:0 0 0 289px;">
+                <table width="232" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td colspan="2" height="20">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td width="102"><p class="cancel-close"><a href="#invitation_maximum_invitees" onclick="document.getElementById('light2').style.display='none';document.getElementById('fade2').style.display='none'" > Cancel &amp; Close</a></p></td>
+                    <td width="130"><p>
+                        <input type="image" src="/images/newdesign/continue.jpg" border="0" width="130" height="38" onmouseover="this.src= '/images/newdesign/continue-over.jpg';" onmouseout="this.src = '/images/newdesign/continue.jpg';"  onclick ="return validate_location();">
+                      </p></td>
+                  </tr>
+                </table>
+              </div></td>
+          </tr>
+          <tr>
+            <td colspan="2" valign="top" height="41"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div><img src="/images/newdesign/loc-bottom-bg.jpg" border="0" width="648" height="7"></div>
+  </div>
+  </p>
+</div>
+<div id="fade2" class="black_overlay_common"></div>
+  
+ </form>      

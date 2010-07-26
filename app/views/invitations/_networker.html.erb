@@ -1,0 +1,8 @@
+		<div class="networker">
+		  <% if networker.picture.nil? %>
+			  <%= link_to(image_tag("/images/ttb/default_pic.jpg"), member_profile_url(:id => networker.member.id)) %> <br/>
+		  <% else  %>
+			  <%= link_to(image_tag(thumb_url(networker.picture.id)), member_profile_url(:id => networker.member.id)) %> <br/>
+		  <% end  %>
+		  <%= link_to(truncate(networker.member.username, 10), member_profile_url(:id => networker.member.id)) %>
+		</div>

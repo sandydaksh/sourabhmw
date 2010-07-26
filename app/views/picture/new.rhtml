@@ -1,0 +1,39 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<%= render(:partial => '/member_profiles/profile_column', :locals => { :member => @member }) %>
+
+<div class="profile_main">
+    <h1>Upload A New Profile Picture</h1>
+  <%= flash[:notice] %>
+  <%= error_messages_for_picture('picture') %>
+
+  <% form_for(:picture, :url => {:action => 'upload'}, :html => { :multipart => true }) do |form| %> 
+
+  <%= hidden_field 'member_profile', 'id' %>
+<br/>
+  <div class="formbit">
+    <h3>SELECT A PICTURE TO UPLOAD</h3>
+    <%= form.file_field("uploaded_picture") %><br/> 
+  </div>	
+  <%= image_submit_tag("/images/meetingwave/buttons/upload_new.gif",:border => 0,:style=>"padding-top:5px;",:onmouseover=>"this.src= '/images/meetingwave/buttons/upload_new-over.gif';",:onmouseout=>"this.src = '/images/meetingwave/buttons/upload_new.gif';") %>
+  <%#= ibutton("upload") %> 
+  <% end %> 
+
+</div>
+
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+
+
+
+
+

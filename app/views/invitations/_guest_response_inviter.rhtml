@@ -1,0 +1,41 @@
+<div id="guest_response_container" >
+	<%#= guest_response_header(meeting, member) %>
+	<div class="guest_response_inner">
+	  <div id="outstanding_rsvps_container">
+		RSVPs Requiring Action
+		<div id="outstanding_rsvps" style="display: <%= outstanding_rsvps.size.zero? ? 'none' : 'block' %>; padding-top: 10px; padding-left: 4px;" >
+			<table class="guest_response_column" summary="Outstanding RSVPs.">
+			   <thead> 
+			 	 <tr> <th scope="col" id="outstanding_1">Name</th> <th scope="col" id="outstanding_2" class="approve_decline_heading">Action</th> <th id="outstanding_3">&nbsp;</th> </tr> 
+			   </thead>
+				<tbody>
+					<% outstanding_rsvps.each do |invitee| %>
+						<%= outstanding_rsvp_sidebar_row(meeting, invitee, cycle("even", "odd", :name => "oustanding")) %>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+		<div id="no_outstanding_rsvps" style="display: <%= outstanding_rsvps.size.zero? ? 'block' : 'none' %>; padding-top: 10px; padding-left: 4px;" >
+			No RSVPs yet.
+		</div>
+	   </div>
+
+	  Guest List
+	  <div id="guest_list" style="display: <%= guest_list.size.zero? ? 'none' : 'block' %>; padding-top: 10px; padding-left: 4px;" >
+			<table class="guest_response_column" id="guest_list_table" summary="All guests that who have been invited and are either approved or declined.">
+				<thead> <tr> <th scope="col" id="columntable_1">Name</th> <th scope="col" id="columntable_3">Status</th> </tr> </thead>
+				<tbody id="guest_list_body">
+					<% guest_list.each do |invitee| %>
+						<%= guest_response_sidebar_row(meeting, invitee, cycle("even", "odd", :name => "guest_list")) %>
+					<% end %>
+				</tbody>
+			</table>
+	  </div>
+
+	  <div id="no_guest_list" style="display: <%= guest_list.size.zero? ? 'block' : 'none' %>; padding-top: 10px; padding-left: 4px;" >
+			No approved guests yet.
+	  </div>
+
+	  <p class="savetext"><%= link_to("&raquo; GUEST MESSAGING", guest_response_url(:id => meeting.id), :id => "guest_messaging") %></p>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+Re: Your changes to '#{@invitation.name}'
+
+<%= "#{@invitee_name.capitalize_each_word} #{invited_as(@confirmation)}" %> has declined your updates to this invitation<%= @occurrence %>. 
+
+<%= message_txt(@invitee_name, @message) %>
+
+You can view your original invitation by following this link:
+  <%= @url %>
+
+<%= brought_to_you_by_txt %>

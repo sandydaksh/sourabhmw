@@ -1,0 +1,157 @@
+        <td width="310" valign="top"><!-- search right form start-->
+            <div class="rightformmymeetingwave">
+              <!-- start pref box start on 18 dec 2009-->
+              <div><img src="/images/newdesign/search_images/top-search-right.jpg" border="0" width="299" height="9" /></div>
+              <div class="rightformbg">
+                <div style="width:280px; background-color:#d3e1ea; margin:0 0 0 0;">
+                  <p class="prefimg"><img src="/images/newdesign/pref-head.jpg" border="0" width="93" height="15" /></p>
+                  <ul class="prefbutton">
+                    <li>
+                    	<a href="javascript:void(0)" onmouseover="document.alert.src='/images/newdesign/pref-alert-over.jpg'" onmouseout="document.alert.src='/images/newdesign/pref-alert.jpg'" onclick="document.getElementById('light_alert').style.display='block';document.getElementById('fade_alert').style.display='block'">
+	                        <img src="/images/newdesign/pref-alert.jpg" name="alert" border="0" width="78" height="26" />
+                        </a>
+                    </li>
+                    
+                    <li>
+                    	<a href="javascript:void(0)" onmouseover="document.location1.src='/images/newdesign/pref-location-over.jpg'" onmouseout="document.location1.src='/images/newdesign/pref-location.jpg'" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">
+                        	<img src="/images/newdesign/pref-location.jpg" name="location1" width="75" height="25" border="0"/>
+                        </a>
+                    </li>
+                    
+                    <li>
+                    	<a href="<%= calendar_url %> " onmouseover="document.calendar.src='/images/newdesign/pref-calender-over.jpg'" onmouseout="document.calendar.src='/images/newdesign/pref-calender.jpg'">
+	                    	<%= image_tag("/images/newdesign/pref-calender.jpg",:name => "calendar",:border => 0,:height => 25,:width => 77) %>
+                        </a>
+                    </li>
+                  </ul>
+                  <ul class="prefbutton">
+                    <li>
+                    	<a href="<%= my_profile_url %> " onmouseover="document.profile.src='/images/newdesign/edit-profile-over.jpg'" onmouseout="document.profile.src='/images/newdesign/edit-profile.jpg'">
+	                    	<%= image_tag("/images/newdesign/edit-profile.jpg",:name => "profile",:border => 0,:height => 25,:width => 74) %>
+                        </a>
+                    </li>
+                    
+                    <% if !private_mw? %>
+                    <li>
+                    	<a href="<%= contacts_url %> " onmouseover="document.contacts.src='/images/newdesign/pref-contacts-over.jpg'" onmouseout="document.contacts.src='/images/newdesign/pref-contacts.jpg'">
+	                    	<%= image_tag("/images/newdesign/pref-contacts.jpg",:name => "contacts",:border => 0,:height => 26,:width => 77) %>
+                        </a>
+                    </li>
+                    <% end %>
+                    
+                    <li>
+                    	<a href="<%= my_account_url %> " onmouseover="document.setting.src='/images/newdesign/pref-setting-over.jpg'" onmouseout="document.setting.src='/images/newdesign/pref-setting.jpg'">
+	                    	<%= image_tag("/images/newdesign/pref-setting.jpg",:name => "setting",:border => 0,:height => 25,:width => 77) %>
+                        </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div style="float:left; clear:both;"><img src="/images/newdesign/search_images/bottom-search-right.jpg" border="0" width="299" height="10" /></div>
+              <!-- END pref box start on 18 dec 2009-->
+              <!-- start idea meeting box start on 18 dec 2009-->
+              <div style="clear:both;"><img src="/images/newdesign/search_images/top-search-right.jpg" border="0" width="299" height="9" /></div>
+              <div class="rightformbg">
+                <div style="width:280px; background-color:#d3e1ea; margin:0 0 0 0;">
+                  <p class="prefimg"><img src="/images/newdesign/my-idea-meeting.jpg" border="0" width="213" height="17" /></p>
+                  <p style="padding:12px 0 10px 20px;"><a href="/post_invite/new_create" onmouseover="document.but.src='/images/newdesign/search_images/create-my-meeting-over.jpg'" onmouseout="document.but.src='/images/newdesign/search_images/create-my-meeting.jpg'" ><img src="/images/newdesign/search_images/create-my-meeting.jpg" name="but" border="0"/></a></p>
+                </div>
+              </div>
+              <div style="float:left; clear:both;"><img src="/images/newdesign/search_images/bottom-search-right.jpg" border="0" width="299" height="10" /></div>
+              <!-- END idea meeting box start on 18 dec 2009-->
+              <div style="clear:both;"><img src="/images/newdesign/search_images/top-search-right.jpg" border="0" width="299" height="9" /></div>
+              <div class="rightformbg">
+                <p>
+                <%= form_tag('', :id => 'search_filter', :onsubmit => "window.location.href = '/ssearch?' + Form.serialize(this); return false;") %>
+                <div style="width:280px; background-color:#d3e1ea; margin:0 0 0 19px;">
+                <table width="268" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td colspan="3"><p><img src="/images/newdesign/search_images/search-r-ight-head.jpg" border="0" width="102" height="14" style="margin:0 0 0 3px;" /><span class="mapmyinvitelink"><% if !private_mw? %><a href="/browse/map" target="_blank" class="maplink">Map</a><% else %>&nbsp;<% end %></span></p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Meeting Type<br />
+                        <%= activity_new %>
+                      </p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Keyword<br />
+                        <%= keywords %>
+                      </p>
+                      <p class="seasmatext">e.g. iPhone, agile development, green</p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Location-limit search by</p></td>
+                  </tr>
+                  <tr> 
+ 					<td width="16"><p>
+                       <input type="checkbox" name="vcheck" id="vcheck" onclick="vcheckuncheck();" <%= "checked" if !params[:vcheck].nil? && params[:vcheck] == "on" %> style="margin-left:4px; >margin-left:0px;"/>
+                        <input type="hidden" value="<% if !params[:search_filter].nil? %><%= params[:search_filter][:virtual_f] %><% else %>0<% end %>" id="virtual_f" name="search_filter[virtual_f]">
+
+                      </p></td>
+                     <td width="162"><p class="firstlabeltext_new">Virtual Meetings</p></td>
+                    <td width="90">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" height="6"></td>
+                  </tr>
+                 
+                  <tr>
+                    <td><input type="checkbox" id="faf"  onclick="facetoface();" <%= "checked" if !params[:checked_locat].nil? && params[:checked_locat] == "1" %> style="margin-left:4px; >margin-left:0px;"/>
+                    </td>
+                    <td><p class="firstlabeltext_new">Face-to-Face Meetings...</p></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <input type="hidden" value="<%= params[:checked_locat] %>" id="checked_locat" name="checked_locat">
+                  <tr>
+                    <td colspan="3">
+                    <div id="facetoface" <%= 'style="display:none;"' if params[:checked_locat] != "1" %>>
+						<%= render :partial => "browse/f2f" %>
+                    </div>
+                    </td>
+                  </tr>
+                 
+                  <tr>
+                    <td colspan="3"><div style="border-bottom:1px dotted #989898; margin:6px 0 0 0;">&nbsp;</div></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" height="6">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td><p>
+                        <input type="checkbox" name="rom" id="rom" <% if !params[:search_filter].nil? && params[:search_filter][:romance] == "19" %>checked<% elsif params[:search_filter].nil? %>checked<% end %> onclick="romancecheck();" style="margin-left:4px; >margin-left:0px;"/>
+                        <input type="hidden" value="<% if params[:search_filter].nil? %>19<% else %><%= params[:search_filter][:romance] %><% end %>" id="romance" name="search_filter[romance]">
+                        <%= hidden_field 'search_filter', 'client_tz_offset', :value => ''  %>
+                      </p></td>
+                    <td><p class="firstlabeltext_new">Exclude Romance</p></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  
+                  <%= render :partial => "browse/advanced_opt" %>
+                  
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="2"><p>
+                         <input type="image" src="/images/newdesign/search_images/search-fm-button.jpg" border="0" width="157" height="42" style="margin:17px 0 0 70px;" onmouseover="this.src= '/images/newdesign/search_images/search-find-meet-btn-over.jpg';" onmouseout="this.src = '/images/newdesign/search_images/search-find-meet-btn.jpg';"/>
+                      </p></td>
+                  </tr>
+                  
+                </table>
+              </div>
+              </form>
+                </p>
+              </div>
+              <div style="float:left; clear:both;"><img src="/images/newdesign/search_images/bottom-search-right.jpg" border="0" width="299" height="10" /></div>
+              <!-- start recommend box start on 18 dec 2009-->
+              <!--div style="clear:both;"><img src="/images/newdesign/search_images/top-search-right.jpg" border="0" width="299" height="9" /></div>
+			  <%#= render :partial => "contacts" %>
+              <div style="float:left; clear:both;"><img src="/images/newdesign/search_images/bottom-search-right.jpg" border="0" width="299" height="10" /></div-->
+              <!-- END recommend box start on 18 dec 2009-->
+            </div>
+            <!-- search right form End-->
+          </td>
+          
+          <%= render :partial => "location_change" %>
+          <%= render :partial => "meeting_alert",:locals => {:searches => (@viewer.saved_searches rescue [])} %>

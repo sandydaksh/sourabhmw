@@ -1,0 +1,23 @@
+<% widget_id = "jobs_#{profile_widget.id}" %>
+<div class="pwidget" id="<%= widget_id %>">
+	
+	<div class="header">
+		<h3 >EMPLOYMENT</h3>
+	</div>
+	
+	<!-- NONE EXIST YET -->
+	<% if member_profile.jobs.blank? %>
+			<p class="noneyet">
+				No jobs listed yet.
+			</p> 
+	<% end %>
+	
+	<!-- VIEW -->
+	<div class="view">
+		<% @member_profile.jobs.each do |job| %>
+			<h4 class="subheader"> <%= job.title.upcase %> </h4>
+			<h5 class="entry"> <%= format_job(job) %> </h5>
+		<% end %>
+	</div>
+	
+</div>

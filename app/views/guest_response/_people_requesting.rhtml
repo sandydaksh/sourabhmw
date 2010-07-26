@@ -1,0 +1,57 @@
+<div id="people_requesting" class="widgetinvites guest_responses"<%= ' style="display:none"' if (@meeting.people_requesting_invites.blank?) %>>
+	<h3 class="sectionhead">PEOPLE WHO'VE ASKED TO ATTEND</h3>
+	<% unless(@meeting.people_requesting_invites.blank? or @meeting.expired?) %>
+	<div class="acceptances_awaiting_response" id="acceptances_awaiting_response_msg">You have 
+		<span id ="acceptances_awaiting_response_count"><%= pluralize(@meeting.people_requesting_invites.length, "acceptance") %></span> 
+		awaiting your approval. 
+		<%= "  Click the blue \"+\" icon to approve or decline any outstanding acceptance."  %>
+	</div>           
+	<% end %>
+	<table summary="guest_responses">
+		<thead>
+			<tr>
+				<th scope="col" id="guest_responses_1">Member</th>
+				<th scope="col" id="guest_responses_2">Response</th>
+				<th scope="col" id="guest_responses_3">Comments</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% @meeting.people_requesting_invites.each_with_index do |member, idx| %>
+			<% row_class = ((idx % 2 == 0) ? "odd" : "even") %>   
+			<% conf = member.confirmation_for(@meeting) %>
+			<tr class="<%= row_class -%>" id="conf_<%= conf.id %>" >
+				<td class="username" id="col1_<%= conf.id %>" style="<%= bg_for_row(conf.member, row_class) %>">
+                  <%= toggle_row(member.user_name, conf.id) %> <br/>
+                  <p class="member_stats"> <%= truncate(member.fullname.capitalize_each_word) %> </p>
+				</td>
+				<td class="status" id="approve_reject_status_<%= conf.id %>"> 
+                  <p> <%= conf.status.simple_name == "Invite Requested" ? "Invite<br/>Requested" : conf.status.simple_name %>  </p>
+				</td>
+				<td class="comment" id="col3_<%= conf.id %>">  
+					<%= most_recent_msg_txt(@meeting, viewer, member) %> 
+				</td>
+				<td class="close" id="col4_<%= conf.id %>">
+					<%= open_button(conf.id, row_class) %>
+					<%= close_button(conf.id, row_class) %>
+				</td>
+			</tr>
+
+			<tr id="details_<%= conf.id %>" class="details_row" style="display: none; ">
+			<td colspan="4">
+			<div class="details_left">
+				<%= render :partial => '/guest_response/profile_snippet', :locals => { :member => member } %>
+			</div>
+			<div class="details_right"> 
+			<%= render :partial => '/guest_response/message_thread', :locals => { :past_messages => @meeting.messages_for_viewer(member), :inviter => @meeting.invitation.inviter } %>                                                      
+			<% if( conf.status == Status['confirmed']) %>     
+				<%= render :partial => '/guest_response/simple_message', :locals => { :member => member } %>
+			<% else %>
+				<%= render :partial => '/guest_response/approve_reject_message', :locals => { :conf => conf } %>
+			<% end %>
+			</div>
+			</td>
+			</tr>
+		<% end %>
+		</tbody>		
+  </table>
+</div>

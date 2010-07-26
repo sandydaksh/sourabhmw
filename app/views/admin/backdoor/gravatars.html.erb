@@ -1,0 +1,25 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<h1> With Gravatar </h1>
+<% Member.find(:all, :conditions => [ "source != 'facebook'"] ).each do |user| %>
+  <% if user.member_profile.picture.nil? %>
+	  <% unless user.email.blank? %>
+		  <%= gravatar_for(user, :default =>  "http://assets1.meetingwave.com/images/ttb/default_pic.jpg") %>
+	  <% end %>
+  <% else %>
+	  <%= image_tag(thumb_url(user.member_profile.picture.id), :width => "50", :height => "50") %> 
+  <% end %>
+
+<% end %>
+
+<h1> Without Gravatar </h1>
+<% Member.find(:all, :conditions => [ "source != 'facebook'"] ).each do |user| %>
+  <% if user.member_profile.picture.nil? %>
+	  <%= image_tag("/images/ttb/default_pic.jpg", :width => "50", :height => "50") %>
+  <% else %>
+	  <%= image_tag(thumb_url(user.member_profile.picture.id), :width => "50", :height => "50") %>
+  <% end %>
+<% end %>

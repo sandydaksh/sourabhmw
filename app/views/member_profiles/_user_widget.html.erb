@@ -1,0 +1,118 @@
+<% widget_box_id = "user_widget_#{profile_widget.id}" %>
+
+<div class="pwidget" id="<%= widget_box_id %>">
+	
+	<div class="header edit_mode">
+		<h3 class="movable"><%= profile_widget.title %></h3>
+		<h5><%= link_to_remote('DEL', :url => {:action => 'delete_widget', :id => profile_widget.id}, 
+									  :html => {:class => 'pdelete'},
+									  :confirm => 'Are you sure you want to delete this box?') %></h5>
+		<h5><%= link_to_function('EDIT', "editProfile('#{widget_box_id}');", :class => 'pedit') %></h5>
+		
+	</div>
+	
+	<!-- VIEW -->
+	<% should_display_view = (new_profile_section.nil? rescue true) ?  'block' : 'none' %>
+	<div class="view" style="display: <%= should_display_view %> ;" >
+		<% profile_widget.profile_sections.each do |section| %>
+			<h4 class="subheader"> <%= section.name.upcase %> </h4>
+			<h5 class="entry"> 
+					<%= section.section_details.collect(&:text).join("<br/>") %> 
+			</h5>
+		<% end %>
+	</div>
+	
+	<!-- EDIT -->
+	<% should_display_edit = (new_profile_section.nil? rescue true) ? 'none': 'block' %>
+	<div class="edit" style="display: <%= should_display_edit %>;" >
+	
+	 	<% profile_widget.profile_sections.each do |section| %>	
+	
+	 		<div id="view_subsection_user_<%= section.id %>" class="edit_box">		
+ 				<h4 class="subheader"> <%= section.name.upcase %> <br/>
+					<%= link_to_function('EDIT', "editProfileSubsection('user_#{section.id}');", :class => 'edit_link') %>
+					<%= link_to_remote('DEL', {:url => { :action => 'delete_profile_section', :id => section.id}, 
+										  :confirm => "Are you sure you want to delete this list?"}, 
+										  :class => 'delete_link', :alt => "DELETE", :title => "DELETE") %>
+	 			</h4>
+				<h5 class="entry">  <%= section.section_details.collect(&:text).join("<br/>") %> &nbsp; </h5>
+
+	 		</div>
+	
+			<div id="edit_subsection_user_<%= section.id %>" class="edit_subsection" style="display: none;">
+				<% form_remote_tag(:url => {:action => 'update_profile_section'}) do -%>
+	 				<%= hidden_field_tag('profile_section[id]', section.id) %>
+					<p class="section">
+	 					<label>CATEGORY:</label>
+	 					<%= text_field_tag("profile_section[name]", section.name, :class => 'txt section_heading') %>
+	 				</p>
+					<% section.section_details.each do |detail| %>
+	 					<p class="detail">
+	 						<label>Item:</label>
+	 						<%= text_field_tag("section_detail[#{detail.id}][text]", detail.text, :class => 'txt section_detail') %>
+	 					</p>
+					<% end %>
+	 				
+                 <%=  widget_buttons("cancelEditProfileSubsection('user_#{section.id}');") %>
+
+	 			<% end %>
+	 		
+	 		</div>
+	 		
+	 	<% end %>
+	
+		<!-- ADD NEW SECTION -->
+		
+		<!-- ADD NEW LINK -->		
+		<% should_display = (new_profile_section.nil? rescue true) ? 'block': 'none' %>
+		<div id="edit_subsection_add_new_user_<%= profile_widget.id %>_button" style="display: <%= should_display %>;" class="add_new_buttons">
+			<%= link_to_function('ADD NEW', "addProfileSubsection('user_#{profile_widget.id}');", :class => 'add_link' ) %>
+		</div>
+		
+		<!-- ADD NEW FORM -->		
+		<% should_display = (new_profile_section.nil? rescue true) ? 'none': 'block' %>
+		<div id="edit_subsection_add_new_user_<%= profile_widget.id %>" style="display: <%= should_display %>;" class="add_new_subsection">
+			<% form_remote_tag(:url => {:action => 'add_profile_section'}, :loading => loading_script("add_new_user_#{profile_widget.id}")) do -%>
+					<% new_profile_section ||= ProfileSection.new %>
+
+					<% unless new_profile_section.errors.size.zero? %>
+					  <p class="widget_error_explanation"> Please fix the following errors and hit the SAVE button again:</p>
+					  <ul class="widget_errors">  
+						<% new_profile_section.errors.full_messages.each do |msg| %>
+							<%= content_tag('li', msg + '.', :class => 'widget_error') %>
+						<% end %>
+					  </ul>
+					<% end %>
+
+					<%= hidden_field_tag('profile_widget[id]', profile_widget.id) %>
+					<p class="section">
+						<label>CATEGORY:</label>
+						<%= text_field_tag("new_profile_section[name]", new_profile_section.name, :class => 'txt section_heading') %>
+					</p>
+					<p class="detail">
+						<label>Item:</label>
+						<%= text_field_tag("new_section_details[text][]", new_profile_section.name, :class => 'txt section_detail') %>
+					</p>
+					<p class="detail">
+						<label>Item:</label>
+						<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+					</p>
+					<p class="detail">
+						<label>Item:</label>
+						<%= text_field_tag("new_section_details[text][]", '', :class => 'txt section_detail') %>
+					</p>
+					<div id="new_details_<%= profile_widget.id %>">
+						<%= link_to_function('ADD ITEM', "addDetailRowToExistingWidget('#{profile_widget.id}');", :class => 'more_details' ) %>
+					</div>
+					
+          
+          <%=  widget_buttons("cancelAddProfileSubsection('user_#{profile_widget.id}');") %>
+
+			<% end %>
+		</div>
+		<%= profile_spinner("add_new_user_#{profile_widget.id}") %>
+	</div>
+	
+	
+
+</div>

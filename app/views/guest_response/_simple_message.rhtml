@@ -1,0 +1,19 @@
+<div id="simple_message_form_<%= member.id %>">
+	<%= form_remote_tag(:url => send_simple_message_url, 
+	  :loading => "Element.hide('smf_#{member.id}'); Element.show('spinner_#{member.id}');", :html => { :id => "smf_#{member.id}" }) %>
+	<h4 class="send_message">NEW MESSAGE</h4>
+	<%= hidden_field_tag 'message[member_id]', member.id %>
+	<%= hidden_field_tag 'message[meeting_id]', @meeting.id %>
+	<%= text_area_tag 'message[body]', nil, :id => 'response_box_wide' %>
+	<div class="send_button_bar">
+		<%= send_submit() %>
+	</div>
+	</form>
+
+	<div id="spinner_<%= member.id %>" style="display: none;">
+		<%= image_tag('/images/ttb/spinner.guest_response.gif', :style => 'margin-left: 100px; margin-top: 20px;') %>
+	</div>
+
+</div>
+
+

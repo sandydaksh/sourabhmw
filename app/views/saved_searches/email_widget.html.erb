@@ -1,0 +1,28 @@
+<div id="save-search-box" >
+  <div id="save-search-header" class="clearfix">
+     <h2> Create Meeting Alert </h2>
+     <%= link_to_function(button_image('close.green'), "Element.hide('search_config');") %>
+  </div>
+  <div id="save-search-form">
+   <% remote_form_for(:saved_search, :url => save_search_url({:data => params[:search_filter]}), :before => "Element.show('email_saving');" ) do |f|  %>
+        <div class="formbit" style="margin-bottom: 0px; margin-top: 0px;">
+          <label>Name</label> <%= f.text_field(:name) %> <br/>
+        </div>
+        <div class="formbit clearfix" style="margin-bottom: 0px; margin-top: 0px;">
+          <label id="email-me-label">Email</label>  <div id="email-me"><%= f.check_box(:email) %> 
+            Send me a daily email with all new invites that match this search.
+            </div><br/>
+        </div>
+        <div id="email-alert-button-box">
+          <%= ibutton('save_small') %> <%= link_to_function(button_image('cancel_small'),"Element.hide('search_config')") %> 
+          <%= image_tag("meetingwave/indicators/spinner.small.gif", :id => "email_saving", :style => "display:none;") %>
+        </div>
+   <% end %>
+   </div>
+   <%= link_to_function("View All Meeting Alerts", "showCurrentEmails()", :id => "view-all-meeting-alerts", :class => "arrow-link searheadtext") %>
+</div>
+
+<div id="current_emails" style="display:none; position:absolute;">
+    <%= render :partial => "/saved_searches/current_emails" %>
+</div>
+

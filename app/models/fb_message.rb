@@ -1,0 +1,3 @@
+class FBMessage < FacebookMessage
+  
+end

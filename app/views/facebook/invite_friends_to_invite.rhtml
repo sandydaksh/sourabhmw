@@ -1,0 +1,13 @@
+<% self.extend(TTB::FacbookInviteUrlOveride) %>  
+<fb:request-form action="<%= bebo_request? ? "social_network/dashboard" :  "dashboard"  %>" 
+				 method="POST" 
+				 invite="false" 
+				 type="MeetingWave.com" 
+					 content="<%= h(render( :partial => 'friend_approval')) %>.  
+				 				<fb:req-choice url='<%= show_invite_url(:id => @invitation.id) %>' label='RSVP' /> 
+				 " >
+<fb:multi-friend-selector 
+	showborder="false" 
+	actiontext="Invite your friends to <%= @invitation.name %>" 
+	 max="20" />
+ </fb:request-form>

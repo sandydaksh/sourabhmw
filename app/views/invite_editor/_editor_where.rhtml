@@ -1,0 +1,115 @@
+  <div class="outer" id="wherebox">
+		<h2 id="wheretab">&nbsp;</h2>
+		<div class="inner1">	
+			<div class="formwrap">
+			 <div class="formbit_small">
+		        <p class="address_instructions"> This meeting takes place at:  
+				<%= select_tag('address[kind]', options_for_select([['a regular address', 'regular'], ['a tradeshow or conference', 'conference'], ['an airport', 'airport']], @address.kind)) %>
+		 	    <%= observe_field('address[kind]', :frequency => 1, :on => :click, :function => "new function() { showAddressType($F('address[kind]')); };") %>
+				</p> 
+		      </div>
+
+		      <%= address_div_open('regular', @invitation) %>
+		        <%= error_messages_for('address', :header => '', :attributes_order => [:base, :name, :address, :address2, :city, :state, :zip, :country], :user_facing_names => Address::USER_FACING_NAMES) %>
+		      
+		      <div id="location_box" class="formbit_small">
+		        <h3>LOCATION*</h3>         
+		        <%= location_input(:class => 'txt', :onkeypress => 'return noenter()') %>
+		        <%= image_tag('/images/ttb/spinner.small.gif', :id => 'addr_spinner', :style => 'display:none;')%>
+				<div id="address_name_auto_complete" class="auto_complete">  </div>
+		        <%= javascript_include_tag 'address_ac_update' %>
+		      </div>
+
+			  <div id="location_clear" style="clear:both; height: 1px;"> &nbsp; </div>
+
+
+		    </div>
+
+		    <%= address_div_open('conference', @invitation) %>
+		        <%= error_messages_for('address', :header => '', :attributes_order => [:conference, :address, :address2, :city, :state, :zip, :country], :user_facing_names => Address::USER_FACING_NAMES) %>
+		    <div class="formbit_small">
+		      <h3>CONFERENCE/TRADE SHOW</h3>
+		      <%= text_field('address', 'conference', :class => 'txt', :onkeypress => 'return noenter()')  %>
+		      <%= image_tag('/images/ttb/spinner.small.gif', :id => 'conf_spinner', :style => 'display:none;')%>
+		      <div id="address_conference_auto_complete" class="auto_complete">  </div>
+		      <%= javascript_include_tag 'address_conference_ac_update' %>
+		    </div>
+		  </div>
+          
+  
+          	<div class="formbit_small undisclosed_checkbox" style="float:right;">     
+					<%= undisclosed_checkbox(:airport_version => false)%>	  
+			  	</div>
+		  <div id="base_address_form" style="<%= 'display: none;' if(@address.kind == 'airport') %>"> 
+			
+	   
+		    
+			<div class="formbit_small"> 
+		      <h3>ADDRESS<!--*--></h3>
+		      <%= text_field('address', 'address', :class => 'txt')  %>
+		    </div>
+
+		    <div class="formbit_small">
+		      <h3>ADDRESS 2</h3>
+		      <%= text_field('address', 'address2', :class => 'txt')  %>
+		    </div>
+ 
+		    <div class="formbit_small">
+		      <h3>CITY*</h3>
+		      <%= text_field('address', 'city', :class => 'txt')  %>
+		    </div>
+
+                     <% cache "editor/state/_#{@address.state || "none"}" do %>
+		    <div class="formbit_small state">
+		      <h3>STATE*</h3>
+		      <%= us_state_select('address', 'state', {:include_blank => true}, { }) %>
+		    </div>
+  <%end%>
+
+		    <div class="formbit_small zip">
+		      <h3>ZIP</h3>
+		      <%= text_field( 'address', 'zip', :class => 'txt') %>
+		    </div>
+
+		  </div>
+
+		  <%= address_div_open('airport', @invitation) %>
+		        <%= error_messages_for('address', :header => '', :attributes_order => [:base, :airport_id, :airport_non_us, :terminal_gate, :country], :user_facing_names => Address::USER_FACING_NAMES) %>
+			 
+				<div class="formbit_small">
+					<h3>AIRPORT IS:</h3>
+					<%= select('address', 'airport_type', Address::AIRPORT_TYPES, {:selected => (@address.airport_type.to_sym rescue :airport_us) }, :onChange => "showAirportType(this.value);" )%>
+				</div>
+  
+    
+                  <% cache "editor/airport/_#{@address.airport_id || "none" }" do %>
+		  <div class="formbit_small" id='airport_us' style="<%= 'display: none;' if(@address.airport_type == 'airport_non_us') %>">
+		    <h3>AIRPORT</h3>
+		    <%=select('address', 'airport_id', Airport::AIRPORT_OPTIONS, { :include_blank => true })%>
+		  </div>  
+                  <% end%>
+
+
+
+		  <div class="formbit_small" id='airport_non_us' style="<%= 'display: none;' if(@address.airport_type == 'airport_us') %>">
+		    <h3>AIRPORT*</h3>
+		    <%=text_field('address', 'airport_non_us', :class => 'txt' )%>
+		  </div>
+
+		  <div class="formbit_small">
+		    <h3>TERMINAL/GATE*</h3>
+		    <%= text_field('address', 'terminal_gate', :class => 'txt')  %>
+		  </div>
+		</div>
+
+		<div class="formbit_small" id="address_country_div" style="<%= 'display: none;' if(@address.airport? && @address.airport_type == 'airport_us') %>">
+		  <h3>COUNTRY*</h3>
+          <%= mw_country_select( 'address', 'country_airport', ["United States", "Canada"], {:include_blank => true}, :onchange => "disable_enable_state_field();") %>
+		</div>
+
+		</div>
+		</div>
+	</div>                                                                         
+    <%= javascript_tag( "Event.observe(window, 'load', disable_enable_state_field  );" ) %>
+
+    

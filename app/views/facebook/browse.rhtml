@@ -1,0 +1,44 @@
+
+<fb:editor action="?search=true" labelwidth="75" >   
+
+ 
+<fb:editor-text label="Keywords" name="search_filter[terms]" value="<%=  @search_filter.terms %>"/>               
+ 
+     <fb:editor-text label="Zip" name="search_filter[zip]" value="<%=  @search_filter.zip %>"/>               
+    <fb:editor-text label="City" name="search_filter[city]" value="<%= @search_filter.city %>"/>
+	 <fb:editor-custom label="State"> 
+	         <%= state %>
+	</fb:editor-custom>   
+    
+    <fb:editor-custom label="Country"> 
+         <%= country %>
+    </fb:editor-custom>    
+
+        <fb:editor-custom label="Within"> 
+         <%= radius %>
+   </fb:editor-custom>    
+    <fb:editor-text label="On or After "maxlength="12"  name="search_filter[start_date]" value="<%=  (@search_filter.start_date || Date.today).strftime("%m/%d/%Y") %>"/>               
+     <fb:editor-text label="Before" maxlength="12" name="search_filter[end_date]" value="<%=  (@search_filter.end_date || (Date.today + 365)).strftime("%m/%d/%Y") %>"/>               
+    
+     <fb:editor-buttonset> 
+ 			<fb:editor-button value="Search"/>  
+	 </fb:editor-buttonset>    
+	
+</fb:editor> 
+
+<div id="search_results" style="margin:5px;padding:10px;border-top:thin solid black;">    
+<%= inline_stylesheet('facebook/invite_list.css') %> 
+    <% if @invites.blank? and @searched %>
+      We could not find any matching invitations.  Please broaden your search criteria and try again. <br/><br/>
+    <% elsif(!@invites.blank? ) %>  
+     <div class="paginate_container">
+       <%= will_paginate(@invites, :params => (@search_filter.to_params rescue {} ))  %> 
+   </div>  
+    <br clear="both"/>
+    <div id="invite_list">
+	   <%= render :partial => 'invite_list' %>
+	</div>   
+	<% end %>
+</div>
+
+

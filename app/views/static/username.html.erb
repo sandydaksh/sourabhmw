@@ -1,0 +1,50 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<p style="padding:0 26px 0 26px;">
+MeetingWave members can propose networking meetings that can be accepted by anyone thereby meeting new people, with control, privacy & flexibility. Click <a onclick="document.getElementById('how').style.display='block';document.getElementById('fade_how').style.display='block'" href="javascript:void(0)">How It Works</a> to learn more.
+</p><br />
+<p style="padding:0 26px 0 26px;">
+MeetingWave profile pages help other users to make informed decisions about who they choose to meet with and can include meeting interests, past or present employers, job title/profession, industry, schools attended, home town, interests, etc.
+</p><br />
+<p style="padding:0 26px 0 26px; font-weight:bold;">
+Verified Profiles 
+</p><br />
+
+<p style="padding:0 26px 0 26px;">
+Members can also have their work or alumni email addresses "verified" by
+MeetingWave and display an indication of that verification on their profile.
+When someone sees verified email domains (e.g., @ibm.com or @brown.edu) on a
+profile, they will know the user must be associated with the university or
+company identified in the email domain helping people feel more comfortable
+meeting the user (and vice versa). Only the verified domain is displayed - the
+user's personal email address will not be disclosed for everyone to see.
+</p><br />
+
+<p style="padding:0 26px 0 26px; font-weight:bold;">
+Use Virtually Anywhere
+</p><br />
+
+<p style="padding:0 26px 0 26px;">
+Members can use their verified profile urls (meetingwave.com/p/username) on
+LinkedIn, with blog comments, and when using Craigslist. And - request to see
+someone else's before meeting them or before bringing them into their network
+or agreeing to buy or sell an item on Craigslist.
+</p><br />
+<p style="padding:0 26px 0 26px;">
+In order to create a Profile, you must be a registered user.
+</p><br />
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+</div>
+</div>
+
+<%= render :partial => 'shared/how_it_works' %>
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+
+<%= render :partial => 'shared/about' %>
+<% end %>

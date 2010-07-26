@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head> 
+<%= title_tag %> 
+<style type="text/css">
+	div.navigation { 
+		background-color: lightgrey; 
+		font-family: arial; 
+		font-size: 8pt; 
+	} 
+	span.company {
+		font-size: 3pt; 
+		font-family: arial; 
+	}
+	h3.section {
+		font-family: helvetica; 
+		font-weight: bold;
+		/*background-color: #c8dffa; */
+		/*background-color: #42412d;*/
+		background-color: #548404;
+		color: #FFFFFF;
+	}
+
+	.invitename {
+	  font-size: 10pt;
+		font-family: helvetica; 
+		font-weight: bold;
+		background-color: #548404;
+		color: #FFFFFF;
+	}
+
+	.wsection { 
+	   background-color:#eefcd6;
+	   color: #42412d;
+
+	}
+	input.wsection { width: 100%; }
+
+
+	table.guestlist, table.myinvites {
+		font-size: 8pt; 
+		font-family: arial; 
+		width: 100%;
+	}
+
+	table.guestlist thead th {
+	  text-align: left;
+	}
+
+	th.approve_decline, td.approve_decline {
+	  text-align: center;
+	}
+
+	table.myinvites thead tr { background-color: #c9c998; }
+	td.tagline { 
+	   background-color: #d4e0ec; 
+	   color: #42412d;
+       text-align: center;
+	}
+	td.logo {
+		background-color: #FFFFFF;
+       text-align: center;
+
+
+	}
+	tr.even { background-color: #eeeeee; }
+	tr.odd { background-color: #dddddd; }
+	td.home, p.home {
+			background-color:#eefcd6;
+
+
+		text-align: justify;
+		margin:0; 
+		padding: 0;
+   }
+	td.signup, p.signup, div.signup {
+		background-color: #d4e0ec;
+	}
+	table.header { margin-bottom: 10px; }
+	table.guestlist {
+		text-align: center;
+		width: 100%;
+	}
+
+	h3.expired {
+		background-color: #f8711e;
+	}
+	.flabel {
+	  font-weight: bold;
+	}
+	table.editform, div.editform {
+	  width: 100%;
+	  background-color: #c0c0bc;
+	  
+	}
+	table.postform {
+	  width: 100%;
+	  background-color: #f0f0e5;
+	}
+	.piccontainer {
+	text-align: center; 
+	  width: 100%; 
+	  background-color: #DDDDDD;
+	}
+	.required {
+		-wap-input-required: true;
+	}
+	.profileview {
+	  width: 100%; 
+	  background-color: #DDDDDD;
+	}
+	h5.entry {
+	  background-color: #EEEEEE;
+	  
+	  padding-left: 10px;
+
+	}
+	ul.entry { list-style-type: none; }
+	ul.subheader { list-style-type: none; }
+	.profilesection {
+	   border-top: solid 1px #42412d;
+	   border-bottom: solid 1px #a8a88b;
+	   background-color:#eefcd6;
+	   color: #42412d;
+	}
+	.errorExplanation {
+	  background-color: orange;
+	}
+</style>
+
+</head>
+<body>
+
+<div class="navigation"> 
+	<% if @viewer.nil? %>
+		<a href="/">Home</a> | 
+		<%= link_to("Search", find_url) %> |
+		<%= link_to('Sign In', login_url) %> 
+	<% else %>
+		<%= link_to('Home', my_invites_url) %> |
+		<%= link_to('PostInvite', get_started_url) %> |
+        <%= link_to("Search", find_url) %>  |
+		<%= link_to('Log Out', logout_url) %> 
+	<% end %>
+</div> 
+<hr/>
+
+	<%= yield %>
+
+<hr/>
+<div class="navigation"> 
+	<%= mail_to('contact@meetingwave.com', 'Contact', :subject => 'MeetingWave.com Feedback') %> |
+	<%= link_to('Legal', tos_url) %> |
+	<%= link_to('FAQ', help_url) %> | <%= link_to('Non-Mobile', url_for(:controller => 'invitations', :action => 'set_classic')) %> 
+</div> 
+</body>
+</html>

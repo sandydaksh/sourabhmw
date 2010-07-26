@@ -1,0 +1,8 @@
+ <div id="view_subsection_education_<%= education.id %>" class="edit_box" style="<%= education.new_record? ? "display:none;" : "" %>">
+      <% subsection_id = "education_#{education.id}" %>
+      <h5 class="entry">
+          <%= "#{format_timeframe(education)}<br/>" unless format_timeframe(education).blank? %>
+          <%= "#{education.school_name}<br/>" unless education.school_name.blank? %>
+          <%= education.location unless (education.location.blank?) %>
+          </h5>
+        </div>

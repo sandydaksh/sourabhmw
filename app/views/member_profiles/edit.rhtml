@@ -1,0 +1,109 @@
+   <!--[if IE 6]>
+	<style>
+
+		.grad_year {
+			padding-bottom:10px;;
+			margin-bottom:14px;
+			font-size: 1.5em;
+		}
+
+		.first_field_in_float {
+			margin-left: -10px;
+		}
+
+		h3.margin_hack {
+			margin-left: 10px;
+			padding-bottom: 0;
+		}
+		.profile_main {
+			padding: 0;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
+		.pwidget {
+			margin-left: 0;
+		}
+		.edit p.singlerow {
+		   height: 20px;
+		}
+		.edit p input.txt {
+			width: 170px;
+		}
+		.edit p.singlerow input {
+			width: 60px;
+		}
+		
+		
+	</style>
+
+	<![endif]-->
+  
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+	<%= render :partial => '/member_profiles/profile_column', :locals => { :member => @member } %>
+<% if !private_mw? %>
+<div align="right" style="padding-right: 160px; font-size: 11px;">
+<table>
+    <tr>
+    <td width="248" style="background:url(/images/shar-bg.png) no-repeat; width:160px; height:23px;">
+    <div class="addthis_toolbox addthis_default_style" style="padding:0 0 0 4px; margin:2px 0 0 0;">
+    <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c1f684442c3c4d2" class="addthis_button_compact">Share</a>
+    <span class="addthis_separator">|</span>
+    <a class="addthis_button_facebook"></a>
+    <a class="addthis_button_myspace"></a>
+    <a class="addthis_button_google"></a>
+    <a class="addthis_button_twitter"></a>
+    </div>
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c1f684442c3c4d2"></script>
+    </td>
+    </tr>
+</table>  
+</div>
+<% end %>
+
+	<div class="profile_main">
+			<div id="new_box_button">
+					<%= link_to_function(image_tag('/images/ttb/listbox.gif'), 'Element.show("new_profile_widget"); Element.hide("new_html_widget");') %>
+			</div>
+		<br/>
+               <%= render :partial => "profile_message" %>
+
+
+	<div id="column_A" class="widget_column">
+		<% @column_a_widgets.each do |widget| %>
+			<%= render :partial => "#{widget.widget_partial}_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+	</div>
+	
+	<div id="create_column" class="widget_column">
+		<%= render :partial => 'create_widget' %>
+	</div>
+	
+	<div id="column_B" class="widget_column">
+		<% @column_b_widgets.each do |widget| %>
+
+			<%= render :partial => "#{widget.widget_partial}_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+
+	</div>
+	
+	<%= sortable_js %>
+
+
+</div>
+   
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+
+
+
+

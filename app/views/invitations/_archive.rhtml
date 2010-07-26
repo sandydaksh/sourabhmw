@@ -1,0 +1,80 @@
+<% cache(CachingObserver.archives_for_user_key(current_member, params), CachingObserver.archives_ttl) do %>
+  <% setup_archived_meetings %>
+
+
+  <div id="archives">
+
+    <% unless @archived_meetings.blank? %>
+      <div id="archives-filters">
+        <form id="ar-filter-form">
+          <h4 class="left">Show:</h4>
+          <ul>
+            <li> <%= radio_button_tag("ar-filter", "all", true, :onclick => "setFilter(this);") %> All </li>
+            <li> <%= radio_button_tag("ar-filter", "archive-posted", false, :onclick => "setFilter(this);") %> Posted </li>
+            <li> <%= radio_button_tag("ar-filter", "archive-attended", false, :onclick => "setFilter(this);") %> Attended </li>
+          </ul>
+        </form>
+      </div>
+    <% end %>
+
+    <% if @archived_meetings.blank? %>
+      <p id="no-archives">You don't have any old Invites yet.  If you have not yet posted an Invite, you can <%= link_to('post one now ', postinvite_url) %> or <%= link_to('find a public Invite to accept', ssearch_url) %>.
+      </p>
+    <% end  %>
+
+
+    <% @archived_meetings.each do |meeting| %>
+      <% inv = meeting.invitation %>
+      <% begin  %>
+        <div class="wide-inv my-inv <%= @archived_buckets[meeting] %> ">
+          <div class="inv-date"><h4><%= meeting.start_time_local.strftime("%b<br/>%d") %></h4></div>
+          <div class="inv-header">
+            <%= confs_accepted_note(inv) if @viewer == inv.inviter %>
+            <%= link_to(inv.name, show_invite_url(:id => inv.id, :meeting_id => meeting.id)) %><br/>
+            <%= meeting.start_time_local.strftime("%I:%M %p") %>,
+            <%= location_format_short(inv) %>
+          </div>
+
+          <div class="inv-indicators">
+            <a href="<%= show_invite_url(:id => inv.id, :meeting_id => meeting.id) %>" title="Confirmed">
+              <%= meeting.confirmed_invitees.count %> 
+              <%= image_tag("/images/meetingwave/indicators/green_guy.gif") %>
+            </a>
+            <a href="<%= show_invite_url(:id => inv.id, :meeting_id => meeting.id) %>" title="Declined">
+              <%= meeting.declined_invitees.count %> 
+              <%= image_tag("/images/meetingwave/indicators/red_guy.gif") %>
+            </a>
+            <a href="<%= show_invite_url(:id => inv.id, :meeting_id => meeting.id) %>" title="Messages">
+              <%= meeting.messages.count %> 
+              <%= image_tag("/images/meetingwave/indicators/mail.gif") %>
+            </a>
+          </div>
+
+          <div class="inv-desc">
+            <%= inv.description %>
+          </div>
+
+          <div class="inv-poster">
+            <div class="inv-poster-image">
+              <% if(inv.inviter.member_profile.picture rescue false) %>
+                <%= image_tag(mini_thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+              <% end %>
+            </div>
+            <div class="inv-poster-details">
+              Posted by: <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id)) %>
+              <br/>
+              On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+            </div>
+            <div class="inv-buttons">
+
+            </div>
+          </div>
+        </div>
+      <% rescue %>
+      <% end  %>
+    <% end %>
+
+
+  </div>
+
+<% end %>

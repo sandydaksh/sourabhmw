@@ -1,0 +1,166 @@
+
+
+<form action="/" method="post" onsubmit="new Ajax.Request('/post_invite/make_address_hash',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;">
+<% saved_addresses = @viewer.addresses_for_reuse %>
+
+		<div id="light3" class="white_content_common">
+        
+  		<p>
+        
+        <div style="width:648px; margin:0 auto;">
+        <div><img src="/images/newdesign/loc-top-bg.jpg" border="0" width="648" height="7"></div>	
+        
+		  <div style="background:url(/images/newdesign/loc-middle-bg.jpg) repeat-y; width:648px; ">
+          <div  style="width:571px; float:left; padding:25px 0 4px 0;"><p class="cancel-grey"><a href="#invitation_maximum_invitees" onclick="document.getElementById('light3').style.display='none';document.getElementById('fade3').style.display='none'">Cancel &amp; Close</a></p> </div>
+          <div style="float:left; width:59px;"><a href = "#invitation_maximum_invitees" onclick="document.getElementById('light3').style.display='none';document.getElementById('fade3').style.display='none'">
+         
+          <img src="/images/newdesign/location-close.jpg" border="0" width="28" height="26" style="margin:17px 0 4px 5px;"></a> </div>
+         
+          
+          <div style="clear:both;">
+          
+          <table width="544" border="0" cellspacing="0" cellpadding="0" align="center">
+  
+ 
+  <tr>
+    <td valign="top" width="234"><table width="234" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2"><img src="/images/newdesign/specify-location.jpg" border="0" width="229" height="33" style="margin:0 0 0 5px;"></td>
+    </tr>
+  <tr>
+    <td colspan="2"><p class="loctext">LOCATION OPTIONS</p></td>
+    </tr>
+  <tr>
+    <td width="20" valign="top"><p><img src="/images/newdesign/unselected.png" onclick="Togglepopup('light1');Togglefade('fade1');"></p></td>
+    <td width="214" valign="top"><p class="specify-text-unselect">Decide Location Later</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><img src="/images/newdesign/unselected.png" onclick="Togglepopup('light2'); Togglefade('fade2');"></p></td>
+    <td valign="top"><p class="specify-text-unselect">New Location</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><img src="/images/newdesign/selected.png" onclick="Togglepopup('light3'); Togglefade('fade3'); resise();"></p></td>
+    <td valign="top"><p class="specify-text-selected">Saved Location</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><img src="/images/newdesign/unselected.png" onclick="Togglepopup('light4'); Togglefade('fade4');"></p></td>
+    <td valign="top"><p class="specify-text-unselect">Airport</p></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="8"></td>
+    </tr>
+  <tr>
+    <td valign="top"><p><img src="/images/newdesign/unselected.png" onclick="Togglepopup('light5'); Togglefade('fade5'); resise();"></p></td>
+    <td valign="top"><p class="specify-text-unselect">Search for a Location</p></td>
+  </tr>
+  
+</table>
+</td>
+    <td width="310" valign="top">
+ <% unless saved_addresses.blank? %>
+ <div style="overflow:auto; border-bottom-color:#99FFFF; height:380px;">
+ <% saved_addresses.each do |address| %>
+  <div style="border-bottom:1px solid #000000;">
+    <table width="310" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2">
+    <p style="font-family:Arial, Helvetica, sans-serif; font-size:11PX; color:#333333; padding:51px 0 3px 0; text-transform:uppercase;">Location Name<br>
+    <span class="displaytext"><%= address.name %></span>
+     </p>
+     </td>
+  </tr>
+  <%=hidden_field('address', 'kind',:value => "saved") %>
+  <tr>
+    <td width="130" valign="top"><p><a href="#" onclick="document.getElementById('light3').style.display='none';document.getElementById('fade3').style.display='none'; new Ajax.Request('/post_invite/edit_saved_location?id=<%= address.id %>',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false;" class="outcreate">Edit Saved Location?</a></p></td>
+    <td width="180"><%= radio_button_tag('address[id]', address.id, (@address.id == address.id)) %></td>
+  </tr>
+  <tr>
+    <td colspan="2"><p class="add">ADDRESS<br>
+      <span class="displaytext"><%= address.address %></span>
+    </p></td>
+  </tr>
+  <tr>
+    <td height="7" colspan="2" valign="top"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><p class="add">country<br>
+    <span class="displaytext"><%= address.country %></span>
+    </p></td>
+  </tr>
+  
+  <tr>
+    <td height="7" colspan="2" valign="top"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><p class="add">city<br>
+    <span class="displaytext"><%= "#{address.city}," unless address.city.blank? %></span>
+    </p></td>
+  </tr>
+  <tr>
+    <td height="7" colspan="2" valign="top"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="310" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="157"><p class="add">STATE<br>
+        <span class="displaytext"><%= "#{address.state}," unless address.state.blank? %></span>
+        <td width="15">&nbsp;</td>
+        <td width="138"><p class="add">ZIP CODE<br>
+        <span class="displaytext"><%= "#{address.zip}," unless address.zip.blank? %></span>
+        </p></td>
+      </tr>
+      
+    </table></td>
+  </tr>
+
+</table>
+</div>
+<% end %>
+</div>
+<% end %>
+
+</td>
+  </tr>
+  
+  <tr>
+    <td colspan="2" valign="top" ><div style="border-bottom:1px dotted #989898; margin:4px 0 0 0; width:510px;">&nbsp;</div></td>
+    </tr>
+  <tr>
+    <td colspan="2" valign="top" >
+    <div style="width:232px; margin:0 0 0 289px;">
+    <table width="232" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2" height="20">&nbsp;</td>
+    </tr>
+  <tr>
+    <td width="102"><p class="cancel-close"><a href="#invitation_maximum_invitees" onclick="document.getElementById('light3').style.display='none';document.getElementById('fade3').style.display='none'">
+         
+         Cancel &amp; Close</a></p></td>
+    <td width="130"><p><input type="image" src="/images/newdesign/continue.jpg" border="0" width="130" height="38" onclick = 	"document.getElementById('light3').style.display='none';document.getElementById('fade3').style.display='none'" onmouseover="this.src= '/images/newdesign/continue-over.jpg';" onmouseout="this.src = '/images/newdesign/continue.jpg';"></p></td>
+  </tr>
+</table>
+</div></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top" height="41"></td>
+  </tr>
+</table>
+
+</div>
+             </div>	        
+           <div><img src="/images/newdesign/loc-bottom-bg.jpg" border="0" width="648" height="7" onclick = 	"document.getElementById('light3').style.display='none';document.getElementById('fade3').style.display='none'"></div>
+          </div>
+          </p>
+        </div>
+        
+		<div id="fade3" class="black_overlay_common"></div>
+ </form>        

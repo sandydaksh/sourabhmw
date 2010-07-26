@@ -1,0 +1,92 @@
+                    	<script type="text/javascript">
+                        	function getdisabled(val)
+                            {
+                            	if (val != "United States")
+                                {
+                                	document.getElementById('search_filter_state').disabled=true;
+                                	document.getElementById('search_filter_airport_id').disabled=true;
+                                }
+                                else
+                                {
+                                	document.getElementById('search_filter_state').disabled=false;
+                                	document.getElementById('search_filter_airport_id').disabled=false;
+                                    document.getElementById('search_filter_country').value=val;
+                                }
+                            }
+                        </script>
+                        
+                        <table width="280" border="0">
+                         <tr>
+                          <td>&nbsp;</td>
+                            <td colspan="2"><p class="firstlabeltext">Within<br />
+                                <%= radius %>
+                              </p></td>
+                          </tr>
+
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                              <span class="firstlabeltext">Zip<br />
+                                <%= zip %>
+                              </span>
+                              
+                              <span class="outside" id="out"> 
+                              	<a href="javascript:Effect.toggle('count');" onclick="Element.hide('out'); Element.show('in');">Ouside US?</a>
+                              </span>
+                              
+                              <span class="outside" id="in" style="display: none;"> 
+                              	<a href="javascript:Effect.toggle('count');" onclick="Element.hide('in'); Element.show('out'); getdisabled('United States');">Inside US?</a>
+                              </span>                              
+                            </td>
+                          </tr>
+
+                          <tr id="count" style="display: none;">
+                            <td>&nbsp;</td>
+                            <td><p class="firstlabeltext">Country<br />
+                                <%= country_home1 %>
+                              </p>
+                            </td>
+                          </tr>
+                          
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                              <p class="outside_location">
+                              	<a href="javascript:Effect.toggle('location_opt');">Expand Location Options &raquo;</a>
+                              </p>
+                            </td>
+                          </tr>
+                          
+                          <td colspan="3">
+                          <table width="280" cellpadding="0" cellspacing="0" border="0" id="location_opt" style="display:none;">
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td><p class="firstlabeltext">Specific Location<br />
+                                    <%= location %>
+                                  </p>
+                                </td>
+                              </tr>
+                              
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td><p class="firstlabeltext">State<br />
+                                    <%= state %>
+                                  </p></td>
+                              </tr>
+                              
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td><p class="firstlabeltext">City<br />
+                                    <%= city %>
+                                  </p></td>
+                              </tr>
+            
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td><p class="firstlabeltext">Us Airport<br />
+                                    <%= airport %>
+                                  </p></td>
+                              </tr>
+                          </table>
+                          </td>
+                        </table>

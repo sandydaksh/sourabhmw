@@ -1,0 +1,8 @@
+ <% cache(CachingObserver.invites_of_interest_key(@invitation)) do %>
+ <div id="related_invites" class="sidebar-box">
+   <h3>Other Invites of Interest </h3>
+ <ul>
+      <%= related_invites_as_list %>
+    </ul>
+  </div>
+ <% end %>

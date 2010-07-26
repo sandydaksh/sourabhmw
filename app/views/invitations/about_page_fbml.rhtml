@@ -1,0 +1,80 @@
+<% self.extend(TTB::FacebookUrlHelper) %>
+
+
+ <div class="features_postinvite">
+
+
+	<div id="hero">
+		<div id="heroFlash">
+		    	<a href="<%= push_parent(canvas_url('post_invite')) %>" class="left"><span>Send a private invite to friends or post an open invite to meet new people. Either way, you decide who attends.</span></a>
+		        <a href="<%= push_parent(canvas_url('upcoming')) %>" class="right"><span>Learn about meetings happening nearby, wherever you may be.</span></a>
+		    </div>
+			<h1>Connect online with people you want to meet offline</h1>
+
+		    <h2>Arrange meetings for any purpose, anytime, anyplace<br/>
+				- whether traveling or near home!
+			</h2>
+
+		    <div id="heroDetails">
+				<div id="columnLeft">
+		    	<h1 class="howitworks">How it works:</h1>
+					<div class="numbered_li">	
+						<div class="numbered_li_img">
+							<%= image_tag('/images/ttb/number1.gif') %> 
+						</div>
+						<div class="numbered_li_txt">
+							Post a public Invite describing who you'd like to meet.
+						</div>
+					 	<div class="clear"/> &nbsp; </div>
+					</div>
+					
+					<div class="numbered_li">	
+						<div class="numbered_li_img">
+							<%= image_tag('/images/ttb/number2.gif') %> 
+						</div>
+						<div class="numbered_li_txt">
+							You'll be notified by email when someone accepts your Invite.
+						</div>
+						<div class="clear"/> &nbsp; </div>
+					</div>
+					
+					<div class="numbered_li">	
+						<div class="numbered_li_img">
+							<%= image_tag('/images/ttb/number3.gif') %> 
+						</div>
+						<div class="numbered_li_txt">
+							Approve the acceptance and your meeting is on!
+						</div>
+						<div class="clear"/> &nbsp; </div>
+					</div>
+			   
+				</div>
+			
+			<div id="columnRight">
+				<h1 class="howitworks">USE IT TO:</h1> 
+		        <ul>
+		           	<li>Network with other professionals</li>
+					<li>Make new friends</li>
+		           	<li>Meet with potential customers</li>
+		           	<li>Learn about topics that interest you</li>
+
+		           	<li>Gather with fellow alumni</li>
+		           	<li>Rally with other sports fans</li>
+		           	<li>Investigate job opportunities</li>
+		
+		        </ul>
+		        <p>
+			    	<a href="<%= push_parent(canvas_url('post_invite')) %>"><span>Get Started - It's Free! &raquo;</span></a>
+				</p>
+			
+				
+	    	</div>
+
+			
+		    
+		  </div>
+
+	</div>
+
+</div>
+

@@ -1,0 +1,43 @@
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<div class="signup_successful_container">
+
+	<div class="welcome_email_container" style="height: 400px;">
+		
+		<h2 class="welcome_email" style="padding-left: 36px;">PLEASE CHECK YOUR EMAIL...</h2>
+		
+		<p style="padding-left: 36px;">
+		We've sent a verification email to the address you provided.
+		You'll need to open this email and follow a link to verify your
+		email address <b>before</b> you can login here.
+		</p>
+		
+		<br/>
+		
+		<p style="padding-left: 36px;">If you don't see this email in your inbox within the next few minutes, please check your junk/spam folder.  
+		   If you can't find the email there, please contact us at: 
+		
+		<%= mail_to('register@meetingwave.com', 'register@meetingwave.com') %>.
+		</p>
+	
+	
+	</div>
+</div>
+
+<br style="clear:both;" />
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+	<%= render :partial => 'shared/signin' %>
+    <%= render :partial => 'shared/how_it_works' %>
+    <%= render :partial => 'shared/about' %>
+<% end %>

@@ -1,0 +1,1 @@
+page.replace("entire_pic", :partial => 'pic', :locals => { :picture => @picture } )

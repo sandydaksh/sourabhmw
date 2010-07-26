@@ -1,0 +1,36 @@
+		<h2 class="big_date">Currently viewing meeting for: <%= @meeting.start_time_local.strftime("%A, %B %d, %Y") if @meeting.start_time_local %> </h2>
+
+		<% if(!@meeting.start_time.nil? && !@meeting.end_time.nil? &&!@meeting.expired? and (@meeting.invitation.inviter == @member) ) %>	
+					<%= acceptances_notice(@meeting.invitation) %>
+		<% end %>
+
+		<div class="sidebar-box">
+		<% if(@member && @member == @meeting.invitation.inviter) %>
+		  <%= render :partial => 'guest_response_inviter', :locals => { :guest_list => @guest_list, 
+																		:outstanding_rsvps => @outstanding_rsvps, 
+																		:member => @member, 
+																		:meeting => @meeting} %>
+		<% else %>
+		  <%= render :partial => 'guest_response', :locals => { :guest_responses => @guest_responses, :member => @member, :meeting => @meeting} %>
+		<% end %>
+	    </div>
+							
+        <% unless @confirmation.blank? %>
+          <div class="sidebar-box">
+			<%= render(:partial => 'messages', :locals => { :invitation => @invitation, 
+										 :meeting => @meeting, 
+										 :member => @member,
+										 :confirmation => @confirmation })  unless (@member.nil? or @member == @invitation.inviter) %>
+										
+          </div>
+        <% end %>
+
+		<div class="sidebar-box">
+			<%= render( :partial => 'reminder_settings', :locals => { :invitation => @invitation, :reminder => @reminder, :member => @member }) unless (@member.nil? or @meeting.start_time.nil? or @meeting.end_time.nil? or @meeting.expired?) %>
+	    </div>
+
+		<% if display_recurring_confirmations(@meeting.invitation, @member) %>
+			<div class="sidebar-box">
+				<%= render :partial => 'recurring_confirmed', :locals => { :member => @member, :meeting => @meeting} %>
+			</div>
+		<% end %>

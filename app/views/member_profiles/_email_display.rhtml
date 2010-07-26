@@ -1,0 +1,56 @@
+<input type="hidden" name="radioselect" value="" id="radioselect" />
+
+<input type="hidden" name="imagevalue" value="" id="imagevalue" />
+
+<div align="center" id="msgdisplay" style="color:#CA5108; font-size:14px;">
+</div>
+
+<ul id="primarydata">
+    <li style="width:40px;">&nbsp;</li>
+    <li style="width:238px; font-weight:bold;">Emails</li>
+    <li class="primarychangecolor" style="width:108px;">&nbsp;</li>
+    <li class="verifieddatatext" style="font-weight:bold; width:62px; padding:0 0 0 13px;">Status</li>
+    <li class="dataveri" style="font-weight:bold; width:97px;">Date Verified</li>
+    <li class="dataveri" style="font-weight:bold;">Display Domain&nbsp;&nbsp;<a  style="color:#155E8D; font-size:14px;" href="#" onclick="document.getElementById('displaydomain').style.display='block';document.getElementById('fade_displaydomain').style.display='block'"><b>(?)</b></a></li>
+</ul>
+<div class="contentdivider"></div>   
+
+
+<!--<ul id="primarydata">
+    <li style="width:40px;"><input type="radio" name="primary" id="primary" value="" class="choicebox" <%#= "checked" if !@primary.include?(true) %>/></li>
+    <li class="primarymailtext" style="width:238px;"><%#= current_member.email %></li>
+    <li class="primarychangecolor" style="width:108px; color:#ca5108; font-weight:bold;"><%# if !@primary.include?(true) %>Primary Address<%# end %></li>
+    <li class="verifieddatatext" style="width:62px;">Verified</li>
+    <li class="dataveri" style="width:97px;"><%#= current_member.updated_at.strftime("%b %d, %Y") if current_member.updated_at %></li>
+    <li class="dataveri">
+		<b style="margin:0 0 0 24px;">Default</b>   
+    </li>
+</ul>
+<div class="contentdivider"></div>
+-->    	 
+
+<% if !@me.nil? %>
+<% @me.each do |me| %>
+<ul id="primarydata">
+    <li style="width:40px;"><input type="radio" name="primary" id="primary" class="choicebox" value="<%= me.id %>" onclick="rvalue(this.value);" <%= "checked" if me.primary %>/></li>
+    <li class="primarymailtext" style="width:238px;"><%= me.email %></li>
+    <li class="primarychangecolor" style="width:108px;"><% if me.primary == true %><b style="color:#ca5108; font-weight:bold;">Primary Address</b><% end %></li>
+    <li class="verifieddatatext" style="width:62px;"><% if me.verified %>Verified<% else %>Unverified<% end %></li>
+    <li class="dataveri" style="width:97px;"><%= me.created_at.strftime("%b %d, %Y") %></li>
+    <li class="dataveri">
+    <% if me.domain_display == false %>
+        <a onclick="new Ajax.Request('/display_domain?id=<%=me.id%>&display=yes', {asynchronous:true, evalScripts:true}); return false;" href="#">
+	        <input style="border:1px #195383; margin:0 0 0 40px;"  name="display" type="checkbox"  value="display" />
+        </a>    
+    <% else %>
+        <a onclick="new Ajax.Request('/display_domain?id=<%=me.id%>&display=no', {asynchronous:true, evalScripts:true}); return false;" href="#">
+	        <input style="border:1px #195383; margin:0 0 0 40px;"  name="display" type="checkbox"  value="display" checked="checked" />
+        </a> <b style="font-size:11px;">Displayed</b>   
+    <% end %>
+    </li>
+</ul>
+<div class="contentdivider"></div>
+<% end %>
+<% end %>
+
+</form>

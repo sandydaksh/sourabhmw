@@ -1,0 +1,54 @@
+<h1><%= link_to("Admin", admin_url) %> > Location Names/Aliases </h1>
+
+<div class="flash">
+  <%= flash[:notice] %>
+</div>
+
+<div id="step1" class="locationsform">
+  <h2>Step 1: Find the place you want to nickname</h2>
+  <p>Enter the correct city and state below.</p>
+  <%= form_remote_tag(:url => { :controller => "admin/locations", :action => "search"}) %>
+  <div class="onelineform clearfix">
+    <label>City</label>
+    <%= text_field_tag('city', '') %> 
+    <label>State</label>
+    <%= text_field_tag('state', '') %> 
+    <%= ibutton('search', :class => 'btn') %>
+  </div>
+  </form>
+</div>
+
+<div id="step2" class="locationsform" style="display: none;">
+  <h2>Step 2: Review the location</h2>
+  <div id="search_results">
+    <p> We found the following location: <span id="zip_code_name">name here</span>.  </p>
+    <p> Please make sure that this is the correct location for which you'd like to
+    add an alias.  Please also make sure that the alias doesn't already exist.
+   
+    <h3>Zip Codes</h3>
+    <div id="zip_codes">
+    </div>
+
+    <h3>Existing Aliases</h3>
+    <div id="existing_aliases">
+
+    </div>
+
+  </div>
+
+  <h2>Step 3: Add a nickname to this place</h2>
+  <p>Add an alias for this city.  This alias will not be case-sensitive, but spaces and punctuation do matter.  N.Y.C. is not the same as NYC.
+  <%= form_tag(:action => :add_alias) %>
+    <%= hidden_field_tag('selected_zip_id', '') %>
+    <div class="onelineform clearfix">
+      <label>City Alias</label> <%= text_field_tag('alias', '') %> <%= ibutton('ok', :class => 'btn') %>
+    </div>
+  </form>
+
+  <script type="text/javascript">
+    function setSelectedZip(id) {
+      $('selected_zip_id').value = id;
+    }
+  </script>
+
+</div>

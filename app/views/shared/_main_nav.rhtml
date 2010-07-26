@@ -1,0 +1,50 @@
+
+<div class="nav_main">
+
+  <div class="nav_a">
+    <ul>
+      <% unless @viewer.nil? %>
+        <li class="<%= selected_class?(:my_invites) %>">
+          <%= link_to("My Invites", my_invites_url) %>
+        </li>
+      <% end %>
+      <li class="<%= selected_class?(:post_invite) %>">
+        <%= link_to('PostInvite<span class="super">SM</span>', 
+                      (selected_class?(:post_invite).blank? ? postinvite_url : '#')) %>
+      </li>
+	  <% unless @viewer.nil? %>
+		  <li>
+			<a href="#" rel="ibox&amp;type=3&amp;height=625&amp;width=515&amp;url=/quickinvite">QuickInvite<span class="super">SM</span></a>            
+		  </li>
+	  <% end %>
+      <li class="<%= selected_class?(:browse) %>">
+        <%= link_to("Browse Invites", browse_url) %> 
+      </li>
+      
+      <li class="<%= selected_class?(:profile) %>">
+        <%= link_to("Profile", my_profile_url)%>            
+      </li>
+
+      <li class="<%= selected_class?(:index) %>">
+        <%= link_to("Universities", universities_path)%>            
+      </li>
+      
+      <li class="<%= selected_class?(:company) %>">
+        <%= link_to("Corporations", companies_path)%>            
+      </li>
+      
+    </ul>
+  </div>
+
+    <div class="nav_b">
+	
+	   <% form_tag(simple_search_url,  :onsubmit => "window.location.href = '/simple_search?' + Form.serialize(this); return false;", :id => 'mainsearch') do -%>
+	      
+			<input class="searchinput" name="terms" value=" " type="text" /> 
+			<input class="searchbutton" name="Submit" value="Search" type="image" src="<%=  button_path("search")%>" alt="Search" />
+       	<% end %>
+	
+
+    </div>
+
+</div>

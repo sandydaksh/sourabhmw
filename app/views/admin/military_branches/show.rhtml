@@ -1,0 +1,8 @@
+<% for column in MilitaryBranch.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @military_branch.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @military_branch %> |
+<%= link_to 'Back', :action => 'list' %>

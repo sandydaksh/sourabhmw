@@ -1,0 +1,35 @@
+<% invites ||= @invites %>
+<h4 class="upcoming_map_title">UPCOMING MEETINGS</h4>
+
+<div id="columntable">
+   <table summary="upcoming invites near...">
+      <thead>
+         <tr>
+            <th scope="col" id="columntable_1">Date</th>
+            <th scope="col" id="columntable_2">Title</th>
+            <th scope="col" id="columntable_3">Location</th>
+         </tr>
+      </thead>	
+      <tbody>
+         <% invites.each do |inv| %>
+            <tr class="<%= cycle('even', 'odd') -%>" >
+               <td><%= inv.short_date %></td>
+               <td><%= short_link(inv) %></td>
+               <td><%= location_format_short(inv) %></td>
+            </tr>
+         <% end %>
+      </tbody>		
+   </table>
+
+
+	<!-- <div class="be_patient">
+		<span class="note_to_users">Note to Users:</span>  
+		Please be patient. It may take time to build a membership of registered users 
+		in your location, but your participation and spreading the news to friends, 
+		family and others in your community will help greatly. If your posted invite 
+		is not accepted by other users in time, please try again. If possible, try 
+		posting your invite weeks before the proposed meeting or event to allow enough 
+		time for other users to browse and accept.  Thanks.
+	</div> -->
+
+</div>

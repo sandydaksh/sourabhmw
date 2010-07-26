@@ -1,0 +1,75 @@
+<% widget_id = "personal_interests_#{profile_widget.id}" %>
+<div class="pwidget personal_interests" id="<%= widget_id %>">
+	<div class="header edit_mode">
+		<h3 class="movable">PERSONAL</h3>
+		
+	</div>
+
+	
+	<!-- VIEW -->
+	<div class="view" style="display:none;">
+		<% MemberProfile::ATTRS_BY_TYPE[:personal].each do |personal_attribute| %>
+			<% unless (formatted_attribute = format_interest(@member_profile, personal_attribute)).blank? %>
+				<h4 class="subheader"> <%= personal_attribute.to_s.humanize.upcase %> </h4>
+				<h5 class="entry"> <%= formatted_attribute %></h5>
+			<% end %>
+		<% end %>
+		<% unless (member_profile.political_party_name.blank?) %>
+			<h4 class="subheader">POLITICAL PARTY</h4>
+			<h5 class="entry"> <%= member_profile.political_party_name %> </h5>
+		<% end %>
+	</div>
+	
+	<!-- EDIT -->
+	<% should_display_edit_section = (member_profile.personal_attributes_errors?) %>
+	<div class="edit edit_subsection" id="edit_subsection_import_personal" >
+		<% form_remote_tag(:url => {:action => 'update_personal_interests'}, :loading => loading_script('import_personal')) do -%>
+				<p>
+					<label class="pi_lbl">MILITARY SERVICE:</label>
+					<%= text_field_tag("member_profile[military_services]", member_profile.military_services, :class => 'pi_txt') %>
+				</p>
+				<p>
+					<label class="pi_lbl">BIRTHPLACE:</label>
+					<%= text_field_tag("member_profile[birth_place]", member_profile.birth_place, :class => 'pi_txt') %>
+				</p>
+				<p>
+					<label class="pi_lbl">HOMETOWN:</label>
+					<%= text_field_tag("member_profile[hometown]", member_profile.hometown, :class => 'pi_txt') %>
+				</p>
+				<p>
+					<label class="pi_lbl">COUNTRY:</label>
+					<%= text_field_tag("member_profile[from_country]", member_profile.from_country, :class => 'pi_txt') %>
+				</p>
+				<p>
+					<label class="pi_lbl">LANGUAGES:</label>
+					<%= text_field_tag("member_profile[languages]", member_profile.languages, :class => 'pi_txt') %>
+				</p>
+				<p>
+					<label class="pi_lbl">MARITAL STATUS:</label>
+					<%= text_field_tag("member_profile[marital_status]", member_profile.marital_status, :class => 'pi_txt') %>
+				</p>
+				<p>
+					<label class="pi_lbl">RELIGIOUS VIEWS:</label>
+					<%= text_field_tag("member_profile[religion]", member_profile.religion, :class => 'pi_txt') %>
+				</p>
+				<p>
+					<label class="pi_lbl">BIRTHDATE:</label>
+					<%= text_field_tag("member_profile[birthdate]", member_profile.birthdate, :class => 'pi_txt') %>
+				</p>
+
+				<p>
+					<label class="pi_lbl">POLITICAL PARTY:</label>
+					<%= text_field_tag('member_profile[political_party_name]', member_profile.political_party_name, :class => 'pi_txt') %>
+				</p>
+
+	
+      
+               <%=  widget_buttons_new("cancelEditProfile('personal_interests_#{profile_widget.id}');") %>
+
+
+			<div style="clear: both;"> &nbsp; </div>
+		<% end %>
+	</div>
+        <%= profile_spinner('import_personal') %>
+
+</div>

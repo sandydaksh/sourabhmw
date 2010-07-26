@@ -1,0 +1,32 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+<h1 style="padding-left: 36px;">MeetingWave Contact Info</h1>
+
+<p style="padding-left: 36px;">If you would like to contact us about anything, please send an email to <%= mail_to('contact@meetingwave.com', 'contact@meetingwave.com') %>.  
+</p>
+
+<p style="padding-left: 36px;">You can also use <%= link_to("this online form", contact_us_url) %> to send us your feedback directly. </p>
+
+<p style="padding-left: 36px;">Please send all snail mail to this address: 
+
+<p class="address" style="padding-left: 36px;">
+   TTB Technologies, LLC<br/>
+   P.O. Box 742<br/>
+   Ridgefield, CT 06877<br/>
+</p>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<% end %>

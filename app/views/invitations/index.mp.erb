@@ -1,0 +1,26 @@
+<table class="header">
+	<tr>
+	  <td class="logo"> <%= image_tag('/images/meetingwave/logo_small.gif', :alt => 'MeetingWave.com') %> </td>
+	  <td class="tagline"> Connect with people.  Anytime. Anyplace.</td> 
+	</tr>
+</table>
+
+<table>
+<tr>
+<td class="home">
+  <strong>MeetingWave</strong> is a <strong>free business and social networking tool</strong> that helps you
+  connect offline with <strong>people you want to meet</strong>
+  in the places you will be --
+whether traveling or near home.
+</td>
+</tr>
+
+<tr>
+
+<td class="signup">
+<%= link_to('<strong>Sign up:</strong> Create an account today', signup_url) %>--It's free!
+<br/>
+Already a member? <%= link_to('<strong>Sign In Here</strong>', login_url) %>.
+</td>
+</tr>
+</table>

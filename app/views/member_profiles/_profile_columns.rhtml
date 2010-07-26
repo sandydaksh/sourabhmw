@@ -1,0 +1,32 @@
+<% cache(CachingObserver.member_profile_show_key(@member, params)) do %>
+  <% setup_member_profile_data() %>
+  <div id="column_A" class="widget_column">
+    <% @column_a_widgets.each do |widget| %>
+            <%= render :partial => "#{widget.widget_partial}_show_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+              <% end %>
+  </div>
+
+  <div id="column_B" class="widget_column">
+    
+    <div class="google_ad">
+
+    <script type="text/javascript"><!--
+google_ad_client = "pub-6131741780602982";
+/* 250x250, created 6/21/09 */
+google_ad_slot = "0002623671";
+google_ad_width = 250;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+    
+    
+    <% @column_b_widgets.each do |widget| %>
+            <%= render :partial => "#{widget.widget_partial}_show_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+              <% end %>
+
+  </div>
+<%end %>

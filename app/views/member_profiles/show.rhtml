@@ -1,0 +1,92 @@
+   <!--[if IE 6]>
+	<style>
+
+		.grad_year {
+			padding-bottom:10px;;
+			margin-bottom:14px;
+			font-size: 1.5em;
+		}
+
+		.first_field_in_float {
+			margin-left: -10px;
+		}
+
+		h3.margin_hack {
+			margin-left: 10px;
+			padding-bottom: 0;
+		}
+		.profile_main {
+			padding: 0;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
+		.pwidget {
+			margin-left: 0;
+		}
+		.edit p.singlerow {
+		   height: 20px;
+		}
+		.edit p input.txt {
+			width: 170px;
+		}
+		.edit p.singlerow input {
+			width: 60px;
+		}
+		
+		
+	</style>
+
+	<![endif]-->
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<% if !private_mw? %>
+<div align="right" style="padding-right: 177px; font-size: 11px;">
+<table>
+    <tr>
+    <td width="248" style="background:url(/images/shar-bg.png) no-repeat; width:160px; height:23px;">
+    <div class="addthis_toolbox addthis_default_style" style="padding:0 0 0 4px; margin:2px 0 0 0;">
+    <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c1f684442c3c4d2" class="addthis_button_compact">Share</a>
+    <span class="addthis_separator">|</span>
+    <a class="addthis_button_facebook"></a>
+    <a class="addthis_button_myspace"></a>
+    <a class="addthis_button_google"></a>
+    <a class="addthis_button_twitter"></a>
+    </div>
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c1f684442c3c4d2"></script>
+    </td>
+    </tr>
+</table>  
+</div>
+<% end %>
+
+<div style="width:995px; clear:both;">
+
+	<%= tag("br", :class => "cl") %>
+ 
+	<%= render :partial => '/member_profiles/profile_column_show', :locals => { :member => @member } %>
+
+	<div class="profile_main">
+		<div id="flash_profile">  <%= flash[:notice] %> </div>
+		<%=  check_render_rating(@member.member_profile) %> 
+       
+              <%= render :partial => "profile_columns"%>
+
+			<%= link_to(image_tag('/images/meetingwave/candy/next_opportunity_coffee.jpg'), home_url) %>
+
+</div>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<% end %>

@@ -1,0 +1,21 @@
+<h1><%= link_to("Admin", admin_url) %> > <%= link_to("Problem Users", problem_users_url) %> > Delete Problem User? </h1>
+
+<div id="step1" class="locationsform">
+  <h2>Are you sure you want to remove <%= @problem_user.user_name %> from the MeetingWave database?</h2>
+  <%= form_tag(delete_problem_user_url) %>
+    <%= hidden_field_tag("confirmed", "true") %>
+    <%= hidden_field_tag("user_id", @problem_user.id) %>
+
+    <p id="delete_member">
+        <%= submit_tag("YES, DELETE THE MEMBER") %>
+        <%= link_to("No, Do Not Delete the Member", problem_users_url) %>
+    </p>
+
+  </form>
+</div>
+
+  <script type="text/javascript">
+    function setSelectedUser(id) {
+      $('user_id').value = id;
+    }
+  </script>

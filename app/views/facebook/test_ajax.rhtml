@@ -1,0 +1,173 @@
+
+
+<%# javascript_include_tag("facebook/typeahead.js") %>    
+<style>
+  .suggest_placeholder {
+    color: #777;
+  }
+  
+  .suggest_found {
+    background: #e1e9f6;
+  }
+  
+  .suggest_pretext {
+    color: #aaa;
+  }
+  
+  .suggest_list {
+    background: transparent;
+    border: 1px solid #bdc7d8;
+    border-top: none;
+    font-size: 11px;
+    margin-top: -1px;
+    overflow: hidden;
+    position: absolute;
+    text-align: left;
+    z-index: 102;
+  }
+  
+  .suggest_list .suggest_suggestion {
+    background: #fff;
+    border-top: 1px solid #ddd;
+    color: #000;
+    cursor: pointer;
+    padding: 3px;
+    opacity: 0.94;
+    width: 100%;
+  }
+  
+  .suggest_list .suggest_suggestion em {
+    background: #d8dfea;
+    color: black;
+    font-style: normal;
+    font-weight: bold;
+  }
+  
+  .suggest_list .suggest_suggestion small {
+    color: #808080;
+    padding-left: 5px;
+  }
+  
+  .suggest_list .suggest_selected {
+    background: #3b5998;
+    color: #fff;
+    opacity: 1;
+  }
+  
+  .suggest_list .suggest_selected em {
+    background: #5670a6;
+    color: #fff;
+  }
+  </style>
+
+<input id="i_like_text" autocomplete="off" maxlength="20" type="text"/>
+
+<script>
+  
+  options = {
+    preMsgTxt: "type for suggestions",	// text to display when nothing has been typed
+    menuOpacity: 94, 			// opacity of the menu
+    ajaxUrl: '<%= external_path("/facebook/auto_complete_for_member_name") %>',	// url to your data source
+    focus: true,				// whether or not to auto-focus the textbox upon creation
+    onEnter: function(event) {		// handler for hitting the 'enter' key
+      alert("foo");
+    },
+    delayTime: 700,				// amount of idle time after a keypress before making the ajax call
+    clearOnEnter: true			// whether or not to clear the text after they hit enter
+  };
+  
+  var suggestr = new ajaxSuggestFbml(document.getElementById('i_like_text'),options);
+  
+  function test_alert(message){
+    new Dialog().showMessage('Processing Error', message); 
+  }
+  </script>         
+
+
+<script>
+  
+  
+  Ajax.Request = function(url, options){
+
+    options.ondone = function(data) {
+
+      try {
+         container = document.getElementById("my_container");
+         container.setInnerFBML("<script" + ">" +  data + "<" + "/script>" );
+      } 
+      catch(err)
+      {
+        if(options.onError){
+           options.onError.call();
+        }
+      }
+     
+      if(options.onComplete)
+        options.onComplete.call();    
+    } 
+    new Ajax.Runner(url, options);
+    
+  }
+  
+  Ajax.Runner = function(url, options) {
+    var ajax = new Ajax();
+    ajax.responseType = Ajax.FBML;
+    ajax.ondone = options.ondone;
+    ajax.onerror = function(){
+      if(options.onFailure)
+           options.onFailure.call();
+      if(options.onComplete)
+        options.onComplete.call();     
+    }  
+    ajax.post(url);
+    
+  }
+  
+  Ajax.Updater = function(div_id, url, options){
+    
+    options.ondone = function(data) {
+      document.getElementById(div_id).setInnerFBML(data);
+      if(options.onSuccess)
+        options.onSuccess.call();
+      if(options.onComplete)
+        options.onComplete.call();    
+    } 
+    new Ajax.Runner(url, options);
+    
+  }
+  
+  
+  </script>         
+
+
+<div id="empty_div">
+  
+</div>
+
+<div id="hidden_div" style="display:none;">
+  I AM HIDING!!!!!
+</div> 
+
+<div id="my_container" style="display:none;"> &nbsp; </div>
+
+<div id="rjs_updater" style="display:none;" > Make them see me.</div>
+
+<%= link_to_remote("foo", :url => external_path("/facebook/update_empty"), :update => 'empty_div',
+            :before => "document.getElementById('hidden_div').setStyle({display: \'block\'})", 
+            :complete =>"document.getElementById('hidden_div').setStyle({display: \'none\'})",
+            :success => "new Dialog().showMessage('Well Done', 'You are using link_to_remote')",
+            :failure => "new Dialog().showMessage('Dang Something went wrong', 'You are using link_to_remote')" ) %>
+          
+<%= link_to_remote("rjs", :url => external_path("/facebook/update_empty_rjs"), 
+            :before => "document.getElementById('hidden_div').setStyle({display: \'block\'})", 
+            :complete =>"document.getElementById('hidden_div').setStyle({display: \'none\'})",
+            :success => "new Dialog().showMessage('Well Done', 'You are using link_to_remote')",
+            :failure => "new Dialog().showMessage('Dang Something went wrong', 'You are using link_to_remote')" ) %>
+
+<% link_to_function("AJAX ME", "do_ajax('empty_div','#{external_path("/facebook/update_empty")}')") %>
+
+
+
+
+
+

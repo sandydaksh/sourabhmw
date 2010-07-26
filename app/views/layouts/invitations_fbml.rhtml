@@ -1,0 +1,61 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<%= title_tag %>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+	<!-- Stylesheets  -->
+	<%= stylesheet_link_tag("meetingwave/base.css") %>
+	<%= stylesheet_link_tag("meetingwave/two.css") %>
+	<%= stylesheet_link_tag("meetingwave/pages/home.css") %>
+	<%= stylesheet_link_tag("meetingwave/pages/invitations.css") %>
+    <%= javascript_include_tag 'invite_schedule'  %>
+	<!-- Javascript Includes -->
+    <%= javascript_include_tag :defaults %>
+	<%= javascript_include_tag 'date_selector' %>
+	<%= javascript_include_tag('reminder.js') if controller.action_name == 'show' %>
+	<%= javascript_include_tag('messages.js') if controller.action_name == 'show' %>
+	<!-- Utilities -->
+	<%= render :partial => '/shared/tab_includes' %>
+	<%= render :partial => '/shared/quick_invite_includes' %>
+	<%= render :partial => '/shared/tooltip_includes' %>
+	<%= render :partial => '/shared/accessible_form_includes' %>
+	<!-- Map Stuff -->
+	<%= GMap.header(:host => request.host) %>  
+
+	<%= render :partial => '/shared/meta_tags' %>	
+
+<script type="text/javascript" src="/windows_js/javascripts/window.js"> </script> 
+<script type="text/javascript" src="/javascripts/help_bubble.js"> </script> 
+<link href="/windows_js/themes/default.css" rel="stylesheet" type="text/css"/> <!-- Add this to have a specific theme--> 
+<link href="/windows_js/themes/meetingwave.css" rel="stylesheet" type="text/css"/> <!-- Add this to have a specific theme--> 
+<link href="/windows_js/themes/meetingwave_modal.css" rel="stylesheet" type="text/css"/> <!-- Add this to have a specific theme--> 
+
+	<%= rss_link_tag() %>	
+
+
+	<%= calendar_date_select_includes :style => "plain", :format => :american %>
+
+
+</head>
+<body>
+
+<div id="content">
+
+
+
+		<%= yield %>
+
+  </div>
+  <%= render :partial => '/shared/urchin_hitail' %>
+
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,2 @@
+module MilitaryBranchesHelper
+end

@@ -1,0 +1,8 @@
+<% for column in Occupation.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @occupation.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @occupation %> |
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,50 @@
+<h1><%= link_to("Admin", admin_url) %> > Recent Activity </h1>
+<div class="instructions">
+  <p>
+
+  The list that you see below is a window into a MeetingWave database table named
+  <strong>confirmations</strong>.  This table contains information about the
+  relationship of a Member to an Invite or Meeting.  For instance, the records
+  in this table can tell us when a user accepts, declines, bookmarks, or is pre-approved for an
+  Invite (among other things).  
+
+  </p>
+
+  <p> All of the information relevant to a given confirmation record is displayed below it.  Here is a quick glossary of some of the data fields:
+  <ul>
+    <li><strong>Updated</strong>: The date/time the record was last updated.</li>
+    <li><strong>Created</strong>: The date/time the record was originally created.  </li>
+    <li><strong>Meeting Time</strong>: If a specific Meeting object is associated with this confirmation, then this is the start date/time of that meeting.</li>
+    <li><strong>Initially Invited</strong>: This is a flag that will be true if this record originated as a <i>pre-approval</i>.  
+    <li><strong>Invited As</strong>: This field will contain the email address of a non-member who has been pre-approved.  It is blank/absent unless the record applies to a pre-approved non-member.</li>
+
+
+</div>
+
+<%= will_paginate(@confirmations) %>
+
+<% @confirmations.each do |conf| %>
+
+  <div class="clearfix confirmations"> 
+
+    <h2 class="<%= conf.status.name %>" ><%=  conf_header(conf) %> </h2>
+    <h3>about <%= distance_of_time_in_words_to_now(conf.updated_at) %> ago </h3>
+
+    <div class="details">
+      <strong>Updated:</strong> <%= conf.updated_at %><br/>
+      <strong>Created:</strong> <%= conf.created_at %><br/>
+      <% unless conf.meeting.blank? %>
+        <strong>Meeting Time:</strong> <%= conf.meeting.start_time_local %><br/>
+      <% end %>
+      <% unless conf.invited_as.blank? %>
+        <strong>Invited As:</strong> <%= conf.invited_as %><br/>
+      <% end %>
+      <strong>Initially Invited:</strong> <%= conf.initially_invited %><br/>
+      
+    </div>
+
+  </div>
+
+<% end %>
+
+<%= will_paginate(@confirmations) %>

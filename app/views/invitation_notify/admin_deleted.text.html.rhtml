@@ -1,0 +1,25 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Your invite has been removed.") %>
+
+<%= open_body %>
+Dear  <%= @inviter_name %>,  
+<br/>
+<p>
+Your Invite has been deleted from MeetingWave
+because it either does not comply with our Terms of Use or appears to be a test
+Invite.  If we are incorrect, we apologize for any inconvenience and request
+that you please contact us.   
+</p>
+<br/>
+              
+<p>
+Thank you, 
+<br/>
+The MeetingWave Team
+  
+<%= close_body %>
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

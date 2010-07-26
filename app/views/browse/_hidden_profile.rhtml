@@ -1,0 +1,79 @@
+<div class="search-left">
+                        <div style="float:left; width:286px;">
+                          <p style="color:#4D4D4D;" class="desc"><%= truncate(meeting.description, 50) %></p>
+                        </div>
+                       <div class="search-left-inner">
+                       <div style="float:left; width:33px;">
+						<% if meeting.inviter %>
+                          <% if !current_member %>
+                            <% if !meeting.hidden_user_name.nil? %>
+                              <%= mini_icon_search_new(meeting.inviter) %>
+                            <% else %>
+                              <%= link_to(mini_icon_search(meeting.inviter),  member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :style =>"float:left;", :border => "0", :title => meeting.inviter.user_name) %>
+                            <% end %>
+                          <% else %>
+                            <% if meeting.inviter.id == current_member.id %>
+                              <%= link_to(mini_icon_search(meeting.inviter),  member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :style =>"float:left;", :border => "0", :title => meeting.inviter.user_name) %>
+                            <% else %>
+                              <% if current_member.was_approved(meeting.upcoming_meeting) %>
+                                <%= link_to(mini_icon_search(meeting.inviter),  member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :style =>"float:left;", :border => "0", :title => meeting.inviter.user_name) %>
+                              <% else %>
+                                <% if !meeting.hidden_user_name.nil? %>
+                                  <%= mini_icon_search_new(meeting.inviter) %>
+                                <% else %>
+                                  <%= link_to(mini_icon_search(meeting.inviter),  member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :style =>"float:left;", :border => "0", :title => meeting.inviter.user_name) %>
+                                <% end %>                              
+                              <% end %>
+                            <% end %>
+                          <% end %>                            
+                        <% end %> 
+                        
+                        
+                          <% if meeting.inviter %>
+                          <% if !current_member %>
+                            <% if !meeting.hidden_user_name.nil? %>
+                              <p class="personname" style="padding-left:0px; color:#888888;"><%#= truncate(meeting.hidden_user_name.private_name, 10) %><%= meeting.hidden_user_name.private_name %></p>
+							<% else %>
+                              <%#= link_to(truncate(meeting.inviter.user_name, 10), member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname") %>
+                              
+                               <%= link_to(meeting.inviter.user_name, member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname",:style=>"padding-left:0px;") %>
+                              
+                            <% end %>
+                          <% else %>
+                          	<% if meeting.inviter.id == current_member.id %>
+                              <%#= link_to(truncate(meeting.inviter.user_name, 10), member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname") %>
+                              
+                              <%= link_to(meeting.inviter.user_name, member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname",:style=>"padding-left:0px;") %>
+                            <% else %>
+                              <% if current_member.was_approved(meeting.upcoming_meeting) %>
+                                <%#= link_to(truncate(meeting.inviter.user_name, 10), member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname") %>
+                                
+                                <%= link_to(meeting.inviter.user_name, member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname",:style=>"padding-left:0px;") %>
+                                
+                                
+                              <% else %>
+								<% if !meeting.hidden_user_name.nil? %>
+                                  <p class="personname" style="padding-left:0px;color:#888888;"><%= meeting.hidden_user_name.private_name %></p>
+                                <% else %>
+                                  <%#= link_to(truncate(meeting.inviter.user_name, 10), member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname") %>
+                                  
+                                   <%= link_to(meeting.inviter.user_name, member_profile_url(:id => meeting.inviter.id), :alt => meeting.inviter.user_name, :class=>"personname",:style=>"padding-left:0px;") %>
+                                  
+                                <% end %>                              
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                                                
+                        </div>
+                           
+                        <!--<div style="width:100px; float:left;">
+           
+                        </div>-->
+                        </div>
+                        
+                        <div class="search-right-inner">
+                          <p class="smallcontent"><%= meeting.activity.name if meeting && meeting.activity %>
+                            , <%= meeting.purpose.name if meeting && meeting.purpose %> </p>
+                        </div>
+                      </div>

@@ -1,0 +1,36 @@
+<% member = @member%>
+
+<div id="profile_pic_container">
+	  	 	   <% if member.member_profile.picture %>
+	  	 	     <%= image_tag(thumb_url(:id => member.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :class => "profile_pic") %>
+	  	 	   <% else %>
+	  	 	     <%= image_tag('/images/ttb/default_pic.jpg', :class => "profile_pic") %>
+	  	 	   <% end %>
+
+	  	 </div>
+
+<div class="profile_main">
+    <h1>Upload A New Profile Picture</h1>
+  <%= flash[:notice] %>
+  <%= error_messages_for('picture') %>
+
+  <% form_for(:picture, :url => {:action => 'upload'}, :html => { :multipart => true }) do |form| %> 
+
+  <%= hidden_field 'member_profile', 'id' %>
+<br/>
+  <div class="formbit">
+    <h3>SELECT A PICTURE TO UPLOAD</h3>
+    <%= form.file_field("uploaded_picture") %><br/> 
+  </div>	
+  <%= ibutton("upload") %> 
+  <% end %> 
+
+</div>
+
+
+
+
+
+
+
+

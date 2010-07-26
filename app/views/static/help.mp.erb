@@ -1,0 +1,11 @@
+<a name="top"><h1 class="invitename">Frequently Asked Questions</h1></a>
+<ol id="faqs">
+	<% @faqs.each do |faq| %>
+		<li id="item_<%= faq.id %>" ><a href="#faq<%= faq.id %>"><%= faq.question %></a>  </li>     
+	<% end %>
+</ol> 
+
+<% @faqs.each_with_index do |faq,number| %>
+	<a name="faq<%= faq.id %>"><h3 class="profilesection"><%= "#{number + 1}. #{faq.question}" %> </h3>   </a>  
+	<%= faq.answer %> 
+<% end %>

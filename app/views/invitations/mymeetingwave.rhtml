@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MeetingWave</title>
+      <%= javascript_include_tag 'prototype' %>
+      <%= javascript_include_tag 'scriptaculous' %>
+	  <%= stylesheet_link_tag("meetinwavenew/style.css") %>
+      <%= stylesheet_link_tag("meetinwavenew/signup/changelocationpopup.css") %>
+
+<style type="text/css">    
+.pagination {
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+  width: 385px;
+  clear: both;
+
+}
+
+.pagination span.disabled {
+  color: #999;
+}
+.pagination span.current {
+  color: #Aee057;
+}
+</style>
+
+<script type="text/javascript">
+function facetoface()
+{
+if(document.getElementById("faf").checked==true)
+{
+if(document.getElementById("facetoface").style.display=="none")
+{
+document.getElementById("facetoface").style.display="inline";
+document.getElementById('checked_locat').value='1';
+}
+else
+{
+
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+}
+else
+{
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+
+}
+
+function vcheckuncheck()
+{
+ if(document.getElementById('vcheck').checked)
+ {
+    document.getElementById("virtual_f").value='v_flag';
+ }
+ else
+ {
+    document.getElementById("virtual_f").value='0'; 
+ }      
+}
+
+function romancecheck()
+{
+ if(document.getElementById('rom').checked)
+ {
+    document.getElementById("romance").value='19';
+ }
+ else
+ {
+    document.getElementById("romance").value='0'; 
+ }      
+}
+
+
+function npcheckuncheck()
+{
+ if(document.getElementById('npcheck').checked)
+ {
+    document.getElementById("preference_flag").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag").value=''; 
+ }      
+}
+
+
+function npcheckuncheck1()
+{
+ if(document.getElementById('preference').checked)
+ {
+    document.getElementById("preference_flag1").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag1").value=''; 
+ }      
+}
+
+</script>
+
+<script type="text/javascript">
+function remove_defalt_find_meeting(messageid)
+	  {
+		 
+		 document.getElementById(messageid).value="";
+         document.getElementById(messageid).className="black";
+        
+         
+	  }
+	  
+	  function fill_defalt_find_meeting(messageid)
+	  {
+		 
+		 if(document.getElementById(messageid).value=='')
+		 {
+		 document.getElementById(messageid).value="I thought you might be interested ...";
+         document.getElementById(messageid).className="gray1";
+		 }
+	  }
+
+</script>
+
+</head>
+<body style="overflow-x:hidden;">
+<!-- start-main-container-->
+<div class="maincontainer">
+	<% if !current_member %>
+    <%= render :partial => 'shared/before_login_header' %>
+    <% else %>
+    <%= render :partial => 'shared/new_header' %>
+    <% end %>
+
+  <!-- start-inner-container-->
+  <!-- new create form start-->
+  <div class="maincontent-create">
+    <div class="create-mw"></div>
+    <div class="create-mw-middle-result">
+      <table width="995" border="0" cellspacing="0" cellpadding="0" align="center">
+        <td width="685" valign="top"><!-- Left panel start 18 Dec 2009-->
+            <div id="meetingmy">
+              <div id="mymeetingwave">
+                <p><img src="/images/newdesign/my-meetingwave.jpg" border="0" width="194" height="29" /></p>
+              </div>
+              <!--div id="newcont">
+                <div class="topleftmy">
+                  <p><img src="/images/newdesign/left-bg-message.jpg" border="0" width="8" height="25" /></p>
+                </div>
+                <div class="newheadtextbg">
+                  <p class="newheadtext">12 new contacts</p>
+                </div>
+                <div class="topleftmy">
+                  <p><img src="/images/newdesign/right-bg-message.jpg" border="0" width="11" height="25" /></p>
+                </div>
+              </div>
+              <div id="newmessage">
+                <div class="topleftmy">
+                  <p><img src="/images/newdesign/left-bg-message.jpg" border="0" width="8" height="25" /></p>
+                </div>
+                <div class="newheadtextbg">
+                  <p class="newheadtext">1 new message</p>
+                </div>
+                <div class="topleftmy">
+                  <p><img src="/images/newdesign/right-bg-message.jpg" border="0" width="11" height="25" /></p>
+                </div>
+              </div>
+              <div id="newrsvp">
+                <div class="topleftmy">
+                  <p><img src="/images/newdesign/left-bg-message.jpg" border="0" width="8" height="25" /></p>
+                </div>
+                <div class="newheadtextbg">
+                  <p class="newheadtext">18 new RSVP's</p>
+                </div>
+                <div class="topleftmy">
+                  <p><img src="/images/newdesign/right-bg-message.jpg" border="0" width="11" height="25" /></p>
+                </div>
+              </div-->
+              <div class="barmeetingwave">&nbsp;</div>
+              <div id="inviteid">
+              	<%= render :partial => "invitations_tabs" %>
+              </div>
+              <div class="barmeetingwave">&nbsp;</div>
+              <div class="common">
+                <div id="maincontent">
+					<%= render :partial => "mymeetingwave" %>
+                </div>
+                
+              </div>
+            </div>
+            <!-- End panel start-->
+          </td>
+          <%= render :partial => "my_right_pannel" %>
+        </tr>
+      </table>
+    </div>
+    <div class="create-mw-bottom"></div>
+  </div>
+  <!-- new create form END-->
+  <!-- End-inner-container-->
+  <%= render :partial => '/shared/footerhome' %>
+</div>
+<!-- End-main-container-->
+</body>
+</html>

@@ -1,0 +1,25 @@
+xml.instruct!
+xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
+  xml.channel do
+    xml.title "Upcoming MeetingWave.com invites matching your criteria."
+    xml.link @search_url                      
+
+    xml.pubDate CGI.rfc1123_date(@pub_date)
+    xml.description h("First 15 matching invites.")
+    @invitations.each do |invite|
+      xml.item do
+        xml.title "#{invite.name} on #{sh_date invite.start_time_local}" if !invite.nil?
+        xml.link url_for(:only_path => false, :controller => 'invitations', :action => 'show',:id => invite.id) if !invite.nil?
+                        
+        xml.description h(invite.description) if !invite.nil?
+        
+        xml.pubDate CGI.rfc1123_date(invite.start_time_local) if !invite.nil?
+        
+        xml.guid url_for(:only_path => false, :controller => 'invitations',:action => 'show',:id => invite.id ) if !invite.nil?
+        
+        xml.author h(invite.inviter.user_name) if !invite.nil?
+      
+      end
+    end
+  end
+end

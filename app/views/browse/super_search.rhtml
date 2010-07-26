@@ -1,0 +1,273 @@
+
+<%= form_tag('', :id => 'search_filter', :onsubmit => "postTZoffset(this); window.location.href = '/ssearch?' + Form.serialize(this); return false;") %>
+
+<div class="threecolumn clearfix" id="search_form" style="<%= @searched ? 'display:none;':'' %>">
+	<p id="narrow-your-search">Use one or more fields to narrow your search:</p>
+
+  <div class="threecolumn_a">
+    <h2 >What</h2>
+
+    <div class="formbit">
+      <h3 >KEYWORDS</h3>		
+      <%= keywords %>
+      <%= tool_tip('Keywords', %q{The Keywords field can be used for finding invitations
+                                with matching terms in an invites name, description, location or city
+                                fields. The other search criteria can be used to search for invitations by
+                                purpose, activity type, location, time, or any combination of the foregoing.
+                                Of course, using both keywords and one or more of the other search 
+                                criteria will enable you to narrow down your results quickly.}, 
+                                :id => 'st_tt', 
+                                :image => '/images/ttb/questionmark.tiny.white.gif')  %>
+<br/>
+    </div>
+    <div class="formbit">
+      <h3 >PURPOSE</h3>		
+        <%= purpose %>
+	      <%= tool_tip('Purpose', 
+						purposes_tt_html, 
+            :id => 'purpose_tt',
+            :image => '/images/ttb/questionmark.tiny.white.gif') %>
+    </div>
+
+    <div class="formbit">
+      <h3 >ACTIVITY TYPE</h3>		
+      <%= activity_new %>
+    </div>
+
+    <div class="formbit">
+      <h3 >EXCLUDE ROMANCE</h3>		
+      <%= check_box 'search_filter', 'romance', { }, "0", "1" %> <span class="hint" >Uncheck this box to include meetings filed under "Romance."</span>
+    </div>
+
+  </div>
+
+  <div class="threecolumn_b">
+    <h2 >Where</h2>
+
+    <div class="formbit clearfix">
+      <h3 >SPECIFIC LOCATION</h3>		
+        <%= location %>	
+        <%= tool_tip("Location Search", %q{You can find events near you by entering in either your <b>city and state</b> 
+                                                           or your <b>zip code</b> and selecting a <b>radius</b> within which to search.}, 
+                                                           :id => 'ls_tt', 
+                                                           :image => '/images/ttb/questionmark.tiny.white.gif') %>
+    </div>
+
+    <div class="formbit">
+      <h3 >ZIP</h3>		
+      <%= zip %>
+    </div>
+
+    <div class="formbit">
+      <h3 >CITY</h3>		
+      <%= city %>
+    </div>
+    <div class="formbit">
+      <h3 >STATE</h3>		
+      <%= state %>
+    </div>
+
+    <div class="formbit">
+      <h3 >COUNTRY</h3>		
+      <%= country %>
+    </div>
+
+    <div class="formbit">
+      <h3 >WITHIN</h3>		
+      <%= radius %>
+    </div>
+
+    <div class="formbit">
+      <h3>US AIRPORT</h3>		
+      <%= airport %> 
+        <%= tool_tip("Airport Search", %q{Search for Meetings during layovers or delays at Airport Terminals.<br/>},
+                                                           :id => 'airport_tt',
+                                                           :image => '/images/ttb/questionmark.tiny.white.gif') %>
+    </div>
+  </div>
+
+  <div class="threecolumn_c">
+    <h2 >When</h2>
+    <div class="formbit clearfix">
+      <h3 >ON OR AFTER</h3>	
+    <%= date_selector("search_filter[start_date]", @search_filter.start_date, 'txt ssearch_date')%>
+	 
+    </div>
+    <div class="formbit clearfix">
+      <h3 >BEFORE</h3>	
+      <%= date_selector("search_filter[end_date]", @search_filter.end_date, 'txt ssearch_date')%>	
+    </div>
+
+    <h2 >Who</h2>
+    <div class="formbit clearfix">
+      <h3 >PERSON KEYWORDS</h3>	
+      <%= person_keywords %>
+    </div>
+
+
+    <div class="coolrule"></div>
+    <%= hidden_field 'search_filter', 'client_tz_offset', :value => ''  %>
+    <%= image_submit_tag(button_path("search"), :id => (@searched ? "search_button_searched" : "search_button")) %>
+
+  </div>
+</div>
+</form>
+
+<% if @searched %>
+  <div class="search_results">
+		<div class="clearfix">
+			<div class="left">
+				<h2  id="search_results_header" > <%= search_results_title()  %>  </h2>
+                <h5 class="refine" id="refine"><%= link_to_function('REFINE MY SEARCH', "Element.show('search_form');Element.hide('refine')", :id => "refine-link") %></h5>
+			</div>
+			<%= render :partial => "persistent_search_links" %>
+
+		</div>
+
+    
+    <% if @invitations.blank? and @searched %>
+      <% if current_member.blank? %>
+	  
+	  
+	     
+	  
+    <p class="none_found"> We could not find any matching invitations.  Please broaden your search criteria and try again or <%= link_to("join MeetingWave and post your own invite.", signup_url) %>  </p><br/> <br/>
+	
+	        <div>
+			<table>
+			<tr>
+			<td>
+			
+			<% con = "?" if !params[:what].blank? && params[:where].blank? %>
+			
+			<% if !params[:where].blank? && params[:what].blank? %>
+				<% loc = "near "%>
+			<% elsif !params[:where].blank? && !params[:what].blank? %>
+				<% loc = "near "%>
+			<% end %>
+<p style="padding-left: 10px;">
+Why not create a meeting <%='"'+ params[:what] + '"' + "#{con}" if !params[:what].blank? %> <%= "#{loc}" +'"'+ params[:where]+'"'+"?" if !params[:where].blank? %></p>			
+			<td>
+			
+			<td><ul id="navbarcreate">
+				
+          <li id="navbarcreate-create"> <%=link_to('',{:controller=>'member',:action=>'signup'})%><span>Create Meeting</span></li>
+        </ul> </td>
+        
+                <!--td style="padding-left: 10px;"><a href = "javascript:void(0)" onclick = "document.getElementById('light_how').style.display='block';document.getElementById('fade_how').style.display='block'" style="color:#155E8D;">How It Works?<span style="font-family: Helvetica; font-size: 17px; color: rgb(21, 94, 141);">&raquo;</span></a></td-->
+			<tr>
+			
+			</table>
+			 
+			</div>
+			 <% else %>
+        <p class="none_found"> We could not find any matching invitations.  Please broaden your search criteria and try again or post an Invite below.  </p><br/> <br/>
+				<div>
+			<table>
+			<tr>
+			<td>
+			<% con = "?" if !params[:what].blank? && params[:where].blank? %>
+			
+			<% if !params[:where].blank? && params[:what].blank? %>
+				<% loc = "near "%>
+			<% elsif !params[:where].blank? && !params[:what].blank? %>
+				<% loc = "near "%>
+			<% end %>
+<p style="padding-left: 10px;">
+Why not create a meeting <%='"'+ params[:what] + '"' + "#{con}" if !params[:what].blank? %> <%= "#{loc}" +'"'+ params[:where]+'"'+"?" if !params[:where].blank? %></p>			
+			<td>
+			
+			<td><ul id="navbarcreate">
+				
+          <li id="navbarcreate-create"> <%= link_to("", postinvite_url) %><span>Create Meeting</span></li>
+        </ul> </td>
+        
+                <!--td style="padding-left: 10px;"><a href = "javascript:void(0)" onclick = "document.getElementById('light_how').style.display='block';document.getElementById('fade_how').style.display='block'" style="color:#155E8D;">How It Works?<span style="font-family: Helvetica; font-size: 17px; color: rgb(21, 94, 141);">&raquo;</span></a></td-->
+        
+			<tr>
+			
+			</table>
+			 
+			</div>
+<%= render(:partial => '/post_invite/get_started_form', :locals => {:context => 'search'})  %>
+      <% end %>
+    <% else %>
+		We found <%= @invitations.total_entries %> matching invitations.<br/> <br/>
+				<div>
+			<table>
+			<tr>
+			<td>
+			<% con = "?" if !params[:what].blank? && params[:where].blank? %>
+			
+			<% if !params[:where].blank? && params[:what].blank? %>
+				<% loc = "near "%>
+			<% elsif !params[:where].blank? && !params[:what].blank? %>
+				<% loc = "near "%>
+			<% end %>
+<p style="padding-left: 10px;">
+Why not create a meeting <%='"'+ params[:what] + '"' + "#{con}" if !params[:what].blank? %> <%= "#{loc}" +'"'+ params[:where]+'"'+"?" if !params[:where].blank? %></p>			
+			<td>
+			
+			<td><ul id="navbarcreate">
+				
+          <li id="navbarcreate-create"> <%= link_to("", postinvite_url) %><span>Create Meeting</span></li>
+        </ul> </td>
+                <!--td style="padding-left: 10px;"><a href = "javascript:void(0)" onclick = "document.getElementById('light_how').style.display='block';document.getElementById('fade_how').style.display='block'" style="color:#155E8D;">How It Works?<span style="font-family: Helvetica; font-size: 17px; color: rgb(21, 94, 141);">&raquo;</span></a></td-->
+			<tr>
+			
+			</table>
+			 
+			</div>
+    <div class="paginate_container">
+       <%= will_paginate(@invitations, :params => (@search_filter.to_params rescue {} )) unless @invitations.total_entries.zero? %> 
+   </div>
+   <br style="clear:both;" />
+
+      <%= render :partial  => 'browse_invites' %>
+
+    <div class="paginate_container">
+       <%= will_paginate(@invitations, :params => (@search_filter.to_params rescue {} )) unless @invitations.total_entries.zero? %> 
+    </div>
+    <% end %>
+  </div>
+<% end %>
+
+
+<div id="light_how" style="display: none;position: absolute;top: 5%;left: 15%;padding:8px;border:10px solid;background-color: #fbfcf9;z-index:1002;overflow: auto;"> <a href = "javascript:void(0)" onclick = "document.getElementById('light_how').style.display='none';document.getElementById('fade_how').style.display='none'"><img src="/images/close.png"  border="0"  style="margin:3px 0 0 600px; background-color:#D3E1EA;" /></a>
+        
+  		<p>
+        <div style="width:620px;">
+          <p style="padding: 0pt 0pt 0pt 2px; font-family: Helvetica,sans-serif; font-size: 18px; color: rgb(94, 95, 94); font-weight: bold; background-color: rgb(227, 225, 234);">
+          How MeetingWave Works for You!
+</p>
+            <p style="font-family: Helvetica,sans-serif; font-size:13px; color:#5e5f5e; font-weight:normal; padding:10px 0 0 0;">You control who you meet and when, and your identity is protected until you're ready to disclose. </p>
+            <p  style="font-family: Helvetica,sans-serif; font-size:15px; color:#5e5f5e; font-weight:bold; padding:15px 0 0 0;">CREATE A MEETING!</p>
+            <p>
+            <ol style="margin:0;padding:10px 0 0 0;list-style-position:outside;margin-left:30px;">
+            <li style="font-family:Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#00000;">
+            Post a Meeting Invite<br>
+            <ul style="margin:0;padding:0 0 0 0;list-style-position:outside;margin-left:20px;list-style-type:disc;text-align:justify;">
+            <li style="font-family:Helvetica,sans-serif;font-size:13px;font-weight:normal;color:#5E5F5E;line-height:18px;padding:15px 0 0 0;"><span style="font-family:Helvetica,sans-serif; font-size:14px; text-decoration:underline; font-weight:bold; color:#000000
+; text-align:justify;">Describe the type of people you want to meet</span>: New clients, customers, business partners, others in your industry, fellow alumni in your area or anyone else who shares an interest you have. </li>
+             <li style="font-family:Helvetica,sans-serif;font-size:13px;font-weight:normal;color:#5E5F5E;line-height:18px;padding:15px 0 0 0;"><span style="font-family:Helvetica,sans-serif; font-size:14px; text-decoration:underline; font-weight:bold; color:#000000
+; text-align:justify;">Where/When</span>: Indicate flexible or propose when and where you want to meet, whether it's coffee, lunch, happy hour or even a round of golf. You can keep the details private until after you have approved members to attend.</li>
+                      <li style="font-family:Helvetica,sans-serif;font-size:13px;font-weight:normal;color:#5E5F5E;line-height:18px;padding:15px 0 0 0;"><span style="font-family:Helvetica,sans-serif; font-size:14px; text-decoration:underline; font-weight:bold; color:#000000
+; text-align:justify;">Your Privacy:</span> Don't disclose your identity or contact information and use our double-blind messaging to confirm meetings.  However, create a Profile with some background information to help other members decide whether to meet with you.<br><br> </li>
+            </ul>
+            </li>
+            <li style="font-family:Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#00000;">Accept or Decline prospective attendees to confirm. <span style="font-family:Helvetica,sans-serif; font-size:13px; color:#5E5F5E
+; font-weight:normal; text-align:justify;">You'll be notified when other members accept your proposed meeting. Your job is to accept or decline each person. MeetingWave will notify each member whether or not they can attend the meeting.</span> <br><br></li>
+             <li style="font-family:Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#00000;">Meet New People.<span style="font-family:Helvetica,sans-serif; font-size:13px; color:#5E5F5E
+; font-weight:normal; text-align:justify;"> Go to your meeting and start networking with the people you want to meet. </span></li><br><p style="padding-left:100px; font-weight: bold;">Propose a Meeting to meet new people today. It's FREE!</p>
+            </ol>
+            </p>
+            <p  style="font-family: Helvetica,sans-serif; font-size:15px; color:#5e5f5e; font-weight:bold; padding:15px 0 0 0;">FIND A MEETING NEAR YOU!</p>
+            <p style="font-family:Helvetica,sans-serif; font-size:13px; color:#5E5F5E
+; font-weight:normal; padding:15px 0 0 0; text-align:justify;">Search for meetings posted by other members based on location or keywords.<br>Accept any of interest and MeetingWave will let you know by email whether or not the meeting organizer approved your acceptance.<br>If confirmed, go to your meeting and start networking with the people you want to meet.
+ </p><br><p style="padding-left:128px; font-weight: bold;">Find a Meeting today and meet new people.  It's FREE!
+</p><br><br>
+          </div>
+          </p>
+        </div>
+<div id="fade_how" style="display: none;position: absolute;top: 0%;left: 0%;width: 100%;height:1250px;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);"></div>
+

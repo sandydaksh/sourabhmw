@@ -1,0 +1,250 @@
+<!--[if IE ]>
+  <style type="text/css">
+    .main-pullout {
+      padding-bottom: 0px;
+    }
+    ul#uses-list {
+      margin-top: 3px;
+      padding-top: 0;
+      margin-top: -8px;
+      padding-bottom: 10px;
+    }
+    #business {
+      background-image: url(/images/meetingwave/candy/network.gray.2.gif);
+      background-repeat: no-repeat;
+      background-position: 2px 5px;
+      padding-left: 27px;
+    }
+    
+    
+
+  </style>
+<![endif]-->
+
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+
+
+<div id="centered">
+  <div id="features-content">
+    <div class="main-pullout clearfix">
+
+      <div class="left-70">
+        <h1>Meeting<span class="gr">Wave</span> - The free online tool to meet people offline</h1>
+        <p class="gr"> MeetingWave <span class="ul">helps you connect</span> with the right people
+        offline. Our features and functionality focus on giving you <span class="ul">
+          control and flexibility</span> over who you meet, so you don’t waste your 
+        time. And, because MeetingWave <span class="ul">works with other
+          popular web sites and mobile devices</span>, you can build a valuable
+        network, wherever you are.
+        <%= link_to('GET STARTED!', postinvite_url) %>
+        </p>
+
+
+      </div>
+
+      <div class="right-30">
+        <ul id="uses-list">
+          <li id="business">Make business contacts</li>
+          <li id="lunch">Find someone to share lunch with</li>
+          <li id="friend">Make new friends</li> 
+          <li id="coffee">Set up a meeting over coffee</li>
+          <li id="hobby">Meet a fellow hobbyist</li>
+          <li id="layover">Enjoy your layover</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="sub-pullout clearfix">
+      <h2 id="provides-flexible">MeetingWave provides a flexible <span class="ul">online</span> tool for networking offline.</h2>
+      <div class="left-70">
+        <ul id="browse-post">
+          <li id="browse-link"> 
+			  <% if !private_mw? %>
+                <%= link_to('BROWSE FOR MEETINGS BY KEYWORD, ZIP CODE OR TOWN', ssearch_url) %>
+              <% else %>
+              	<% if !logged_in? %>
+	                <a href="/member">BROWSE FOR MEETINGS BY KEYWORD, ZIP CODE OR TOWN</a>
+                <% else %>
+	                <%= link_to('BROWSE FOR MEETINGS BY KEYWORD, ZIP CODE OR TOWN', ssearch_url) %>                
+                <% end %>
+              <% end %> 
+          </li>
+          <li id="or">OR</li>
+          <li id="post-link"> <%= link_to('POST AN INVITE TO MEET NEW PEOPLE', postinvite_url) %> </li>
+        </ul>
+        <br class="cl" />
+        <p id="you-decide">Whether you post a new meeting or browse existing ones, you decide who you meet. <a href="http://www.meetingwave.com/simplesteps">How?</a></p>
+      </div>
+
+      <div class="right-30" id="testimonial-wrap">
+        <p class="testimonial">
+MeetingWave provides the interface that allowed me to meet the many people who are my "friends" on LinkedIn, Facebook and other social networks, yet have never met with in person. Using MeetingWave, I list the times and locations for my daily "Coffee With Ian" sessions and people can sign up and accept my invites.  Thanks to MeetingWave, Coffee With Ian has quickly developed from a simple idea to network into something bigger!
+        
+<!--          [On MeetingWave] I schedule my daily "Coffee With Ian" sessions.  Thanks to MeetingWave,
+          Coffee With Ian has quickly developed from a simple idea to network into
+          something bigger! -->
+        </p>
+        <p class="testimonial-speaker"> — <a href="http://www.coffeewithian.com">Ian Isanberg</a> </p>
+
+      </div>
+
+    </div>
+
+    <div class="hdiv"> </div>
+
+    <div class="sub-pullout clearfix">
+      <h2>Build a valuable network through face to face meetings.</h2>
+      <h3>TO START GROWING YOUR NETWORK, TAKE ADVANTAGE OF THE FEATURES THAT WE HAVE DEVELOPED FOR YOU.</h3>
+
+      <div class="left-50">
+        <ul> 
+          <li>
+          <span class="feature">Profile Page</span>  
+          Fill out your profile page to make it easier to make valuable
+          connections. Include links to your LinkedIn and/or Facebook pages to
+          enhance your page. A complete profile will help you find the right
+          people to meet, and help others decide whether to meet with you. 
+          </li>
+          <li>
+          <span class="feature">Copy Invites</span>  
+          Copy invites, including those in your meeting archives, to create
+          new invites to save time.
+          </li>
+          <li>
+          <span class="feature">Forward a Public Invite to a Friend</span>  
+          Forward public invites with a simple click of a button.
+          </li>
+        </ul>
+      </div>
+
+      <div class="right-50">
+        <ul>
+          <li>
+          <span class="feature">Import Contacts</span>  
+          Import existing contacts easily from other sites such as gmail, Yahoo!
+          and Linkedin. 
+          </li>
+          <li>
+          <span class="feature">RSS Feeds</span>  
+          Save yourself time by using our RSS feeds and be notified of meetings
+          of interest.
+          </li>
+          <li>
+          <span class="feature">Export Invites</span>  
+          Easily export your public invites to another site using the simple
+          "widget-builder" on your profile page that lets you customize what it
+          will look like.  You can then copy-and-paste the code into your website
+          or blog.
+          </li>
+        </ul>
+      </div>
+
+      <h3 class="cl">MEETINGWAVE GOES WHEREVER YOU DO...ON THE WEB OR ON THE ROAD.</h3>
+
+      <div class="left-50">
+        <ul>
+          <li>
+          <span class="feature">Mobile devices</span> 
+          You can post, find and accept Invites with your web-enabled device. Use
+          your BlackBerry, Treo, or smart phone to see our easy-to-use mobile
+          interface or point your device to 
+          <a href="http://m.meetingwave.com">http://m.meetingwave.com</a>. 
+          </li>
+          <li>
+          <span class="feature">Facebook integration</span> 
+          You can manage your guest lists, see your invite activity in your news
+          feed and view your Facebook friend's invites! Find our Facebook
+          application at <a href="http://apps.facebook.com/meetingwave">http://apps.facebook.com/meetingwave</a>. 
+          </li>
+          <li>
+          <span class="feature">Bebo integration</span> 
+          Go to <a href="http://bebo.com/app/meetingwave">http://bebo.com/app/meetingwave</a> to check it out.
+          </li>
+        </div>
+
+        <div class="right-50">
+          <ul>
+            <li>
+            <span class="feature">Email reminders</span>
+            Set up reminders for your meetings.
+            </li>
+            <li>
+            <span class="feature">Cell phone notifications</span> 
+            Receive notifications and reminders on your phone.
+            </li>
+            <li>
+            <span class="feature">Calendar integration</span>
+            Sync your MeetingWave meeting dates with your iCal, Outlook, Windows
+            Calendar, Google Calendar, or any calendar compatible with the
+            iCalendar format.
+            </li>
+            <li>
+            <span class="feature">Archives</span>
+            View prior meeting invites in your archives to review your meeting
+            history, including who and where you met. 
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="hdiv"> </div>
+
+      <div class="sub-pullout clearfix">
+        <h2>MeetingWave puts you in control over who you meet.</h2>
+
+        <h3>WE KNOW YOU ARE BUSY AND WANT TO HELP YOU MAXIMIZE YOUR TIME. SO WE ARE FOCUSED ON HELPING YOU MEET THE RIGHT PEOPLE.</h3>
+
+        <div class="left-50">
+          <ul>
+            <li>
+            <span class="feature">You Decide Who You Meet</span>  
+            Let’s face it. You may not want to meet everyone who wants to attend
+            your meeting and accepts your invite. Prior to any meeting, you can
+            accept or decline anyone. You can even keep the location private so you
+            won’t have any unexpected drop-ins.
+            </li>
+            <li>
+            <span class="feature">Double Blind Messaging</span>  
+            Facilitate meeting planning with others without disclosing your email
+            address. We keep email addresses private for your security and peace of
+            mind.
+            </li>
+          </ul>
+        </div>
+
+        <div class="right-50">
+          <ul>
+            <li>
+            <span class="feature">No obligation</span>  
+            By posting an invite, you are only indicating you believe you'll be
+            available and are not obligated to have the meeting. You can decline
+            any acceptance or cancel the meeting for any reason.  If you are
+            flexible about the time and location, mention that in your invite and
+            work out the details later.
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>
+
+<% if !current_member %>
+<%= render :partial => 'shared/signin' %>
+<%= render :partial => 'shared/how_it_works' %>
+<%= render :partial => 'shared/about' %>
+<% end %>

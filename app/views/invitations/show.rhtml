@@ -1,0 +1,705 @@
+<style type="text/css">
+a {
+color:#155E8D;
+text-decoration:none;
+}
+</style>
+
+<script type="text/javascript">
+function facetoface()
+{
+if(document.getElementById("faf").checked==true)
+{
+if(document.getElementById("facetoface").style.display=="none")
+{
+document.getElementById("facetoface").style.display="inline";
+document.getElementById('checked_locat').value='1';
+}
+else
+{
+
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+}
+else
+{
+document.getElementById("search_filter_location").value='';
+document.getElementById("search_filter_country").value='';
+document.getElementById("search_filter_state").value='';
+document.getElementById("search_filter_city").value='';
+document.getElementById("search_filter_zip").value='';
+document.getElementById("search_filter_airport_id").value='';
+
+document.getElementById("facetoface").style.display="none";
+document.getElementById('checked_locat').value='0';
+}
+
+}
+
+function vcheckuncheck()
+{
+ if(document.getElementById('vcheck').checked)
+ {
+    document.getElementById("virtual_f").value='v_flag';
+ }
+ else
+ {
+    document.getElementById("virtual_f").value='0'; 
+ }      
+}
+
+function romancecheck()
+{
+ if(document.getElementById('rom').checked)
+ {
+    document.getElementById("romance").value='19';
+ }
+ else
+ {
+    document.getElementById("romance").value='0'; 
+ }      
+}
+
+
+function npcheckuncheck()
+{
+ if(document.getElementById('npcheck').checked)
+ {
+    document.getElementById("preference_flag").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag").value=''; 
+ }      
+}
+
+
+function npcheckuncheck1()
+{
+ if(document.getElementById('preference').checked)
+ {
+    document.getElementById("preference_flag1").value='1';
+ }
+ else
+ {
+    document.getElementById("preference_flag1").value=''; 
+ }      
+}
+
+    
+    function show_popup(e,id)
+		{
+			if(!e)e=window.event;
+			$(id).style.display='';
+			$(id).style.top = (document.documentElement.scrollTop + e.clientY)+'px';
+			$(id).style.left =(document.documentElement.scrollLeft + e.clientX)+'px';
+			
+		}
+        
+        function raghu(e,f)
+        {
+        if(!e)e=window.event;
+        var sTop = document.documentElement.scrollTop>0?document.documentElement.scrollTop:document.body.scrollTop;
+        var sLeft = document.documentElement.scrollLeft>0?document.documentElement.scrollLeft:document.body.scrollLeft;
+        
+        
+        document.getElementById('nospam').style.top = ((sTop+e.clientY )-80) + 'px';
+        
+        document.getElementById('nospam').style.left = ((sLeft + e.clientX)-336)  + 'px';
+        document.getElementById('nospam').style.display='';
+        
+        }
+</script>
+
+<div id="nospam" style="display:none; position: absolute; background-color: #d3e1ea; z-index:1002; overflow: auto; width: 416px; height: 185px;">
+				
+</div>	
+
+<div id="leftcontainer">
+  <!-- start-inner-container-->
+  <div id="topbg"></div>
+  <div id="midbg">
+    <div id="leftpanelmain">
+      <div id="leftinnerpanel">
+        <!-- start-Hide-container-->
+        <div id="hide">
+          <!--div class="searchresult">
+            <p class="nextmeeting">Return to Search Results</p>
+          </div>
+          <div class="prvmeeting">
+            <h2 class="prvmeeting">Previous Meeting |</h2>
+          </div>
+          <div class="nxtmeeting">
+            <h2 class="nxtmeeting">Next Meeting</h2>
+          </div>
+          <div class="hidedot">Hide <span style="font-size:12px;">X</span>
+            </p>
+          </div-->
+          <div id="flash" style="display: <%= flash[:notice].blank? ? 'none' : 'block' %>;"> <%= flash[:notice] %> </div>
+        </div>
+        <!-- end-Hide-container-->
+        <div class="header">
+          <p><%= @invitation.name %> <%= private_indicator(@invitation) %></p>
+        </div>
+        <div class="maintxtpanel">
+          <div class="maintxt">
+              <% desc = @invitation.description.gsub("\r\n","<br />") %>
+			  <% unless @invitation.description.blank? %>
+    	            <%= auto_link(desc) %>
+        	  <% end %>
+          </div>
+          <div>
+            <div class="meetingtypepanel">
+              <h2 class="meetingtype">MEETING TYPE</h2>
+              <p class="networking"><%= why(@invitation) %></p>
+              
+              <h2 class="meetingtype">MEETING HOST </h2>
+              <p class="img">
+				<% if @invitation.inviter %>
+                  <% if !current_member %>
+                    <% if !@invitation.hidden_user_name.nil? %>
+                      <%= big_icon_search_new(@invitation.inviter) %>
+                    <% else %>
+                      <%= link_to(big_icon_search(@invitation.inviter),  member_profile_url(:id => @invitation.inviter.id), :alt => @invitation.inviter.user_name, :border => "0", :title => @invitation.inviter.user_name) %>
+                    <% end %>
+                  <% else %>
+                    <% if @invitation.inviter.id == current_member.id %>
+                      <%= link_to(big_icon_search(@invitation.inviter),  member_profile_url(:id => @invitation.inviter.id), :alt => @invitation.inviter.user_name, :border => "0", :title => @invitation.inviter.user_name) %>
+                    <% else %>
+                      <% if current_member.was_approved(@invitation.upcoming_meeting) %>
+                        <%= link_to(big_icon_search(@invitation.inviter),  member_profile_url(:id => @invitation.inviter.id), :alt => @invitation.inviter.user_name, :border => "0", :title => @invitation.inviter.user_name) %>
+                      <% else %>
+                        <% if !@invitation.hidden_user_name.nil? %>
+                          <%= big_icon_search_new(@invitation.inviter) %>
+                        <% else %>
+                          <%= link_to(big_icon_search(@invitation.inviter),  member_profile_url(:id => @invitation.inviter.id), :alt => @invitation.inviter.user_name, :border => "0", :title => @invitation.inviter.user_name) %>
+                        <% end %>                              
+                      <% end %>
+                    <% end %>
+                  <% end %>                            
+                <% end %>    
+              </p>
+              <p class="imgname"><%= host_new_not_truncate(@invitation) %></p>
+            </div>
+            <div class="meetingtypepanel1">
+              <h2 class="meetingtype" >MEETING ACTIVITY </h2>
+              
+			  <% if @invitation.activity
+                val = @invitation.activity.name
+              else
+                val = "No activity specified"
+              end %>
+              
+              <p class="networking">
+					<%= val %>		  
+              </p>
+              
+              <h2 class="meetingtype">WHO IS BUYING</h2>
+              <p class="networking"><%= costs(@invitation) %></p>
+              
+              <h2 class="meetingtype" >MEETING SIZE </h2>
+              <p class="networking"><%= size(@invitation) %></p>
+            </div>
+          </div>
+        </div>
+        <div class="letmeetpanel">
+            <% if !@invitation.no_pref == 1 %> 
+	          <% if !@meeting.nil? %>        
+                  <h2 class="meetingtime">CURRENTLY VIEWING MEETING FOR:</h2>
+                  <p class="locationtxt">
+                    <%= @meeting.start_time_local.strftime("%A, %B %d, %Y") if @meeting.start_time_local %><br />
+					<% if(!@meeting.start_time.nil? && !@meeting.end_time.nil? &&!@meeting.expired? and (@meeting.invitation.inviter == @member) ) %>	
+                                <%= acceptances_notice(@meeting.invitation) %>
+                    <% end %>                      
+                  </p>          
+        
+        		  <p class="hordot1">&nbsp;</p>
+    		  <% end %>	              
+              <% end %>    
+        			<% if current_member && @invitation.inviter.id == current_member.id %>
+                    	<p style="padding-top: 8px;"><a href="<%= edit_url %>" onmouseover="document.edit1.src='/images/newdesign/showinvite/edit_over.jpg';" onmouseout="document.edit1.src='/images/newdesign/showinvite/edit.jpg';"><img src="/images/newdesign/showinvite/edit.jpg" border="0" name="edit1"/></a></p>
+                    <% else %>
+                        <p style="padding-top:10px;">
+                          <% if current_member %>
+                          	<a href = "javascript:void(0)"  onclick="attend<%= @invitation.id %>(); new Ajax.Request('/rsvp/capload/<%= @meeting.id %>', {asynchronous:true, evalScripts:true}); return false;" onmouseover="document.but1<%= @invitation.id %>.src='/images/newdesign/search_images/lets-meet-btn-over.jpg';" onmouseout="document.but1<%= @invitation.id %>.src='/images/newdesign/search_images/lets-meet-btn.jpg';"> <img src="/images/newdesign/search_images/lets-meet-btn.jpg"  name="but1<%= @invitation.id %>"  border="0" width="118" height="38"/></a>
+                          <% else %>
+                          		<a href="<%= login_and_respond_to_url(:id => @invitation.id) %>" onmouseover="document.but2<%= @invitation.id %>.src='/images/newdesign/search_images/lets-meet-btn-over.jpg';" onmouseout="document.but2<%= @invitation.id %>.src='/images/newdesign/search_images/lets-meet-btn.jpg';" ><img src="/images/newdesign/search_images/lets-meet-btn.jpg" name="but2<%= @invitation.id %>"   border="0" width="118" height="38"/></a>
+                          <% end %>
+                          
+                        <script type="text/javascript">
+                          var attendDialog = null;
+                          function attend<%= @invitation.id %>() {
+                            attendDialog = new Window({className: "meetingwave_modal_search", 
+                                width:350, 
+                                height:430, 
+                                zIndex: 100, 
+                                resizable: false, 
+                                title: "<%= truncate(@invitation.invitation.name, 45).gsub('"', "'") %>", 
+                                draggable:false, 
+                                maximizable: false,
+                                minimizable: false,
+                                wiredDrag: false}, true);
+                            attendDialog.setContent('attend-dialog<%= @invitation.id %>');
+                            attendDialog.showCenter(true);
+                          }
+                        </script>
+                        
+                    <%#
+					#@meeting = @invitation.upcoming_meeting
+					#if @meeting.nil?
+					 # @meeting = @invitation.most_recent_meeting
+					#end
+					%>
+                                                  
+                    <div id="attend-dialog<%= @invitation.id %>" style="display: none;">
+                          <div class="attend-dialog-container">
+                            <div id="attend-form<%= @invitation.id %>">
+                                <p>When you click Lets Meet<!--<img src="/images/newdesign/search_images/lets-small.jpg" border="0" width="50" height="16"/>--><%#= candy_image('attend-small')%>, a note will be sent to the inviter letting him 
+                                know you'd like to attend this meeting.  You can include your own note by typing 
+                                a message into the text box below.</p>
+                                <form id="attend_note_form<%= @invitation.id %>">
+                                    <h4>MESSAGE</h4>
+                                    <%= text_area_tag("message[body]","",  :rows => 3, :cols => 38) %>
+                                    <br /><div id="<%= "sandy"+@invitation.id.to_s %>"><p id="pid"></p></div><br />
+                                    
+                                    <div id="<%= "cap"+@meeting.id.to_s %>"></div>
+                                    
+                                    <div id="button-box<%= @invitation.id %>">
+                                         <div style="width:97px; float:left;"><%= link_to_remote(button_image_search('lets-meet-popup',:border=>"0",:height => "32",:width => "95"), 
+                                                           { :url => attend_url(:id => (@meeting.id rescue nil)), 
+                                                             :submit => 'attend-form'+@invitation.id.to_s} ) %>
+                                          </div>
+                                        <div style="width:95px; float:left;"><img width="95" height="32" border="0" src="/images/newdesign/search_images/cancel-lets_pop.jpg" alt="Cancel-lets_pop" onclick="document.getElementById('attend_note_form<%= @invitation.id %>').reset(); document.getElementById('pid').innerHTML=''; attendDialog.close();"><%#= link_to_function(button_image_search('cancel-lets_pop',:border=>"0",:height => "32",:width => "95"), "attendDialog.close();") %></div>
+                                         <div style="width:120px; float:left;"><p style="padding:7px 0 0 64px;"><a class="nospam" href="javascript:void(0);" onclick="raghu(event,'nospam'); new Ajax.Request('/rsvp/add_todo_popup',{asynchronous:true}) ">
+NO SPAM</a></p></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="attend-processing" style="display: none;">
+                                Please wait while we notify <b><%= @invitation.inviter.user_name %></b>.
+                                <br/> <br/>
+                                <%= indicator_image('spinner.dark_on_light.green') %>
+                            </div>
+                          </div>
+                        </div>                          
+                          
+                     </p>
+          			<% end %>
+                    
+		<% if current_member && @invitation.inviter.id == current_member.id %>
+              <a href="<%= copy_url %>" onmouseover="document.copy1.src='/images/newdesign/showinvite/copy_over.jpg';" onmouseout="document.copy1.src='/images/newdesign/showinvite/copy.jpg';"><img src="/images/newdesign/showinvite/copy.jpg" border="0" name="copy1"/></a>     
+        <% else %>
+          <h2 class="savemeeting">
+                <div id="search-mail<%=@invitation.id%>">
+                 <%= render :partial => "browse/save_meeting",:locals => {:meeting => @invitation} %>
+                </div>          
+          </h2>
+		<% end %>
+        
+		<% if current_member && @invitation.inviter.id == current_member.id %>
+			  <a href="<%= confirm_delete_url %>" onmouseover="document.delete1.src='/images/newdesign/showinvite/delete_over.jpg';" onmouseout="document.delete1.src='/images/newdesign/showinvite/delete.jpg';"><img src="/images/newdesign/showinvite/delete.jpg" border="0" name="delete1"/></a>
+        <% else %>
+			<% if !private_mw? %> 
+              <h2 class="forward">
+                  <% if current_member %>
+                    <% if @invitation.upcoming_meeting %>
+                     <a href="#" onclick="document.getElementById('light_forward<%= @invitation.id %>').style.display='block';document.getElementById('fade_forward<%= @invitation.id %>').style.display='block'">Forward</a>
+                    <% end %>
+                  <% else %>
+                     <a href="/member">Forward</a>
+                  <% end %>
+                  <%= render :partial => "invitations/forward",:locals => {:invite => @invitation,:meeting => @invitation.upcoming_meeting} %>
+              </h2>
+            <% end %>  
+        <% end %>
+        
+        <p class="hordot1">&nbsp;</p>
+          
+          <h2 class="attending">ATTENDING</h2>
+          <% attendee = Confirmation.find_by_sql("select * from confirmations where invitation_id = #{@invitation.id} and status_id = 120") %>
+          <p class="attendingtxt"><span style="font-weight:bold;"><%= @invitation.confirmations.size %> People</span> attending </p>
+          
+          <% if @invitation.no_pref != 1 %>
+		  <% if @invitation.recurring? %>
+            <h2 class="time1">TIME <%= "FLEXIBLE" if @invitation.preference_flag == 1 %></h2>
+          <% else %>
+            <h2 class="time">TIME <%= "FLEXIBLE" if @invitation.preference_flag == 1 %></h2>
+          <% end %>          
+          <p class="timetxt">
+					<% if @invitation.recurring? %>
+						<%= render :partial => 'recurring_whence', :locals => {:invitation => @invitation} %>
+					<% else %>
+						<%= whence(@invitation) %>
+					<% end %>          
+          </p>
+          <% else %>
+              <h2 class="time">TIME</h2>
+              <p class="timetxt">
+              	No Preference
+              </p>
+          <% end %>
+          
+          <h2 class="location">LOCATION</h2>
+          <p class="locationtxt">
+
+				<% if !@invitation.address.nil? && !@invitation.address.blank? %>
+                <% if @invitation.address.city != "NA" %>
+					  <%= where(@invitation) %>
+                <% else %>
+                	Open
+                <% end %>
+                <% end %>
+                
+                <% if !@invitation.virtual_type.nil? %>
+                      Virtual Location: <%= @invitation.virtual_type %>
+                <% end %>          
+          
+          </p>
+
+          <% if !@meeting.nil? %>		  
+		  <p class="hordot1">&nbsp;</p>
+          
+          <h2 class="location">GUEST RESPONSE</h2>
+          <p class="locationtxt">
+			<% if(@member && @member == @meeting.invitation.inviter) %>
+              <%= render :partial => 'guest_response_inviter', :locals => { :guest_list => @guest_list, 
+                                                                            :outstanding_rsvps => @outstanding_rsvps, 
+                                                                            :member => @member, 
+                                                                            :meeting => @meeting} %>
+            <% else %>
+              <%= render :partial => 'guest_response', :locals => { :guest_responses => @guest_responses, :member => @member, :meeting => @meeting} %>
+            <% end %>
+          </p>
+          <% end %>
+          
+          <% if !@meeting.nil? %>          
+          <p class="locationtxt">
+			<% unless @confirmation.blank? %>
+            <p class="hordot1">&nbsp;</p>
+            <h2 class="location" style="padding-bottom:5px;">MESSAGE</h2>
+              <div class="sidebar-box">
+                <%= render(:partial => 'messages', :locals => { :invitation => @invitation, 
+                                             :meeting => @meeting, 
+                                             :member => @member,
+                                             :confirmation => @confirmation })  unless (@member.nil? or @member == @invitation.inviter) %>
+                                            
+              </div>
+            <% end %>
+          </p>  
+		  <% end %>	
+          
+          <% if !@invitation.no_pref == 1 %>
+          <% if !@meeting.nil? %>          
+          <p class="hordot1">&nbsp;</p>
+          
+          <h2 class="location">EMAIL REMINDERS</h2>
+          <p class="locationtxt">
+            <div class="sidebar-box">
+                <%= render( :partial => 'reminder_settings', :locals => { :invitation => @invitation, :reminder => @reminder, :member => @member }) unless (@member.nil? or @meeting.start_time.nil? or @meeting.end_time.nil? or @meeting.expired?) %>
+            </div>
+          </p>                 
+          <% end %>
+          <% end %>
+          
+          <% if !@meeting.nil? %>
+          <p class="locationtxt">
+			<% if display_recurring_confirmations(@meeting.invitation, @member) %>
+            <p class="hordot1">&nbsp;</p>
+            <h2 class="location" style="padding-bottom:5px;">YOUR RESPONSE</h2>
+                <div class="sidebar-box">
+                    <%= render :partial => 'recurring_confirmed', :locals => { :member => @member, :meeting => @meeting} %>
+                </div>
+            <% end %>         
+          </p>       
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+<% if !private_mw? %>    
+<div style="padding:0 0 20px 0;">
+
+<table>
+    <tr>
+    <td width="248" style="background:url(/images/shar-bg.png) no-repeat; width:160px; height:23px;">
+    <div class="addthis_toolbox addthis_default_style" style="padding:0 0 0 4px; margin:2px 0 0 0;">
+    <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c1f684442c3c4d2" class="addthis_button_compact">Share</a>
+    <span class="addthis_separator">|</span>
+    <a class="addthis_button_facebook"></a>
+    <a class="addthis_button_myspace"></a>
+    <a class="addthis_button_google"></a>
+    <a class="addthis_button_twitter"></a>
+    </div>
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c1f684442c3c4d2"></script>
+    </td>
+    </tr>
+</table>    
+
+</div>    
+<% end %>
+    
+    <div id="dot"></div>
+    <div id="rightpanelmain">
+      <h2 class="meeting">
+      <div style="padding-top:25px;">
+        <ul>
+        <% invt = [] %>
+        <% invtids = [] %>
+        <% if !@sim_meetings.nil? %>
+			<% @sim_meetings.each_with_index do |invitation,i| %>
+              <% if !invitation.nil? %>
+				<% invt << invitation.name if !invitation.nil? && invitation.name != @invitation.name %>
+                <% invtids << invitation.id if !invitation.nil? && invitation.name != @invitation.name %>
+              <% end %>  
+            <% end %>
+		<% end %>
+
+        
+        <% if !invt.nil? %>
+			<% invt.each_with_index do |invt,i| %>
+             <% if i < 5 %>
+              <li class="right1"><%= similar_invites(invt,invtids[i]) -%></li>
+             <% end %>
+            <% end %>
+		<% end %>
+        </ul>
+      </div>
+      </h2>
+      <!--p class="findmeetingpanel"><a href="/ssearch"><img src="/images/newdesign/search_images/search-find-meet-btn1.jpg" border="0" width="157" height="42" style="margin:17px 0 0 -20px;" onmouseover="this.src= '/images/newdesign/search_images/search-find-meet-btn1-over.jpg';" onmouseout="this.src = '/images/newdesign/search_images/search-find-meet-btn1.jpg';"/></a></p-->
+      <p class="hordot">&nbsp;</p>
+      
+      <h2 class="createmeeting">&nbsp;</h2>
+      <!--p class="meetingtypetxt">MEETING TYPE</p>
+      <p>
+        <select class="dropdwnlist">
+        </select>
+      </p>
+      <p class="meetingtypetxt">ZIP CODE OR CITY </p>
+      <p>
+        <input type="text" class="txtbox" />
+        <span class="outside-us">Outside US?</span></p>
+      <p class="example">e.g. Los Angeles, CA or 90230</p-->
+      <p class="createmeetingbutton"><a href="/post_invite/new_create" onmouseover="document.but.src='/images/newdesign/search_images/search-create-over.jpg'" onmouseout="document.but.src='/images/newdesign/search_images/search-create.jpg'" ><img src="/images/newdesign/search_images/search-create.jpg" name="but" border="0"/></a></p>
+
+      
+      <p class="hordot">&nbsp;</p>
+      <!--h2 class="remeeting">
+        <p class="remeetingtxt">Use this meeting as a starting point to create your own meeting.</p>
+      </h2>
+      <p class="dupmeeting"><img src="/images/newdesign/showinvite/dup-meeting.jpg" /></p-->
+      		<div><img src="/images/newdesign/search_images/top-search-right.jpg" border="0" width="228" height="9" style="margin: 0pt 0pt -18px; >margin-bottom:-25px; >margin-top:10px;"/></div>
+              <%= form_tag('', :id => 'search_filter', :onsubmit => "postTZoffset(this); window.location.href = '/ssearch?' + Form.serialize(this); return false;") %>
+              <div style="margin: 15px 0pt 0pt 0px; width: 228px; background-color: rgb(211, 225, 234);">
+                <table width="268" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td colspan="3"><p><img src="/images/newdesign/search_images/search-r-ight-head.jpg" border="0" width="102" height="14" style="margin:0 0 0 3px;" /></p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Meeting Type<br />
+                        <%= activity_new %>
+                      </p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Purpose<br />
+                        <%= purpose_new %>
+                      </p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Keyword<br />
+                        <%= keywords %>
+                      </p>
+                      <p class="seasmatext">e.g. iPhone, agile development, green</p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Person Keyword<br />
+                        <%= person_keywords %>
+                      </p>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">On or after<br />
+                        <%= date_selector("search_filter[start_time]", @search_filter.start_time, 'txt ssearch_date')%>
+                      </p>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Before<br />
+                        <%= date_selector("search_filter[end_time]", @search_filter.end_time, 'txt ssearch_date')%>	
+                      </p>
+                    </td>
+                  </tr>
+                  
+                  
+
+                  <tr>
+                    <td colspan="3"><p class="firstlabel">Location-limit search by</p></td>
+                  </tr>
+                  <tr> 
+                 <td width="16"><p>
+                       <input type="checkbox" name="vcheck" id="vcheck" onclick="vcheckuncheck();" <%= "checked" if !params[:vcheck].nil? && params[:vcheck] == "on" %> style="margin-left:4px; >margin-left:0px;"/>
+                        <input type="hidden" value="<% if !params[:search_filter].nil? %><%= params[:search_filter][:virtual_f] %><% else %>0<% end %>" id="virtual_f" name="search_filter[virtual_f]">
+
+                      </p></td>
+                     <td width="162"><p class="firstlabeltext_new">Virtual Meetings</p></td>
+                    <td width="90">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" height="6"></td>
+                  </tr>
+                 
+                  <tr>
+                    <td><input type="checkbox" id="faf"  onclick="facetoface();" <%= "checked" if !params[:checked_locat].nil? && params[:checked_locat] == "1" %> style="margin-left:4px; >margin-left:0px;"/>
+                    </td>
+                    <td><p class="firstlabeltext_new">Face-to-Face Meetings...</p></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <input type="hidden" value="<%= params[:checked_locat] %>" id="checked_locat" name="checked_locat">
+                  <tr>
+                    <td colspan="3">
+                    <div id="facetoface" <%= 'style="display:none;"' if params[:checked_locat] != "1" %>>
+                    <table width="280" border="0">
+  				 <tr>
+                  <td>&nbsp;</td>
+                    <td colspan="2"><p class="firstlabeltext">Within<br />
+                        <%= radius %>
+                      </p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><p class="firstlabeltext">Specific Location<br />
+                        <%= location %>
+                      </p>
+                    </td>
+                    <!--td><p class="searchout"><a href="#">Outside US?</a></p></td-->
+                  </tr>
+                  
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><p class="firstlabeltext">Country<br />
+                        <%= country %>
+                      </p>
+                    </td>
+                    <!--td><p class="searchout"><a href="#">Outside US?</a></p></td-->
+                  </tr>
+                  
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><p class="firstlabeltext">State<br />
+                        <%= state %>
+                      </p></td>
+                  </tr>
+                  
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><p class="firstlabeltext">City<br />
+                        <%= city %>
+                      </p></td>
+                  </tr>
+
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><p class="firstlabeltext">Zip<br />
+                        <%= zip %>
+                      </p></td>
+                  </tr>
+
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><p class="firstlabeltext">Us Airport<br />
+                        <%= airport %>
+                      </p></td>
+                  </tr>
+				</table>
+
+                    </div>
+                    </td>
+                  </tr>
+                 
+                  <tr>
+                    <td colspan="3"><div style="border-bottom:1px dotted #989898; margin:6px 0 0 0; width:220px;">&nbsp;</div></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" height="6">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td><p>
+                        
+                        <input type="checkbox" name="rom" id="rom" <% if !params[:search_filter].nil? && params[:search_filter][:romance] == "19" %>checked<% elsif params[:search_filter].nil? %>checked<% end %> onclick="romancecheck();" style="margin-left:4px; >margin-left:0px;"/>
+                        
+                        <input type="hidden" value="<% if params[:search_filter].nil? %>19<% else %><%= params[:search_filter][:romance] %><% end %>" id="romance" name="search_filter[romance]">
+                        
+                        <%#= check_box 'search_filter', 'romance', {:style=>"margin-left:4px; >margin-left:0px;" }, "0", "1" %>
+                        <%= hidden_field 'search_filter', 'client_tz_offset', :value => ''  %>
+                      </p></td>
+                    <td><p class="firstlabeltext_new">Exclude Romance</p></td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="2"><p>
+                         <input type="image" src="/images/newdesign/search_images/search-find-meet-btn.jpg" border="0" style="margin:17px 0 0 40px;" onmouseover="this.src= '/images/newdesign/search_images/search-find-meet-btn-over.jpg';" onmouseout="this.src = '/images/newdesign/search_images/search-find-meet-btn.jpg';"/>
+                      </p></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="2"><div class="mainadsearch">
+                        <div class="editpannel">
+                          <!--p><img src="/images/newdesign/search_images/search-edit.jpg" border="0" width="20" height="18" style="margin:4px 0 0 79px;" /></p-->
+                        </div>
+                        <div  class="advancepannel">
+                          <!--p class="advsearchtext"><a href="#" onclick = "document.getElementById('light_adsearch').style.display='block';document.getElementById('fade_adsearch').style.display='block'";>Advanced Search</a--></p>
+                        </div>
+                      </div></td>
+                  </tr>
+                </table>
+              </div>
+              <div style="float:left; clear:both;"><img src="/images/newdesign/search_images/bottom-search-right.jpg" border="0" width="228" height="10" style=">margin:0 0 0 0; margin:0 0 6px 0;"/></div>
+              </form>
+      
+      
+      <!--p class="hordot" >&nbsp;</p-->
+    </div>
+  </div>
+  <div id="subbottombg"></div>
+  <div id="bottombg"></div>
+  <!-- End-inner-container-->
+</div>
+
+<div id="rightpanel">
+<script type="text/javascript"><!--
+google_ad_client = "pub-6131741780602982";
+/* 160x600, created 1/13/10 */
+google_ad_slot = "8237315488";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+
+
+
+
+<% if !current_member %>
+	<%= render :partial => 'shared/signin' %>
+    <%= render :partial => 'shared/how_it_works' %>
+    <%= render :partial => 'shared/about' %>
+<% end %>

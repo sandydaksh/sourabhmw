@@ -1,0 +1,132 @@
+   <!--[if IE 6]>
+	<style>
+
+		.grad_year {
+			padding-bottom:10px;;
+			margin-bottom:14px;
+			font-size: 1.5em;
+		}
+
+		.first_field_in_float {
+			margin-left: -10px;
+		}
+
+		h3.margin_hack {
+			margin-left: 10px;
+			padding-bottom: 0;
+		}
+		.profile_main {
+			padding: 0;
+			margin-left: 10px;
+			margin-top: 10px;
+		}
+		.pwidget {
+			margin-left: 0;
+		}
+		.edit p.singlerow {
+		   height: 20px;
+		}
+		.edit p input.txt {
+			width: 170px;
+		}
+		.edit p.singlerow input {
+			width: 60px;
+		}
+		
+		
+	</style>
+
+	<![endif]-->
+   <style>
+   #external_profile_links{
+    float:left;  
+   }
+   
+   .summary_box{
+     margin-left:10px;
+     margin-right:10px;
+   }
+   
+   #external_profiles{
+     clear:none;
+   float:left;
+   width:200px;
+   margin-right:10px;
+   }
+   
+   #external_profiles form{
+     
+   }
+  
+ </style>
+<% member = @member%>
+<div class=" profile_main clearfix">
+		
+	
+
+	  	 <div id="profile_pic_container summary_box" style="float:left;">
+	  	 	   <% if member.member_profile.picture %>
+	  	 	     <%= image_tag(thumb_url(:id => member.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :class => "profile_pic") %>
+	  	 	   <% else %>
+	  	 	     <%= image_tag('/images/ttb/default_pic.jpg', :class => "profile_pic") %>
+	  	 	   <% end %>
+	  	 	   <h5 class="nomargin"><%= link_to('CHANGE PIC', new_picture_url, :class => 'edit_link') %></h5>
+   	  	 	<h1 class="system profile_user_name"> <%= member.user_name %> </h1> 	
+	  	 </div>
+   <div class="profile_summary_header clearfix summary_box" style="float:left;">
+
+	  		 <%= render :partial => '/member_profiles/external_profile_links', :locals => { :member => member, :member_profile => member.member_profile } %>
+	  	</div>
+    <div id="account_details" class="summary_box" style="margin-left:30px;float:right;">
+	  			  <h3 class="nomargin">MEMBER SINCE</h3>
+	  			  <p> <%= time_ago_in_words(member.created_at) %> ago </p>
+	  	
+	  			  <h3 class="nomargin">NAME</h3>
+	  			  <p> <%= truncate(member.fullname) %> </p>
+	  	
+	  			  <h3 class="nomargin">INVITES</h3>
+	  			  <p> <%= member.invitations.count(:conditions => ["draft_status = 'posted'"]) %> posted, <%= member.confirmations.count %> received 
+	  	
+	  			  <br/>
+	  	</div>
+   
+ </div>
+
+	<div class="profile_main">
+		<div class="profile_header">
+			<h4 class="nomargin">TravelerTable Profile</h4> 
+			<div id="new_box_button">
+					<%= link_to_function(image_tag('/images/ttb/button_add_LIST_box.gif'), 'Element.show("new_profile_widget"); Element.hide("new_html_widget");') %>
+			</div>
+		</div>
+		<br/>
+               <%= render :partial => "profile_message" %>
+
+
+	<div id="column_A" class="widget_column">
+		<% @column_a_widgets.each do |widget| %>
+			<%= render :partial => "#{widget.widget_partial}_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+	</div>
+	
+	<div id="create_column" class="widget_column">
+		<%= render :partial => 'create_widget' %>
+	</div>
+	
+	<div id="column_B" class="widget_column">
+		<% @column_b_widgets.each do |widget| %>
+			<%= render :partial => "#{widget.widget_partial}_widget", :locals => { :member_profile => @member_profile, :profile_widget => widget } %>
+		<% end %>
+
+	</div>
+	
+	<%= sortable_js %>
+
+</div>
+   
+
+
+
+
+
+

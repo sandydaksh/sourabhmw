@@ -1,0 +1,62 @@
+
+<tr>
+  <td valign="top"><p class="label-create">Location</p></td>
+  <td><table width="780" border="0" cellspacing="0" cellpadding="0">
+      <% if !flash.now[:location_error].nil? %>
+      <div id="errorExplanation" class="errorExplanation">
+        <ul class="errors">
+          <li> <%= flash.now[:location_error] %> </li>
+        </ul>
+      </div>
+      <% end %>
+      <tr>
+        <td width="24"><p>
+            <input type="checkbox" name="v_type" <%= "checked" if !params[:v_type].nil? && params[:v_type] == "on" %> onclick="virtualtypecheck();"/>
+          </p></td>
+        <input type="hidden" value="<%= params[:checked_vtype] %>" id="checked_vtype" name="checked_vtype">
+        <input type="hidden" value="<%= params[:invitation][:virtual_flag] if !params[:invitation].nil? %>" id="virtual_flag" name="invitation[virtual_flag]">
+        <td width="100"><p class="label-location">Virtual Meeting</p></td>
+        <td width="120"><div id="v2" <%= 'style="display:none;"' if params[:checked_vtype] != "1" %>>
+            <p>
+              <% im_type = ["Skype","Webinar","Teleconference","Chat","Online Video Conference","Other"] %>
+              <select class="select-skype" name="virtual_type">
+                <% im_type.each do |type| %>
+                <option value="<%= type %>" <%= "selected" if !params[:virtual_type].nil? && params[:virtual_type] == type %>><%= type %></option>
+                <% end %>
+              </select>
+            </p>
+          </div></td>
+        <td width="18"></td>
+        <td width="83"><div id="v3" <%= 'style="display:none;"' if params[:checked_vtype] != "1" %>>
+            <p class="label-location">Meeting Info.</p>
+          </div></td>
+        <td width="130"><div id="v4" <%= 'style="display:none;"' if params[:checked_vtype] != "1" %>><%= text_field 'invitation', 'meeting_info',:size => "30",:class => "keywordbox-new"  %></div></td>
+        <td width="303"><div id="v5" <%= 'style="display:none;"' if params[:checked_vtype] != "1" %>>
+            <p class="notetext">Note: Confirmed attendees will see this info.</p>
+          </div></td>
+      </tr>
+      <tr>
+        <td colspan="5" height="16">&nbsp;</td>
+      </tr>
+      <tr>
+        <td><p>
+            <input type="checkbox" id="location_check" name="loc_type" onclick="checkuncheck();" <%= "checked" if !params[:loc_type].nil? && params[:loc_type] == "on" %>/>
+        </td>
+        <td><p class="label-location">Face-to-Face Meeting At</p></td>
+        <td><p>
+          <div id="newid" class="label-location"> </div>
+          </p></td>
+        <td><p>
+          <div id="locedit2"><img src="/images/newdesign/edit.gif" width="17" height="17" border="0"></div>
+          </p></td>
+        <td colspan="3"><p class="editloca">
+          <div id="locedit3"><a href = "#" id="focus_set" onclick="document.getElementById('light1').style.display='block'; document.getElementById('fade1').style.display='block'" class="editloca">Edit Location</a></div>
+          </p>
+          </div></td>
+      </tr>
+    </table></td>
+</tr>
+<tr>
+  <td valign="top" height="20" >&nbsp;</td>
+  <td valign="top"><%= error_messages_for('invitation', :header => '', :attributes_order => [:purpose_id, :payment_id], :user_facing_names => {:payment_id => 'Costs'}) %></td>
+</tr>

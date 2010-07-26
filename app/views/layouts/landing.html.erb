@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+<%= title_tag %>
+
+<%= stylesheet_link_tag("meetinwavenew/style.css") %>
+<%= stylesheet_link_tag("meetinwavenew/signup/loginpopup.css") if !current_member %>
+
+<meta name="Description" content="<%= meta_description %>" />
+<meta name="Keywords" content="<%= seo_keywords %>" />
+
+</head>
+<body style="overflow-x:hidden;">
+
+<div class="maincontainer">
+<% if !current_member %><%= render :partial => '/shared/before_login_header' %> <% else %><%= render :partial => 'shared/new_header' %> <% end %>
+<%= yield %>
+
+ <div id="footer_new"> 
+ <%= render :partial => '/shared/footerhome' %>
+ <%= render :partial => "/shared/urchin_hitail" %>
+ </div>
+</div>
+</body>
+</html>
+
+

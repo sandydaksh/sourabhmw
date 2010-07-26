@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title><%= title_tag %></title>
+    <meta name="google-site-verification" content="O8RMwXL4nPrvB2KoAALuPAlHwWk9f5TDzeZ6S23rBAM" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+	<!-- Stylesheets  -->
+	<%= stylesheet_link_tag("meetinwavenew/style.css") %>
+	<%= stylesheet_link_tag("meetinwavenew/signup/loginpopup.css") %>
+</head>
+<body>
+
+<p style="color: green"><%= flash[:notice] %></p>
+
+  <div id="content">
+	<% if !current_member %>
+    <%= render :partial => 'shared/before_login_header' %>
+    <% else %>
+    <%= render :partial => 'shared/new_header' %>
+     <% end %>
+	<%= yield %>
+  </div>
+  <%= render :partial => '/shared/footerhome' %>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+
+Important Message Re: "<%= @invitation_name%>"
+From: <%= @author.capitalize_each_word %>
+To: <%= recipients(@recipient, @broadcast) %>  
+     
+
+<%= message_txt(@author, @message) %>
+        
+<%= link_to("Click to respond!",@url_invite) %>
+

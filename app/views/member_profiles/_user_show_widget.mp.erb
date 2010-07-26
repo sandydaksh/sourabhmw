@@ -1,0 +1,9 @@
+<h3 class="profilesection"><%= profile_widget.title.upcase %></h3>
+	
+	<!-- VIEW -->
+	<div class="profileview">
+		<% profile_widget.profile_sections.each do |section| %>
+			  <h4> <%= section.name.upcase %> </h4> 
+			  <%= section.section_details.collect{ |detail| content_tag('h5', "&nbsp;&nbsp;#{detail.text}", :class => 'entry')  } %> 
+		<% end %>
+	</div>

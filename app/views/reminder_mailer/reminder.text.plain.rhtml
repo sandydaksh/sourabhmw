@@ -1,0 +1,9 @@
+This is a friendly reminder from MeetingWave.com about your upcoming meeting:
+    <%= @invitation.name %>
+
+This meeting will take place on <%= @invitation.upcoming_meeting.start_time_local %>.
+
+You can view the details for this meeting on MeetingWave.com by following this link: 
+  <%= @url %>
+
+<%= brought_to_you_by_txt %>

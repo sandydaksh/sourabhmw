@@ -1,0 +1,66 @@
+<div style="width:268px;">
+
+  <table width="268" border="0" cellspacing="0" cellpadding="0" id="light" class="white_content" style="background:#d3e1ea;">
+
+    <tr>
+      <td colspan="3" bgcolor="#d3e1ea" align="right" style="padding-right: 5px; >padding-right: 14px;"><a class="close" href = "javascript:void(0)" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"><span>Close</span></a></td>
+    </tr>
+
+    <tr>
+      <td valign="top"><table width="196" border="0" cellspacing="0" cellpadding="0">
+
+        <tr>
+
+          <td  valign="top">
+            <form action="/invitations/sethomebase">
+
+            <table width="196" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td colspan="2" ><p class="label1">City</p></td>
+              </tr>
+              <tr>
+                <td colspan="2"><%= text_field('member_profile', "current_city") %></td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><p class="label1">State</p></td>
+              </tr>
+              <tr>
+                <td colspan="2"><%= text_field('member_profile', "current_state") %></td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><p class="label1">Country</p></td>
+              </tr>
+              <tr>
+                <td colspan="2"><%=  mw_country_select('member_profile', 'current_country', ["United States", "Canada"], {:include_blank => true, :prompt => "Country"}) %></td>
+              </tr>
+
+              <tr>
+                <td colspan="2" >
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td valign="top" style="padding-top:5px;">
+                        <%= ibutton_change_location("sign-in") %>                      
+                      </td>
+                    </tr>
+                  </table>    
+                </td>
+              </tr>
+            </table>
+            </form>
+            </td>
+        </tr>
+
+
+      </table></td>
+    </tr>
+  </table>
+
+
+
+
+
+</div>
+<!--div id="fade" class="black_overlay"></div>-->
+<div id="fade" style="display: none;position: absolute;top: 0%;left: 0%;width: 100%;height:3500px;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);"></div>

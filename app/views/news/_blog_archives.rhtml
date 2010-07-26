@@ -1,0 +1,10 @@
+<div class="other_articles">
+<h2><%= archives_title %> </h2>
+
+<% @months.each do |month| %>
+	<div class="other_news_container">
+    
+		<h5 class="other_news_headline"><%= (month == params[:month]) ? month :  link_to(month, month_link(month))  %></h5>	
+	</div>
+<% end %>
+</div>

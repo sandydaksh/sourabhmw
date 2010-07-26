@@ -1,0 +1,91 @@
+<div id="feedreaders">
+	<h3>Popular RSS feed readers</h3>
+	<ul class="toplevel">
+		<li>
+			<strong>Windows</strong>
+			<ul>
+				<li><%= link_to('Newz Crawler', 'http://www.newzcrawler.com' ) %></li>
+				<li><%= link_to('FeedDemon', 'http://www.newsgator.com/Individuals/FeedDemon') %></li>
+				<li><%= link_to('Awasu', 'http://www.awasu.com') %></li>
+			</ul>
+		</li>
+		<li>
+			<strong>Mac OS X</strong>
+			<ul>
+				<li><%= link_to('Newsfire', 'http://www.newsfirerss.com') %></li>
+				<li><%= link_to('NetNewsWire', 'http://www.newsgator.com/Individuals/NetNewsWire/') %></li>
+			</ul>
+		</li>
+		<li>
+			<strong>Web</strong>
+			<ul>
+				<li><%= link_to('Bloglines', 'http://www.bloglines.com') %></li>
+				<li><%= link_to('FeedZilla', 'http://www.feedzilla.com') %></li>
+				<li><%= link_to('Google Reader', 'http://www.google.com/help/reader/tour.html') %></li>
+				<li><%= link_to('NewsGator', 'http://www.newsgator.com/ngs') %></li>
+				<li><%= link_to('Microsoft Live', 'http://get.live.com') %></li>
+				<li><%= link_to('My Yahoo!', 'http://my.yahoo.com') %></li>
+			</ul>
+		</li>
+		<li>
+			<strong>Browser/Email add-ons</strong>
+			<ul>
+				<li><%= link_to('Mozilla Firefox', 'http://addons.mozilla.org/firefox/browse/type:1/cat:1/sort:popular') %></li>
+				<li><%= link_to('Mozilla Thunderbird', 'http://www.mozilla.com/thunderbird/') %></li>
+			</ul>
+		</li>
+	</ul>
+	<span style="font-size: 80%;">MeetingWave.com is not responsible for the content of external internet sites	</span>
+</div>
+<%= image_tag('/images/ttb/feed_74.gif', :style => 'float: right; margin-top: 14px;') %>
+<h2>MeetingWave RSS feeds</h2>
+ <ul class="toplevel">
+	<li><a href="#what">What are RSS feeds?</a></li>
+	<li><a href="#start">How can I start using them?</a></li>
+	<li><a href="#choose">How do I choose a feed reader?</a></li>
+	<li><a href="#subscribe">How do I find and subscribe to a RSS feed?</a></li>
+	<li><a href="#making">Can I make my own MeetingWave RSS feeds?</a></li>
+	<li><a href="#external">Can I use MeetingWave feeds on my site?</a></li>
+</ul>
+
+<h3><a name="what">What are RSS feeds?</a></h3>
+
+<p>RSS feeds allow you to see when new content has been added to a website. Using a feed reader to keep up with sites that regularly publish new content will enable you to see and filter the information, without having to visit the website.</p>
+
+<p>The term 'feed' is used more or less interchangeably with 'RSS'.  For more technical and cultural background see the New York Times article: <%= link_to('Fine-Tuning Your Filter for Online Information', 'http://www.nytimes.com/ref/technology/circuits/03basi.html') %>.</p>
+
+<h3><a name="start">Getting started</a></h3>
+
+<p>First you'll need a feed reader. This is a relatively simple piece of software akin to a web browser or an email client. In fact a growing number of web browsers and email clients include feed reading capabilities or make them available through extensions. The Mozilla foundation's Firefox browser and Thurderbird email client are two such examples.</p>
+
+<h3><a name="choose">Choosing a feed reader</a></h3>
+
+<p>There are a wide variety of commercial and free feed readers available and new ones seem to be released regularly. Many of the most popular feed readers can be downloaded or accessed from the links in the upper right corner of this page under "Popular RSS Feed Readers".</p>
+
+<p>Some feed readers are desktop applications and will only work on certain operating systems. Others are integrated into web browser or email client software or can be  integrated as plug-in add on packages. Still others are web applications that will work on any computer that has an up-to-date web browser installed. </p>
+
+<p>The main difference between the different types of feed readers is whether it is based on your computer, in which case it is like using Outlook to read your email, or web based, in which case it is like using the hotmail web site to read your email. As with desktop email clients vs. web based email there are advantages and disadvantages to each. It should be noted that it is easier to switch feed readers than it is to switch email clients, since almost all of them offer the capability to export and import a list of your feed subscriptions. That said, the functionality gap between desktop and web based applications has narrowed significantly and it is quick and easy to get started using a web based feed reader like those offered by <%= link_to('Google', 'http://www.google.com/help/reader/tour.html') %>, <%= link_to('Yahoo', 'http://my.yahoo.com') %> and <%= link_to('Microsoft', 'http://get.live.com/') %>. Especially if you already have an email account with one of those providers, since you can use your existing login credentials to access their applications and services for managing RSS feeds.  For example, if using Gmail, click on "More" in the upper portion of your Gmail window and select "Reader" to get started.</p>
+
+<h3><a name="subscribe">Finding and subscribing to a RSS feed</a></h3>
+
+<div class="clearfix" style="margin: .5em 0;">
+	<%= link_to(image_tag('/images/ttb/screen_browse_rss.jpg', :class => 'feedscreen', :style => "float: left;"), browse_url) %> 
+	<%= image_tag('/images/ttb/screen_member_rss.jpg', :class => 'feedscreen', :style => "float: right;") %>
+</div>
+<p>MeetingWave offers feeds on the <%= link_to('browse page', browse_url) %>, member profile pages and search results pages. Subscribing to a feed is usually as simple as looking for the orange feed icon and clicking on it.</p>
+<p>Some older versions of the popular browsers might not support the 'click to subscribe' functionality, in which case it will be necessary to copy the feed URL by right clicking and selecting "copy" and pasting it into your feed reader by manually adding a feed. </p>
+
+<p>Most current versions of common browsers, including Firefox, Safari, Opera and Internet Explorer 7 automatically check for feeds when you visit a website. They will typically display the feed icon on the right hand side of the address field when they find one. This can make finding and subscribing to feeds faster and easier.</p>
+
+<h3><a name="making">Customized RSS feeds</a></h3>
+
+<%= link_to(image_tag('/images/ttb/screen_search_rss.jpg', :class => 'feedscreen', :style => "float: right;"), ssearch_url) %>
+<p class="clearfix">You can use the MeetingWave <%= link_to('Advanced Search', ssearch_url) %> page to create your own feeds and easily keep up to date on new invitations that meet your criteria. To do this just define a set of criteria for your search and click the 'Search' button as you would normally, but notice that even if there aren't any invitations that currently match your search criteria, there is still an orange feed icon which you can use to subscribe to a feed that will be updated whenever there is an invitation posted that matches your criteria. For example you can create an RSS feed that would be updated whenever there were new invitations with the purpose of alumni socializing taking place in New York, NY. Here is the <%= link_to('link', '/ssearch?search_filter%5Bstate%5D=NY&amp;search_filter%5Bromance%5D=0&amp;search_filter%5Bpurpose_id%5D=14&amp;format=rss&amp;search_filter%5Bclient_tz_offset%5D=-18000&amp;search_filter%5Bradius%5D=100&amp;search_filter%5Bcity%5D=New+York') %> for that feed. Or you can create a feed to notify you of any new invite posted for a meeting in Chicago or using any other invite search criteria.  This will allow you to be notified of any invites that might interest you.</p>
+
+<h3><a name="external">Using MeetingWave feeds on your site</a></h3>
+
+<p>If you run your own website, you can display the latest invitations matching certain criteria using the appropriate RSS feed.</p>
+
+<p>We encourage the use of MeetingWave feeds, however, we do require that proper format and attribution be used when MeetingWave.com content appears. You may not use any MeetingWave logo or other MeetingWave trademark.</p>
+
+<p>We reserve the right to prevent the distribution of MeetingWave content and MeetingWave does not accept any liability for its feeds or the content of such feeds or the content of any external internet sites. Please see the <%= link_to('Terms of Service',  tos_url) %> for full details.</p>

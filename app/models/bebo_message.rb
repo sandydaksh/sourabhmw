@@ -1,0 +1,3 @@
+class BeboMessage < FacebookMessage
+  
+end

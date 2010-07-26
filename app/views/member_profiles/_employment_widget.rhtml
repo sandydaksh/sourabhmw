@@ -1,0 +1,135 @@
+<% widget_id = "jobs_#{profile_widget.id}" %>
+<div class="pwidget" id="<%= widget_id %>">
+	
+	<div class="header edit_mode">
+		<h3 class="movable">EMPLOYMENT</h3>
+		<% unless member_profile.jobs.blank? %>
+			<h5><%= link_to_function('EDIT', "editProfile('#{widget_id}');", :class => 'pedit', :id => 'edit_jobs') %></h5>
+		<% end %>
+	</div>
+	
+	<!-- NONE EXIST YET -->
+	<% if member_profile.jobs.blank? %>
+			<p class="noneyet">
+				No jobs listed yet.
+				<%= link_to_function ('ADD SOME', "editProfile('#{widget_id}'); addProfileSubsection('job'); Element.hide('add_some_jobs');", :class => 'add_link', :id => 'add_some_jobs' )%>	
+			</p> 
+	<% end %>
+	
+	<!-- VIEW -->
+	<% should_display_edit_section = (!new_job.nil? rescue false)  %>
+	<div class="view" style="display: <%= should_display_edit_section ? 'none' : 'block'%> ;">
+		<% @member_profile.jobs.each do |job| %>
+			<h4 class="subheader"> <%= job.title.upcase %> </h4>
+			<h5 class="entry"> <%= format_job(job) %> </h5>
+		<% end %>
+	</div>
+	
+	<!-- EDIT -->
+		<div class="edit" style="display: <%= should_display_edit_section ? 'block': 'none' %>;">
+			
+			<!-- INDIVIDUAL FORMS -->
+			<% member_profile.jobs.each_with_index do |job, index| -%>
+				<% subsection_id = "job_#{job.id}" %>
+					<div id="edit_subsection_job_<%= job.id %>" class="edit_subsection" style="display: none;">
+						<% form_remote_tag(:url => {:action => 'update_job'}) do -%>
+							<%= hidden_field_tag('job[id]', job.id) %>
+							<p>
+								<label>TITLE:</label>
+								<%= text_field_tag("job[title]", job.title, :class => 'txt') %>
+							</p>
+							<p class="singlerow">
+								<label>YEARS:</label> 
+								<%= text_field_tag("job[start_year]", job.start_year, :class => 'txt') %>
+								<label class="middle">TO:</label>
+								<%= text_field_tag("job[end_year]", job.end_year, :class => 'txt') %>
+								
+							</p>
+							<p>
+								<label>EMPLOYER:</label>
+								<%= text_field_tag("job[employer_name]", job.employer_name, :class => 'txt') %>
+								
+							</p>
+							
+							<p>
+								<label>LOCATION:</label>
+								<%= text_field_tag("job[location]", job.location, :class => 'txt')%>
+							</p>
+							
+						
+                                                     <%=  widget_buttons("cancelEditProfileSubsection('#{subsection_id}');") %>
+
+					<% end %>			
+				</div>
+				
+				<!-- DATA WITH EDIT LINK -->
+				<div id="view_subsection_job_<%= job.id %>" class="edit_box" >
+					<h4 class="subheader"> 
+						<%= job.title.upcase %> 
+						<br/>
+						<%= link_to_function('EDIT', "editProfileSubsection('#{subsection_id}');", :class => 'edit_link') %>
+						<%= link_to_remote('DEL', {:url => { :action => 'delete_job', :id => job.id}, 
+																:confirm => "Are you sure you want to delete this job?"}, 
+													  :class => 'delete_link', :alt => "DELETE", :title => "DELETE", :id => "delete_job_#{index}") %>
+					</h4>
+					<h5 class="entry"> <%= format_job(job) %> </h5>
+				</div>
+			<% end %>
+		
+		<!-- ADD NEW SECTION -->
+		
+		<!-- ADD NEW LINK -->	
+		<% should_display_add_link = (new_job.nil? rescue true) %>
+		<div id="edit_subsection_add_new_job_button" style="display: <%= should_display_add_link ? 'block': 'none' %>;" class="add_new_buttons">
+			<%= link_to_function('ADD NEW', 'addProfileSubsection("job");', :class => 'add_link', :id => 'add_a_job' ) %>
+		</div>
+		
+		<!-- ADD NEW FORM -->		
+		<div id="edit_subsection_add_new_job" style="display: <%= (new_job.nil? rescue true) ? 'none': 'block' %>;" class="add_new_subsection">
+			<% form_remote_tag(:url => {:action => 'add_job'}, :loading => loading_script('add_new_job')) do -%>
+				<% new_job ||= Job.new %>
+
+				<% unless new_job.errors.size.zero? %>
+				  <p class="widget_error_explanation"> Please fix the following errors and hit the SAVE button again:</p>
+				  <ul class="widget_errors">  
+					<% new_job.errors.full_messages.each do |msg| %>
+					    <%= content_tag('li', msg + '.', :class => 'widget_error') %>
+					<% end %>
+				  </ul>
+
+				<% end %>
+				
+				<p>
+					<label>TITLE:</label>
+					<%= text_field_tag("new_job[title]", new_job.title, :class => 'txt') %>
+				</p>
+				
+				<p class="singlerow">
+					<label>YEARS:</label> 
+					<%= text_field_tag("new_job[start_year]", new_job.start_year, :class => 'txt') %>
+					<label class="middle">TO:</label>
+					<%= text_field_tag("new_job[end_year]", new_job.end_year, :class => 'txt') %>	
+				</p>
+				
+				<p>
+					<label>EMPLOYER:</label>
+					<%= text_field_tag("new_job[employer_name]", new_job.employer_name, :class => 'txt') %>
+				</p>
+				
+				<p>
+					<label>LOCATION:</label>
+					<%= text_field_tag("new_job[location]", new_job.location, :class => 'txt')%>
+				</p>
+				
+				<div class="buttons">
+					<%= button_image_save('save_small', :id => "save_new_job") %>
+					<%= link_to_function(button_image_cancel('cancel_small'), 'cancelAddProfileSubsection("job")', :id => 'cancel_new_job') %>
+				</div>
+			<% end %>
+		</div>
+	
+	    <%= profile_spinner("add_new_job") %>
+
+	</div>
+
+</div>

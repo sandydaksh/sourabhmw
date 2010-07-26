@@ -1,0 +1,30 @@
+<div id="<%= field_name %>_<%= num %>" class="autocomplete_row <%= field_name %>_row">
+  <div id="left_side_autocomplete">
+      <%= text_field_tag("#{type_name}[#{field_name}_names][]", (field.name rescue ''), 
+								:width => '10', 
+								:id => "#{type_name}_#{field_name}_names_#{num}",
+								:class => "profile_autocomplete_txt fatinput",
+								:onkeypress => 'return noenter()') %> 
+      <% if field_name == 'school' %>      	
+      <%= select_year_tag(field.graduation, 
+				:start_year => Date.today.year, 
+				:end_year => 1920, 
+				:include_blank => true,
+				:name => "#{type_name}[school_graduations][]", :class => "grad_year") %>
+      <% end %>
+
+    <div class="auto_complete" id="<%= "#{type_name}_#{field_name}_names_#{num}_auto_complete" %>"></div>
+
+    <%= local_autocompleter(type_name, field_name, num) %>
+
+  </div>
+		
+  <div id="right_side_autocomplete">
+    <div class="delete_ac_item">
+      <%= link_to_function(button_image("close", :alt => 'Remove'), "remove_field('#{field_name}', #{num});")  %>
+    </div>
+  </div>
+  
+  <br style="clear:both;" />
+
+</div>

@@ -1,0 +1,53 @@
+<%= javascript_include_tag('Tooltip') %>
+
+<table cellspacing="1" cellpadding="0" border="0">
+	<tr class="two_columns">
+	  <th class="required" style="width: 160px;"><label for="invitation_purpose">*Purpose
+		<%= tool_tip('Purpose', %q{<ul>
+				<li><b>Business- networking</b> - meet with other individuals within your industry or within your profession for general business networking and contact generation.</li>
+				<li><b>Business - provide marketing/sales info</b> - meet with other individuals to provide them with information about a product or service. For example, a trusts attorney may post an invitations to have coffee with individuals interested in learning about trusts and wills.</li>
+				<li><b>Business - receive marketing/sales info</b> - meet with one or more individuals to provide you with information about a product or service. For example, post a meeting with a financial advisor to learn about investment strategies or with a patent attorney to learn whether your invention is patentable.</li>
+				<li><b>Business - meet potential customer or vice versa</b></li>
+				<li><b>Business - other</b></li>
+				<li><b>Career Inquiry</b> - Meet with others to discuss a possible career. For example, meet with a high school teacher to learn about teaching high school.</li>
+				<li><b>Job Inquiry</b> - Meet with current or former employees at a company you may be interested in working at.</li>
+				<li><b>Social - networking</b> - make new friends and acquaintances.</li>
+				<li><b>Social - hobby</b> - meet with fellow hobbyists such a fellow card players, bird watchers, gamers, etc.</li>
+				<li><b>Social - religious</b> - meet with others who share your faith.</li>
+				<li><b>Social - political meeting</b> - meet with others who share your political leanings or learn from others who don't.</li>
+				<li><b>Social - Pro-sports fans</b> - rally with fellow fans at a favorite sportsbar or at the hotel bar.</li>
+				<li><b>Social - College sports fans</b> - rally with fellow fans at a favorite sportsbar or at the hotel bar.</li>
+				<li><b>Social - Alumni</b> - meet with other alumni from your high school, college or graduate school.</li>
+				<li><b>Social - same hometown</b> - Connect with someone from your hometown.</li>
+				<li><b>Social - Meet Town Newcomers</b></li>
+				<li><b>Social - Intellectual Discussion</b>- have an intellectual discussion with others to discuss one or more topics interest, such as the civil war, theoretical physics, finance, etc.</li>
+				<li><b>Romance</b> - arrange a meeting that is romance or romance-related.</li>
+				<li><b>Other</b></li>
+			</ul>}, {:id => 'purpose_help'} )  %>
+		
+		</label>
+		<!-- <div id="purpose_help" style="display:none; position: absolute;">
+			<%= render :partial => 'help_purpose' %>
+		</div> -->
+		</th>
+	  <th class="required"><label for="invitation_payment">*Costs</label></th>
+	</tr>
+	<tr class="two_columns">
+	  <td class="value"><%= select 'invitation', 'purpose_id', Purpose.find(:all).collect { |p| [p.name, p.id] }, :prompt => true %>
+		</td>
+	  <td class="value"><%= select 'invitation', 'payment_id', Payment.find(:all).collect { |y| [y.name, y.id] },:prompt => true %>
+		</td>
+	</tr>
+	<tr class="two_columns">
+	  <th class="required"><label for="invitation_activity">*Activity</label></th>
+		<th><label for="invitation_minimum_invitees">Number Invitees</label></th>
+	</tr>
+	<tr class="two_columns">
+	  <td class="value"><%= select 'invitation', 'activity_id', Activity.find(:all).collect { |a| [a.name, a.id] }, :prompt => true %>
+		</td>
+		<td>
+			min. <%= text_field 'invitation', 'minimum_invitees', :size => 2, :maxlength => 10 %> 
+			<label for="invitation_maximum_invitees">max.</label> 
+			<%= text_field 'invitation', 'maximum_invitees', :size => 2, :maxlength => 10  %>
+		</td>
+</table>

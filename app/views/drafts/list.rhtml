@@ -1,0 +1,36 @@
+<%= render :partial => 'shared/myinvites_nav' %> 
+
+<div class="widgetinvites">
+   <div id="drafts">
+           <h3>YOUR UNIFINISHED INVITATIONS</h3>
+           <table summary="drafts" id="drafts_table">
+                   <thead>
+                           <tr>
+                                   <th scope="col" id="drafts_1">Date</th>
+                                   <th scope="col" id="drafts_2">Meeting Name</th>
+                                   <th scope="col" id="drafts_3">Location</th>
+                                   <th scope="col" id="drafts_4"> </th>
+                                   <th scope="col" id="drafts_5"> </th>
+                           </tr>
+
+                   </thead>	
+                   <tbody>
+                        <% if @drafts.size.zero? %>
+                           <tr><td colspan="6">You have no invitation drafts at this time.</td></tr>
+                        <% else %>
+                           <% @drafts.each do |draft| %>
+                           <tr id="draft_<%= draft.id %>" class="<%= cycle("even", "odd") -%>">
+                                   <td><%= draft.start_time_local.strftime("%b %d") rescue '--' %> </td>
+                                   <td><%= (truncate(draft.name, 45) rescue '--') %> </td>
+                                   <td><%= location_format_short(draft) %> </td>
+                                   <td> <%= link_to(image_tag('/images/ttb/edit.png'), continue_url(:id => draft.id)) %>  </td>
+                                   <td> <%= link_to_remote(image_tag('/images/ttb/delete.png'), 
+                                     :url => delete_draft_url(:id => draft.id), 
+                                     :confirm => "Are you sure you want to delete this draft?") %> </td>
+                               </tr>
+                           <% end %>
+                        <% end %>
+                   </tbody>		
+           </table>
+   </div>
+</div>

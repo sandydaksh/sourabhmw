@@ -1,0 +1,54 @@
+<% invites ||= @invites %>  
+<style>
+  div.inv-date{
+    background-color:#aee057;
+  }
+</style>
+<% no_invites_message ||= "No invites could be found near #{( @geoip_loc.nil? ? "Unknown" : @geoip_loc.city) }" %>
+<% self.extend(TTB::FacbookInviteUrlOveride) %>
+<% self.extend(InvitationsHelper) %>
+	<div id="columntable">
+		
+				
+				 <% if invites.length.zero? %>
+                   <h2> <%= no_invites_message %>. </h2>
+			      <% else %>
+				<% invites.each do |meeting| %>
+                                  <% inv, meeting = cast_to_invite_and_meeting(meeting) %>
+                                  <% next unless inv%>
+		<div class="wide-inv">
+
+					<div class="inv-date"><h4><%= meeting.start_time_local.strftime("%b<br/>%d") %></h4></div>
+
+					  <div class="inv-header">
+							<%= link_to(inv.name, show_invite_path(:id => inv.id, :canvas => false, :only_path => false)) %><br/>
+							<%= meeting.start_time_local.strftime("%I:%M %p") %>,
+							<%= location_format_short(inv) %>
+					  </div>
+
+					  <div class="inv-desc"> 
+						<%= inv.description %>
+					  </div>
+
+					  <div class="inv-poster">
+							<div class="inv-poster-image">
+							  <% if(inv.inviter.member_profile.picture rescue false) %>
+								<%= image_tag(thumb_url(:id => inv.inviter.member_profile.picture.id,:only_path => false, :canvas => false), :format => "jpg", :alt => '')  %>
+							  <% end %>
+							</div>
+							<div class="inv-poster-details">
+								Posted by: <%= link_to(inv.inviter.username, member_profile_url(:id => inv.inviter.id, :canvas => false, :only_path => false)) %>
+								<br/>
+								On: <%= inv.created_at.strftime("%A, %B %d, %Y") %>
+							</div>
+							<div class="inv-buttons">
+
+							</div>
+
+					  </div>
+
+				</div>
+				<% end %> 
+				<% end %>
+	
+	</div>                                         

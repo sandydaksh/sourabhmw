@@ -1,0 +1,32 @@
+<div id="external_profile_links_container">
+	<div id="external_profile_links">
+		<% if(member.member_profile.external_profiles_blank?) %>
+			<%= tool_tip('External Profile Links', 
+					"Do you have a LinkedIn profile or Flickr account you'd like people to see?  Just click EDIT LINKS, tell us where those profiles are, and icons will show up here.  You can add up to three external profile links.  ", :id => 'ep_tt', :image => '/images/ttb/profile_icons/default_tooltip.gif') %>
+		<% end %>
+		<% member.member_profile.external_profiles.each do |external_profile| %>
+	  	  <% unless external_profile.link.blank? %>
+ 			<%= link_to(external_profile.icon, external_profile.link, :alt => "#{external_profile.base_site} Profile", :title => "#{external_profile.base_site} Profile	")%>
+		  <% end %>
+		<% end %>
+		<br/>
+		<%= link_to_function("EDIT LINKS", "Element.show('external_profiles'); Element.hide('edit_link');", :class => "edit_link", :id => 'edit_link') %>
+	</div>
+	<div id="external_profiles" style="display: none;" >
+		<% form_tag(update_external_profiles_url, :id => 'external_profiles_form') do  -%>
+		
+			<p>You can have up to three links to your profile on external sites (e.g., your profile on LinkedIn or Facebook).  Copy and paste the URLs in the boxes below and click Save.</p>
+			<%= hidden_field('member_profile', 'id') %>
+			<label>Link #1: </label><%= text_field_tag('external_profile_links[]', (URI::unescape(member_profile.external_profiles[0].link) rescue ''), :id => 'ep_0_txt', :class => 'ep_text') %><br/>
+			<label>Link #2: </label><%= text_field_tag('external_profile_links[]', (URI::unescape(member_profile.external_profiles[1].link) rescue ''), :id => 'ep_1_txt', :class => 'ep_text') %><br/>
+			<label>Link #3: </label><%= text_field_tag('external_profile_links[]', (URI::unescape(member_profile.external_profiles[2].link) rescue ''), :id => 'ep_2_txt', :class => 'ep_text') %><br/>
+			<div class="buttons">
+            	<!--a href="<%#= update_external_profiles_url %> " onmouseover="document.profile.src='/images/meetingwave/buttons/save_small-over.gif'" onmouseout="document.profile.src='/images/meetingwave/buttons/save_small.gif'">
+	                    	<%#= image_tag("/images/meetingwave/buttons/save_small.gif",:name => "profile",:border => 0,:height => 20,:width => 42) %>
+                </a-->
+				<%= link_to_remote(button_image_save('save_small'), :url => update_external_profiles_url, :submit => 'external_profiles_form') %> 
+				<%= link_to_function(button_image_cancel('cancel_small'), "Element.hide('external_profiles'); Element.show('edit_link');", :class => 'cancel_link')%>
+			</div>
+		<% end %>	
+	</div>	
+</div>

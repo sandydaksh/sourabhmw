@@ -1,0 +1,59 @@
+
+<% if conf.status == Status['rejected']  %>
+	<div id="approve_reject_form_<%= conf.id %>">
+
+   	 	<p class="rejected">
+   	 		<%= conf.member.user_name.capitalize_each_word %> may not attend. 
+   	 		<%= link_to_function("[I Changed My Mind]", "Element.show('changed_my_mind_#{conf.id}')", :class => "changed_mind")%>
+   	 	</p>
+   	 	
+   	 	<div id="changed_my_mind_<%= conf.id %>" style="display: none;">
+   	 		<%= form_remote_tag(:url => approve_reject_url(:id => conf.id) ,  :loading => "Element.hide('arf_#{conf.member.id}'); Element.show('spinner_#{conf.member.id}');", :html => { :id => "arf_#{conf.member.id}" }) %>
+   	 	   		 <div class="response_buttons">
+   	 	   		 	<div class="approve"><%= radio_button_tag('app_rej', 'approve', true) %> Yes, I want <%= conf.member.user_name %> to come. </div>
+   	 	   		 	<div class="reject disabled"> <%= radio_button_tag('app_rej', 'reject', false, :disabled => "true") %> No, <%= conf.member.user_name %> may not attend. </div>
+   	 	
+   	 	   		 </div>
+   	 	
+   	 	   		 <%= text_area_tag 'message[body]', nil, :id => 'response_box' %>
+   	 	
+   	 			<div class="details_buttons_bar">
+		          <%= send_submit() %>
+   	 	   		 	<%= link_to_function( image_tag(button_path("cancel")), "Element.hide('changed_my_mind_#{conf.id}')") %>
+   	 	   		 </div>
+   	 		</form>
+        
+           <div id="spinner_<%= conf.member.id %>" style="display: none;">
+		<%= image_tag('/images/ttb/spinner.guest_response.gif', :style => 'margin-left: 100px; margin-top: 20px;') %>
+	</div>
+   	 	</div>
+	</div>
+
+<% else %>
+
+	<h4>YOUR RESPONSE</h4>
+	<div id="approve_reject_form_<%= conf.id %>">
+		<% if conf.meeting.expired? %>
+			<p>You did not respond to this user before the meeting occurred.</p>
+		<% else %>
+		<%= form_remote_tag(:url => approve_reject_url(:id => conf.id) , :loading => "Element.hide('arf_#{conf.member.id}'); Element.show('spinner_#{conf.member.id}');", :html => { :id => "arf_#{conf.member.id}" }  ) %>
+	   		 <div class="response_buttons">
+	   		 	
+	   		 	<div class="approve"><%= radio_button_tag('app_rej', 'approve', true) %> YES, this user may attend. </div>
+	   		 	<div class="reject"> <%= radio_button_tag('app_rej', 'reject', false) %> NO, this user may not attend. </div>
+	   		 	
+	   		 </div>
+	   		 
+	   		 <%= text_area_tag 'message[body]', nil, :id => 'response_box' %>
+	   		 
+			<div class="send_button_bar">
+	   				<%= send_submit() %>
+	   		 </div>
+		</form>
+    
+    <div id="spinner_<%= conf.member.id %>" style="display: none;">
+		<%= image_tag('/images/ttb/spinner.guest_response.gif', :style => 'margin-left: 100px; margin-top: 20px;') %>
+	</div>
+		<% end %>
+	</div>
+<% end %>

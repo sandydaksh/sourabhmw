@@ -1,0 +1,27 @@
+<% self.extend(TTB::FacebookUrlOveride) %>
+
+<style>
+  #column_A{
+    min-height:0;
+  }   
+  
+  #column_B{
+    clear:both;
+    float:left;
+  }
+  </style>
+<%= render :partial => '/member_profiles/profile_column_show', :locals => { :member => @member } %>
+
+<div class="profile_main">
+  <div class="profile_header">
+    <h4 class="nomargin">Profile</h4> 
+  </div>
+  <br/>
+  <div id="flash">  
+    <%= flash[:notice] %>
+  </div>
+  
+  
+   <%= render :partial => "profile_columns"%>
+  
+</div>

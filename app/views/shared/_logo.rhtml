@@ -1,0 +1,33 @@
+<div class="logo_sm">
+	<div class="smalllogo"><a href="http://www.meetingwave.com"><img src="/images/ttb/clear.gif" alt="MeetingWave" width="156" height="46" /></a></div>
+        <%= tagline('tagline') %>
+
+
+    <% if @no_sign_in.nil? %>
+		<% if @viewer.nil? %>
+			<div class="greetings"><%= link_to("Sign In", signup_url, :class => "signinout") %></div>
+		<% else %>
+			<div class="greetings"> 
+				<% if controller.controller_name == 'contacts' %>
+				  <div id="tell_a_friend_placeholder"> </div>
+
+				<% else  %>
+					<div id="tell_a_friend"> 
+							<a href="<%= add_contact_url %> ">  
+								<%= image_tag('/images/ttb/green_triangle.gif') %>
+								Tell a Friend / Import Contacts!
+							</a>
+					</div>
+				<% end %>
+				<div id="greetings_detail">
+					<%= welcome %> <a href='<%= my_account_url %>'> <script type="text/javascript"> userName(); </script> </a> &nbsp; &nbsp;
+					<span class="subdued">&lt;</span>
+					<%= link_to("My Account", my_account_url, :class => "signinout") %>  
+                    <span class="subdued">|</span>
+					<%= link_to("Sign Out", logout_url, :class => "signinout") %> 	
+					<span class="subdued">&gt;</span>
+			    </div>
+			</div>  
+		<% end %>
+	<% end %>
+</div>

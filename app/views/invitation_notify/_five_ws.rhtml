@@ -1,0 +1,33 @@
+<table>     
+<tr>      
+<%= content_tag('td', highlight{ "Who: "})  << content_tag('td' ,@inviter_name.capitalize_each_word ) %>  
+</tr>
+  
+<tr>
+<%= content_tag('td', highlight{ "What: "}) << content_tag('td', @invitation.name) %>   
+</tr> 
+
+<tr>
+<% if !start_time(@invitation).nil? && !start_time(@invitation).blank? && @invitation.no_pref != 1 %> 
+<%= content_tag('td', highlight{ "When: "}) << content_tag('td', start_time(@invitation)) %>   
+<% else %>
+<%= content_tag('td', highlight{ "When: "}) << content_tag('td', "No Preference") %> 
+<% end %>
+</tr> 
+
+<tr>
+<% if !where(@invitation).blank? %>
+<% if !@invitation.address.nil? && @invitation.address.city != "NA" %>
+ <%= content_tag('td', highlight{ "Where: "}, :style => "vertical-align: top") << content_tag('td' ,where(@invitation)) %>
+<% else %>
+  <%= content_tag('td', highlight{ "Where: "}, :style => "vertical-align: top") << content_tag('td' ,"Open") %>
+<% end %> 
+ <% end %> 
+</tr>
+
+  
+<tr>
+ <%= content_tag('td', highlight{ "Why: "} ) << content_tag('td', why(@invitation)) %>  
+</tr>
+
+</table>       

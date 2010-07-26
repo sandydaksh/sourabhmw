@@ -1,0 +1,15 @@
+<h3 class="profilesection">EMPLOYMENT</h3>
+	
+	<!-- NONE EXIST YET -->
+	<% if member_profile.jobs.blank? %>
+		  <em>No jobs listed yet.</em>
+	<% end %>
+	
+	<!-- VIEW -->
+	<div class="profileview">
+		<% @member_profile.jobs.each do |job| %>
+				<h4> <%= job.title.upcase %> </h4> 
+				<%= mobile_format_job(job) %> 
+		<% end %>
+	</div>
+	

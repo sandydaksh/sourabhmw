@@ -1,0 +1,4 @@
+page.call("Messages.reset")
+page.replace_html('send_a_message',
+                  "&raquo; Send Another Message to: #{@message.recipients.first.user_name}") 
+page.replace("new_message", :partial => '/invitations/you_said', :locals => {:message => @message})

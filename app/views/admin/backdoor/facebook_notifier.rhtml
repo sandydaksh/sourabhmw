@@ -1,0 +1,76 @@
+<style>
+input:focus, textarea:focus{
+	background-color: lightyellow;
+}             
+
+#form_wrapper{
+	margin:20px;
+}    
+
+div.form_label{
+	float:left; 
+	text-align:top;
+	margin:5px; 
+	font-size:120%;
+	width:90px; 
+}   
+textarea{
+	background-color:lightgrey;  
+	display:block;
+	float:left;
+}      
+
+div#flash{
+	width:400px;
+	margin-left:105px;  
+}    
+
+div#choices {
+	float:left;
+	margin-left:15px;
+}  
+
+div#senders{
+	margin-bottom:5px;
+} 
+
+span.choice_label{
+	display:block;
+	font-weight:bold;
+	margin-top:5px;
+}
+
+</style>   
+
+<h1><%= link_to('Admin', admin_url) %> &raquo; Facebook Notifier</h1>
+
+<%= javascript_include_tiny_mce_if_used %>  
+<%= tiny_mce if using_tiny_mce? %>
+
+<div id="flash">
+	<p>This form will send notification messages to users who have added the MeetingWave application.  Be careful here so that notifications do not become a bother to our users.</p>
+</div>
+<div id="form_wrapper">
+<% form_tag(:action => "send_facebook_notifications") do %>
+<div class="form_label"> 
+	Text to send: 
+</div>  
+<div style="float:left;">
+	<%= text_area_tag("notification", "",  :rows => 20, :cols => 50, :id => 'notification_field')  %>
+</div>  
+<div id="choices">
+   
+	<div id="users_select">  
+		<span class="choice_label">	        Include </span>          	
+	   	 <% for option in @users_options %>
+			<%= radio_button_tag("users", option ) %>  <%= option.to_s.humanize %> <br/> 
+		  <% end %>
+
+	</div>          
+</div>
+<br clear='both'/>
+<%= submit_tag("Send") %>
+<% end %>       
+
+</div>
+

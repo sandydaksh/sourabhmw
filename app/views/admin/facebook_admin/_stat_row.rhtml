@@ -1,0 +1,6 @@
+<% set_size = (instance_variable_get("@#{set}").length) %>
+<tr>
+		<td> <%= title %> </td>
+		<td> <%= set_size %></td>  
+		<td> <%= link_to("Show Users", :action => "show_users", :id => set) %> </td>
+	</tr>      

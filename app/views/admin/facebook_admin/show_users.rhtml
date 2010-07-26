@@ -1,0 +1,13 @@
+<br/>
+<h2>
+	<%= @title.humanize %>
+</h2>
+
+<% for user in @users %>
+    <div class="user" style="float:left;width:100px;padding:10px;height:100px;">
+	     <span class="name"> <%= user.name %> </span>
+	     <span class="link"> <%= link_to("Profile", "http://www.facebook.com/profile.php?id=#{user.uid}", :target => "fb_admin")  %></span>
+	  <%= render :partial => 'fb_profile_pic', :locals => {:user => user} %>
+
+	</div>
+<% end %>

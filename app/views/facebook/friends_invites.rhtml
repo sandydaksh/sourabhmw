@@ -1,0 +1,28 @@
+<style>
+    div.friend a{
+	display:block;
+	clear:both;
+}     
+    div.friend{
+	  float:left;
+	  padding:5px;
+	  margin:2px;
+}
+</style>
+
+<%= fb_explanation("Friends invitations", "These friends also have the MeetingWave application.") %>
+<% @friends.each do |friend| %>  
+    <div class="friend">
+		<%= fb_profile_pic(friend, :linked => "false", :size => "square") %>
+		<%= link_to(fb_name(friend, :linked => "false"),"#") %>
+	</div>
+<% end %>  
+
+<div id="search_results" style="margin:5px;padding:10px;">    
+<%= inline_stylesheet('facebook/invite_list.css') %> 
+  
+    <br clear="both"/>
+    <div id="invite_list">
+	   <%= render :partial => 'invite_list', :locals => {:no_invites_message => "Sorry your friends haven't posted any invites."} %>
+	</div>   
+</div>

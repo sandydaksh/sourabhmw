@@ -1,0 +1,8 @@
+<% for column in Airport.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @airport.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @airport %> |
+<%= link_to 'Back', :action => 'list' %>

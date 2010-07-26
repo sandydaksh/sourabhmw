@@ -1,0 +1,18 @@
+Re: <%= @invitation.name %>
+
+<%= "#{@invitee_name.capitalize_each_word} #{invited_as(@confirmation)}" %> has accepted your invitation<%= @occurrence %>. 
+
+<%= message_txt(@invitee_name, @message) %>
+
+Please confirm your upcoming meeting as soon as possible. You can view the
+details of your invitation and either Approve or Decline their attendance by
+following this link:
+       <%= @url %>
+
+You can Approve or Decline this person for any reason.  If <%= @invitee_name.capitalize_each_word %>
+did not provide enough information in their Profile for you to be willing to meet
+with them, please let them know. You can also add that as a requirement to your
+invites in the future (e.g., “Please create a Profile with some background
+information before accepting this invite”).
+
+<%= brought_to_you_by_txt %>

@@ -1,0 +1,123 @@
+<h1>Admin Dashboard</h1>
+
+<h3>Manage</h3>
+<ul class="manage">
+	<li><%= link_to("Upcoming Invites Quality Control", quality_url) %> - 
+		<span class="definition">Control which invites can safely show up on the Upcoming Invites section.</span>
+	</li>
+	<li><%= link_to("Member Profiles Quality Control", mp_quality_url) %> - 
+		<span class="definition">Control which profiles can show up on the MeetingWavemakers section on home page.</span>
+	</li>
+	<li><%= link_to("User-Flagged Invites", flagged_url) %> - 
+		<span class="definition">Review and delete user-flagged Invites.</span>
+	</li>
+	<li><%= link_to("Re-send Verification Emails", unverified_url) %> - 
+		<span class="definition">Re-send verification emails for users who haven't verified themselves yet.</span>
+	</li>
+	<li><%= link_to("Manually Verify Users", manual_email_verify_url)%> -
+		<span class="definition"> Set the verified bit on members so they don't have to click the verification link.</span>
+	</li>
+	<li><%= link_to("Email Logs", email_admin_url)%> -
+		<span class="definition">View and filter sent emails.</span>
+	</li>
+    <li><%= link_to("Error Notification Logs", email_admin_notification_log_url)%> -
+		<span class="definition">View and filter sent emails.</span>
+	</li>
+  <li><%= link_to("FB Message Logs", :action => "fb_message_admin")%> -
+		<span class="definition">View and filter facebook messages.</span>
+	</li>
+	<li><%= link_to("Recent Activity", recent_activity_url)%> -
+		<span class="definition">View recent confirmations, approvals, acceptances, declinations, etc.</span>
+	</li>
+	<li><%= link_to("Facebook Notifier", facebook_notifier_admin_url)%> - 
+		<span class="definition">Send Facebook notifications to our registered Facebook users.</span>
+	</li>
+	<li><%= link_to("Facebook Stats", facebook_admin_url)%> -
+		<span class="definition">Facebook application admin utility.</span>
+	</li>
+
+        <li><%= link_to("User Stats", :controller => "admin/stats")%> -
+		<span class="definition">General Stats on Invites</span>
+	</li> 
+        
+	<li><%= link_to("FAQ Editor", faq_url) %> - 
+		<span class="definition">Edit the frequently asked questions with this tool.</span>
+	</li>
+	<li><%= link_to("News Editor", blog_editor_url) %> - 
+		<span class="definition">Create new news stories and edit existing ones.</span>
+	</li>
+	<li><%= link_to("View Email Subscribers and Opt-Outs", email_subscribers_url)%> - 
+		<span class="definition">Dumps out two lists: people who have opted-out and people who have not.</span>
+	</li>
+	<li><%= link_to("Location Aliases", location_aliases_url) %> - 
+		<span class="definition">Add new aliases for cities in the MeetingWave DB.</span>
+	</li>
+	<li><%= link_to("Problem Users", problem_users_url) %> - 
+		<span class="definition">View and remove problem users.</span>
+	</li>
+</ul>
+
+<div id="admin_users_box">
+	<h3>Users</h3>
+	<table class="mini_report">
+		<tr>
+			<td class="report_label">Total Verified Users:</td>
+			<td class="report_data"><%= @user_verified_count %></td>
+		</tr>
+		<tr>
+			<td class="report_label">Total Un-Verified Users:</td>
+			<td class="report_data"><%= @user_unverified_count %></td>
+		</tr>
+		<tr>
+			<td class="report_label">Total Deleted Users:</td>
+			<td class="report_data"><%= @user_deleted_count %></td>
+		</tr>
+		<tr>
+			<td class="report_label">Total Users:</td>
+			<td class="report_data"><%= @user_count %></td>
+		</tr>
+	</table>
+</div>
+
+<div id="admin_invites_box">
+	<h3>Invites</h3>
+	<table class="mini_report">
+		<tr><td class="report_label">Accepted Invites:</td><td class="report_data"><%= @invitation_accepted_count %> </td></tr>
+		<tr><td class="report_label">Declined Invites:</td><td class="report_data"><%= @invitation_declined_count %> </td></tr>
+		<tr><td class="report_label">Total Invites:</td><td class="report_data"><%= @invitation_count %> </td></tr>
+	</table>
+</div>
+
+<div id="admin_config_box">
+	<h3>Running Config</h3>
+	<h3 class="<%= RAILS_ENV %> env_indicator"><%= RAILS_ENV %></h3>
+	<table class="mini_report">
+		<tr><td colspan="2" class="config_header">General</td></tr>
+		<tr><td class="report_label">RAILS_ENV:</td><td><%= RAILS_ENV %></td></tr>
+		<tr><td class="report_label">APPLICATION_URL: </td><td><%= APPLICATION_URL %></td></tr>
+		<tr><td class="report_label">perform_caching: </td><td><%= ActionController::Base.perform_caching %></td></tr>
+		<tr><td class="report_label">session_store: </td><td><%= ActionController::Base.session_store %> </td></tr>
+		<tr><td class="report_label">fragment_cache_store: </td><td><%= ActionController::Base.cache_store.to_yaml %> </td></tr>
+		
+		<tr><td colspan="2" class="config_header">Database</td></tr>
+		<tr><td class="report_label">Database:</td><td class="report_data"><%= ActiveRecord::Base.configurations[RAILS_ENV]['database'] %> </td></tr>
+	    <tr><td class="report_label">Username:</td><td class="report_data"><%= ActiveRecord::Base.configurations[RAILS_ENV]['username'] %> </td></tr>
+	    <tr><td class="report_label">Password:</td><td class="report_data"><%= ActiveRecord::Base.configurations[RAILS_ENV]['password'] %> </td></tr>
+		
+
+		
+		<tr><td colspan="2" class="config_header">Facebook</td></tr>
+		<tr><td class="report_label">FACEBOOK_API_KEY:</td>    <td class="report_data"><%= ENV['FACEBOOK_API_KEY'] %>    </td></tr>
+	    <tr><td class="report_label">FACEBOOK_SECRET_KEY:</td> <td class="report_data"><%= ENV['FACEBOOK_SECRET_KEY'] %> </td></tr>
+	    <tr><td class="report_label">FACEBOOK_APP_NAME:</td>   <td class="report_data"><%= ENV['FACEBOOK_APP_NAME']  %>  </td></tr>
+	
+		<tr><td colspan="2" class="config_header">Mailer</td></tr>
+		<tr><td class="report_label">delivery_method:</td>    <td class="report_data"><%= ActionMailer::Base.delivery_method %> </td></tr>
+		<tr><td class="report_label">smtp_settings[:domain]:</td>    <td class="report_data"><%= ActionMailer::Base.smtp_settings[:domain] %> </td></tr>
+		<tr><td class="report_label">smtp_settings[:perform_deliveries]:</td>    <td class="report_data"><%= ActionMailer::Base.smtp_settings[:perform_deliveries] %> </td></tr>
+		<tr><td class="report_label">smtp_settings[:address]:</td>    <td class="report_data"><%= ActionMailer::Base.smtp_settings[:address] %> </td></tr>
+		<tr><td class="report_label">smtp_settings[:port]:</td>    <td class="report_data"><%= ActionMailer::Base.smtp_settings[:port] %> </td></tr>
+	
+	
+	</table>
+</div>

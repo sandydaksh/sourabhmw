@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>MeetingWave.com</title>
+	<link rel="stylesheet" href="/stylesheets/meetingwave/modular/quick_invite.css" />
+	<link rel="shortcut icon" href="/images/meetingwave/favicon.gif" type="image/x-icon" />
+        <%= javascript_include_tag :defaults, :cache => "cached/defaults" %>
+</head>
+
+
+<body>
+	
+	<!--[if gte IE 5]>
+		<style>
+			.quickinvite form .formbit img {
+			    padding-bottom: 6px;
+			}
+			#who_auto_complete {
+				margin-left: 0px;
+			}
+		</style>
+	<![endif]-->
+	<!--[if IE 6]>
+		<style>
+          .who_regular_field {
+            height: auto;
+          }
+          div#city_div { margin-left: 15px; }
+
+		</style>
+
+	<![endif]-->
+
+	<!-- CONTENT -->
+	<div id="quick_invite_box" class="contentquickinvite clearfix">
+		<div class="quickinvite">
+        <% form_tag(quickpost_url, :id => "quick_invite_form", :class => 'compact_accessible') do -%>
+			
+			<input type="hidden" name="client_tz_offset" id="client_tz_offset" value="" /> 
+			<script type="text/javascript"> 
+			//<![CDATA[ 
+				$('client_tz_offset').value = timeZoneOffset();			
+			//]]> 	 
+			</script>
+			<div class="quick_invite_header">
+				<h4>QuickInvite<span class="super">SM</span></h4>
+				<div class="quick_invite_tagline"> Quick....Anytime. Anyplace.<br/>
+					<%= image_tag('/images/meetingwave/candy/running_guy.gif')%>
+					</div>
+				<br style="clear: both;">
+			</div>
+			<br/>
+			<%= error_messages_for 'invitation', :header => 'Please correct the following errors before we post this invite: ' %>
+            <style>
+              #quick-who-auto-field { width: 350px; }
+              #quick-who-auto-results, #quick-who-auto-results .feed { width: 362px; } 
+              #quick-who-auto-results .default { width: 346px; } 
+              form ul.holder { width: 350px; }
+            </style>
+
+			<div class="formbit">
+				<h3 class="nomargin">WHO</h3>						
+					<%=  indicator_image('greendot', :id => 'who_status', :class => 'valid_indicator') %>
+						<div style="float: left; margin-right: 3px;" class="who_regular_field">
+                            <div id="text">
+
+                            </div>
+					
+                            <ol>
+                              <li id="quick-who-list" class="input-text">
+                                <input type="text" value="" id="quick-who-auto-field" name="quick-who-auto-field" class="qi_input" />
+                                <div id="quick-who-auto-results">
+                                  <div class="default">Start typing the name of a contact or enter a new email. </div> 
+                                  <ul class="feed">
+                                  </ul>
+                                </div>
+                              </li>
+                            </ol>
+
+
+
+
+
+							<div id='advice-required-who' class="validation-advice" style="display: none;">
+								Please enter names/emails separated by commas.
+							</div>
+						</div>
+				
+			</div>
+
+			<div class="formbit clearfix">
+				<h3 class="nomargin">WHAT</h3>	
+				<%=indicator_image('greendot',  :id => 'what_status', :class => 'valid_indicator') %>
+				<%= quick_input 'what_qi', Invitation::WHAT_EXAMPLE, 'Please enter the name of your invite.', :class => 'qi_input required what_input ' %> 
+			</div>
+
+			<div class="formbit clearfix">
+				<h3 class="nomargin">WHERE</h3>	
+                    <%= indicator_image('greendot', :id => 'where_status', :class => 'valid_indicator') %>
+
+					<div class="compact_accessible_wrap address_field ">
+					  <label class="overlabel" for="location">Location Name</label><input class="qi_input required" id="location" name="location" type="text" />
+					 <%= content_tag('div', 'Loc name is required.', :id => "advice-required-location", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+					<div class="compact_accessible_wrap address_field ">
+					  <label class="overlabel" for="address">Address</label><input class="qi_input required" id="address" name="address" type="text" />
+					 <%= content_tag('div', 'Address is required.', :id => "advice-required-address", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+
+					<div class="compact_accessible_wrap address_field" id="city_div">
+					  <label class="overlabel" for="city">City</label>
+					  <%= text_field_tag('city', (@invitation.address.city rescue ''), :id => 'city', :class => 'qi_input required') %>
+					  <%= content_tag('div', 'City is required.', :id => "advice-required-city", :class => "validation-advice", :style => "display: none;") %>
+					 </div>
+					<div class="compact_accessible_wrap address_field">
+					  <label class="overlabel" for="state">State</label>
+					  <%= text_field_tag('state', (@invitation.address.state rescue ''), :id => 'state', :class => 'qi_input required') %>
+					 <%= content_tag('div', 'State is required.', :id => "advice-required-state", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+					<div class="compact_accessible_wrap address_field">
+					  <label class="overlabel" for="country">Country</label>
+					  <%= text_field_tag('country', (@invitation.address.country rescue ''), :id => 'country', :class => 'qi_input required') %>
+					 <%= content_tag('div', 'Country is required.', :id => "advice-required-country", :class => "validation-advice", :style => "display: none;") %>
+					</div>
+
+			</div>
+
+			<div class="formbit clearfix">
+				<h3 class="nomargin">WHEN</h3>		
+				<%=indicator_image('greendot', :id => 'quick_invite[start_time_local]_status', :class => 'valid_indicator') %>
+				<div class="compact_accessible_wrap regular_field">
+					<label for="quick_invite[start_time_local]" class="overlabel">MM/DD/YY HH:MM AM|PM</label>
+					<%= date_selector('quick_invite[start_time_local]', @invitation.start_time_local, 
+										:class => 'qi_input dateselector when_input', 
+										:before_close => "null", 
+										:after_close => "$('why').focus();", 
+										:onchange => "$('quick_invite[start_time_local]').focus();",
+										:no_eg_text => true)%>      	
+					<!-- I put this here so that the validation library doesn't screw up the calendar button. -->
+					<div id="advice-dateselector-quick_invite[start_time_local]" class="validation-advice" style="display: none;">
+						Please select a valid future date.
+					</div>
+				</div>
+			</div>
+
+			<div class="formbit clearfix">
+				<h3 class="nomargin">WHY</h3>
+				<%=indicator_image('greendot', :id => 'why_status', :class => 'valid_indicator') %>	
+				<%= quick_input 'why', Invitation::WHY_EXAMPLE, 'Please enter a reason for this meeting.', :class => 'qi_input required why_input ' %>    
+			</div>
+			
+			<div  id="private_checkbox">
+				<%= check_box_tag 'private', '1', false %> Check this box to keep this invite private.
+			</div>
+			
+			<div class="button_box" id="postinvite-button">
+				<input name='Submit' value='PostInvite' type='image' src='<%= button_path("postinvite") %> ' />
+				<br/>
+				<%= link_to_function('CANCEL', 'hideIbox();')%>
+				<br/>
+                <%= link_to('Need more detail? Use the full invite form &raquo;', postinvite_url, :class => "need_more")%>
+			</div>
+
+
+            <div class="button_box" id="posting-indicator" style="display: none;">
+                <%= indicator_image("spinner.offwhite") %>
+                Posting...
+            </div>
+
+
+
+			<% end %>
+			<script type="text/javascript"> 
+		  	  //<![CDATA[
+		
+		  	  function quickInviteElementValidate(result, element){
+		  	  	var status_element_id = element.id + "_status";
+				if(element.id == "location" || element.id == "address" || element.id == "city" || element.id == "state" || element.id == "country") {
+					status_element_id = "where_status";
+				}
+
+				if($(status_element_id) == null) {
+					return true;
+				}
+
+		  	  	 if(result) {
+		  	  		$(status_element_id).src = "<%= indicator_path('greencheck') %>";
+		  	  	} else {
+		  	  		$(status_element_id).src = "<%= indicator_path('greenx') %>";	
+		  	  	}
+          	
+		  	  }
+		  	  
+		  	  function quickInviteFormValidate(result, form) {
+		  	  	if(!result) {
+		  	  		alert("Please correct the errors in QuickInvite form first.")
+                } else {
+                    Element.hide('postinvite-button'); 
+                    Element.show('posting-indicator'); 
+                }
+		  	  }
+		
+
+		  	  
+		  	 new Validation('quick_invite_form', {immediate:true, onElementValidate:quickInviteElementValidate, onFormValidate:quickInviteFormValidate});
+		  	 Validation.add('dateselector', 
+							 'Please select a valid future date.', 
+							function(value) {
+		  	  					var d = stringToDate(value);
+		  	  					var now = new Date();
+		  	  					return d > now;
+		  	  				});
+
+  		  	 /*Validation.add('where_input_pattern', 'Enter a place and address separated by commas.', { pattern : /^.*\w+.*,.*\w+.*,.*\w+.*$/, isNot:'' });	*/
+
+            var quickWhoAutoCompleterField = null;
+            function quickBeforeSubmit() { quickWhoAutoCompleterField.update(); return true; }
+            function initWhoField() {
+                  quickWhoAutoCompleterField = new FacebookList('quick-who-auto-field', 
+                                                                'quick-who-auto-results',
+                                                                {fetchFile:'/member/who_auto_complete_json'});
+
+
+                  $('quick_invite_form').onsubmit = quickBeforeSubmit;					 		
+            }
+
+		    setTimeout(initOverLabels, 50);
+		    setTimeout(initWhoField, 100);
+				//]]> 
+			</script> 
+
+		</div>
+
+	</div>
+
+</body>
+</html>
+
+
+

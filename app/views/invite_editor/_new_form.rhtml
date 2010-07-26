@@ -1,0 +1,235 @@
+<script type="text/javascript">
+function remove_defalt_description()
+{
+            m="Interested in meeting with those having similar Meeting Interests (see my profile).\n";
+ m+="Please create a MeetingWave profile with one or more verified email domains (e.g. , @ibm.com or @yale.edu) before accepting this invite. Time/location flexible.";
+             k=document.getElementById('invitation_description').value;
+            if(document.getElementById('invitation_description').value==m)
+            {
+               document.getElementById('invitation_description').value="";
+               
+            
+            }
+}
+	  
+function fill_defalt_description()
+{
+		 m="Interested in meeting with those having similar Meeting Interests (see my profile).\n";
+ m+="Please create a MeetingWave profile with one or more verified email domains (e.g. , @ibm.com or @yale.edu) before accepting this invite. Time/location flexible.";
+ 
+         if(document.getElementById('invitation_description').value=='')
+		 {
+		 document.getElementById('invitation_description').value=m;
+         document.getElementById('invitation_description').style.color="#AAAAAA";
+		 }
+ 
+    
+}
+	  
+</script>
+    <table width="940" border="0" cellspacing="0" cellpadding="0" align="left">
+    <%= render :partial => 'invite_editor/new_editor_what' %>
+    <%= render :partial => 'invite_editor/new_editor_when' %>
+	<%= render :partial => 'invite_editor/new_editor_where_map' %>
+	<%= render :partial => 'invite_editor/new_editor_why' %>
+	  <input type="hidden" id="yelp-task" value="New York">
+      <tr>
+        <td valign="top"><p class="label-create">Anonymous</p></td>
+        <td><table width="590" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="24"><p>
+                  <input type="checkbox" id="private_name" name="private_name" onclick="checkuncheckprivatename();" <%= "checked" if !params[:private_name].nil? && params[:private_name] == "on" %> />
+                  <input type="hidden" name="private_name_flag" <%= "checked" if !params[:private_name_flag].nil? && params[:private_name_flag] == "on" %> />
+              </td>
+              <td width="187"><p class="label-location">Hide My Name, replace it with </p></td>
+              <td width="136"><p>
+                  <input type="text" name="uname" value="<%= params[:uname] %>" class='keywordbox'/>
+                </p></td>
+              <td width="243"><p class="notetext">Note: Confirmed attendees will see your name</p></td>
+            </tr>
+          </table></td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="top" height="20">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" valign="top">
+          <table width="263" border="0" cellspacing="0" cellpadding="0">
+          <% if !private_mw? %>
+            <tr>
+              <td width="78"><p id="imageup"><img src="/images/newdesign/arrow-create.gif" border="0" width="8" height="9" style="padding:0 0 0 50px;" /></p><p id="imagedown" style="display:none;"><img src="/images/newdesign/arrow-down.jpg" border="0" width="8" height="9" style="padding:0 0 0 50px;" /></p></td>
+              <td width="185"><p class="optional-meet"><a href="javascript:void();" onclick="optionalMW();" class="optional-meet">OPTIONAL MEETING SETTINGS</a></p></td>
+            </tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+           <input type="hidden" value="<%= params[:checked_val] %>" id="checked_val" name="checked_val">
+      <tr>
+      <td valign="top" height="20">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top"><div id="opt1" <%= 'style="display:none;"' if params[:checked_val] != "1" %>><p class="label-create">This invite is</p></div></td>
+        <td><div id="opt1sub" <%= 'style="display:none;"' if params[:checked_val] != "1" %>><table width="720" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top">
+				  <p class="who_options">  
+					<%= select_tag('invitation[is_public]', options_for_select([['PUBLIC.', "1"], ['PRIVATE.', "0"]], (@invitation.is_public? ? "1" : "0")), :id => 'invitation[is_public]',:class => "select") %>
+					<%= observe_field('invitation[is_public]', 
+											:frequency => 1, 
+											:on => :click, 
+											:function => "new function() { showWhoType($F('invitation[is_public]')); };") %>
+                                           
+                  </p>              </td>
+              <td  width="444"> <p id="open_invite" class="notetext" <%=show_public_who_section(@invitation) %>  >
+						   Anyone can accept this PUBLIC invite, although you decide WHO will attend. </p>
+				  <p id="private_invite" class="notetext" <%=show_private_who_section(@invitation) %>  >
+						This invitation will be private and viewable by invitees only.				  </p></td>
+            </tr>
+        </table> </div></td>
+      </tr>            
+
+      <tr>
+        <td valign="top" height="20">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top"><div id="opt2" <%= 'style="display:none;"' if params[:checked_val] != "1" %>><p class="label-create">Notifications</p></div></td>
+        <td><div id="opt2sub" <%= 'style="display:none;"' if params[:checked_val] != "1" %>> <table width="600" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top">
+
+                <p class="notification">
+                    An email notification will be sent to any of the people you indicate below.  
+                    If the person you'd like to invite is not a member or not in your <%= link_to("contact list", contacts_url,:class=>"conmw") %>, 
+                    just type their email in the text box below, separated by commas.
+                </p>
+                <%= error_messages_for('invitation', :header => '', :attributes_order => [:invited_members]) %>
+
+                <div id="text" style="margin:8px 0 0 0;">
+
+                </div>              
+                <ol>
+                  <li id="who-list" class="input-text">
+
+                    
+                    <input type="text" value="" id="who-auto-field" name="who-auto-field"  style="width:457px; border:1px solid #000000;"class="meeting-box"/>
+                    <div id="who-auto-results">
+                      <div class="default">Please start typing the name of a contact or enter a new email. </div> 
+                      <ul class="feed">
+                        <%  @invitation.invited_non_members.each do |non_member|  %>
+                          <li value="<%= non_member.email %>" ><%= "#{non_member.email}" + (  non_member.name.blank? ? "" : "(#{non_member.name})" ) %></li>
+                        <% end %>
+
+                        <% if @invitation.invited_non_members.blank? and !params['who-auto-field'].blank? %>
+                            <% params['who-auto-field'].split(",").each do |email| %>
+                                <% if email.match(RE::VALID_EMAIL) %>
+                                  <li value="<%= email %>" ><%= email %></li>
+                                <% end %>
+                            <% end %>
+                        <% end %>
+
+                        <% @members.each do |member| %>
+                          <li value="<%= member.id %>" >
+                            <% if member.fullname.blank? %>
+                              <%= member.user_name %>
+                            <% else %>
+                              <%= "#{member.fullname} (#{member.user_name})" %>
+                            <% end %>
+                          </li>
+                        <% end %>
+
+                      </ul>
+                    </div>
+                  </li>
+                </ol>
+
+                <script language="JavaScript">
+                    var whoAutoCompleterField = null;
+                  Event.observe(window, 'load', function() {
+                    whoAutoCompleterField = new FacebookList('who-auto-field', 
+                                                                'who-auto-results',
+                                          {fetchFile:'/member/who_auto_complete_json'});
+                    });  
+
+                </script>  
+                                         
+              </td>
+            </tr>
+          </table> </div></td>
+      </tr>   
+               
+    <script>
+    setTimeout(initOverLabels, 50);
+    </script>      
+    
+    <div id="invitees_select">
+     <!-- <tr>
+        <td valign="top" height="20">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>-->
+      <tr>
+        <td valign="top"><div id="opt3" <%= 'style="display:none;"' if params[:checked_val] != "1" %>><p class="label-create">Invitee Profile</p></div></td>
+        <td><div id="opt3sub" <%= 'style="display:none;"' if params[:checked_val] != "1" %>>
+        <table width="600" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top">
+				<div id="invitee_profile_form" <%=show_public_who_section(@invitation) %>>
+					<div class="compact_accessible_wrap">
+						<label for="invitation[invitee_profile]" class="overlabel">  
+							Describe the type of people you would like to meet.  
+							For example,  people working in the financial industry, 
+							alumni from your school, fellow sports fans, web designers, 
+							Ruby developers, real estate agents, lawyers, etc.  
+						</label>
+			  	  		<%= text_area 'invitation', 'invitee_profile', :class => 'desbox', :id => 'invitation[invitee_profile]' %>
+					</div>
+					<br class="clear"/>
+				</div>
+<script>
+setTimeout(initOverLabels, 50);
+</script>
+              </td>
+            </tr>
+          </table> </div></td>
+      </tr>           
+   </div>
+      
+      
+    <!--  <tr>
+        <td colspan="2" valign="top" height="20">&nbsp;</td>
+
+      </tr>-->
+      <tr>
+        <td colspan="2" ><div style="border-bottom:1px dotted #989898; width:820px; margin:0 0 0 50px;">&nbsp;</div></td>
+      </tr>
+      </tr>
+      
+      <tr>
+        <td colspan="2" valign="top" height="24">&nbsp;</td>
+      </tr>
+      <tr>
+        <td valign="top">&nbsp;</td>
+        <td><div style="margin:0 0 0 470px; width:280px;">
+            <table width="228" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="60"><p class="canceltext"><a href="/">Cancel</a></p></td>
+                <td width="168">
+                  <p>
+                	<div class="button_box">
+					 <%= new_ibutton('create-btn-over.jpg', :id => "postinvite-button", :border=>"0", :width=>"152", :height=>"43",:onmouseover=>"this.src= '/images/newdesign/create-btn-over.jpg';", :onmouseout=>"this.src = '/images/newdesign/create-btn.jpg';",:onclick => "Element.hide('postinvite-button'); Element.show('posting-indicator');")%>
+                      <div id="posting-indicator" style="display: none;">
+                         <%= indicator_image("spinner.small") %>
+                         Posting...
+                      </div>
+                    </div>
+                    <!--input type="image" src="/images/newdesign/create-meet-button.jpg" border="0" width="161" height="42" /-->
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>

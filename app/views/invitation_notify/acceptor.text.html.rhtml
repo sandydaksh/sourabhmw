@@ -1,0 +1,54 @@
+<%= render :partial => '/invitation_notify/header' %>
+
+<%= headline("Re: Your Interest in Attending Proposed Meeting <span style='color:black;'>#{@invitation.name}</span>") %>
+
+<%= open_body %>
+
+
+  <p>You have accepted the MeetingWave invite <b><%= @invitation.name %></b>. Your acceptance has been
+      forwarded to the member who posted the invite. If that member approves your acceptance, 
+      the meeting is confirmed. You will receive an email confirming the time and 
+      place of the meeting.
+ </p>
+
+ <br/>
+
+ <p>
+   Once the meeting is confirmed, MeetingWave strongly recommends setting up a MeetingWave Email Reminder to be reminded of the meeting.
+ </p>
+
+
+  <br/>
+
+ <p>
+   
+   If you cannot attend the meeting, please notify the other member as a courtesy by sending a “double-blind” message.
+   
+ </p>
+
+  <br/>
+
+
+ <p>
+   If you've been confirmed to a meeting yet fail to attend without notifying the other member, your membership may be canceled.
+ </p>
+
+  <br/>
+
+  
+ <p>
+   Thank you for using MeetingWave.com, and we encourage you to continue to extend your network by 
+   posting your own meeting invites and setting up one or more Meeting Alerts to be notified of new invites 
+   posted by other members.
+ </p>
+
+  <br/>
+
+ 
+
+<%= close_body %>
+
+
+<%= brought_to_you_by %>
+
+<%= render :partial => '/invitation_notify/footer' %>

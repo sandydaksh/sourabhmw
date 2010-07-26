@@ -1,0 +1,63 @@
+<% widget_id = "jobs_#{profile_widget.id}" %>
+<div class="pwidget" id="<%= widget_id %>">
+     
+     <div class="header edit_mode">
+  <h3 class="movable">EMPLOYMENT</h3>
+</div>
+
+<!-- NONE EXIST YET -->
+         <% if @jobs.blank? %>
+  <p class="noneyet">
+    No jobs listed yet or you already imported them.
+  </p> 
+<% end %>
+
+
+<!-- EDIT -->
+<div class="edit" >
+
+<!-- INDIVIDUAL FORMS -->
+<% @jobs.each_with_index do |job, index| -%>
+  <% subsection_id = "job_#{job.id}" %>
+  <div id="<%= subsection_id %>">
+  <div id="edit_subsection_job_<%= job.id %>" class="edit_subsection" >
+  <% form_remote_tag(:url => {:action => 'import_job'}, :loading => loading_script(subsection_id), :complete => "Element.hide('#{subsection_id}_spinner')") do -%>
+    <%= hidden_field_tag('job[id]', job.id) %>
+    <p>
+      <label>TITLE:</label>
+      <%= text_field_tag("job[title]", job.title, :class => 'txt') %>
+      </p>
+      <p class="singlerow">
+        <label>YEARS:</label> 
+        <%= text_field_tag("job[start_year]", job.start_year, :class => 'txt') %>
+        <label class="middle">TO:</label>
+        <%= text_field_tag("job[end_year]", job.end_year, :class => 'txt') %>
+    
+      </p>
+      <p>
+        <label>EMPLOYER:</label>
+        <%= text_field_tag("job[employer_name]", job.employer_name, :class => 'txt') %>
+    
+      </p>
+  
+      <p>
+        <label>LOCATION:</label>
+        <%= text_field_tag("job[location]", job.location, :class => 'txt')%>
+      </p>
+  
+       <%=  widget_buttons("cancelEditProfileSubsection('#{subsection_id}');") %>
+    <% end %>			
+  </div>
+
+  <!-- DATA WITH EDIT LINK -->
+   <%= render :partial => "job_view_subsection" , :locals => {:job => job} %>
+           <%= profile_spinner(subsection_id) %>
+    </div>
+
+<% end %>
+
+ 
+
+</div>
+
+</div>

@@ -1,0 +1,179 @@
+<div class="maincontent-create">
+<div id="middle-mw-top">
+<div id="top-bg-new">&nbsp;</div>
+<div style="width:995px; clear:both;">
+
+<div id="inner_content">
+<h1>Calendar</h1>
+<p>You can stay up-to-date with your MeetingWave.com meetings in your favorite calendar 
+	application.  To see instructions for integrating your MeetingWave.com calendar into your application, expand the help sections below.
+
+<ul id="calendar_apps">
+	
+
+	
+
+	<li>
+		<div>
+			<div class="calendar_app_image">
+				<%= image_tag('/images/ttb/google_calendar.png')%>
+			</div>
+			<div class="calendar_app_text"> 
+				<b>Google Calendar</b> You can point your Google Calendar at your MeetingWave.com calendar 
+				URL and get all of your upcoming meetings to appear in your Google Calendar automatically.  
+				<%= link_to_function('Instructions...', "Element.show('google_instructions');return false;") %>
+				<br/>
+			</div>
+		</div>
+		<div id="google_instructions" class="calendar_instructions" style="display: none;">
+			<ol>
+			<li class="step">
+				First, copy this URL:
+				<br/> 
+				<%= text_field_tag('subscribe_url', subscribe_ical_url(:uuid => @member.uuid), :onfocus =>"this.select();") if !@member.uuid.nil?  %>
+			</li>
+			
+			<li class="step">
+				Then, go to <%= link_to('your Google Calendar', 'http://calendar.google.com', :target => 'google_calendar') %> 
+				and click on the 'Add' button and then on the 'Add by URL' link:
+				<br/>
+				<%= image_tag('/images/ttb/calendar_help/add_by_url_google.png') %>
+			</li>
+			
+			<li class="step">
+				Next, paste the URL you copied in the first step into the text field in the yellow box.  Click the OK button.
+				<br/>
+				<%= image_tag('/images/ttb/calendar_help/paste_url_google.jpg')%>
+			</li>
+			<li class="step">
+				Voila!  Your meetings should now be visible in <%= link_to('Google Calendar', 'http://calendar.google.com')%>
+			</li>
+			</ol>
+		</div>
+		<br class="clear" />
+		
+	</li>
+	
+	<li>
+		<div>
+			<div class="calendar_app_image"><%= image_tag('/images/ttb/ical.jpg') %></div>
+			<div class="calendar_app_text">
+				<b>Apple iCal</b>.  For you Mac and iPhone users, nothing beats being able to see your meetings
+				directly in your iCal.   Subscribing to your MeetingWave meetings in iCal is as simple as clicking a link.
+				<%= link_to_function('Instructions...', "Element.show('ical_instructions');return false;")%>
+			</div>
+		</div>
+		<div id="ical_instructions" class="calendar_instructions" style="display: none;">
+		<ol>
+			<li class="step">Simply click on <%= link_to('this link', ical_link(@member)) if !@member.uuid.nil? %>.  If you are using FireFox, you will see a dialog 
+				titled "<b>External Protocol Request</b>" asking if you'd like to launch iCal with this link.  Click the <b>Launch application</b> 
+				button to continue.  If you're using Safari, iCal should open automatically.
+			</li>
+			<li class="step">When iCal asks you if you'd like to subscribe to this calendar, click <b>Subscribe</b>:<br/>
+				<%= image_tag('/images/ttb/calendar_help/ical_subscribe.jpg')%>
+			</li>
+			<li class="step">Next, you'll be prompted to fill in any information you like about this subscription.  You'll want to make sure that
+				the <b>Auto-refresh</b> field is set to something other than "No".  Every hour or every day or reasonable choices.  Then click <b>OK</b>.
+				<br/>
+				<%= image_tag('/images/ttb/calendar_help/setup_ical.jpg')%><br/>
+				Voila! You should see a new subscription for your MeetingWave.com meetings in iCal's sidebar.  When iCal refreshes 
+				the calendar from MeetingWave.com, you should see your new meetings appear in your calendar.
+			</li>
+		  </div>
+		<br class="clear" />
+		
+	</li>
+	
+	<li>
+		<div>
+			<div class="calendar_app_image"> <%= image_tag('/images/ttb/windows_calendar.jpg')%> </div>
+			<div class="calendar_app_text"> 
+				<b>Windows Calendar</b>.  If you are using Windows Vista, you can use Windows Calendar to subscribe to your upcoming
+				MeetingWave.com meetings.  <%= link_to_function("Instructions...", "Element.show('win_cal_instructions');return false;")%>
+			</div>
+		</div>		
+			<div id="win_cal_instructions" class="calendar_instructions" style="display:none;">
+				<ol>
+					<li class="step">
+						Simply click on <%= link_to('this link', ical_link(@member)) if !@member.uuid.nil?  %>.  You should see a dialog 
+							asking if you'd like to allow Windows Calendar to be opened with this link.  Click <b>Allow</b> to proceed:
+							<br/>
+							<%= image_tag('/images/ttb/calendar_help/windows_calendar_allow.jpg')%>
+					</li>
+					<li class="step">
+						Next, you'll see a dialog from Windows Calendar asking if you'd like to subscribe to the calendar located
+						at the link you just clicked on.  Just click <b>Next</b>:
+						<br/>
+						<%= image_tag('/images/ttb/calendar_help/windows_calendar_subscribe.jpg')%>
+					</li>
+					<li class="step">
+						Finally, you'll see a dialog that asks you what you'd like to call this calendar and the update interval
+						with which Windows Calendar should check for updates.  An interval of one hour or one day should be sufficient, 
+						depending on how frequently you expect to have MeetingWave meetings.  Click <b>Finish</b> when you've selected
+						a suitable interval:
+						<br/>
+						<%= image_tag('/images/ttb/calendar_help/windows_calendar_subscribe_finish.jpg')%>
+					</li>
+					<li class="step">
+						Voila!  You should now see your MeetingWave.com meetings in your <b>Windows Calendar</b>.  
+					</li>
+				</ol>
+			</div>
+	
+			<br class="clear" />
+	</li>
+	
+	<li>
+		<div>
+			<div class="calendar_app_image">
+				<%= image_tag('/images/ttb/outlook.jpg')%> 
+			</div>
+			<div class="calendar_app_text"> 
+				<b>Microsoft Outlook</b>. If you are using Microsoft Outlook, you can import your current 
+				meetings into your calendar.  <%= link_to_function("Instructions...", "Element.show('outlook_instructions');return false;")%>
+			</div>
+		</div>
+		<div id="outlook_instructions" class="calendar_instructions" style="display: none;">
+			<ol>
+				<li class="step">First, click <%= link_to('this link and save it', subscribe_ical_url(:uuid => @member.uuid)) if !@member.uuid.nil? %> 
+					somewhere on your hard drive.  It's important that you don't click Open directly, or all of your meetings 
+					won't be correctly imported:
+					<br/>
+					<%= image_tag('/images/ttb/calendar_help/outlook_save2.jpg')%>
+				</li>
+		
+				<li class="step">Next, open Outlook and navigate to the <b>Import and Export ... </b> 
+					button under the <b>File</b> menu.  In the dialog that appears, select that you'd 
+					like to <b>Import an iCalendar or vCalendar file (.vcs)</b> in the dialog:
+					<br/>
+					<%= image_tag('/images/ttb/calendar_help/outlook_import_vcs.jpg') %>
+				</li>
+				
+				<li class="step">  Locate and select the file you just downloaded:
+					<br/>
+					<%= image_tag('/images/ttb/calendar_help/outlook_select_ics_file.jpg')%>
+					
+				</li>
+				<li class="step">Voila, you should now see your upcoming meetings in your Outlook calendar.  Unfortunately, 
+					Outlook will not allow you to subscribe to an iCalendar, so your calendar will not remained synced automatically.
+					If you'd like to subscribe to iCalendar in Outlook, you can use <%= link_to('a third-party plugin', 'http://remotecalendars.sourceforge.net/') %>.
+				</li>
+			</ol>	
+		</div>
+		<br class="clear" />
+	</li>
+	
+
+</ul>
+
+<br/>
+
+</div>
+
+</div>
+       	<div id="sub-bottom-mw">&nbsp;</div>
+        <div id="bottom-mw">&nbsp;</div>      
+
+
+</div>
+</div>

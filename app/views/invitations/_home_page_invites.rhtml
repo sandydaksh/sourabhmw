@@ -1,0 +1,36 @@
+<% @invites = LookUp::invites_for_upcoming_on_home  %>
+
+<div id="upcoming" class="clearfix">
+
+  <% @invites.each do |inv| %>
+
+    <% begin  %>
+      <div class="blue-box clearfix">
+
+        <div class="bb-top clearfix">
+          <div class="bb-top-left">
+            <h3><%= link_to(truncate(inv.name, 23), show_invite_url(inv)) %></h3>
+            <h4>Posted by: <%= link_to(inv.inviter.username, member_profile_short_url(:username => inv.inviter.user_name)) %></h4>
+          </div>
+          <% if(inv.inviter.member_profile.picture rescue false) %>
+            <div class="bb-profile-image">
+              <%= image_tag(mini_thumb_url(:id => inv.inviter.member_profile.picture.id, :dontcache => Time.now.to_i.to_s), :format => "jpg", :alt => '')  %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="bb-desc">
+          <span class="bb-location"> <%= location_format_short(inv) %> </span> -
+          <%= truncate(inv.description, 180) %>
+        </div>
+        <%= link_to("View this invite", show_invite_url(inv), :class => "bb-view-link") %>
+
+      </div>
+
+    <% rescue %>
+      <%= $! %>
+    <% end  %>
+
+  <% end %>
+
+</div>

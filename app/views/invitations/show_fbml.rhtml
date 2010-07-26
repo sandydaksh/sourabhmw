@@ -1,0 +1,41 @@
+ <% cache( show_cache_key, CachingObserver.show_invite_ttl ) do %>
+<% self.extend(TTB::FacebookUrlOveride) %>
+ <style>
+   div#main{
+     float:none;
+     width:630px;
+     padding:0px;
+   }
+
+div.sidebar{
+width:255px;
+position:absolute;
+right:0px;
+top:100px;
+border: thin solid lightslategrey;
+}
+
+div#main .show_inv{
+  padding:0pt;
+}
+
+div.w_section{
+  width:350px;
+}
+
+div#relative_wrapper{
+ position:relative;
+width:630px;
+
+}
+</style>
+
+<div id="relative_wrapper">
+  <div id="main" class="show-inv">
+        <%= render :partial => "show_details"%>
+      </div>
+	<div class="sidebar">
+         <%= render :partial => "show_sidebar"%>
+	</div>
+</div>
+<% end %>

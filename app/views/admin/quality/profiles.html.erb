@@ -1,0 +1,23 @@
+<%= stylesheet_link_tag('ttb/ratings.css') %>
+<h1><%= link_to("Admin", admin_url)%>  > <%= link_to("Quality Control", {:controller => "admin/quality", :action => "index"})%> > Member Profiles </h1>
+
+
+<p> We found <%= @member_profiles.size %> members who have posted one or more
+<strong>three-star invites</strong>.  Each of these users and their member
+profiles are displayed below.  Give a member_profile <strong>five-stars for it
+  to be displayed on the WaveMakers</strong> section of the home page.
+</p>
+
+<p>
+You can also view <strong><%= link_to("MeetingWAVEMAKER Profiles", {:action => "wavemakers"} ) %></strong>.
+</p>
+
+  <div id="quality-buttons" class="clearfix"> 
+    <p id="quality-instructions">DISPLAY ONLY PROFILES WITH <u>INVITES</u> RATED:</p>
+    <%= link_to("2 Stars and Above", {:action => "profiles", :min_stars => "2"}, :class => "quality-lnk #{params[:min_stars].to_i == 2 ? 'selected' : ''}" ) %>
+      <%= link_to("3 Stars and Above", {:action => "profiles", :min_stars => "3"}, :class => "quality-lnk  #{params[:min_stars].to_i == 3 ? 'selected' : ''}" )  %>
+      <%= link_to("4 Stars and Above", {:action => "profiles", :min_stars => "4"}, :class => "quality-lnk  #{params[:min_stars].to_i == 4 ? 'selected' : ''}" )  %>
+      <%= link_to("5 Stars", {:action => "profiles", :min_stars => "5"}, :class => "quality-lnk  #{params[:min_stars].to_i == 5 ? 'selected' : ''}" )  %>
+  </div>
+
+  <%= render :partial => 'member_profiles', :asset => @member_profiles %>

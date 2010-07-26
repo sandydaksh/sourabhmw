@@ -1,0 +1,58 @@
+<h3 class="invitename">FIND INVITES</h3>
+
+   <form action="/simple_search" method="post">	      
+      <h3 class="wsection">SEARCH TERMS</h3>		
+      <%= text_field_tag 'terms', '', :class => 'wsection', :size => "29"  %>
+	  <input name="Search" value="Search" type="image" src="<%= button_path("search") %> />
+	</form>
+
+  <div> <%= will_paginate @invitations  %> </div>
+
+
+  <% if @invitations.blank? %>
+
+	  <p>
+		<em>We could not find any invitations in this area. Be the
+		first to post an invite using the form below! </em>
+	  </p>
+
+	  <%= link_to('Click here to post one now...', get_started_url) %>
+
+  <% else %>
+    <table class="myinvites">
+      <thead> <tr> <th>Date</th> <th>Title</th> <th>Place</th> <th>Host</th> </tr> </thead>	
+      <tbody>
+          <% @invitations.each do | meeting |  %>
+          <tr class="<%= style = cycle('odd', 'even') %>">
+
+            <td> 
+				<%= mobile_time(meeting) %> 
+				<% if meeting.expired? %>
+					<br/>
+					<%= content_tag('span', 'EXPIRED', :class => 'expired') %>
+				<% elsif meeting.recurring? %>
+					<br/>
+					<%= content_tag('span', meeting.recurrence_frequency.capitalize, :class => 'repeat_freq')%>
+				<% end %>
+			</td>
+
+            <td> 
+				<%= short_link(meeting.invitation, meeting) %> 
+            </td>
+
+            <td><%= location_format_short(meeting.invitation) %> </td>
+
+            <td>
+				<%= link_to(truncate(meeting.inviter.user_name, 10), member_profile_url(:id => meeting.inviter.id),
+				  :alt => meeting.inviter.user_name, :title => meeting.inviter.user_name ) %>
+			</td>
+
+          </tr>
+          <% end %> 
+
+      </tbody>		
+    </table>
+	<br/>
+	<br/>
+  <% end %>
+  <div> <%= will_paginate @invitations  %> </div>

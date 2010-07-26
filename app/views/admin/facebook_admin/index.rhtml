@@ -1,0 +1,34 @@
+
+<br/>
+<h1> <%= link_to('Admin', admin_url) %> &raquo; Facebook User Stats </h1>
+
+<table>
+	<tr>
+		<th> Type of User</th>
+		<th> Count </th>
+		<th> More </th>
+	</tr>
+	<%= render :partial => 'stat_row', :locals => {:title => "Total Users", :set => :facebook_users } %>
+    	<%= render :partial => 'stat_row', :locals => {:title => "Removed Users", :set => :removed_users } %>
+         	<%= render :partial => 'stat_row', :locals => {:title => "Linked Users", :set => :linked_users, :link => "Not Yet"} %>
+	    	<%= render :partial => 'stat_row', :locals => {:title => "Join Via Facebook", :set => :signed_up_via_facebook} %>
+	    	<%= render :partial => 'stat_row', :locals => {:title => "Setup Profile", :set => :setup_profile} %>
+    	    	<%= render :partial => 'stat_row', :locals => {:title => "Posted Invite", :set => :posted_invite} %>
+               	    	<%= render :partial => 'stat_row', :locals => {:title => "Activity on a Meeting", :set => :has_confirmations} %>
+
+
+
+</table>    
+
+
+<%     
+   y = [0,@activity.max].join("|")
+   x = []
+   @activity.length.times{|t| x << t}
+   x = x.reverse.join("|")
+
+ %>
+<img src='<%= Gchart.line(:title => 'Facebook Activity', :width => 800, :bar_colors => "ff0000,0000ff,00FF00", :data => [@adding_activity, @activity,@removed] , :max_value => 'auto', :bg => 'EEEEEE', :axis_with_labels => 'x,y', :axis_labels => [x,y], :labels => ["added", "used", "removed"]) %>'/>  
+
+<br>
+Days Ago

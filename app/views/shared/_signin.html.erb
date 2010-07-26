@@ -1,0 +1,130 @@
+<div id="light" class="white_content">
+
+  <table width="465" border="0" cellspacing="0" cellpadding="0">
+
+    <tr>
+      <td colspan="3" bgcolor="#d3e1ea">
+
+        <div style="width:410px;  float:left;"><%= image_tag("/images/meetingwavenew/signup/please.jpg",:border=>"0", :align=>"center", :width=>"251", :height=>"17",  :style=>"margin:3px 0 3px 106px;") %></div>
+        <div style="width:55px; float:left;"><a class="close" href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'"><span>Close</span></a></div>
+      </td>
+    </tr>
+    <tr>
+      <td width="252"><%= image_tag("/images/meetingwavenew/signup/join.jpg",:border=>"0", :width=>"179", :height=>"20", :style=>"margin:10px 0 10px 0;") %></td>
+      <td rowspan="2" valign="top" align="left"><table width="17" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td style="border-left:2px dotted #434343; height:264px; >height:268px; ">&nbsp;</td>
+        </tr>
+      </table>
+      </td>
+      <td width="196"><%= image_tag("/images/meetingwavenew/signup/member.jpg",:border=>"0", :width=>"157", :height=>"25", :style=>"margin:10px 0  10px 0;") %></td>
+    </tr>
+    <tr>
+      <td valign="top">
+        <table width="252" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td> <ul>
+              <li><h2 class="join">Connect with professionals</h2></li>
+              <li><h2 class="join">Identify new leads and clients</h2></li>
+              <li><h2 class="join">Partner with local business people</h2></li>
+              <li><h2 class="join">Arrange a social gathering</h2></li>
+            </ul></td>
+          </tr>
+
+          <tr>
+            <td>
+              <ul id="navbarjoin">
+                <li id="navbarjoin-join">
+                <% if session[:alumni_url].nil? %>
+					<%= link_to("", signup_url) %>
+                <% else %>
+                	<a href="<%= signup_url %>?sessval=<%= session[:alumni_url] %>"></a>
+                <% end %>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </table>    </td>
+      <td valign="top"><table width="196" border="0" cellspacing="0" cellpadding="0">
+
+        <tr>
+
+          <td  valign="top">
+            <%= form_tag login_url,:class=>"log" %>
+			<input type="hidden" name="sessval" value="<%= session[:alumni_url] %>" />
+            <table width="196" border="0" cellspacing="0" cellpadding="0" style="background:#d3e1ea;">
+              <tr>
+                <td colspan="2" ><p class="label">Email</p></td>
+              </tr>
+              
+              <tr>
+                <td colspan="2"><%= text_field_tag('member[email]','',:style => "font-family:Helvetica,sans-serif;font-size:12px;color:#000000;") %></td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><p class="label">Password</p></td>
+              </tr>
+              
+              <tr>
+                <td colspan="2"><%= password_field_tag('member[password]','',:style => "font-family:Helvetica,sans-serif;font-size:12px;color:#000000;") %></td>
+              </tr>
+
+              <tr>
+                <td width="20"><input type="checkbox" class="check" style="margin:2px 0 0 2px;" /></td>
+                <td width="176" valign="top"><p class="labelrem">Remember my details</p></td>
+              </tr>
+
+              <tr>
+                <td colspan="2" >
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td valign="top">
+                        <%= ibuttonhome("sign-in") %>
+                      </td>
+                    </tr>
+                    
+                    <tr>
+                      <td> 
+                      	<p class="labelpass">
+                        <% if session[:alumni_url].nil? %>
+					  		<%= link_to('Forgot your password?',forgot_password_url, :id => "forgot-password") %>
+						<% else %>
+                            <a href="<%= forgot_password_url %>?sessval=<%= session[:alumni_url] %>" id="forgot-password">Forgot your password?</a>
+                        <% end %>
+                        </p>
+                      </td>
+                    </tr>
+                    <% if session[:alumni_url].nil? %>
+                    <tr>
+                      <td bgcolor="#f7f7f7" align="left">
+                          <ul id="navbargmail">
+                            <li id="navbargmail-gmail"><%= link_to('',google_signup_url, :id => "google_signup_home") %></li>
+                          </ul>
+                      </td>
+                    </tr>
+                    <% end %>
+                    
+                    <% if !private_mw? %>
+                    <tr>
+                      <td bgcolor="#f7f7f7" align="left" valign="top"><%= facebook_connect_on_homepage %></td>
+                    </tr>
+                    <% end %>
+                  </table>    
+                  </td>
+              </tr>
+            </table>
+            </form></td>
+        </tr>
+
+
+      </table></td>
+    </tr>
+  </table>
+
+
+
+
+
+</div>
+<!--div id="fade" class="black_overlay"></div>-->
+<div id="fade" style="display: none;position: absolute;top: 0%;left: 0%;width: 100%;height:1250px;background-color: black;z-index:1001;-moz-opacity: 0.8;opacity:.80;filter: alpha(opacity=80);"></div>

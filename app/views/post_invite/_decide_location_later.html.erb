@@ -1,0 +1,134 @@
+<style type="text/css">
+select {
+border:1px solid #D0D0D0;
+color:#666666;
+font-family:Arial,Helvetica,sans-serif;
+margin:0 0 0 0;
+width:207px;
+}
+</style>
+
+<form action="/" method="post" onsubmit="  new Ajax.Request('/post_invite/make_address_hash',{asynchronous:true, evalScripts:true, parameters:Form.serialize(this)});return false; ">
+
+<div id="light1" class="white_content_common">
+  <p>
+  <div style="width:648px; margin:0 auto;">
+    <div><img src="/images/newdesign/loc-top-bg.jpg" border="0" width="648" height="7"></div>
+    <div style="background:url(/images/newdesign/loc-middle-bg.jpg) repeat-y; width:648px; ">
+      <div  style="width:571px; float:left; padding:25px 0 4px 0;">
+        <p class="cancel-grey"><a href = "#invitation_maximum_invitees" onclick ="document.getElementById('light1').style.display='none';document.getElementById('fade1').style.display='none'" > Cancel &amp; Close</a></p>
+      </div>
+      <div style="float:left; width:59px;"><a href = "#invitation_maximum_invitees" onclick="document.getElementById('light1').style.display='none';document.getElementById('fade1').style.display='none'"> <img src="/images/newdesign/location-close.jpg" border="0" width="28" height="26" style="margin:17px 0 4px 5px;"></a> </div>
+      <div style="clear:both;">
+      <table width="544" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td colspan="3"><img src="/images/newdesign/specify-location.jpg" border="0" width="229" height="33" style="margin:0 0 0 5px;"></td>
+    </tr>
+  <tr>
+    <td colspan="2" valign="top">
+    
+    	<table width="164" cellpadding="0" cellsapacing="0">
+        	<tr>
+            	<td><p class="loctext">LOCATION OPTIONS</p></td>
+            </tr>
+            <tr>
+            	<td><%= render :partial => "post_invite/popup_toggle" %></td>
+            </tr>
+        </table>
+    </td>
+    <td width="380" rowspan="1">
+    	<table width="380" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td> 
+                 <p style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:666666; padding:0 10px 0 73px;">You can specify the specific location later, or wait until you confirm a meeting attendee and decide on a specific location together.<br><br> In the meantime, we will use the general "Location" you included in your Preferences to indicate the general location of the proposed meeting to other users. Update your general "Location" <a href="javascript:Effect.toggle('setlocation');">here</a>.</p>
+                </td>
+            </tr>
+            
+            <tr>
+    <td width="380" rowspan="8">
+    	<table id="setlocation" width="196" border="0" cellspacing="0" cellpadding="0" style="margin:10px 0 0 75px; display:none;">
+              <tr>
+                <td colspan="2" ><p class="label1"><strong>City</strong></p></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+				<%= text_field('member_profile', "current_city",:value => "#{@member_profile.current_city}")%>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><p class="label1"><strong>State</strong></p></td>
+              </tr>
+              <%if !@member_profile.current_state.blank? && !@member_profile.current_state.nil? %>
+              <% prmt = @member_profile.current_state %>
+              <% else %>
+              <% prmt = "State" %>              
+              <% end %>
+              <tr>
+                <td colspan="2"><%= select_tag('member_profile[current_state]', us_state_options_for_select("#{prmt}", :include_blank => true, :prompt => "#{prmt}"), :class => "state-class") %><%#= text_field('member_profile', "current_state",:value => "#{@member_profile.current_state}") %></td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><p class="label1"><strong>Country</strong></p></td>
+              </tr>
+              <%if !@member_profile.current_country.blank? && !@member_profile.current_country.nil? %>
+              <% prmt = @member_profile.current_country %>
+              <% else %>
+              <% prmt = "Country" %>              
+              <% end %>
+              <tr>
+                <td colspan="2"><%=  mw_country_select('member_profile', 'current_country', ["United States", "Canada"], {:include_blank => true, :prompt => "#{prmt}"}) %></td>
+              </tr>
+
+              
+            </table>
+    </td>
+    </tr>
+        </table>
+  </td>
+    </tr>
+  
+
+	<input type="hidden" name="open" value="Open" />
+    <% if !current_member.member_profile.current_city.blank? && !current_member.member_profile.current_city.nil? %>
+        <input type="hidden" name="city1" value="<%= current_member.member_profile.current_city %>" />
+        <input type="hidden" name="state1" value="<%= current_member.member_profile.current_state %>" />    
+        <input type="hidden" name="country1" value="<%= current_member.member_profile.current_country %>" />        
+    <% else %>
+        <input type="hidden" name="city1" value="NA" />
+        <input type="hidden" name="state1" value="NA" />    
+        <input type="hidden" name="country1" value="NA" />        
+    <% end %>
+	<%= hidden_field('address', 'kind',:value => "regular")%>
+    <%= hidden_field('address', 'zip') %>
+  <tr>
+    <td colspan="3" valign="top" ><div style="border-bottom:1px dotted #989898; margin:4px 0 0 0; width:510px;">&nbsp;</div></td>
+    </tr>
+  <tr>
+    <td colspan="3" valign="top" >
+    <div style="width:232px; margin:0 0 0 289px;">
+    <table width="232" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2" height="20">&nbsp;</td>
+    </tr>
+  <tr>
+    <td width="102"><p class="cancel-close"><a href = "#invitation_maximum_invitees" onclick="document.getElementById('light1').style.display='none';document.getElementById('fade1').style.display='none'" > Cancel &amp; Close</a></p></td>
+    <td width="130"><p><input type="image" src="/images/newdesign/continue.jpg" border="0" width="130" height="38" onclick="document.getElementById('light1').style.display='none';document.getElementById('fade1').style.display='none'" onmouseover="this.src= '/images/newdesign/continue-over.jpg';" onmouseout="this.src = '/images/newdesign/continue.jpg';"></p></td>
+  </tr>
+</table>
+</div></td>
+  </tr>
+  <tr>
+    <td colspan="3" valign="top" height="41"></td>
+  </tr>
+</table>
+      		
+      
+      </div>
+    </div>
+    <div><img src="/images/newdesign/loc-bottom-bg.jpg" border="0" width="648" height="7"></div>
+  </div>
+  </p>
+</div>
+<div id="fade1" class="black_overlay_common"></div>
+ </form>

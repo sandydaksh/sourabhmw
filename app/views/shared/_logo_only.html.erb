@@ -1,0 +1,71 @@
+<!--[if IE ]>
+<style type="text/css">
+  #password_field label.overlabel-apply {
+    padding-top: 6px;
+  }
+  input#member_password_header {
+    margin-top: 4px;
+  }
+  #login-button {
+    margin-top:8px;
+  }
+  p#you-decide {
+    margin-top: 50px;
+  }
+  ul#browse-post {
+    margin-top: 20px;
+  }
+  #sub-nav-wrap {
+    margin-top: 6px;
+  }
+  #main-nav-wrap {
+    margin-top: 8px;
+  }
+  #logo-box {
+	  margin-top: 0;
+	  padding-top: 0;
+  }
+  #logo {
+	  margin-top: 5px;
+  }
+</style>
+<![endif]-->
+
+<!--[if lte IE 6 ]>
+<style type="text/css">
+
+  #login-button {
+    margin-top: 6px;
+    float:right;
+  }
+
+  #logo {
+    width: 320px;
+  }
+
+  #browse-sub-nav-wrap {
+    width: 290px;
+  }
+
+  
+
+</style>
+<![endif]-->
+<style>
+	#masthead {
+		height: 115px;
+		margin-bottom: 10px;
+	}
+
+</style>
+
+<div id="masthead" class="clearfix">
+  <ul id="administrivia">
+    <li> Just one more thing...</li>
+  </ul>
+
+  <div id="logo-box" class="clearfix">
+	  <%= link_to(content_tag('h1', content_tag('span', 'MeetingWave.com'), :id => 'logo'), home_url) %>
+  </div>
+
+</div>
